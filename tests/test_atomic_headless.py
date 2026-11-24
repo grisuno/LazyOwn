@@ -114,6 +114,9 @@ def test_tty_without_autonomous_still_prompts(three_tests, monkeypatch):
         return "2"
 
     monkeypatch.setattr("builtins.input", _fake_input)
+    import getpass as _getpass
+
+    monkeypatch.setattr(_getpass, "getpass", lambda prompt="": "fixture-password")
     result = atomic_cli.run_atomic_tests({"rhost": "172.17.0.2"}, "T1105", shell=None)
     assert result == 0
     assert prompted and "number of the test" in prompted[0]

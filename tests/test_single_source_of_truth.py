@@ -100,8 +100,7 @@ class LazynmapPostSingleWriterSpec(unittest.TestCase):
     """Post-scan phase bump goes through KillChain and preserves state."""
 
     def test_post_scan_bumps_phase_via_killchain(self) -> None:
-        from cli.lazynmap_post import PostScanConfig
-        from cli.lazynmap_post import run_post_scan
+        from cli.lazynmap_post import PostScanConfig, run_post_scan
 
         with TemporaryDirectory() as tmp:
             sessions = Path(tmp) / "sessions"
@@ -282,16 +281,10 @@ class ConsumePolicyFactsSpec(unittest.TestCase):
                 facts_path,
                 {
                     "10.1.1.5": {
-                        "services": [
-                            {"port": 21, "name": "vsftpd", "protocol": "tcp"}
-                        ],
+                        "services": [{"port": 21, "name": "vsftpd", "protocol": "tcp"}],
                         "os_hint": "linux",
-                        "credentials": [
-                            {"username": "root", "password": "toor", "hash_value": ""}
-                        ],
-                        "vulnerabilities": [
-                            {"vuln_id": "CVE-2011-2523", "severity": "critical", "title": "vsftpd"}
-                        ],
+                        "credentials": [{"username": "root", "password": "toor", "hash_value": ""}],
+                        "vulnerabilities": [{"vuln_id": "CVE-2011-2523", "severity": "critical", "title": "vsftpd"}],
                     }
                 },
             )
@@ -306,8 +299,7 @@ class IntelligenceFactstoreSpec(unittest.TestCase):
     """collect_from_factstore ingests services, creds and vulns."""
 
     def test_collects_creds_and_vulns_from_canonical(self) -> None:
-        from modules.intelligence_engine import IntelligenceConfig
-        from modules.intelligence_engine import IntelligenceEngine
+        from modules.intelligence_engine import IntelligenceConfig, IntelligenceEngine
 
         with TemporaryDirectory() as tmp:
             facts_path = Path(tmp) / "policy_facts.json"
@@ -317,9 +309,7 @@ class IntelligenceFactstoreSpec(unittest.TestCase):
                     "10.2.2.5": {
                         "services": [{"port": 21, "service": "vsftpd", "protocol": "tcp"}],
                         "credentials": [{"username": "msfadmin", "password": "msfadmin"}],
-                        "vulnerabilities": [
-                            {"vuln_id": "CVE-2011-2523", "severity": "critical", "title": "vsftpd"}
-                        ],
+                        "vulnerabilities": [{"vuln_id": "CVE-2011-2523", "severity": "critical", "title": "vsftpd"}],
                     }
                 },
             )
@@ -347,9 +337,7 @@ class ComplianceFactsSpec(unittest.TestCase):
                     "10.3.3.5": {
                         "services": [{"port": 21, "service": "vsftpd", "protocol": "tcp"}],
                         "credentials": [{"username": "root", "password": "toor"}],
-                        "vulnerabilities": [
-                            {"vuln_id": "CVE-2011-2523", "severity": "critical", "title": "vsftpd"}
-                        ],
+                        "vulnerabilities": [{"vuln_id": "CVE-2011-2523", "severity": "critical", "title": "vsftpd"}],
                     }
                 },
             )

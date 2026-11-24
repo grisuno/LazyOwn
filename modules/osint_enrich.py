@@ -35,8 +35,7 @@ SESSIONS_DIR = BASE_DIR / "sessions"
 CVE_RE = re.compile(r"\bCVE-\d{4}-\d{4,7}\b", re.IGNORECASE)
 
 OSV_URL = "https://api.osv.dev/v1/query"
-KEV_URL = ("https://www.cisa.gov/sites/default/files/feeds/"
-           "known_exploited_vulnerabilities.json")
+KEV_URL = "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
 EPSS_URL = "https://api.first.org/data/v1/epss"
 HACKERTARGET_URL = "https://api.hackertarget.com/{tool}/"
 DNS_GOOGLE_URL = "https://dns.google/resolve"
@@ -85,8 +84,7 @@ def _get_json(url: str, params: dict | None = None) -> dict | list | None:
     """GET a JSON document, returning None on any failure."""
     try:
         query = ("?" + urllib.parse.urlencode(params)) if params else ""
-        request = urllib.request.Request(
-            url + query, headers={"User-Agent": USER_AGENT})
+        request = urllib.request.Request(url + query, headers={"User-Agent": USER_AGENT})
         with urllib.request.urlopen(request, timeout=HTTP_TIMEOUT_SEC) as resp:
             return json.loads(resp.read().decode("utf-8", "replace"))
     except Exception:
@@ -98,8 +96,8 @@ def _post_json(url: str, payload: dict) -> dict | None:
     try:
         body = json.dumps(payload).encode()
         request = urllib.request.Request(
-            url, data=body, headers={"User-Agent": USER_AGENT,
-                                     "Content-Type": "application/json"})
+            url, data=body, headers={"User-Agent": USER_AGENT, "Content-Type": "application/json"}
+        )
         with urllib.request.urlopen(request, timeout=HTTP_TIMEOUT_SEC) as resp:
             data = json.loads(resp.read().decode("utf-8", "replace"))
             return data if isinstance(data, dict) else None
@@ -111,8 +109,7 @@ def _get_text(url: str, params: dict | None = None) -> str | None:
     """GET a plain-text document, returning None on any failure."""
     try:
         query = ("?" + urllib.parse.urlencode(params)) if params else ""
-        request = urllib.request.Request(
-            url + query, headers={"User-Agent": USER_AGENT})
+        request = urllib.request.Request(url + query, headers={"User-Agent": USER_AGENT})
         with urllib.request.urlopen(request, timeout=HTTP_TIMEOUT_SEC) as resp:
             return resp.read().decode("utf-8", "replace").strip()
     except Exception:
@@ -125,10 +122,8 @@ def cve_lookup(cve_id: str, sessions_dir: str | Path = SESSIONS_DIR) -> dict:
     cached = _cached(sessions_dir, f"cve:{cve}", CACHE_TTL_SEC)
     if cached is not None:
         return cached
-    result: dict = {"cve": cve, "summary": "", "severity": "",
-                    "kev": False, "epss": None}
-    osv = _post_json(OSV_URL, {"package": {}, "version": "0", "findings": [],
-                               "commit": "", "cve": cve}) or {}
+    result: dict = {"cve": cve, "summary": "", "severity": "", "kev": False, "epss": None}
+    osv = _post_json(OSV_URL, {"package": {}, "version": "0", "findings": [], "commit": "", "cve": cve}) or {}
     vulns = osv.get("vulns") or []
     if vulns:
         first = vulns[0] if isinstance(vulns[0], dict) else {}
@@ -141,8 +136,7 @@ def cve_lookup(cve_id: str, sessions_dir: str | Path = SESSIONS_DIR) -> dict:
     if kev is None:
         feed = _get_json(KEV_URL) or {}
         vulns_feed = feed.get("vulnerabilities") or []
-        kev = {str(v.get("cveID", "")).upper() for v in vulns_feed
-               if isinstance(v, dict)}
+        kev = {str(v.get("cveID", "")).upper() for v in vulns_feed if isinstance(v, dict)}
         _store(sessions_dir, "kev:catalog", {"ids": sorted(kev)})
     else:
         kev = set(kev.get("ids") or [])
@@ -186,11 +180,14 @@ def host_geo(ip: str, sessions_dir: str | Path = SESSIONS_DIR) -> dict:
     cached = _cached(sessions_dir, key, CACHE_TTL_SEC)
     if cached is not None:
         return cached
-    data = _get_json(IP_API_URL.format(ip=urllib.parse.quote(str(ip))),
-                     {"fields": "status,country,org,isp,query"}) or {}
-    result = {"country": str(data.get("country", "")),
-              "org": str(data.get("org", "")),
-              "isp": str(data.get("isp", ""))} if data.get("status") == "success" else {}
+    data = (
+        _get_json(IP_API_URL.format(ip=urllib.parse.quote(str(ip))), {"fields": "status,country,org,isp,query"}) or {}
+    )
+    result = (
+        {"country": str(data.get("country", "")), "org": str(data.get("org", "")), "isp": str(data.get("isp", ""))}
+        if data.get("status") == "success"
+        else {}
+    )
     _store(sessions_dir, key, result)
     return result
 

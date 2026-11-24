@@ -18,7 +18,7 @@ jobs:
     name: bandit full scan
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ env.PYTHON_VERSION }}
@@ -29,7 +29,7 @@ jobs:
         run: bandit -c pyproject.toml -r . --format json --output bandit-results.json
         continue-on-error: true
       - name: Upload bandit results
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ env.ARTIFACT_NAME }}-bandit
           path: bandit-results.json
@@ -39,7 +39,7 @@ jobs:
     name: pip-audit
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ env.PYTHON_VERSION }}
@@ -50,7 +50,7 @@ jobs:
         run: pip-audit --strict --skip-editable --format json --output pip-audit-results.json
         continue-on-error: true
       - name: Upload pip-audit results
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ env.ARTIFACT_NAME }}-pip-audit
           path: pip-audit-results.json
@@ -60,7 +60,7 @@ jobs:
     name: detect-secrets audit
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
       - uses: actions/setup-python@v5
@@ -78,7 +78,7 @@ jobs:
           fi
         continue-on-error: true
       - name: Upload detect-secrets results
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ env.ARTIFACT_NAME }}-detect-secrets
           path: |
@@ -90,7 +90,7 @@ jobs:
     name: gitleaks
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
       - name: Run gitleaks

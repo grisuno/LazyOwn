@@ -18,7 +18,11 @@ def _payload(spots: list[dict]) -> str:
 
 
 def test_parse_fenced_json() -> None:
-    raw = "here you go:\n```json\n" + _payload([{"area": "smb", "risk": "high", "question": "can we relay?", "suggestion": "coerce"}]) + "\n```"
+    raw = (
+        "here you go:\n```json\n"
+        + _payload([{"area": "smb", "risk": "high", "question": "can we relay?", "suggestion": "coerce"}])
+        + "\n```"
+    )
     findings = parse_blindspots(raw)
     assert len(findings) == 1
     assert findings[0].area == "smb"

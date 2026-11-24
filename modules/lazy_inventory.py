@@ -21,16 +21,21 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SPOOL_DIR = BASE_DIR / "sessions" / "inventory"
 SOURCE_HOST = "host"
 SOURCE_SCANNER = "scanner"
-LINUX_BLOB = "\n".join([
-    "set -u",
-    "mkdir -p /tmp/lazyinv",
-    "{ echo '#LAZYINVENTORY linux'; uname -r; "
-    "dpkg-query -W -f='${Package}\\t${Version}\\n' 2>/dev/null "
-    "|| rpm -qa --qf '%{NAME}\\t%{VERSION}\\n' 2>/dev/null "
-    "|| apk info -v 2>/dev/null; "
-    "python3 -m pip list --format=freeze 2>/dev/null | sed 's/==/\\t/g'; } > /tmp/lazyinv/packages.tsv",
-    "echo LAZYINVENTORY_DONE",
-]) + "\n"
+LINUX_BLOB = (
+    "\n".join(
+        [
+            "set -u",
+            "mkdir -p /tmp/lazyinv",
+            "{ echo '#LAZYINVENTORY linux'; uname -r; "
+            "dpkg-query -W -f='${Package}\\t${Version}\\n' 2>/dev/null "
+            "|| rpm -qa --qf '%{NAME}\\t%{VERSION}\\n' 2>/dev/null "
+            "|| apk info -v 2>/dev/null; "
+            "python3 -m pip list --format=freeze 2>/dev/null | sed 's/==/\\t/g'; } > /tmp/lazyinv/packages.tsv",
+            "echo LAZYINVENTORY_DONE",
+        ]
+    )
+    + "\n"
+)
 WINDOWS_BLOB = (
     "Set-StrictMode -Version 2\n"
     "Write-Output '#LAZYINVENTORY windows'\n"
@@ -38,7 +43,7 @@ WINDOWS_BLOB = (
     " 'HKLM:\\Software\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\*')\n"
     "Get-ItemProperty $paths -ErrorAction SilentlyContinue |"
     " Where-Object { $_.DisplayName } |"
-    " ForEach-Object { \"$($_.DisplayName)`t$($_.DisplayVersion)\" }\n"
+    ' ForEach-Object { "$($_.DisplayName)`t$($_.DisplayVersion)" }\n'
     "Write-Output LAZYINVENTORY_DONE\n"
 )
 

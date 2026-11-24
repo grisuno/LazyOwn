@@ -49,7 +49,9 @@ class CveLocalCommandSet(LazyOwnCommandSet):
         status = cve_local.status()
         print_msg(f"  exploitdb rows: {report.get('exploits', 0)}")
         print_msg(f"  nvd pages this run: {report.get('pages', 0)} (cves: {report.get('cves', 0)})")
-        print_msg(f"  snapshot totals: {status['cves']} cves, {status['exploits']} exploits, {status['contexts']} ss contexts")
+        print_msg(
+            f"  snapshot totals: {status['cves']} cves, {status['exploits']} exploits, {status['contexts']} ss contexts"
+        )
         print_msg("Next runs page only what changed since the last sync (incremental).")
 
     @with_argparser(_build_search_parser())
@@ -80,8 +82,7 @@ class CveLocalCommandSet(LazyOwnCommandSet):
                 for service in context:
                     cves = ",".join(service["cves"][:4]) or "-"
                     print_msg(
-                        f"    {service['service']:12s} {service['product'][:24]:24s} "
-                        f"{service['version']:14s} {cves}"
+                        f"    {service['service']:12s} {service['product'][:24]:24s} {service['version']:14s} {cves}"
                     )
             else:
                 print_msg(f"\n  No ss context stored for {host or 'unset rhost'} yet.")

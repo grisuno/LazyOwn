@@ -12,7 +12,15 @@ import modules.ctf_signalman as signalman
 
 
 def _entry(vuln_id: str) -> dict:
-    return {"id": vuln_id, "name": vuln_id, "cve": "CVE-2026-0001", "mitre": "T1", "service": "http", "port": "80", "severity": "high"}
+    return {
+        "id": vuln_id,
+        "name": vuln_id,
+        "cve": "CVE-2026-0001",
+        "mitre": "T1",
+        "service": "http",
+        "port": "80",
+        "severity": "high",
+    }
 
 
 @pytest.fixture()
@@ -54,14 +62,20 @@ def test_capture_binds_checker_to_vector_objective(tmp_path) -> None:
     rce_entry = {"id": "vsftpd_backdoor", "name": "vsftpd backdoor rce", "service": "ftp", "mitre": "T1210"}
     shell_blob = "uid=0(root) groups=0(root)"
     enum = ctf_capture.capture(
-        "ad_ldap_enum", "1.2.3.4", output=shell_blob,
-        catalogue=lambda _v: enum_entry, sessions_dir=tmp_path,
+        "ad_ldap_enum",
+        "1.2.3.4",
+        output=shell_blob,
+        catalogue=lambda _v: enum_entry,
+        sessions_dir=tmp_path,
     )
     assert enum["status"] == "failed"
     assert enum["expected_checkers"] == ["domain_enum"]
     rce = ctf_capture.capture(
-        "vsftpd_backdoor", "1.2.3.4", output=shell_blob,
-        catalogue=lambda _v: rce_entry, sessions_dir=tmp_path,
+        "vsftpd_backdoor",
+        "1.2.3.4",
+        output=shell_blob,
+        catalogue=lambda _v: rce_entry,
+        sessions_dir=tmp_path,
     )
     assert rce["status"] == "captured"
     assert rce["matched_checkers"] == ["root_shell"]
@@ -71,8 +85,11 @@ def test_capture_honours_declared_checkers(tmp_path) -> None:
     """Given an explicit checkers list, When verifying, Then only those bind."""
     entry = {"id": "v", "name": "x", "service": "ftp", "mitre": "T1", "checkers": ["domain_enum"]}
     record = ctf_capture.capture(
-        "v", "1.2.3.4", output="uid=0(root)",
-        catalogue=lambda _v: entry, sessions_dir=tmp_path,
+        "v",
+        "1.2.3.4",
+        output="uid=0(root)",
+        catalogue=lambda _v: entry,
+        sessions_dir=tmp_path,
     )
     assert record["status"] == "failed"
     assert record["expected_checkers"] == ["domain_enum"]
@@ -87,7 +104,12 @@ def test_collect_idempotent_and_missing(sessions, fake_catalogue, monkeypatch) -
     again = signalman.collect("metasploitable", target="1.2.3.4", sessions_dir=sessions, search_bases=[evidence])
     assert again["captured"] == []
     (sessions.parent.parent / "evidence.txt").write_text("uid=0(root) groups=0(root)\n")
-    final = signalman.collect("metasploitable", target="1.2.3.4", sessions_dir=sessions, search_bases=[str(sessions.parent.parent / "evidence.txt")])
+    final = signalman.collect(
+        "metasploitable",
+        target="1.2.3.4",
+        sessions_dir=sessions,
+        search_bases=[str(sessions.parent.parent / "evidence.txt")],
+    )
     assert sorted(final["captured"]) == ["v_a", "v_b", "v_c"]
 
 

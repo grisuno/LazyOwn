@@ -58,12 +58,8 @@ def test_cleanup_stops_machines_when_opted_in(no_payload, monkeypatch, capsys):
     import core.config as core_config
     from modules import gym_cleanup, lab_runtime
 
-    monkeypatch.setattr(
-        core_config, "load_payload", lambda *a, **k: {"gym_cleanup_on_exit": True}
-    )
-    monkeypatch.setattr(
-        lab_runtime, "stop_all", lambda *a, **k: {"stopped": ["lazyown-lab-metasploitable"]}
-    )
+    monkeypatch.setattr(core_config, "load_payload", lambda *a, **k: {"gym_cleanup_on_exit": True})
+    monkeypatch.setattr(lab_runtime, "stop_all", lambda *a, **k: {"stopped": ["lazyown-lab-metasploitable"]})
     monkeypatch.setattr(lab_runtime, "stop_ranges", lambda *a, **k: {"stopped": []})
     outcome = gym_cleanup.cleanup_gym_machines(verbose=True)
     assert outcome["enabled"] is True

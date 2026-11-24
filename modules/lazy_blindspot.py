@@ -153,7 +153,9 @@ def build_blindspot_prompt(goal: str, context: str) -> str:
         Prompt text with both blocks fenced so model JSON or target
         content cannot terminate the data block early.
     """
-    return BLINDSPOT_PROMPT.format(goal=_fence(goal, BLINDSPOT_PROMPT_LIMIT), context=_fence(context, BLINDSPOT_PROMPT_LIMIT))
+    return BLINDSPOT_PROMPT.format(
+        goal=_fence(goal, BLINDSPOT_PROMPT_LIMIT), context=_fence(context, BLINDSPOT_PROMPT_LIMIT)
+    )
 
 
 class BlindspotReview:

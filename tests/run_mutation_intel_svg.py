@@ -37,7 +37,7 @@ MUTATIONS = {
         "file": "modules/intel_fusion.py",
         "description": "The c2 hub no longer sits at the canvas centre",
         "old": '    if "c2" in ids:\n        positions["c2"] = (cx, cy)',
-        "new": "    if False:\n        positions[\"c2\"] = (cx, cy)",
+        "new": '    if False:\n        positions["c2"] = (cx, cy)',
         "expected": "test_relations_svg_renders_nodes_edges_and_manifest must fail",
     },
 }

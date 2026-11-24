@@ -101,10 +101,7 @@ class TestBeaconForTarget:
         sessions = cfg.sessions_dir
         sessions.mkdir(parents=True, exist_ok=True)
         (sessions / "linux_beacon.records.jsonl").write_text(
-            json.dumps(
-                {"client_id": "linux_beacon", "ips": "172.17.0.2", "command": "id", "output": "uid=0"}
-            )
-            + "\n",
+            json.dumps({"client_id": "linux_beacon", "ips": "172.17.0.2", "command": "id", "output": "uid=0"}) + "\n",
             encoding="utf-8",
         )
         monkeypatch.setattr(

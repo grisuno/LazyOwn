@@ -31,9 +31,13 @@ def coverage_for(db: object, workspace_id: int, scope: list[str]) -> dict:
         held = set()
     tested = sorted(a for a in wanted if a in held)
     total = len(wanted)
-    return {"scope": sorted(wanted), "total": total, "tested": tested,
-            "untested": sorted(a for a in wanted if a not in held),
-            "ratio": (len(tested) / total) if total else 0.0}
+    return {
+        "scope": sorted(wanted),
+        "total": total,
+        "tested": tested,
+        "untested": sorted(a for a in wanted if a not in held),
+        "ratio": (len(tested) / total) if total else 0.0,
+    }
 
 
 __all__ = ["coverage_for"]

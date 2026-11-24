@@ -1596,7 +1596,9 @@ class SessionOpsCommandSet(LazyOwnCommandSet):
 
         print_msg("Cloning website: " + url)
         try:
-            web_request = requests.get(url, headers={"User-Agent": useragent}, verify=False)  # noqa: S501
+            from core.http import lab_tolerant_get
+
+            web_request = lab_tolerant_get(url, headers={"User-Agent": useragent}, timeout=30)
             if web_request.status_code != 200 or len(web_request.content) < 1:
                 print_error("Unable to clone the site. Status Code: {}".format(web_request.status_code))
                 return

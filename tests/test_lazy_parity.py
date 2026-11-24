@@ -21,30 +21,41 @@ _ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(_ROOT))
 sys.path.insert(0, str(_ROOT / "modules"))
 
-from cli.themes import THEMES  # noqa: E402
-from cli.toast_bus import ToastBus  # noqa: E402
-from cli.toast_bus import ToastConfig  # noqa: E402
-from cli.toast_bus import ToastFormatter  # noqa: E402
-from cli.toast_bus import ToastReader  # noqa: E402
-from cli.toast_bus import ToastState  # noqa: E402
-from cli.toast_bus import build_default_bus  # noqa: E402
-from cli.toast_bus import ephemeral_enabled  # noqa: E402
-from cli.toast_bus import render_ephemeral_toasts  # noqa: E402
 from evidence import EvidenceStore  # noqa: E402
-from goals import GoalTracker  # noqa: E402
-from goals import decompose_rule_based  # noqa: E402
-from goals import load_constraints  # noqa: E402
-from intercept import Guard  # noqa: E402
-from intercept import Interceptor  # noqa: E402
-from intercept import scope_blocked  # noqa: E402
-from llm_pool import HealthRegistry  # noqa: E402
-from llm_pool import LLMPool  # noqa: E402
-from llm_pool import PoolExhausted  # noqa: E402
-from llm_pool import PoolMember  # noqa: E402
-from planner import Frontier  # noqa: E402
-from planner import Planner  # noqa: E402
-from planner import TodoList  # noqa: E402
+from goals import (
+    GoalTracker,  # noqa: E402
+    decompose_rule_based,  # noqa: E402
+    load_constraints,  # noqa: E402
+)
+from intercept import (
+    Guard,  # noqa: E402
+    Interceptor,  # noqa: E402
+    scope_blocked,  # noqa: E402
+)
+from llm_pool import (
+    HealthRegistry,  # noqa: E402
+    LLMPool,  # noqa: E402
+    PoolExhausted,  # noqa: E402
+    PoolMember,  # noqa: E402
+)
+from planner import (
+    Frontier,  # noqa: E402
+    Planner,  # noqa: E402
+    TodoList,  # noqa: E402
+)
 from traffic_recorder import TrafficRecorder  # noqa: E402
+
+from cli.themes import THEMES  # noqa: E402
+from cli.toast_bus import (
+    ToastBus,  # noqa: E402
+    ToastConfig,  # noqa: E402
+    ToastFormatter,  # noqa: E402
+    ToastReader,  # noqa: E402
+    ToastState,  # noqa: E402
+    build_default_bus,  # noqa: E402
+    ephemeral_enabled,  # noqa: E402
+    render_ephemeral_toasts,  # noqa: E402
+)
 
 
 def test_gate_allows_benign_command() -> None:
@@ -128,8 +139,7 @@ def test_evidence_gc_drops_unreferenced(tmp_path: Path) -> None:
 def test_traffic_record_and_query(tmp_path: Path) -> None:
     """Each step exchange is queryable by host with its body."""
     recorder = TrafficRecorder(tmp_path / "traffic")
-    exchange = recorder.record("TOOL", "http://127.0.0.1/lazynmap",
-                               status=1, resp_body=b"open 22/tcp")
+    exchange = recorder.record("TOOL", "http://127.0.0.1/lazynmap", status=1, resp_body=b"open 22/tcp")
     rows = recorder.query(host="127.0.0.1")
     assert any(r["id"] == exchange.exchange_id for r in rows)
     assert "open 22/tcp" in recorder.get_body(exchange.exchange_id)["resp_body"]
@@ -181,10 +191,13 @@ def test_pool_fails_over_in_rank_order() -> None:
         seen.append("ollama")
         return "answer"
 
-    pool = LLMPool([
-        PoolMember("groq", "groq", "groq", rank=10, complete=_fail),
-        PoolMember("ollama", "ollama", "ollama", rank=1, complete=_ok),
-    ], health=HealthRegistry())
+    pool = LLMPool(
+        [
+            PoolMember("groq", "groq", "groq", rank=10, complete=_fail),
+            PoolMember("ollama", "ollama", "ollama", rank=1, complete=_ok),
+        ],
+        health=HealthRegistry(),
+    )
     assert pool.complete("hi") == "answer"
     assert seen == ["groq", "ollama"]
 
@@ -198,10 +211,13 @@ def test_pool_skips_unhealthy_member() -> None:
         calls.append("flaky")
         raise RuntimeError("down")
 
-    pool = LLMPool([
-        PoolMember("flaky", "flaky", "m", rank=10, complete=_flaky),
-        PoolMember("steady", "steady", "m", rank=1, complete=lambda p: "ok"),
-    ], health=health)
+    pool = LLMPool(
+        [
+            PoolMember("flaky", "flaky", "m", rank=10, complete=_flaky),
+            PoolMember("steady", "steady", "m", rank=1, complete=lambda p: "ok"),
+        ],
+        health=health,
+    )
     assert pool.complete("a") == "ok"
     assert pool.complete("b") == "ok"
     assert pool.complete("c") == "ok"
@@ -213,10 +229,13 @@ def test_pool_skips_unhealthy_member() -> None:
 
 def test_pool_exhausted_when_all_fail() -> None:
     """Total outage raises instead of returning an empty string."""
-    pool = LLMPool([
-        PoolMember("a", "a", "m", rank=2, complete=lambda p: (_ for _ in ()).throw(RuntimeError("x"))),
-        PoolMember("b", "b", "m", rank=1, complete=lambda p: (_ for _ in ()).throw(RuntimeError("y"))),
-    ], health=HealthRegistry())
+    pool = LLMPool(
+        [
+            PoolMember("a", "a", "m", rank=2, complete=lambda p: (_ for _ in ()).throw(RuntimeError("x"))),
+            PoolMember("b", "b", "m", rank=1, complete=lambda p: (_ for _ in ()).throw(RuntimeError("y"))),
+        ],
+        health=HealthRegistry(),
+    )
     try:
         pool.complete("hi")
     except PoolExhausted:
@@ -236,28 +255,30 @@ def test_ephemeral_toast_line_has_icon_and_duration() -> None:
     formatter = ToastFormatter(config, THEMES["default"])
     from cli.toast_bus import ToastEvent as _ToastEvent
 
-    line = formatter.format_ephemeral(_ToastEvent(
-        source="events.jsonl", offset=0, event_type="STEP_DONE",
-        severity="error", summary="boom", timestamp="t"))
+    line = formatter.format_ephemeral(
+        _ToastEvent(
+            source="events.jsonl", offset=0, event_type="STEP_DONE", severity="error", summary="boom", timestamp="t"
+        )
+    )
     assert "STEP_DONE" in line.plain and "boom" in line.plain
     assert "✖" in line.plain
-    error_delay = formatter.duration_for(_ToastEvent(
-        source="e", offset=0, event_type="x", severity="error",
-        summary="s", timestamp="t"))
-    info_delay = formatter.duration_for(_ToastEvent(
-        source="e", offset=0, event_type="x", severity="info",
-        summary="s", timestamp="t"))
+    error_delay = formatter.duration_for(
+        _ToastEvent(source="e", offset=0, event_type="x", severity="error", summary="s", timestamp="t")
+    )
+    info_delay = formatter.duration_for(
+        _ToastEvent(source="e", offset=0, event_type="x", severity="info", summary="s", timestamp="t")
+    )
     assert error_delay > info_delay > 0
 
 
 def test_ephemeral_render_consumes_cursor(tmp_path: Path) -> None:
     """Ephemeral render prints once; the shared cursor advances like render."""
     events_path = tmp_path / "events.jsonl"
-    events_path.write_text(json.dumps({"type": "STEP_DONE", "severity": "info",
-                                       "message": "hello"}) + "\n", encoding="utf-8")
+    events_path.write_text(
+        json.dumps({"type": "STEP_DONE", "severity": "info", "message": "hello"}) + "\n", encoding="utf-8"
+    )
     captured = Console(file=io.StringIO(), width=100)
-    bus = build_default_bus(payload={"enable_toasts": True},
-                            sessions_dir=str(tmp_path), console=captured)
+    bus = build_default_bus(payload={"enable_toasts": True}, sessions_dir=str(tmp_path), console=captured)
     assert bus.render_ephemeral(enabled=True, duration=0) == 1
     assert "hello" in captured.file.getvalue()
     assert bus.render_ephemeral(enabled=True, duration=0) == 0
@@ -273,12 +294,13 @@ def test_ephemeral_flag_routing() -> None:
 def test_render_ephemeral_helper(tmp_path: Path) -> None:
     """One-shot helper mirrors render_toasts semantics."""
     events_path = tmp_path / "events.jsonl"
-    events_path.write_text(json.dumps({"type": "GOAL_PROVEN", "severity": "success",
-                                       "message": "cred captured"}) + "\n", encoding="utf-8")
+    events_path.write_text(
+        json.dumps({"type": "GOAL_PROVEN", "severity": "success", "message": "cred captured"}) + "\n", encoding="utf-8"
+    )
     captured = Console(file=io.StringIO(), width=100)
-    count = render_ephemeral_toasts(payload={"enable_toasts": True},
-                                    sessions_dir=str(tmp_path),
-                                    console=captured, duration=0)
+    count = render_ephemeral_toasts(
+        payload={"enable_toasts": True}, sessions_dir=str(tmp_path), console=captured, duration=0
+    )
     assert count == 1
 
 
@@ -292,10 +314,12 @@ def _write_events(path: Path, records: list[dict]) -> None:
 def test_bus_render_still_counts_budget(tmp_path: Path) -> None:
     """The persistent panel path is untouched by the ephemeral addition."""
     config = ToastConfig(sessions_dir=str(tmp_path), max_per_tick_default=2)
-    _write_events(tmp_path / "events.jsonl",
-                   [{"type": "ev", "severity": "info", "summary": f"l{i}"} for i in range(4)])
-    bus = ToastBus(config=config, state=ToastState(config, root=tmp_path),
-                   reader=ToastReader(config, root=tmp_path),
-                   formatter=ToastFormatter(config, THEMES["default"]),
-                   console=Console(file=io.StringIO()))
+    _write_events(tmp_path / "events.jsonl", [{"type": "ev", "severity": "info", "summary": f"l{i}"} for i in range(4)])
+    bus = ToastBus(
+        config=config,
+        state=ToastState(config, root=tmp_path),
+        reader=ToastReader(config, root=tmp_path),
+        formatter=ToastFormatter(config, THEMES["default"]),
+        console=Console(file=io.StringIO()),
+    )
     assert bus.render(enabled=True) == 2

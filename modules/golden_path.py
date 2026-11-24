@@ -85,9 +85,9 @@ def _bare(node: str) -> str:
         The identifier with the prefix stripped.
     """
     if node.startswith(HOST_PREFIX):
-        return node[len(HOST_PREFIX):]
+        return node[len(HOST_PREFIX) :]
     if node.startswith(CRED_PREFIX):
-        return node[len(CRED_PREFIX):]
+        return node[len(CRED_PREFIX) :]
     return node
 
 
@@ -106,7 +106,7 @@ def _label(node: str) -> str:
     text = str(node)
     for prefix in _NODE_PREFIXES:
         if text.startswith(prefix):
-            return text[len(prefix):]
+            return text[len(prefix) :]
     return text
 
 
@@ -241,7 +241,9 @@ def _source_hosts(snapshot: dict) -> list[str]:
     return sorted(hosts)
 
 
-def _diijkstra(adjacency: dict[str, dict[str, list[dict]]], source: str) -> tuple[dict[str, float], dict[str, tuple[str, dict]]]:
+def _diijkstra(
+    adjacency: dict[str, dict[str, list[dict]]], source: str
+) -> tuple[dict[str, float], dict[str, tuple[str, dict]]]:
     """Run Dijkstra from *source* with deterministic tie-breaking.
 
     Args:
@@ -321,8 +323,7 @@ def resolve_paths(
         steps.reverse()
         cost = round(dist[node], 2)
         summary = " -> ".join(
-            (f"{_label(s['to'])}[{s['relation']}]" if s["relation"] != "anchor" else _label(s["to"]))
-            for s in steps
+            (f"{_label(s['to'])}[{s['relation']}]" if s["relation"] != "anchor" else _label(s["to"])) for s in steps
         )
         results.append(
             {
@@ -333,7 +334,7 @@ def resolve_paths(
             }
         )
 
-    results = results[:max(1, top_k)] if results else []
+    results = results[: max(1, top_k)] if results else []
     return {
         "generated_at": datetime.datetime.now(datetime.UTC).isoformat(),
         "sources": anchoring,

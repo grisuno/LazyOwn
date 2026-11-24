@@ -25,22 +25,24 @@ def _fixture_sessions(tmp_path: Path) -> Path:
     """Minimal campaign: world model, implant log, objective, log mention."""
     world = {
         "phase": "enum",
-        "hosts": {"10.0.0.5": {"ip": "10.0.0.5", "state": "scanned",
-                               "os_hint": "linux",
-                               "services": {"22": {"port": 22, "name": "ssh",
-                                                   "state": "open"}}}},
-        "vulnerabilities": [{"id": "v1", "title": "open ssh", "host": "10.0.0.5",
-                             "severity": "critical"}],
+        "hosts": {
+            "10.0.0.5": {
+                "ip": "10.0.0.5",
+                "state": "scanned",
+                "os_hint": "linux",
+                "services": {"22": {"port": 22, "name": "ssh", "state": "open"}},
+            }
+        },
+        "vulnerabilities": [{"id": "v1", "title": "open ssh", "host": "10.0.0.5", "severity": "critical"}],
     }
     (tmp_path / "world_model.json").write_text(json.dumps(world))
     header = "client_id,os,pid,hostname,ips,user,discovered_ips,result_portscan,command"
-    row = ("beacon01,linux,1234,web01,10.0.0.9,root,\"10.0.0.5\","
-           "\"{}\",whoami".format(json.dumps({"10.0.0.5": [22]}).replace('"', '""')))
+    row = 'beacon01,linux,1234,web01,10.0.0.9,root,"10.0.0.5","{}",whoami'.format(
+        json.dumps({"10.0.0.5": [22]}).replace('"', '""')
+    )
     (tmp_path / "beacon01.log").write_text(header + "\n" + row + "\n")
-    (tmp_path / "objectives.jsonl").write_text(
-        json.dumps({"objective": "own 10.0.0.5", "status": "open"}) + "\n")
-    (tmp_path / "autonomous_events.jsonl").write_text(
-        json.dumps({"message": "scanned 10.0.0.5"}) + "\n")
+    (tmp_path / "objectives.jsonl").write_text(json.dumps({"objective": "own 10.0.0.5", "status": "open"}) + "\n")
+    (tmp_path / "autonomous_events.jsonl").write_text(json.dumps({"message": "scanned 10.0.0.5"}) + "\n")
     return tmp_path
 
 
@@ -78,8 +80,7 @@ def test_attack_bundle_payload(tmp_path: Path) -> None:
     assert bundle["groups"]
     assert sum(g["n"] for g in bundle["groups"]) == len(files)
     for node in bundle["nodes"]:
-        assert set(node) >= {"id", "f", "l", "g", "c", "ly", "lg", "r",
-                             "rp", "fd", "d", "a", "p"}
+        assert set(node) >= {"id", "f", "l", "g", "c", "ly", "lg", "r", "rp", "fd", "d", "a", "p"}
         assert len(node["p"]) == 3
     for edge in bundle["edges"]:
         assert len(edge) == 2 and edge[0] != edge[1]
@@ -98,8 +99,7 @@ def test_attack_summary_feeds_loop(tmp_path: Path) -> None:
     assert summary["top_exposed"][0]["host"] == "10.0.0.5"
     assert (sessions / "intel_summary.json").exists()
     stages = [s["stage"] for s in summary["funnel"]]
-    assert stages == ["discovered", "with services", "with findings",
-                      "confirmed", "owned"]
+    assert stages == ["discovered", "with services", "with findings", "confirmed", "owned"]
     counts = [s["hosts"] for s in summary["funnel"]]
     assert counts[0] >= counts[1] >= counts[2] >= counts[3] >= counts[4]
     assert counts[0] >= 1
@@ -112,9 +112,17 @@ def test_attack_pages_embedded_and_wired() -> None:
     assert '{% extends "base.html" %}' in force
     assert "/api/attack_graph?layout=force" in force
     assert 'location.href="/attack_bundle"' in force
-    for token in ("nodeCanvasObject", "enableNodeDrag(true)", "zoomToFit",
-                  "member_of", "Upstream", "Downstream", "Ports", "Confirmed",
-                  "document.getElementById(\"rm-root\")"):
+    for token in (
+        "nodeCanvasObject",
+        "enableNodeDrag(true)",
+        "zoomToFit",
+        "member_of",
+        "Upstream",
+        "Downstream",
+        "Ports",
+        "Confirmed",
+        'document.getElementById("rm-root")',
+    ):
         assert token in force, token
     bundle = (_ROOT / "templates" / "attack_bundle.html").read_text()
     for token in ("Circle 2D", "Sphere 3D", "/api/attack_bundle", 'href="/attack3d"'):
@@ -129,13 +137,26 @@ def test_attack_pages_embedded_and_wired() -> None:
 def test_attack_menu_entry_and_routes() -> None:
     """Intel dropdown links the new module; lazyc2 serves its routes."""
     base = (_ROOT / "templates" / "base.html").read_text()
-    for token in ("attack3d_view", "AttackGraph 3D", "intel_bundle_view",
-                  "IntelGraph Bundles", "attack_bundle_view", "AttackGraph Bundles"):
+    for token in (
+        "attack3d_view",
+        "AttackGraph 3D",
+        "intel_bundle_view",
+        "IntelGraph Bundles",
+        "attack_bundle_view",
+        "AttackGraph Bundles",
+    ):
         assert token in base, token
     source = (_ROOT / "lazyc2.py").read_text()
-    for token in ('"/attack3d"', '"/attack_bundle"', '"/api/attack_graph"',
-                  '"/api/attack_bundle"', '"/intel_bundle"', '"/api/intel_bundle"',
-                  "attack3d.html", "attack_bundle.html"):
+    for token in (
+        '"/attack3d"',
+        '"/attack_bundle"',
+        '"/api/attack_graph"',
+        '"/api/attack_bundle"',
+        '"/intel_bundle"',
+        '"/api/intel_bundle"',
+        "attack3d.html",
+        "attack_bundle.html",
+    ):
         assert token in source, token
     assert 'render_template("surface.html")' in source
     assert 'render_template("graph.html")' in source
@@ -149,12 +170,19 @@ def test_new_endpoints_require_login_and_decoy() -> None:
     """
     source = (_ROOT / "lazyc2.py").read_text()
     lines = source.splitlines()
-    for view in ("intel_view", "intel_bundle_view", "attack3d_view",
-                 "attack_bundle_view", "api_intel_graph", "api_intel_bundle",
-                 "api_attack_graph", "api_attack_bundle"):
+    for view in (
+        "intel_view",
+        "intel_bundle_view",
+        "attack3d_view",
+        "attack_bundle_view",
+        "api_intel_graph",
+        "api_intel_bundle",
+        "api_attack_graph",
+        "api_attack_bundle",
+    ):
         idx = next(i for i, line in enumerate(lines) if line.startswith(f"def {view}("))
-        preceding = "\n".join(lines[max(0, idx - 4):idx])
+        preceding = "\n".join(lines[max(0, idx - 4) : idx])
         assert "@login_required" in preceding, view
         assert "requires_auth_or_session" not in preceding, view
-        body = "\n".join(lines[idx:idx + 25])
+        body = "\n".join(lines[idx : idx + 25])
         assert "response = decoy()" in body, view

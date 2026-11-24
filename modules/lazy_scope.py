@@ -34,14 +34,30 @@ _HOSTNAME_PATTERN = re.compile(
     r"\b(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}\b",
     re.IGNORECASE,
 )
-_IPV4_PATTERN = re.compile(
-    r"\b(?:(?:25[0-5]|2[0-4]\d|1?\d?\d)\.){3}(?:25[0-5]|2[0-4]\d|1?\d?\d)\b"
-)
+_IPV4_PATTERN = re.compile(r"\b(?:(?:25[0-5]|2[0-4]\d|1?\d?\d)\.){3}(?:25[0-5]|2[0-4]\d|1?\d?\d)\b")
 _IPV6_PATTERN = re.compile(r"(?<![\w:])(?:[0-9a-f]{0,4}:){2,7}[0-9a-f]{0,4}(?![\w:])")
 _FILE_SUFFIXES = frozenset(
     {
-        "py", "sh", "js", "json", "yaml", "yml", "md", "txt", "xml", "html",
-        "csv", "log", "conf", "cfg", "ini", "bak", "zip", "tar", "gz", "pcap",
+        "py",
+        "sh",
+        "js",
+        "json",
+        "yaml",
+        "yml",
+        "md",
+        "txt",
+        "xml",
+        "html",
+        "csv",
+        "log",
+        "conf",
+        "cfg",
+        "ini",
+        "bak",
+        "zip",
+        "tar",
+        "gz",
+        "pcap",
     }
 )
 
@@ -120,11 +136,7 @@ def is_lab_address(address: str) -> bool:
         return False
     if isinstance(parsed, ipaddress.IPv6Address) and parsed.ipv4_mapped:
         parsed = parsed.ipv4_mapped
-    return (
-        parsed.is_loopback
-        or parsed.is_private
-        or parsed.is_link_local
-    )
+    return parsed.is_loopback or parsed.is_private or parsed.is_link_local
 
 
 def extract_hosts(text: str) -> list[str]:

@@ -27,13 +27,16 @@ def test_lab_state_maps_running_and_stopped():
     )
     assert state["running"] is False
 
-    assert loop_preflight.lab_state_for(
-        "172.17.0.99",
-        scenarios=("metasploitable",),
-        running=[],
-        existing=["lazyown-lab-metasploitable"],
-        ip_lookup=lambda name: "172.17.0.9",
-    ) == {}
+    assert (
+        loop_preflight.lab_state_for(
+            "172.17.0.99",
+            scenarios=("metasploitable",),
+            running=[],
+            existing=["lazyown-lab-metasploitable"],
+            ip_lookup=lambda name: "172.17.0.9",
+        )
+        == {}
+    )
 
 
 def test_check_target_fails_fast_on_stopped_lab():
@@ -41,7 +44,12 @@ def test_check_target_fails_fast_on_stopped_lab():
 
     outcome = loop_preflight.check_target(
         "172.17.0.9",
-        lab={"scenario": "metasploitable", "container": "lazyown-lab-metasploitable", "ip": "172.17.0.9", "running": False},
+        lab={
+            "scenario": "metasploitable",
+            "container": "lazyown-lab-metasploitable",
+            "ip": "172.17.0.9",
+            "running": False,
+        },
     )
     assert outcome["ok"] is False
     assert "metasploitable" in outcome["reason"]
@@ -54,7 +62,12 @@ def test_check_target_passes_on_running_lab():
 
     outcome = loop_preflight.check_target(
         "172.17.0.9",
-        lab={"scenario": "metasploitable", "container": "lazyown-lab-metasploitable", "ip": "172.17.0.9", "running": True},
+        lab={
+            "scenario": "metasploitable",
+            "container": "lazyown-lab-metasploitable",
+            "ip": "172.17.0.9",
+            "running": True,
+        },
     )
     assert outcome["ok"] is True
     assert "running" in outcome["reason"]
@@ -64,16 +77,12 @@ def test_check_target_probes_tcp(monkeypatch):
     from modules import loop_preflight
 
     monkeypatch.setattr(loop_preflight, "lab_state_for", lambda *a, **k: {})
-    monkeypatch.setattr(
-        loop_preflight, "probe_tcp_detailed", lambda target, ports=None, timeout=None: ([22, 80], 0)
-    )
+    monkeypatch.setattr(loop_preflight, "probe_tcp_detailed", lambda target, ports=None, timeout=None: ([22, 80], 0))
     outcome = loop_preflight.check_target("10.0.0.5")
     assert outcome["ok"] is True
     assert outcome["open_ports"] == [22, 80]
 
-    monkeypatch.setattr(
-        loop_preflight, "probe_tcp_detailed", lambda target, ports=None, timeout=None: ([], 0)
-    )
+    monkeypatch.setattr(loop_preflight, "probe_tcp_detailed", lambda target, ports=None, timeout=None: ([], 0))
     outcome = loop_preflight.check_target("10.0.0.5")
     assert outcome["ok"] is False
     assert "no TCP service" in outcome["reason"]
@@ -83,9 +92,7 @@ def test_check_target_refused_means_alive(monkeypatch):
     from modules import loop_preflight
 
     monkeypatch.setattr(loop_preflight, "lab_state_for", lambda *a, **k: {})
-    monkeypatch.setattr(
-        loop_preflight, "probe_tcp_detailed", lambda target, ports=None, timeout=None: ([], 17)
-    )
+    monkeypatch.setattr(loop_preflight, "probe_tcp_detailed", lambda target, ports=None, timeout=None: ([], 17))
     outcome = loop_preflight.check_target("10.0.0.5")
     assert outcome["ok"] is True
     assert "host alive" in outcome["reason"]

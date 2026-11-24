@@ -74,9 +74,7 @@ class TestNormalize:
 
     def test_tac_id_accepted(self, ledger_module):
         lf = ledger_module
-        row = lf.normalize_finding(
-            {"title": "t", "state": "partial", "level": "identified", "technique_id": "TA0001"}
-        )
+        row = lf.normalize_finding({"title": "t", "state": "partial", "level": "identified", "technique_id": "TA0001"})
         assert row["technique_id"] == "TA0001"
 
     def test_confirmed_requires_evidence(self, ledger_module):
@@ -150,9 +148,10 @@ class TestEvents:
 
     def test_unmapped_verdict_ignores(self, ledger_module):
         lf = ledger_module
-        assert lf.row_from_event(
-            {"kind": "finding", "title": "x", "metadata": {"verdict": "blorp", "finding_ref": "7"}}
-        ) is None
+        assert (
+            lf.row_from_event({"kind": "finding", "title": "x", "metadata": {"verdict": "blorp", "finding_ref": "7"}})
+            is None
+        )
 
     def test_out_of_scope_kind_ignores(self, ledger_module):
         lf = ledger_module
@@ -184,9 +183,7 @@ class TestLedger:
     def test_append_and_read_pg(self, ledger_module, tmp_base):
         lf = ledger_module
         led = lf.FindingsLedger("t1", tmp_base)
-        row = led.append(
-            {"title": "row one", "state": "partial", "level": "confirmed", "technique_id": "T1083"}
-        )
+        row = led.append({"title": "row one", "state": "partial", "level": "confirmed", "technique_id": "T1083"})
         led.append(
             {"title": "row two", "state": "hypothesis", "level": "identified", "finding_ref": row["finding_ref"]}
         )

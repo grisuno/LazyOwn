@@ -86,7 +86,9 @@ class BrowserSyncSpec(unittest.TestCase):
 
     def test_health_endpoint(self):
         status = browser_sync.start_receiver(port=0)
-        with urllib.request.urlopen(status["endpoint"].replace(browser_sync.ENDPOINT_PATH, browser_sync.HEALTH_PATH), timeout=5) as response:
+        with urllib.request.urlopen(
+            status["endpoint"].replace(browser_sync.ENDPOINT_PATH, browser_sync.HEALTH_PATH), timeout=5
+        ) as response:
             self.assertEqual(response.status, 200)
             self.assertTrue(json.loads(response.read())["ok"])
 
@@ -241,7 +243,9 @@ class BrowserSyncSpec(unittest.TestCase):
             {"type": "header_replace", "match": "Host", "replace": "evil"},
             {"enabled": False, "type": "header_add", "match": "X-Off", "replace": "1"},
         ]
-        browser_sync._rules_path().parent.mkdir(parents=True, exist_ok=True) or browser_sync._rules_path().write_text(json.dumps(rules))
+        browser_sync._rules_path().parent.mkdir(parents=True, exist_ok=True) or browser_sync._rules_path().write_text(
+            json.dumps(rules)
+        )
         browser_sync._RULES_CACHE.clear()
         headers = {"User-Agent": "curl/8.0", "Host": "example.com", "X-Drop": "1"}
         body = b"user=me&password=hunter2"

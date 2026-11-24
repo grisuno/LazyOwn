@@ -151,7 +151,9 @@ def _parse_hosts(hosts) -> list[LateralHost]:
             continue
         if not _is_ipv4(ip):
             continue
-        out.append(LateralHost(ip=ip, ports=tuple(sorted(set(ports))), services=tuple(sorted(set(names))), os_hint=os_hint))
+        out.append(
+            LateralHost(ip=ip, ports=tuple(sorted(set(ports))), services=tuple(sorted(set(names))), os_hint=os_hint)
+        )
     return out
 
 
@@ -226,7 +228,9 @@ def _rank_hosts(hosts: list[LateralHost], credentials: list[LateralCredential]) 
     return sorted(hosts, key=_score)
 
 
-def _host_proposals(host: LateralHost, credentials: list[LateralCredential], pivot_prefix: str) -> list[LateralProposal]:
+def _host_proposals(
+    host: LateralHost, credentials: list[LateralCredential], pivot_prefix: str
+) -> list[LateralProposal]:
     """Return the best proposal(s) for one host, strongest vector first."""
     prefix = f"{pivot_prefix.strip()} " if pivot_prefix and pivot_prefix.strip() else ""
     docker_ports = _docker_ports(host)
@@ -284,19 +288,13 @@ def _docker_ports(host: LateralHost) -> set[int]:
     return ports
 
 
-def _credential_for(
-    host: LateralHost, credentials: list[LateralCredential], service: str
-) -> LateralCredential | None:
+def _credential_for(host: LateralHost, credentials: list[LateralCredential], service: str) -> LateralCredential | None:
     """Pick the strongest credential for a host and service.
 
     Priority: confirmed on this host and service, any on this host, then a
     global credential matching the service, then any global credential.
     """
-    candidates = [
-        cred
-        for cred in credentials
-        if cred.host in (host.ip, "") and cred.service in (service, "")
-    ]
+    candidates = [cred for cred in credentials if cred.host in (host.ip, "") and cred.service in (service, "")]
     if not candidates:
         return None
     candidates.sort(
@@ -309,9 +307,7 @@ def _credential_for(
     return candidates[0]
 
 
-def _credential_command(
-    host: LateralHost, credential: LateralCredential, protocol: str, prefix: str
-) -> str | None:
+def _credential_command(host: LateralHost, credential: LateralCredential, protocol: str, prefix: str) -> str | None:
     """Build the protocol command, using ``-H`` only where hashes work."""
     user = shlex.quote(credential.user)
     if credential.kind == "hash":

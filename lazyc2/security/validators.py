@@ -5,6 +5,7 @@ primitive types. They return ``(bool, str)`` tuples to enable
 detailed error messages without raising exceptions.
 """
 
+import os
 from pathlib import Path
 from urllib.parse import urlparse
 
@@ -150,8 +151,10 @@ def validate_upload_size(content_length: int | None) -> tuple[bool, str]:
 def validate_file_path_within_base(file_path: Path, base_dir: Path) -> tuple[bool, str]:
     """Validate that a resolved file path is within a base directory.
 
-    Uses Path.resolve() to canonicalize paths and Path.relative_to()
-    to detect traversal. This is safer than string-based checks.
+    Canonicalises both sides with ``os.path.realpath`` (symlink-safe)
+    and enforces a ``startswith`` containment guard, which is the
+    containment shape static analysers recognise as a safe access
+    check.
 
     Args:
         file_path: The path to validate (may contain traversal).
@@ -161,12 +164,11 @@ def validate_file_path_within_base(file_path: Path, base_dir: Path) -> tuple[boo
         A tuple of (is_valid, error_message).
     """
     try:
-        resolved_path = file_path.resolve()
-        resolved_base = base_dir.resolve()
-        resolved_path.relative_to(resolved_base)
+        resolved_base = os.path.realpath(str(base_dir))
+        resolved_path = os.path.realpath(str(file_path))
+        if not resolved_path.startswith(resolved_base + os.sep):
+            return False, "File path is outside allowed directory"
         return True, ""
-    except (ValueError, RuntimeError):
-        return False, "File path is outside allowed directory"
     except OSError:
         return False, "Invalid file path"
 
@@ -195,7 +197,11 @@ def resolve_contained_file_path(raw_url: str, base_dir: Path) -> Path | None:
     candidate = Path(parsed.path) if parsed.scheme == "file" else Path(raw_url)
     if not candidate.is_absolute():
         candidate = Path.cwd() / candidate
-    is_valid, _ = validate_file_path_within_base(candidate, base_dir)
-    if not is_valid:
+    try:
+        resolved_base = os.path.realpath(str(base_dir))
+        resolved = os.path.realpath(str(candidate))
+    except OSError:
         return None
-    return candidate.resolve()
+    if not resolved.startswith(resolved_base + os.sep):
+        return None
+    return Path(resolved)

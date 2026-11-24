@@ -31,11 +31,15 @@ ENTRIES = [
 ]
 
 SIGHTINGS = [
-    {"ip": "10.0.0.9", "state": "scanned", "services": {
-        "8080": {"port": 8080, "name": "tomcat", "version": "10.0.2", "protocol": "tcp"},
-        "22": {"port": 22, "name": "openssh", "version": "9.9", "protocol": "tcp"},
-        "6379": {"port": 6379, "name": "redis", "version": "7.4.1", "protocol": "tcp"},
-    }},
+    {
+        "ip": "10.0.0.9",
+        "state": "scanned",
+        "services": {
+            "8080": {"port": 8080, "name": "tomcat", "version": "10.0.2", "protocol": "tcp"},
+            "22": {"port": 22, "name": "openssh", "version": "9.9", "protocol": "tcp"},
+            "6379": {"port": 6379, "name": "redis", "version": "7.4.1", "protocol": "tcp"},
+        },
+    },
 ]
 
 
@@ -110,11 +114,30 @@ class TestPublish:
     def test_score_report_caps(self):
         story = "unknown review items count at most 2 points and surface is capped at 10"
         entries = [
-            {"cve_id": "CVE-2025-1001", "product": "tomcat", "tier": "hot",
-             "cvss": 9.8, "evidence": "in_range", "version": "10.0.2", "port": 8080,
-             "protocol": "tcp", "host": "t", "references": []},
-            {"cve_id": "CVE-2025-9001", "product": "x", "tier": "cold", "cvss": 0, "evidence": "unbounded_kev",
-             "version": "1", "port": 1, "protocol": "tcp", "host": "t", "references": []},
+            {
+                "cve_id": "CVE-2025-1001",
+                "product": "tomcat",
+                "tier": "hot",
+                "cvss": 9.8,
+                "evidence": "in_range",
+                "version": "10.0.2",
+                "port": 8080,
+                "protocol": "tcp",
+                "host": "t",
+                "references": [],
+            },
+            {
+                "cve_id": "CVE-2025-9001",
+                "product": "x",
+                "tier": "cold",
+                "cvss": 0,
+                "evidence": "unbounded_kev",
+                "version": "1",
+                "port": 1,
+                "protocol": "tcp",
+                "host": "t",
+                "references": [],
+            },
         ] * 5
         bounded_unknown = entries[1:6]
         score, detail = score_report(entries[:1], bounded_unknown, services=40)

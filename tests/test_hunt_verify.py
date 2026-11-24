@@ -99,7 +99,10 @@ def test_dependency_gating_notes_unproven_chain() -> None:
 
 def test_known_self_refs_separated() -> None:
     """Self-recorded verification events are separated from evidence."""
-    events = [_event("e1", {"user": "root"}, kind="auth"), EventRecord(ref="e2", fields={"user": "root"}, kind="auth", known_self=True)]
+    events = [
+        _event("e1", {"user": "root"}, kind="auth"),
+        EventRecord(ref="e2", fields={"user": "root"}, kind="auth", known_self=True),
+    ]
     observations = [Observation(stage_id="s1", kind="observed", summary="x", evidence_refs=["e1", "e2"])]
     result = verify_stages([SPECS[0]], observations, events, scope_covered=True)
     assert result.stages[0].known_self_refs == ["e2"]

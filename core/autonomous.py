@@ -36,7 +36,7 @@ def autonomous_mode() -> Iterator[None]:
     os.environ[AUTONOMOUS_ENV] = "1"
     original_input = builtins.input
 
-    def _guarded_input(prompt: str = "") -> str:
+    def _guarded_input(prompt: object = "") -> str:
         print(f"[!] autonomous mode: prompt auto-skipped: {str(prompt).strip()[:100]}")
         return ""
 

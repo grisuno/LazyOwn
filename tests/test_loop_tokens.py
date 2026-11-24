@@ -99,10 +99,13 @@ def test_usage_sink_publishes(monkeypatch, tmp_path):
     import modules.llm_pool as pool_module
 
     pool_module.register_usage_sink(lambda member, p, c: events.append((member, p, c)))
+
     class _Member:
         name = "mem"
+
         def complete(self, prompt, session_key=""):
             return "ok"
+
     member = _Member()
     pool_module._publish_usage(member.name, "abcd", "ef")
     assert events[-1] == ("mem", 4, 2)

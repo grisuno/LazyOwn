@@ -223,9 +223,7 @@ class ObservableAgentRunner(AgentRunner):
         try:
             worker.join(timeout=timeout)
             if worker.is_alive():
-                raise TimeoutError(
-                    f"model {model_name} exceeded {timeout:.0f}s without reply; failing over"
-                )
+                raise TimeoutError(f"model {model_name} exceeded {timeout:.0f}s without reply; failing over")
             if "error" in outcome:
                 raise outcome["error"]
             response = outcome.get("response")
@@ -247,7 +245,7 @@ def _json_default(value):
     if hasattr(value, "__dict__"):
         return {key: item for key, item in vars(value).items() if not key.startswith("_")}
     if isinstance(value, (set, frozenset)):
-        return sorted((str(item) for item in value))
+        return sorted(str(item) for item in value)
     return str(value)
 
 

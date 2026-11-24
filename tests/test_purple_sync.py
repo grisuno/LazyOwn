@@ -51,7 +51,11 @@ class TestSpool:
             calls.append((url, headers, body))
             return 200, ""
 
-        sync = PurpleSync(PurpleSyncConfig(enabled=True, siem_type="elastic", endpoint="https://siem:9200"), sender=sender, spool_path=isolated / "spool.jsonl")
+        sync = PurpleSync(
+            PurpleSyncConfig(enabled=True, siem_type="elastic", endpoint="https://siem:9200"),
+            sender=sender,
+            spool_path=isolated / "spool.jsonl",
+        )
         sync.emit_command("nmap -sV 10.0.0.5")
         assert len(calls) == 1
         url, headers, body = calls[0]
@@ -95,7 +99,11 @@ class TestSpool:
             calls.append((url, headers, body))
             return 200, ""
 
-        sync = PurpleSync(PurpleSyncConfig(enabled=True, siem_type="webhook", endpoint="http://siem/hook"), sender=sender, spool_path=isolated / "spool.jsonl")
+        sync = PurpleSync(
+            PurpleSyncConfig(enabled=True, siem_type="webhook", endpoint="http://siem/hook"),
+            sender=sender,
+            spool_path=isolated / "spool.jsonl",
+        )
         sync.emit_command("id")
         url, headers, body = calls[0]
         assert url == "http://siem/hook"
@@ -105,7 +113,11 @@ class TestSpool:
         def sender(url, headers, body, timeout):
             raise ConnectionError("refused")
 
-        sync = PurpleSync(PurpleSyncConfig(enabled=True, siem_type="webhook", endpoint="http://siem/hook"), sender=sender, spool_path=isolated / "spool.jsonl")
+        sync = PurpleSync(
+            PurpleSyncConfig(enabled=True, siem_type="webhook", endpoint="http://siem/hook"),
+            sender=sender,
+            spool_path=isolated / "spool.jsonl",
+        )
         sync.emit_command("id")
         assert len(sync._read_spool()) == 1
 
@@ -129,7 +141,9 @@ class TestEventShape:
         assert "hunter2" not in event["lazyown"]["command"]
 
     def test_status_counters(self, isolated):
-        sync = PurpleSync(PurpleSyncConfig(enabled=False), spool_path=isolated / "spool.jsonl", audit_path=isolated / "sent.jsonl")
+        sync = PurpleSync(
+            PurpleSyncConfig(enabled=False), spool_path=isolated / "spool.jsonl", audit_path=isolated / "sent.jsonl"
+        )
         sync.emit_command("id")
         status = sync.status()
         assert status["enabled"] is False
@@ -139,7 +153,11 @@ class TestEventShape:
 
 class TestConfig:
     def test_defaults_disabled(self):
-        config = purple_sync.load_config.__wrapped__ if hasattr(purple_sync.load_config, "__wrapped__") else purple_sync.load_config
+        config = (
+            purple_sync.load_config.__wrapped__
+            if hasattr(purple_sync.load_config, "__wrapped__")
+            else purple_sync.load_config
+        )
         cfg = PurpleSyncConfig()
         assert cfg.enabled is False
         assert cfg.siem_type == "elastic"
@@ -173,7 +191,11 @@ class TestBackfill:
             calls.append(body)
             return 200, ""
 
-        sync = PurpleSync(PurpleSyncConfig(enabled=True, siem_type="webhook", endpoint="http://siem/hook"), sender=sender, spool_path=isolated / "spool.jsonl")
+        sync = PurpleSync(
+            PurpleSyncConfig(enabled=True, siem_type="webhook", endpoint="http://siem/hook"),
+            sender=sender,
+            spool_path=isolated / "spool.jsonl",
+        )
         purple_sync._SYNC = sync
         total = purple_sync.backfill([str(src)])
         assert total >= 1

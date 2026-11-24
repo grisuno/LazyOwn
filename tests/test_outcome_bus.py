@@ -31,6 +31,7 @@ def test_bus_fans_out_dedupes_and_audits(tmp_path: Path):
 
 def test_bus_isolates_sink_failures(tmp_path: Path):
     """Given one failing sink, When the bus records, Then the healthy sink still runs."""
+
     def boom(event):
         raise RuntimeError("surface down")
 
@@ -281,7 +282,14 @@ def test_world_diff_sink_detects_service_change(tmp_path: Path):
     """Given a host whose service changed, When the diff sink runs, Then service_changed is logged."""
     from modules.sinks.world_diff import apply
 
-    world = {"hosts": {"10.0.0.5": {"ip": "10.0.0.5", "services": {"22": {"name": "ssh", "product": "OpenSSH", "version": "8.9p1", "state": "open"}}}}}
+    world = {
+        "hosts": {
+            "10.0.0.5": {
+                "ip": "10.0.0.5",
+                "services": {"22": {"name": "ssh", "product": "OpenSSH", "version": "8.9p1", "state": "open"}},
+            }
+        }
+    }
     (tmp_path / "world_model.json").write_text(json.dumps(world), encoding="utf-8")
     first = OutcomeEvent(kind="discovery", target="10.0.0.5", metadata={"sessions_dir": str(tmp_path)})
     apply(first)
@@ -343,7 +351,9 @@ def test_beacon_dispatch_sink_clips_when_enabled(tmp_path: Path, monkeypatch):
     import modules.sinks.beacon_dispatch as beacon
 
     copies: list[str] = []
-    monkeypatch.setattr(beacon, "_load_payload", lambda: {"lhost": "192.0.2.10", "reverse_shell_port": 4545, "loop_auto_beacon": True})
+    monkeypatch.setattr(
+        beacon, "_load_payload", lambda: {"lhost": "192.0.2.10", "reverse_shell_port": 4545, "loop_auto_beacon": True}
+    )
     monkeypatch.setattr(beacon, "_copy_clipboard", lambda text: copies.append(text) or True)
     event = OutcomeEvent(kind="shell", target="10.0.0.9", shell=True, metadata={"sessions_dir": str(tmp_path)})
     assert beacon.apply(event) is True

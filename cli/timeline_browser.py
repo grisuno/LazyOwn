@@ -24,7 +24,7 @@ import csv
 from collections.abc import Mapping
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 from cli.themes import Theme, theme_from_payload
 
@@ -272,7 +272,7 @@ def _build_app(state: TimelineState, theme: Theme) -> Any | None:
                 return
             for entry in entries:
                 values = [self._state.column_value(entry, column) for column in cfg.columns]
-                table.add_row(*values, key=entry.row_index)
+                table.add_row(*values, key=cast(str, entry.row_index))
             self._refresh_detail(entries[-1].row_index)
 
         def _refresh_detail(self, row_index: int) -> None:

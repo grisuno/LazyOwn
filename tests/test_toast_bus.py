@@ -284,7 +284,11 @@ def test_summary_falls_back_to_capture_metadata() -> None:
             "title": "",
             "description": "",
             "artifacts": [],
-            "metadata": {"vuln_id": "vsftpd_backdoor", "cve": "CVE-2011-2523", "artifacts": ["ctf/vsftpd_backdoor/record.json"]},
+            "metadata": {
+                "vuln_id": "vsftpd_backdoor",
+                "cve": "CVE-2011-2523",
+                "artifacts": ["ctf/vsftpd_backdoor/record.json"],
+            },
         },
     )
     event = reader._build_event(json.dumps(record), "events.jsonl", 0)
@@ -309,7 +313,15 @@ def test_activity_trigger_sources_expand_and_render() -> None:
     with tempfile.TemporaryDirectory() as tmp:
         _write_jsonl(
             Path(tmp) / "activity_t0001.jsonl",
-            [{"ts": "2026-10-21T22:11:54", "task": "t0001", "worker": "scheduler", "kind": "fire", "text": "trigger #1 kind=service addons=hellbird:lazyaddon"}],
+            [
+                {
+                    "ts": "2026-10-21T22:11:54",
+                    "task": "t0001",
+                    "worker": "scheduler",
+                    "kind": "fire",
+                    "text": "trigger #1 kind=service addons=hellbird:lazyaddon",
+                }
+            ],
         )
         reader = ToastReader(ToastConfig(), root=Path(tmp))
         sources, _ = reader.resolve_sources(ToastConfig().event_files)
@@ -331,7 +343,15 @@ def test_collect_includes_activity_sources() -> None:
     with tempfile.TemporaryDirectory() as tmp:
         _write_jsonl(
             Path(tmp) / "activity_t0002.jsonl",
-            [{"ts": "21:14:02", "task": "t0002", "worker": "scheduler", "kind": "fire", "text": "trigger #2 kind=service"}],
+            [
+                {
+                    "ts": "21:14:02",
+                    "task": "t0002",
+                    "worker": "scheduler",
+                    "kind": "fire",
+                    "text": "trigger #2 kind=service",
+                }
+            ],
         )
         bus = build_default_bus({"enable_toasts": True}, sessions_dir=tmp)
         events = bus.collect()

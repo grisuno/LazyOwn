@@ -34,12 +34,8 @@ MAX_RANGES = 8
 _MIN_PORT = 1
 _MAX_PORT = 65535
 
-_SWEEP_COMMAND = (
-    "nmap -Pn -sV --version-intensity 5 --open -oG {spool} {targets}"
-)
-_TSVPART = re.compile(
-    r"Host:\s*(?P<ip>\S+)\s.*Ports:\s*(?P<ports>.+)$"
-)
+_SWEEP_COMMAND = "nmap -Pn -sV --version-intensity 5 --open -oG {spool} {targets}"
+_TSVPART = re.compile(r"Host:\s*(?P<ip>\S+)\s.*Ports:\s*(?P<ports>.+)$")
 
 
 def ingest_spool(path: str | Path) -> dict:
@@ -117,7 +113,10 @@ def _parse_tsv(line: str) -> dict | None:
         return None
     if not _MIN_PORT <= port <= _MAX_PORT:
         return None
-    return {"ip": ip, "service": {"port": port, "product": parts[2].strip(), "version": (parts[3].strip() if len(parts) > 3 else "")}}
+    return {
+        "ip": ip,
+        "service": {"port": port, "product": parts[2].strip(), "version": (parts[3].strip() if len(parts) > 3 else "")},
+    }
 
 
 def validate_ranges(ranges: list[str]) -> list[str]:
@@ -182,12 +181,15 @@ def provision_blob(
     local_dir = Path(spool_dir or SPOOL_DIR)
     try:
         local_dir.mkdir(parents=True, exist_ok=True)
-        _atomic_json(local_dir / f"provision_{token}.json", {
-            "id": token,
-            "ranges": ranges,
-            "spool_path": spool,
-            "created_at": time.time(),
-        })
+        _atomic_json(
+            local_dir / f"provision_{token}.json",
+            {
+                "id": token,
+                "ranges": ranges,
+                "spool_path": spool,
+                "created_at": time.time(),
+            },
+        )
     except OSError:
         pass
     return {
@@ -239,13 +241,15 @@ def _sightings(hosts: list[dict]) -> list[Sighting]:
     rows: list[Sighting] = []
     for host in hosts:
         for svc in host.get("services", []):
-            rows.append(Sighting(
-                host=str(host.get("ip", "")),
-                port=int(svc.get("port") or 0),
-                protocol="tcp",
-                product=str(svc.get("product") or "").strip(),
-                version=str(svc.get("version") or "").strip(),
-            ))
+            rows.append(
+                Sighting(
+                    host=str(host.get("ip", "")),
+                    port=int(svc.get("port") or 0),
+                    protocol="tcp",
+                    product=str(svc.get("product") or "").strip(),
+                    version=str(svc.get("version") or "").strip(),
+                )
+            )
     return rows
 
 
@@ -262,18 +266,21 @@ def save_sightings(sightings: list[Sighting], path: str | Path | None = None) ->
     out = Path(path) if path else SPOOL_DIR / f"sightings_{int(time.time())}.json"
     try:
         out.parent.mkdir(parents=True, exist_ok=True)
-        _atomic_json(out, {
-            "saved_at": time.time(),
-            "sightings": [
-                {
-                    "ip": item.host,
-                    "port": item.port,
-                    "product": item.product,
-                    "version": item.version,
-                }
-                for item in sightings
-            ],
-        })
+        _atomic_json(
+            out,
+            {
+                "saved_at": time.time(),
+                "sightings": [
+                    {
+                        "ip": item.host,
+                        "port": item.port,
+                        "product": item.product,
+                        "version": item.version,
+                    }
+                    for item in sightings
+                ],
+            },
+        )
         return out
     except OSError:
         return None
@@ -299,13 +306,15 @@ def load_sightings(path: str | Path) -> list[Sighting]:
     for row in rows:
         if not isinstance(row, dict):
             continue
-        out.append(Sighting(
-            host=str(row.get("ip") or row.get("host") or ""),
-            port=int(row.get("port") or 0),
-            product=str(row.get("product") or "").strip(),
-            version=str(row.get("version") or "").strip(),
-            source=str(row.get("source") or "scanner"),
-        ))
+        out.append(
+            Sighting(
+                host=str(row.get("ip") or row.get("host") or ""),
+                port=int(row.get("port") or 0),
+                product=str(row.get("product") or "").strip(),
+                version=str(row.get("version") or "").strip(),
+                source=str(row.get("source") or "scanner"),
+            )
+        )
     return out
 
 

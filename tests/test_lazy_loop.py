@@ -45,8 +45,17 @@ def test_planner_queues_retest_after_world_change(tmp_path, monkeypatch):
     task_id = engine.create_task("recon 10.0.0.5")["task_id"]
     engine.assets.insert("ip", "10.0.0.5", task_id=task_id)
     (tmp_path / "lazy_changes.jsonl").write_text(
-        json.dumps({"kind": "port_opened", "ip": "10.0.0.5", "port": 443,
-                    "before": None, "after": {"service": "https"}, "detected": time.time()}) + "\n",
+        json.dumps(
+            {
+                "kind": "port_opened",
+                "ip": "10.0.0.5",
+                "port": 443,
+                "before": None,
+                "after": {"service": "https"},
+                "detected": time.time(),
+            }
+        )
+        + "\n",
         encoding="utf-8",
     )
     graph = loop.ExplorationGraph(task_id)
@@ -63,8 +72,18 @@ def test_planner_queues_ghost_host_verification(tmp_path, monkeypatch):
     task_id = engine.create_task("verify ghosts")["task_id"]
     engine.assets.insert("ip", "old-name.local", task_id=task_id)
     (tmp_path / "lazy_ghosts.json").write_text(
-        json.dumps({"hosts": {"old-name.local": {"state": "ghost", "since": time.time(),
-                                                 "answers": ["10.0.0.5:443"], "cleared_at": None}}}),
+        json.dumps(
+            {
+                "hosts": {
+                    "old-name.local": {
+                        "state": "ghost",
+                        "since": time.time(),
+                        "answers": ["10.0.0.5:443"],
+                        "cleared_at": None,
+                    }
+                }
+            }
+        ),
         encoding="utf-8",
     )
     graph = loop.ExplorationGraph(task_id)
@@ -125,8 +144,14 @@ def test_planner_proposes_chain_from_discovered_services(tmp_path, monkeypatch):
 
     node = graph.add_node("intent", "run action: apt_chain apt_web_http 10.0.0.9")
     worker = loop.Worker(
-        "worker-1", task_id, engine.assets, graph,
-        loop.ActivityLog(task_id), loop.TrafficLog(task_id), loop.Guard(task_id), engine.store,
+        "worker-1",
+        task_id,
+        engine.assets,
+        graph,
+        loop.ActivityLog(task_id),
+        loop.TrafficLog(task_id),
+        loop.Guard(task_id),
+        engine.store,
     )
     assert worker._steps_for(node) == ["apt_chain apt_web_http 10.0.0.9"]
 
@@ -171,8 +196,14 @@ def test_loop_ping_uses_os_detecting_verb_when_shell_bound(tmp_path, monkeypatch
     engine.ensure_target(task_id, "10.0.0.9", "test")
     graph = loop.ExplorationGraph(task_id)
     worker = loop.Worker(
-        "worker-1", task_id, engine.assets, graph,
-        loop.ActivityLog(task_id), loop.TrafficLog(task_id), loop.Guard(task_id), engine.store,
+        "worker-1",
+        task_id,
+        engine.assets,
+        graph,
+        loop.ActivityLog(task_id),
+        loop.TrafficLog(task_id),
+        loop.Guard(task_id),
+        engine.store,
         shell=object(),
     )
     intent = graph.add_node("intent", "baseline recon enumerate")
@@ -192,8 +223,14 @@ def test_loop_ping_falls_back_to_raw_without_shell(tmp_path, monkeypatch):
     engine.ensure_target(task_id, "10.0.0.9", "test")
     graph = loop.ExplorationGraph(task_id)
     worker = loop.Worker(
-        "worker-1", task_id, engine.assets, graph,
-        loop.ActivityLog(task_id), loop.TrafficLog(task_id), loop.Guard(task_id), engine.store,
+        "worker-1",
+        task_id,
+        engine.assets,
+        graph,
+        loop.ActivityLog(task_id),
+        loop.TrafficLog(task_id),
+        loop.Guard(task_id),
+        engine.store,
     )
     intent = graph.add_node("intent", "baseline recon enumerate")
     graph.anchor(intent.node_id, engine.assets.list()[0].asset_id)
@@ -237,8 +274,14 @@ def test_guard_step_blocks_prose_before_execution(tmp_path, monkeypatch):
     task_id = engine.create_task("gain access on 10.0.0.9")["task_id"]
     graph = loop.ExplorationGraph(task_id)
     worker = loop.Worker(
-        "worker-1", task_id, engine.assets, graph,
-        loop.ActivityLog(task_id), loop.TrafficLog(task_id), loop.Guard(task_id), engine.store,
+        "worker-1",
+        task_id,
+        engine.assets,
+        graph,
+        loop.ActivityLog(task_id),
+        loop.TrafficLog(task_id),
+        loop.Guard(task_id),
+        engine.store,
     )
     intent = graph.add_node("intent", "probe 10.0.0.9")
     ran: list[str] = []
@@ -295,8 +338,7 @@ def test_intent_soft_and_hard_delete(tmp_path, monkeypatch):
     graph = loop.ExplorationGraph(task_id)
     fact = graph.add_node("fact", "exclusive output", state="done")
     graph.add_edge(hard.node_id, fact.node_id, "yields")
-    assert engine.delete_intent(task_id, soft.node_id, mode="soft",
-                                reason="operator")["mode"] == "soft"
+    assert engine.delete_intent(task_id, soft.node_id, mode="soft", reason="operator")["mode"] == "soft"
     graph.reload()
     assert graph.get(soft.node_id).state == "deleted"
     preview = engine.preview_delete_intent(task_id, hard.node_id)
@@ -335,16 +377,20 @@ def test_guard_judge_gates_when_enabled(tmp_path, monkeypatch):
 
     engine = _patched_engine(tmp_path, monkeypatch)
     task_id = engine.create_task("gain initial access on 127.0.0.1")["task_id"]
-    (tmp_path / f"guard_rules_{task_id}.json").write_text(json.dumps({
-        "rules": [],
-        "judge": {"enabled": True, "fail_action": "deny"},
-    }), encoding="utf-8")
+    (tmp_path / f"guard_rules_{task_id}.json").write_text(
+        json.dumps(
+            {
+                "rules": [],
+                "judge": {"enabled": True, "fail_action": "deny"},
+            }
+        ),
+        encoding="utf-8",
+    )
     guard = loop.Guard(task_id)
     blocked = guard.check("Bash", "some ambiguous command", source="worker")
     assert blocked["action"] == "deny"
     assert blocked["source"] == "fail_policy"
-    (tmp_path / f"guard_rules_{task_id}.json").write_text(json.dumps({"rules": []}),
-                                                          encoding="utf-8")
+    (tmp_path / f"guard_rules_{task_id}.json").write_text(json.dumps({"rules": []}), encoding="utf-8")
     open_guard = loop.Guard(task_id)
     assert open_guard.check("Bash", "some ambiguous command")["action"] == "allow"
 
@@ -362,8 +408,7 @@ def test_guard_set_judge_persists_and_gates(tmp_path, monkeypatch):
     reloaded = loop.Guard(task_id)
     assert reloaded.judge == {"enabled": True, "fail_action": "deny"}
     assert reloaded.check("Bash", "ambiguous unmatched thing")["action"] == "deny"
-    assert reloaded.set_judge(False, fail_action="allow") == {"enabled": False,
-                                                              "fail_action": "allow"}
+    assert reloaded.set_judge(False, fail_action="allow") == {"enabled": False, "fail_action": "allow"}
     assert loop.Guard(task_id).check("Bash", "ambiguous unmatched thing")["action"] == "allow"
     try:
         guard.set_judge(True, fail_action="bogus")
@@ -400,7 +445,9 @@ def test_skills_match_inject_and_prompt_context(tmp_path, monkeypatch):
     skill_dir.mkdir(parents=True)
     (skill_dir / "SKILL.md").write_text(
         "---\nname: smb-playbook\ndescription: SMB enumeration guide\n---\n"
-        "# SMB\nEnumerate shares with smbclient and nxc.\n", encoding="utf-8")
+        "# SMB\nEnumerate shares with smbclient and nxc.\n",
+        encoding="utf-8",
+    )
     monkeypatch.setattr(skills, "SKILLS_DIR", tmp_path / "skills")
     skills._CACHE.clear()
     matches = skills.match_skills("enumerate smb shares")
@@ -408,8 +455,7 @@ def test_skills_match_inject_and_prompt_context(tmp_path, monkeypatch):
     engine = _patched_engine(tmp_path, monkeypatch)
     task_id = engine.create_task("enumerate smb shares")["task_id"]
     graph = loop.ExplorationGraph(task_id)
-    context = loop.build_prompt_context(task_id, graph, engine.assets, engine.store,
-                                        budget=1500)
+    context = loop.build_prompt_context(task_id, graph, engine.assets, engine.store, budget=1500)
     assert "smb-playbook" in context
     state = engine.store.set_skills(task_id, ["smb-playbook"], auto=False)
     assert state["skills"] == ["smb-playbook"]
@@ -422,21 +468,26 @@ def test_custom_tools_run_and_loop_wiring(tmp_path, monkeypatch):
     import modules.lazy_loop as loop
 
     engine = _patched_engine(tmp_path, monkeypatch)
-    entry = tools.add_tool("greet", "command", "printf hello-{arg}",
-                           description="greet target smb")
+    entry = tools.add_tool("greet", "command", "printf hello-{arg}", description="greet target smb")
     assert entry["kind"] == "command"
     assert "hello-10.0.0.5" in tools.run_tool("greet", "10.0.0.5")
     assert tools.match_tools("run greet on smb target")[0]["name"] == "greet"
     task_id = engine.create_task("greet smb target 127.0.0.1")["task_id"]
     graph = loop.ExplorationGraph(task_id)
-    planner = loop.Planner(task_id, engine.assets, graph, loop.ActivityLog(task_id),
-                           engine.store)
+    planner = loop.Planner(task_id, engine.assets, graph, loop.ActivityLog(task_id), engine.store)
     summaries = [row[0] for row in planner._candidates()]
     assert any(summary.startswith("custom tool greet") for summary in summaries)
     intent = graph.add_node("intent", "custom tool greet 127.0.0.1")
-    worker = loop.Worker("worker-1", task_id, engine.assets, graph,
-                         loop.ActivityLog(task_id), loop.TrafficLog(task_id),
-                         loop.Guard(task_id), engine.store)
+    worker = loop.Worker(
+        "worker-1",
+        task_id,
+        engine.assets,
+        graph,
+        loop.ActivityLog(task_id),
+        loop.TrafficLog(task_id),
+        loop.Guard(task_id),
+        engine.store,
+    )
     assert worker._steps_for(intent) == ["custom tool greet 127.0.0.1"]
     assert "hello-127.0.0.1" in worker._run("custom tool greet 127.0.0.1", None)
     assert tools.remove_tool("greet") is True
@@ -472,8 +523,7 @@ def test_selfupdate_check_and_apply(tmp_path, monkeypatch):
     import modules.selfupdate as su
 
     def git(cwd, *args):
-        return subprocess.run(["git", *args], cwd=str(cwd), capture_output=True,
-                              text=True)
+        return subprocess.run(["git", *args], cwd=str(cwd), capture_output=True, text=True)
 
     origin = tmp_path / "origin.git"
     git(tmp_path, "init", "--bare", str(origin))
@@ -538,7 +588,8 @@ def test_report_export_md_csv_and_terminal_trigger(tmp_path, monkeypatch):
     task_id = engine.create_task("gain initial access on 127.0.0.1")["task_id"]
     graph = loop.ExplorationGraph(task_id)
     loop.FindingService(task_id, graph, loop.ActivityLog(task_id), engine.store).report(
-        "rce in upload", summary="unauthenticated", severity="critical")
+        "rce in upload", summary="unauthenticated", severity="critical"
+    )
     md = engine.export_findings_report(task_id, fmt="md")
     assert md["findings"] == 1
     assert "rce in upload" in Path(md["path"]).read_text(encoding="utf-8")
@@ -568,8 +619,7 @@ def test_trigger_task_create_fires_once(tmp_path, monkeypatch):
     assert not any(hit["kind"] == "task_create" for hit in second)
     engine.create_task("second task")
     third = store.due("", graph, activity, store=engine.store)
-    assert any(hit["kind"] == "task_create" and hit.get("ids") == ["t0002"]
-               for hit in third)
+    assert any(hit["kind"] == "task_create" and hit.get("ids") == ["t0002"] for hit in third)
 
 
 def test_notifier_channels_slack_email_file(tmp_path, monkeypatch):
@@ -612,9 +662,12 @@ def test_notifier_channels_slack_email_file(tmp_path, monkeypatch):
     monkeypatch.setattr(smtplib, "SMTP", _Smtp)
     notifier = loop.Notifier(engine.store)
     notifier.add_channel("slack", "https://hooks.example/T1", min_severity="medium")
-    notifier.add_channel("email", "smtp.example:587", min_severity="high",
-                         extra={"to": "ops@example.com", "from_addr": "lazy@example.com",
-                                "user": "bot", "password": "secret"})
+    notifier.add_channel(
+        "email",
+        "smtp.example:587",
+        min_severity="high",
+        extra={"to": "ops@example.com", "from_addr": "lazy@example.com", "user": "bot", "password": "secret"},
+    )
     file_target = tmp_path / "notify.jsonl"
     notifier.add_channel("file", str(file_target))
     low = notifier.emit("t0001", "finding_created", {"severity": "low", "name": "x"})
@@ -651,8 +704,7 @@ def test_task_status_notification_on_terminal(tmp_path, monkeypatch):
     target = tmp_path / "events.jsonl"
     loop.Notifier(engine.store).add_channel("file", str(target))
     task_id = engine.create_task("gain initial access on 127.0.0.1")["task_id"]
-    engine.run(task_id, max_rounds=1, workers=1,
-               executor=lambda command: "80/tcp open http\n")
+    engine.run(task_id, max_rounds=1, workers=1, executor=lambda command: "80/tcp open http\n")
     assert "task_status" in target.read_text(encoding="utf-8")
 
 
@@ -690,8 +742,12 @@ def test_build_prompt_context_bounded_with_digests(tmp_path, monkeypatch):
     graph = loop.ExplorationGraph(task_id)
     for index in range(40):
         graph.add_node("fact", f"fact number {index} with some longer body text", state="done")
-    digest = graph.add_node("fact", "cold digest: facts 0-10 summarized",
-                            state="done", meta={"cold_digest": True, "members": list(range(10))})
+    digest = graph.add_node(
+        "fact",
+        "cold digest: facts 0-10 summarized",
+        state="done",
+        meta={"cold_digest": True, "members": list(range(10))},
+    )
     context = loop.build_prompt_context(task_id, graph, engine.assets, engine.store, budget=600)
     assert len(context) <= 600
     assert "Digests:" in context
@@ -753,21 +809,25 @@ def test_bridge_reads_engine_store_fixture(tmp_path, monkeypatch):
     """BDD: the bridge reads one engine-shaped fixture without real sessions."""
     import modules.lazy_bridge as bridge
 
-    (tmp_path / "tasks.json").write_text(json.dumps(
-        {"tasks": {"t0001": {"status": "running", "goal": "engage"}}}), encoding="utf-8")
-    (tmp_path / "assets.json").write_text(json.dumps(
-        {"nodes": [{"asset_id": 1, "kind": "ip", "value": "127.0.0.1"}]}), encoding="utf-8")
-    (tmp_path / "exp_t0001.json").write_text(json.dumps(
-        {"nodes": [{"node_id": 1, "kind": "fact", "text": "open 80"}],
-         "edges": [], "anchors": []}), encoding="utf-8")
+    (tmp_path / "tasks.json").write_text(
+        json.dumps({"tasks": {"t0001": {"status": "running", "goal": "engage"}}}), encoding="utf-8"
+    )
+    (tmp_path / "assets.json").write_text(
+        json.dumps({"nodes": [{"asset_id": 1, "kind": "ip", "value": "127.0.0.1"}]}), encoding="utf-8"
+    )
+    (tmp_path / "exp_t0001.json").write_text(
+        json.dumps({"nodes": [{"node_id": 1, "kind": "fact", "text": "open 80"}], "edges": [], "anchors": []}),
+        encoding="utf-8",
+    )
     (tmp_path / "activity_t0001.jsonl").write_text(
-        json.dumps({"worker": "planner", "kind": "intent", "text": "probe"}) + "\n",
-        encoding="utf-8")
+        json.dumps({"worker": "planner", "kind": "intent", "text": "probe"}) + "\n", encoding="utf-8"
+    )
     (tmp_path / "traffic_t0001.jsonl").write_text(
-        json.dumps({"kind": "bash", "command": "nmap -sV", "output": "80/tcp open http"}) + "\n",
-        encoding="utf-8")
+        json.dumps({"kind": "bash", "command": "nmap -sV", "output": "80/tcp open http"}) + "\n", encoding="utf-8"
+    )
     (tmp_path / "guard_audit_t0001.jsonl").write_text(
-        json.dumps({"tool": "Bash", "action": "allow"}) + "\n", encoding="utf-8")
+        json.dumps({"tool": "Bash", "action": "allow"}) + "\n", encoding="utf-8"
+    )
     monkeypatch.setattr(bridge, "LAZY_DIR", tmp_path)
     monkeypatch.setattr(bridge, "SESSIONS_DIR", tmp_path)
     status = bridge.bridge_status()
@@ -798,17 +858,28 @@ def test_lazy_command_set_registered():
     import ast
     from pathlib import Path
 
-    source = (Path(__file__).resolve().parent.parent / "cli" / "commands" / "lazyloop.py").read_text(
-        encoding="utf-8")
+    source = (Path(__file__).resolve().parent.parent / "cli" / "commands" / "lazyloop.py").read_text(encoding="utf-8")
     tree = ast.parse(source)
     methods = {node.name for node in ast.walk(tree) if isinstance(node, ast.FunctionDef)}
-    for name in ("do_lazy_sync", "do_lazy_intents", "do_lazy_delete",
-                 "do_lazy_findings", "do_lazy_verdict", "do_lazy_mention",
-                 "do_lazy_approve"):
+    for name in (
+        "do_lazy_sync",
+        "do_lazy_intents",
+        "do_lazy_delete",
+        "do_lazy_findings",
+        "do_lazy_verdict",
+        "do_lazy_mention",
+        "do_lazy_approve",
+    ):
         assert name in methods
-    for name in ("do_lazy_status", "do_lazy_broadcast", "do_lazy_trace",
-                 "do_lazy_hint", "do_lazy_steer", "do_lazy_kill",
-                 "do_lazy_retest"):
+    for name in (
+        "do_lazy_status",
+        "do_lazy_broadcast",
+        "do_lazy_trace",
+        "do_lazy_hint",
+        "do_lazy_steer",
+        "do_lazy_kill",
+        "do_lazy_retest",
+    ):
         assert name not in methods
     assert "LazyQueueCommandSet" in source
     assert "LazyOwnCommandSet" in source
@@ -819,8 +890,14 @@ def test_mcp_lazy_handlers_registered():
 
     tools_dir = Path(__file__).resolve().parent.parent / "skills" / "mcp_tools"
     source = "".join(p.read_text(encoding="utf-8") for p in tools_dir.glob("*.py"))
-    for name in ("lazyown_lazy_status", "lazyown_lazy_sync", "lazyown_lazy_board",
-                 "lazyown_lazy_trace", "lazyown_lazy_hint", "lazyown_lazy_finding"):
+    for name in (
+        "lazyown_lazy_status",
+        "lazyown_lazy_sync",
+        "lazyown_lazy_board",
+        "lazyown_lazy_trace",
+        "lazyown_lazy_hint",
+        "lazyown_lazy_finding",
+    ):
         assert name in source
 
 

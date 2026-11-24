@@ -21,7 +21,7 @@ MUTATIONS = {
     "toggles_ignored": {
         "file": "modules/outcome_bus.py",
         "description": "Ignore payload sink toggles",
-        "old": '        return [name for name in names if bool(toggles.get(name, True))]',
+        "old": "        return [name for name in names if bool(toggles.get(name, True))]",
         "new": "        return names",
         "expected": "test_bus_respects_sink_toggles must fail",
     },

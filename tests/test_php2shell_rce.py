@@ -11,10 +11,6 @@ beacon history records. No network access and no exploit run happen.
 
 from __future__ import annotations
 
-from pathlib import Path
-
-import pytest
-
 import modules.php2shell_rce as pr
 from modules.beacon_loop import (
     DOCKER_CAPS_PROBE,

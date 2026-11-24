@@ -28,7 +28,7 @@ graph_store:
   kind: path
 poc_binary:
   category: general
-  default: /home/grisun0/src_note/c/signdrop/sigdrop.exe
+  default: sessions/binaries/sigdrop.exe
   description: Path to the cross-compiled SignDrop PoC binary staged into the WinBox
     lab VM by PoC-packaging lazyaddons.
   kind: path

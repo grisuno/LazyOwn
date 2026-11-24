@@ -82,9 +82,7 @@ class TestScopeVerdict:
         assert verdict.reason == "public-resolve"
 
     def test_mixed_answers_denied(self):
-        verdict = lazy_scope.scope_verdict(
-            "split.brain", resolver=lambda name: ("10.0.0.1", "8.8.4.4")
-        )
+        verdict = lazy_scope.scope_verdict("split.brain", resolver=lambda name: ("10.0.0.1", "8.8.4.4"))
         assert not verdict.allowed
 
     def test_unresolved_denied(self):

@@ -195,10 +195,15 @@ class PendingStore:
         requests = payload["requests"]
         requests[request_id] = record
         if len(requests) > _MAX_PENDING_ROWS:
-            for stale in sorted(requests, key=lambda key: float(requests[key].get("ts", 0.0)))[: len(requests) - _MAX_PENDING_ROWS]:
+            for stale in sorted(requests, key=lambda key: float(requests[key].get("ts", 0.0)))[
+                : len(requests) - _MAX_PENDING_ROWS
+            ]:
                 requests.pop(stale, None)
         self._save(payload)
-        _audit(context, {"event": "requested", "ts": now, **{k: record[k] for k in ("id", "chain", "step_id", "command_sha256")}})
+        _audit(
+            context,
+            {"event": "requested", "ts": now, **{k: record[k] for k in ("id", "chain", "step_id", "command_sha256")}},
+        )
         return dict(record)
 
     def get(self, request_id: str) -> dict | None:

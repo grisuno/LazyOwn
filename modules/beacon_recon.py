@@ -276,9 +276,7 @@ def _append_discovery_ledger(
         fresh = [ip for ip in discovered if ip not in existing]
         if not fresh:
             return
-        lines = "".join(
-            f"{ip}: discovered by beacon {primary_ip}\n" for ip in fresh
-        )
+        lines = "".join(f"{ip}: discovered by beacon {primary_ip}\n" for ip in fresh)
         with open(ledger, "a", encoding="utf-8") as handle:
             handle.write(lines)
     except Exception as exc:

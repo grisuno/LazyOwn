@@ -82,7 +82,9 @@ def test_codemode_shell_wins_and_skips_agent(worker_env, monkeypatch):
 def test_codemode_exploit_without_shell_falls_through(worker_env, monkeypatch):
     """An exploitation script with no shell returns False (auto_pwn must run)."""
     loop, worker, _graph, intent = worker_env
-    _patch_model(monkeypatch, loop, "```python\nresult = {'note': 'no shell'}\n```", _result(ok=True, result={"note": "x"}))
+    _patch_model(
+        monkeypatch, loop, "```python\nresult = {'note': 'no shell'}\n```", _result(ok=True, result={"note": "x"})
+    )
     monkeypatch.setattr(worker, "_publish_shell_proof", lambda *a, **k: False)
 
     outcome = {"facts": 0, "assets": 0, "findings": 0, "state": "done"}

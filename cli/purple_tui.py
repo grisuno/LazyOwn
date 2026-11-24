@@ -123,7 +123,7 @@ class PurpleDashboard(App):
         self._render_stats(score, ds)
 
     def _render_score(self, score: dict) -> None:
-        panel = self.query_one("#score-panel")
+        panel = self.query_one("#score-panel", Static)
         total = score.get("total", 0)
         detected = score.get("detected", 0)
         missed = score.get("missed", 0)
@@ -155,7 +155,7 @@ class PurpleDashboard(App):
         panel.update(text)
 
     def _render_methods(self, score: dict) -> None:
-        panel = self.query_one("#methods-panel")
+        panel = self.query_one("#methods-panel", Static)
         methods = score.get("by_method", {})
         if not methods:
             panel.update(Text.from_markup("[dim]No detection method data yet[/dim]"))
@@ -171,7 +171,7 @@ class PurpleDashboard(App):
         panel.update(Text.from_markup("\n".join(lines)))
 
     def _render_actions(self, results: list) -> None:
-        panel = self.query_one("#actions-panel")
+        panel = self.query_one("#actions-panel", Static)
         if not results:
             panel.update(
                 Text.from_markup(
@@ -203,7 +203,7 @@ class PurpleDashboard(App):
         panel.update(Text.from_markup("\n".join(lines)))
 
     def _render_stats(self, score: dict, ds: dict) -> None:
-        panel = self.query_one("#stats-panel")
+        panel = self.query_one("#stats-panel", Static)
         cats = score.get("by_category", {})
 
         lines = ["[bold]STATISTICS[/bold]\n"]

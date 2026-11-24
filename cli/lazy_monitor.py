@@ -339,7 +339,7 @@ class LazyMonitorApp(App[dict]):
             signature = str(node.meta.get("sig", node.node_id))
             if signature in getattr(self, "_seen_findings", set()):
                 continue
-            seen = getattr(self, "_seen_findings", set())
+            seen: set[str] = getattr(self, "_seen_findings", set())
             seen.add(signature)
             self._seen_findings = seen
             line = Text()
@@ -350,7 +350,7 @@ class LazyMonitorApp(App[dict]):
 
     def _render_stages(self, overview: dict) -> None:
         """Render the orchestrator chain milestones plus counters."""
-        record = {}
+        record: dict = {}
         try:
             record = self.engine.store.get(self.task_id) if self.engine else {}
             record = record or TaskStore().get(self.task_id) or {}

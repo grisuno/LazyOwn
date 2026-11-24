@@ -73,7 +73,9 @@ def test_citation_verdict_none_when_output_stale(sandbox, monkeypatch):
         state="pending",
         meta={"poc": "curl"},
     )
-    monkeypatch.setattr(loop, "citation_service_bound", lambda: loop.citation_service_bound().__class__(max_age_sec=1.0))
+    monkeypatch.setattr(
+        loop, "citation_service_bound", lambda: loop.citation_service_bound().__class__(max_age_sec=1.0)
+    )
     traffic = FakeTraffic(
         [{"command": "id", "output": "uid=0(root) gid=0(root)", "ts": time.time() - 9999, "digest": "x"}]
     )

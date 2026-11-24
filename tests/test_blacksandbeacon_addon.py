@@ -212,6 +212,7 @@ class TestBeaconCommandTemplates:
         assert "memfd" in desc or "anonymous memory" in desc
         assert "/stage/" in desc
 
+
 class TestBeaconDescriptionQuality:
     """Descriptions must mention key differentiators."""
 

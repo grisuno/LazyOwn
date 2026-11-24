@@ -268,7 +268,8 @@ class _AtomicIndex:
         if self._index is not None:
             return self._index
         if not self.available():
-            return {}
+            self._index = self._parquet_index()
+            return self._index
         index: dict[str, list[dict]] = {}
         for yaml_file in glob.glob(str(self._path / "**" / "*.yaml"), recursive=True):
             try:
@@ -296,6 +297,55 @@ class _AtomicIndex:
         self._index = index
         log.info("Atomic index built: %d techniques", len(index))
         return index
+
+    @staticmethod
+    def _parquet_index() -> dict[str, list[dict]]:
+        """Build the same index from the shipped Atomic catalogue parquet.
+
+        Keeps technique proposals working on a clean checkout without the
+        external Atomic Red Team clone; the parquet files are tracked in
+        the repository.
+
+        Returns:
+            Mapping of technique ID to test rows, empty when unavailable.
+        """
+        try:
+            import pandas as pd  # type: ignore
+        except Exception as exc:
+            log.debug("Atomic parquet index unavailable: %s", exc)
+            return {}
+        for name in ("techniques_enriched", "techniques"):
+            target = _BASE_DIR / "parquets" / f"{name}.parquet"
+            if not target.exists():
+                continue
+            try:
+                frame = pd.read_parquet(target)
+            except Exception as exc:
+                log.debug("Atomic parquet read failed (%s): %s", name, exc)
+                continue
+            index: dict[str, list[dict]] = {}
+            for row in frame.to_dict("records"):
+                tid = str(row.get("mitre_id", "") or "").strip().upper()
+                if not tid.startswith("T"):
+                    continue
+                platforms = row.get("platforms")
+                if hasattr(platforms, "tolist"):
+                    platforms = platforms.tolist()
+                index.setdefault(tid, []).append(
+                    {
+                        "atomic_id": str(row.get("id", "") or ""),
+                        "name": str(row.get("name", "") or ""),
+                        "description": str(row.get("description", "") or "")[:300],
+                        "platforms": [str(p) for p in (platforms or [])],
+                        "command": str(row.get("command", "") or ""),
+                        "cleanup_command": str(row.get("cleanup_command", "") or ""),
+                        "technique_id": tid,
+                    }
+                )
+            if index:
+                log.info("Atomic parquet index built: %d techniques", len(index))
+                return index
+        return {}
 
     def tests_for_technique(self, technique_id: str, platform: str = "linux") -> list[dict]:
         idx = self.build()
@@ -768,8 +818,10 @@ def phase_techniques(phase: str, platform: str = "", top_n: int = 8) -> list[dic
             if tid in seen:
                 continue
             tests = index.get(tid) or []
-            if platform_l and tests and not any(
-                platform_l in [p.lower() for p in t.get("platforms", [])] for t in tests
+            if (
+                platform_l
+                and tests
+                and not any(platform_l in [p.lower() for p in t.get("platforms", [])] for t in tests)
             ):
                 continue
             if preferred and tid.split(".", 1)[0] not in {p.split(".", 1)[0] for p in preferred}:

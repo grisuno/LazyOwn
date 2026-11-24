@@ -12,8 +12,8 @@ import threading
 import cmd2
 import yaml
 
-from cli.commands.command_and_control import CommandAndControlMigratedCommandSet
 import modules.chain_registry as chain_registry
+from cli.commands.command_and_control import CommandAndControlMigratedCommandSet
 
 
 class _Set(CommandAndControlMigratedCommandSet):

@@ -59,8 +59,7 @@ def test_error_reply_fails_over_instead_of_becoming_content(tmp_path, monkeypatc
     _patched_engine(tmp_path, monkeypatch)
 
     def error_then_ok(model, prompt, max_tokens=800):
-        return ("[LLM error] GROQ_API_KEY not set."
-                if "groq" in model else "probe the login form")
+        return "[LLM error] GROQ_API_KEY not set." if "groq" in model else "probe the login form"
 
     monkeypatch.setattr(factory, "complete", error_then_ok)
     pool = loop.LlmPool()
@@ -77,17 +76,26 @@ def test_worker_llm_steps_filtered_by_scope_and_tooling(tmp_path, monkeypatch):
     task_id = engine.create_task("gain initial access on 127.0.0.1")["task_id"]
 
     def scripted(model, prompt, max_tokens=800):
-        return ("nmap -sV 127.0.0.1\n"
-                "definitelynotinstalled -x 127.0.0.1\n"
-                "curl http://10.9.9.9/inside\n"
-                "curl -sS http://127.0.0.1/\n")
+        return (
+            "nmap -sV 127.0.0.1\n"
+            "definitelynotinstalled -x 127.0.0.1\n"
+            "curl http://10.9.9.9/inside\n"
+            "curl -sS http://127.0.0.1/\n"
+        )
 
     monkeypatch.setattr(factory, "complete", scripted)
     graph = loop.ExplorationGraph(task_id)
     intent = graph.add_node("intent", "probe http surface")
-    worker = loop.Worker("worker-1", task_id, engine.assets, graph,
-                         loop.ActivityLog(task_id), loop.TrafficLog(task_id),
-                         loop.Guard(task_id), engine.store)
+    worker = loop.Worker(
+        "worker-1",
+        task_id,
+        engine.assets,
+        graph,
+        loop.ActivityLog(task_id),
+        loop.TrafficLog(task_id),
+        loop.Guard(task_id),
+        engine.store,
+    )
     steps = worker._llm_steps(intent)
     assert steps == ["nmap -sV 127.0.0.1", "curl -sS http://127.0.0.1/"]
 
@@ -101,14 +109,20 @@ def test_wall_clock_settles_partial_not_hard_kill(tmp_path, monkeypatch):
     intent = engine.add_intent(task_id, "probe ssh")
     engine.store.set_deadline(task_id, -1.0)
     graph = loop.ExplorationGraph(task_id)
-    worker = loop.Worker("worker-1", task_id, engine.assets, graph,
-                         loop.ActivityLog(task_id), loop.TrafficLog(task_id),
-                         loop.Guard(task_id), engine.store)
+    worker = loop.Worker(
+        "worker-1",
+        task_id,
+        engine.assets,
+        graph,
+        loop.ActivityLog(task_id),
+        loop.TrafficLog(task_id),
+        loop.Guard(task_id),
+        engine.store,
+    )
     outcome = worker.execute(graph.get(intent.node_id), executor=lambda cmd: "ok")
     assert outcome["state"] == "stopped"
     trail = loop.ActivityLog(task_id).read(50)
-    assert any(r.get("kind") == "timeout" and "settling" in r.get("text", "")
-               for r in trail)
+    assert any(r.get("kind") == "timeout" and "settling" in r.get("text", "") for r in trail)
 
 
 def test_stall_guard_forces_intent_when_nothing_open(tmp_path, monkeypatch):
@@ -118,15 +132,13 @@ def test_stall_guard_forces_intent_when_nothing_open(tmp_path, monkeypatch):
     engine = _patched_engine(tmp_path, monkeypatch)
     task_id = engine.create_task("gain initial access on 127.0.0.1")["task_id"]
     graph = loop.ExplorationGraph(task_id)
-    planner = loop.Planner(task_id, engine.assets, graph,
-                           loop.ActivityLog(task_id), engine.store)
+    planner = loop.Planner(task_id, engine.assets, graph, loop.ActivityLog(task_id), engine.store)
     first = planner.plan()
     assert len(first) >= 1
     for node in loop.ExplorationGraph(task_id).list("intent"):
         loop.ExplorationGraph(task_id).set_state(node.node_id, "done")
     fresh = loop.ExplorationGraph(task_id)
-    planner = loop.Planner(task_id, engine.assets, fresh,
-                           loop.ActivityLog(task_id), engine.store)
+    planner = loop.Planner(task_id, engine.assets, fresh, loop.ActivityLog(task_id), engine.store)
     second = planner.plan()
     assert len(second) >= 1
     assert {n.node_id for n in second} != {n.node_id for n in first}
@@ -139,10 +151,13 @@ def test_task_llm_chain_quota_failover(tmp_path, monkeypatch):
 
     engine = _patched_engine(tmp_path, monkeypatch)
     task_id = engine.create_task("gain initial access on 127.0.0.1")["task_id"]
-    engine.store.set_llm_chain(task_id, [
-        {"name": "primary", "model": "groq:llama", "priority": 10},
-        {"name": "backup", "model": "ollama:local", "priority": 5},
-    ])
+    engine.store.set_llm_chain(
+        task_id,
+        [
+            {"name": "primary", "model": "groq:llama", "priority": 10},
+            {"name": "backup", "model": "ollama:local", "priority": 5},
+        ],
+    )
 
     def scripted(model, prompt, max_tokens=800):
         if "groq" in model:
@@ -174,8 +189,7 @@ def test_raw_llm_recording_toggle(tmp_path, monkeypatch):
     _patched_engine(tmp_path, monkeypatch)
     pool = loop.LlmPool()
     pool._health = None
-    monkeypatch.setattr(factory, "complete",
-                        lambda model, prompt, max_tokens=800: "answer")
+    monkeypatch.setattr(factory, "complete", lambda model, prompt, max_tokens=800: "answer")
     assert pool.record_raw() is False
     assert pool.set_record_raw(True) is True
     assert pool.complete("question one") == "answer"
@@ -219,7 +233,7 @@ def test_llm_context_budget_roundtrip(tmp_path, monkeypatch):
     assert pool.set_context_budget(900) == 900
     assert pool.context_budget() == 900
     assert pool.set_context_budget(1) == 200
-    assert pool.set_context_budget(10 ** 9) == 20000
+    assert pool.set_context_budget(10**9) == 20000
 
 
 def test_planner_uses_bound_task_chain(tmp_path, monkeypatch):
@@ -229,8 +243,7 @@ def test_planner_uses_bound_task_chain(tmp_path, monkeypatch):
 
     engine = _patched_engine(tmp_path, monkeypatch)
     task_id = engine.create_task("gain initial access on 127.0.0.1")["task_id"]
-    engine.store.set_llm_chain(task_id, [{"name": "only", "model": "ollama:local",
-                                          "priority": 0}])
+    engine.store.set_llm_chain(task_id, [{"name": "only", "model": "ollama:local", "priority": 0}])
     models: list[str] = []
 
     def scripted(model, prompt, max_tokens=800):
@@ -239,8 +252,7 @@ def test_planner_uses_bound_task_chain(tmp_path, monkeypatch):
 
     monkeypatch.setattr(factory, "complete", scripted)
     graph = loop.ExplorationGraph(task_id)
-    planner = loop.Planner(task_id, engine.assets, graph,
-                           loop.ActivityLog(task_id), engine.store)
+    planner = loop.Planner(task_id, engine.assets, graph, loop.ActivityLog(task_id), engine.store)
     candidates = planner._llm_candidates(set())
     assert models and all("ollama" in model for model in models)
     assert any("smb" in summary for summary, _a, _p, _pr in candidates)

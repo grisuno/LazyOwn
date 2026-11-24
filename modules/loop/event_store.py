@@ -62,7 +62,7 @@ CREATE INDEX IF NOT EXISTS idx_worker_messages_kind ON worker_messages(kind, id)
 _shared: EventStore | None = None
 _shared_lock = threading.Lock()
 _schema_applied: set[str] = set()
-_schema_lock = threading.Lock()
+_write_lock = threading.RLock()
 
 
 def _digest(*parts: str) -> str:
@@ -83,13 +83,13 @@ class EventStore:
 
     def _conn(self):
         """Return the per-thread connection for this store, schema applied."""
-        conn = state_db.thread_connection(self._target)
-        with _schema_lock:
+        with _write_lock:
+            conn = state_db.thread_connection(self._target)
             if self._target not in _schema_applied:
                 conn.executescript(_SCHEMA_SQL)
                 conn.commit()
                 _schema_applied.add(self._target)
-        return conn
+            return conn
 
     def append_event(self, event: dict[str, Any]) -> int:
         """Insert one engine event row.
@@ -109,28 +109,29 @@ class EventStore:
         payload = {key: value for key, value in event.items() if key != "metadata"}
         payload["metadata"] = metadata
         conn = self._conn()
-        cursor = conn.execute(
-            "INSERT INTO engine_events (ts, kind, severity, host, target, task_id, worker, title, digest, payload)"
-            " VALUES (?,?,?,?,?,?,?,?,?,?)",
-            (
-                float(event.get("ts") or time.time()),
-                kind,
-                str(event.get("severity", "") or "")[:32],
-                str(event.get("host", "") or "")[:255],
-                str(event.get("target", "") or "")[:255],
-                str(event.get("task_id", "") or "")[:128],
-                str(event.get("worker", "") or "")[:64],
-                str(event.get("title", "") or "")[:200],
-                _digest(
+        with _write_lock:
+            cursor = conn.execute(
+                "INSERT INTO engine_events (ts, kind, severity, host, target, task_id, worker, title, digest, payload)"
+                " VALUES (?,?,?,?,?,?,?,?,?,?)",
+                (
+                    float(event.get("ts") or time.time()),
                     kind,
-                    str(event.get("host", "") or ""),
-                    str(event.get("title", "") or ""),
-                    str(event.get("task_id", "") or ""),
+                    str(event.get("severity", "") or "")[:32],
+                    str(event.get("host", "") or "")[:255],
+                    str(event.get("target", "") or "")[:255],
+                    str(event.get("task_id", "") or "")[:128],
+                    str(event.get("worker", "") or "")[:64],
+                    str(event.get("title", "") or "")[:200],
+                    _digest(
+                        kind,
+                        str(event.get("host", "") or ""),
+                        str(event.get("title", "") or ""),
+                        str(event.get("task_id", "") or ""),
+                    ),
+                    json.dumps(payload, default=str)[:8000],
                 ),
-                json.dumps(payload, default=str)[:8000],
-            ),
-        )
-        conn.commit()
+            )
+            conn.commit()
         return int(cursor.lastrowid or 0)
 
     def events(self, task_id: str = "", kind: str = "", limit: int = 50) -> list[dict[str, Any]]:
@@ -186,18 +187,19 @@ class EventStore:
         if not text:
             return 0
         conn = self._conn()
-        cursor = conn.execute(
-            "INSERT INTO worker_messages (ts, task_id, worker, kind, body, digest) VALUES (?,?,?,?,?,?)",
-            (
-                time.time(),
-                str(task_id or "")[:128],
-                str(worker or "")[:64],
-                kind,
-                text,
-                _digest(kind, text),
-            ),
-        )
-        conn.commit()
+        with _write_lock:
+            cursor = conn.execute(
+                "INSERT INTO worker_messages (ts, task_id, worker, kind, body, digest) VALUES (?,?,?,?,?,?)",
+                (
+                    time.time(),
+                    str(task_id or "")[:128],
+                    str(worker or "")[:64],
+                    kind,
+                    text,
+                    _digest(kind, text),
+                ),
+            )
+            conn.commit()
         return int(cursor.lastrowid or 0)
 
     def post_foothold(self, task_id: str, worker: str, host: str, summary: str) -> int:
@@ -308,20 +310,24 @@ class EventStore:
         conn = self._conn()
         deleted = {"events": 0, "messages": 0}
         cutoff = time.time() - max(0.0, float(max_age_sec)) if max_age_sec > 0 else 0.0
-        for table, cap, key in (("engine_events", max_events, "events"), ("worker_messages", max_messages, "messages")):
-            if cap > 0:
-                row = conn.execute(f"SELECT COUNT(*) FROM {table}").fetchone()
-                overflow = int(row[0]) - int(cap)
-                if overflow > 0:
-                    cursor = conn.execute(
-                        f"DELETE FROM {table} WHERE id IN (SELECT id FROM {table} ORDER BY id ASC LIMIT ?)",
-                        (overflow,),
-                    )
+        with _write_lock:
+            for table, cap, key in (
+                ("engine_events", max_events, "events"),
+                ("worker_messages", max_messages, "messages"),
+            ):
+                if cap > 0:
+                    row = conn.execute(f"SELECT COUNT(*) FROM {table}").fetchone()
+                    overflow = int(row[0]) - int(cap)
+                    if overflow > 0:
+                        cursor = conn.execute(
+                            f"DELETE FROM {table} WHERE id IN (SELECT id FROM {table} ORDER BY id ASC LIMIT ?)",
+                            (overflow,),
+                        )
+                        deleted[key] = max(deleted[key], int(cursor.rowcount or 0))
+                if cutoff:
+                    cursor = conn.execute(f"DELETE FROM {table} WHERE ts < ?", (cutoff,))
                     deleted[key] = max(deleted[key], int(cursor.rowcount or 0))
-            if cutoff:
-                cursor = conn.execute(f"DELETE FROM {table} WHERE ts < ?", (cutoff,))
-                deleted[key] = max(deleted[key], int(cursor.rowcount or 0))
-        conn.commit()
+            conn.commit()
         return deleted
 
 

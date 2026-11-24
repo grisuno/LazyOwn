@@ -560,6 +560,7 @@ def _build_test_app(tmp_path: Path) -> Flask:
         "intel_bundle_view",
         "attack3d_view",
         "attack_bundle_view",
+        "lazybox.lazybox_page",
         "login",
         "logout",
         "register",

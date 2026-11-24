@@ -11,7 +11,6 @@
     "params": "{}",
     "data": "{}",
     "json_data": "{}",
-    "proxy_port": 8080,
     "wordlist": null,
     "hide_code": null,
     "mode": null,
@@ -34,6 +33,7 @@
     "backdoor_win_home": "C:/Users/lazyown/Documents",
     "backdoor_win_service_path": "C:/Users/lazyown/Documents",
     "rhost": "127.0.0.1",
+    "exploit_profile": "bookworm",
     "lhost": "127.0.0.1",
     "scope": [],
     "scope_enforcement": "warn",
@@ -115,5 +115,10 @@
     "ghidra_plugin_url": "http://localhost:8089",
     "mcp_host": "localhost",
     "mcp_port": "8081",
-    "grype_target": "."
+    "grype_target": ".",
+    "graph_store": "sessions/lazygraph",
+    "poc_binary": "sessions/binaries/sigdrop.exe",
+    "poc_exec_opts": "",
+    "poc_timeout": 120,
+    "rce_command": "id"
 }

@@ -104,13 +104,24 @@ class TestMaybeStartC2:
 
         _allow_pytest_call(monkeypatch)
         monkeypatch.setattr(runner, "_c2_port_alive", lambda host, port: False)
+        monotonic_calls: list[float] = []
+        real_monotonic = runner.time.monotonic
+
+        def _fast_deadline() -> float:
+            monotonic_calls.append(real_monotonic())
+            return monotonic_calls[-1] if len(monotonic_calls) == 1 else monotonic_calls[0] + 3600.0
+
+        monkeypatch.setattr(runner.time, "monotonic", _fast_deadline)
         monkeypatch.setattr(runner.time, "sleep", lambda *_: None)
         monkeypatch.setattr(runner, "print_warn", lambda text: warnings.append(text))
-        monkeypatch.setattr(
-            subprocess,
-            "Popen",
-            lambda argv, **kw: spawned.append(argv) or type("P", (), {"pid": 1})(),
-        )
+        monkeypatch.setattr(runner, "print_msg", lambda *_: None)
+
+        def _fake_popen(argv, **kwargs):
+            if isinstance(argv, (list, tuple)) and any("lazyc2.py" in str(part) for part in argv):
+                spawned.append(argv)
+            return type("P", (), {"pid": 1})()
+
+        monkeypatch.setattr(subprocess, "Popen", _fake_popen)
         params = {"loop_c2_autostart": True, "lhost": "10.0.0.1", "c2_autostart_timeout": 1}
         assert runner._maybe_start_c2(params) is False
         assert len(spawned) == 1

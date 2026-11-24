@@ -5,10 +5,10 @@ from __future__ import annotations
 
 from types import SimpleNamespace
 
-import modules.chain_loop as chain_loop
-import modules.chain_facts as chain_facts
-import modules.chain_registry as chain_registry
 import modules.auto_registry as auto_registry
+import modules.chain_facts as chain_facts
+import modules.chain_loop as chain_loop
+import modules.chain_registry as chain_registry
 from modules.chain_loop import (
     ChainStepBlocked,
     parse_chain_invocation,

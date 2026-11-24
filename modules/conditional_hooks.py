@@ -603,11 +603,7 @@ class HookEngine:
                 if not rule.can_fire(now):
                     continue
 
-                actions = [
-                    action
-                    for action in rule.actions
-                    if self._platform_compatible(action, context)
-                ]
+                actions = [action for action in rule.actions if self._platform_compatible(action, context)]
                 if not actions:
                     log.debug("[hook] rule %s skipped: no platform-compatible actions", rule.name)
                     continue

@@ -136,7 +136,10 @@ def parse_atomic_line(line: str) -> dict[str, Any]:
         out["query"] = positionals[0]
         for extra in positionals[1:]:
             if not out["platform"] and extra.lower() in (
-                "windows", "macos", "linux", "containers",
+                "windows",
+                "macos",
+                "linux",
+                "containers",
             ):
                 out["platform"] = extra
             elif not out["test_index"] and extra.isdigit():
@@ -331,9 +334,7 @@ def run_atomic_tests(params: dict[str, Any], line: str, shell: Any = None) -> in
         return 1
 
     if not platform and non_interactive and len(candidates) > 1:
-        candidates.sort(
-            key=lambda test: 0 if "linux" in [p.lower() for p in test.platforms] else 1
-        )
+        candidates.sort(key=lambda test: 0 if "linux" in [p.lower() for p in test.platforms] else 1)
 
     if test_index:
         if 1 <= test_index <= len(candidates):
@@ -356,7 +357,12 @@ def run_atomic_tests(params: dict[str, Any], line: str, shell: Any = None) -> in
             return 2
         selected = candidates[choice]
         selected_guid = selected.guid
-    if not test_index and len(candidates) > 1 and (non_interactive or not _wants_interactive(non_interactive)) and query:
+    if (
+        not test_index
+        and len(candidates) > 1
+        and (non_interactive or not _wants_interactive(non_interactive))
+        and query
+    ):
         _print(
             shell,
             f"Multiple tests for {query.upper()}: using first ({selected.name}). "
@@ -430,7 +436,6 @@ def run_atomic_tests(params: dict[str, Any], line: str, shell: Any = None) -> in
             log.debug("logcsv failed: %s", exc)
         _print(shell, "Test execution completed.")
         return 0
-
 
     for label, snippet in (
         ("Prerequisite", prereq),
@@ -508,7 +513,7 @@ def run_atomic_gen(params: dict[str, Any], line: str, shell: Any = None) -> int:
 
     sessions_path = _SESSIONS_DIR / "temp_uploads"
     sessions_path.mkdir(parents=True, exist_ok=True)
-    platform_first = (selected.platforms[0].lower() if selected.platforms else "linux")
+    platform_first = selected.platforms[0].lower() if selected.platforms else "linux"
     extension = ".ps1" if platform_first == "windows" else ".sh"
     safe_id = re.sub(r"[^A-Za-z0-9_.-]+", "_", selected.guid or selected.mitre_id)[:80]
     test_path = sessions_path / _sanitized_script_name(safe_id, extension)
@@ -516,16 +521,11 @@ def run_atomic_gen(params: dict[str, Any], line: str, shell: Any = None) -> int:
 
     if platform_first == "windows":
         test_content = (
-            f'Start-Transcript -Path "{_TMP_ROOT}/{safe_id}.log"\n'
-            f"{get_prereq}\n{prereq}\n{command}\nStop-Transcript\n"
+            f'Start-Transcript -Path "{_TMP_ROOT}/{safe_id}.log"\n{get_prereq}\n{prereq}\n{command}\nStop-Transcript\n'
         )
         clean_content = f"{cleanup}\n"
     else:
-        test_content = (
-            "#!/bin/sh\n"
-            f"# Atomic {selected.mitre_id} {selected.guid}\n"
-            f"{get_prereq}\n{prereq}\n{command}\n"
-        )
+        test_content = f"#!/bin/sh\n# Atomic {selected.mitre_id} {selected.guid}\n{get_prereq}\n{prereq}\n{command}\n"
         clean_content = f"#!/bin/sh\n{cleanup}\n"
     test_path.write_text(test_content, encoding="utf-8")
     clean_path.write_text(clean_content, encoding="utf-8")

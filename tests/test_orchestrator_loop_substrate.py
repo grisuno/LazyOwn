@@ -65,23 +65,17 @@ def test_evidence_defaults_and_override(payload_store):
 
 
 def test_validate_rejects_bad_termination_mode():
-    errors = oc.validate_config(
-        {"version": 1, "profiles": {"a": {"termination": {"mode": "speedrun"}}}}
-    )
+    errors = oc.validate_config({"version": 1, "profiles": {"a": {"termination": {"mode": "speedrun"}}}})
     assert any("termination mode" in error for error in errors)
 
 
 def test_validate_rejects_negative_lease_ttl():
-    errors = oc.validate_config(
-        {"version": 1, "profiles": {"a": {"leases": {"ttl_sec": -5}}}}
-    )
+    errors = oc.validate_config({"version": 1, "profiles": {"a": {"leases": {"ttl_sec": -5}}}})
     assert any("ttl_sec" in error for error in errors)
 
 
 def test_validate_rejects_bad_boundary_type():
-    errors = oc.validate_config(
-        {"version": 1, "profiles": {"a": {"boundary": {"enabled": "yes"}}}}
-    )
+    errors = oc.validate_config({"version": 1, "profiles": {"a": {"boundary": {"enabled": "yes"}}}})
     assert any("boundary enabled" in error for error in errors)
 
 

@@ -123,9 +123,7 @@ class Verification:
     @property
     def chain_proven(self) -> bool:
         """Return whether every stage has observed evidence."""
-        return bool(self.stages) and all(
-            assessment.status == VERDICT_OBSERVED for assessment in self.stages
-        )
+        return bool(self.stages) and all(assessment.status == VERDICT_OBSERVED for assessment in self.stages)
 
     def to_dict(self) -> dict[str, Any]:
         """Return a JSON-serializable view."""
@@ -348,9 +346,7 @@ def _assess_stage(
             event = events.get(ref)
             if event is None:
                 bad = True
-                assessment.reasons.append(
-                    "observation cites a reference outside the retained evidence"
-                )
+                assessment.reasons.append("observation cites a reference outside the retained evidence")
                 continue
             if event.known_self:
                 assessment.known_self_refs.append(ref)

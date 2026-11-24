@@ -66,7 +66,9 @@ class LeaseStore:
         """Return the reference clock."""
         return time.time()
 
-    def try_claim(self, task_id: str, node_id: int, worker: str = "", ttl_sec: float = DEFAULT_LEASE_TTL_SEC) -> Lease | None:
+    def try_claim(
+        self, task_id: str, node_id: int, worker: str = "", ttl_sec: float = DEFAULT_LEASE_TTL_SEC
+    ) -> Lease | None:
         """Acquire or refresh the lease for one intent, or fail when held.
 
         The CAS runs inside ``BEGIN IMMEDIATE``: only one concurrent

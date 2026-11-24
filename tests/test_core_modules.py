@@ -371,9 +371,7 @@ def test_mcp_tools_registered():
     import ast
 
     _sk = _ROOT / "skills"
-    src = (_sk / "lazyown_mcp.py").read_text() + "".join(
-        p.read_text() for p in (_sk / "mcp_tools").glob("*.py")
-    )
+    src = (_sk / "lazyown_mcp.py").read_text() + "".join(p.read_text() for p in (_sk / "mcp_tools").glob("*.py"))
     for tool in [
         "lazyown_memory_recall",
         "lazyown_memory_store",

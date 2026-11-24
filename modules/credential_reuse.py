@@ -26,6 +26,7 @@ log = logging.getLogger("credential_reuse")
 
 _SESSIONS_DIR = Path(__file__).resolve().parent.parent / "sessions"
 _CACHE_FILE = _SESSIONS_DIR / "cred_reuse_cache.json"
+_PASSWORD_MASK = "[MASKED-PASSWORD]"
 
 
 @dataclass
@@ -336,7 +337,18 @@ class CredentialReuseEngine:
         return self.rank(hosts, creds, host_services, limit)
 
     def get_summary(self, candidates: list[ReuseCandidate]) -> str:
-        """Format candidates as a human-readable summary string."""
+        """Format candidates as a human-readable summary string.
+
+        Passwords are masked: summaries are logged and posted to the C2
+        board, so the plaintext secret never reaches clear-text sinks.
+        The unmasked command stays available on the candidate objects.
+
+        Args:
+            candidates: Scored reuse candidates.
+
+        Returns:
+            The masked summary text.
+        """
         if not candidates:
             return "No credential reuse candidates available."
 
@@ -344,10 +356,12 @@ class CredentialReuseEngine:
         lines.append("=" * 60)
 
         for i, c in enumerate(candidates, 1):
-            lines.append(
-                f"\n#{i}  score={c.score:.2f}  {c.username}:{c.password}  from {c.source_host} -> {c.target_host}"
-            )
-            lines.append(f"    {c.command}")
+            masked = _PASSWORD_MASK if c.password else ""
+            display_command = c.command
+            if c.password and c.password in display_command:
+                display_command = _PASSWORD_MASK.join(display_command.split(c.password))
+            lines.append(f"\n#{i}  score={c.score:.2f}  {c.username}:{masked}  from {c.source_host} -> {c.target_host}")
+            lines.append(f"    {display_command}")
 
         return "\n".join(lines)
 

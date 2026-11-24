@@ -16,13 +16,11 @@ Two products:
 
 from __future__ import annotations
 
-import json
 import re
 import time
 from pathlib import Path
 
 from modules.lazy_loop import _load_json, _save_json, _store_path
-
 
 _MAX_DECISIONS_PER_TASK = 6
 _MAX_CRED_PAIRS = 8
@@ -98,9 +96,9 @@ def save_decisions(task_id: str, decisions: list[ReactionPick]) -> int:
                 "ts": now,
             }
         )
-    payload["decisions"] = sorted(
-        payload.get("decisions", []), key=lambda e: int(e.get("priority", 3))
-    )[:_MAX_DECISIONS_PER_TASK]
+    payload["decisions"] = sorted(payload.get("decisions", []), key=lambda e: int(e.get("priority", 3)))[
+        :_MAX_DECISIONS_PER_TASK
+    ]
     _write_buffer(task_id, payload)
     return len(payload.get("decisions", []))
 
@@ -153,7 +151,9 @@ def _write_buffer(task_id: str, payload: dict) -> None:
 
 def _placeholder_value(value: str) -> bool:
     lower = value.lower().strip()
-    return lower in _PLACEHOLDERS or (len(lower) > 6 and any(piece in lower for piece in ("change_me", "changeme", "your_")))
+    return lower in _PLACEHOLDERS or (
+        len(lower) > 6 and any(piece in lower for piece in ("change_me", "changeme", "your_"))
+    )
 
 
 def find_credentials(output: str) -> list[dict]:

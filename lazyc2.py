@@ -652,15 +652,13 @@ def _resolve_within(allowed_base, name):
     """Resolve ``name`` strictly within ``allowed_base``.
 
     Returns the absolute, real path only if it lives under ``allowed_base``.
-    Returns ``None`` for any traversal attempt or symlink escape. CodeQL
-    recognises this commonpath-based pattern as a path sanitiser.
+    Returns ``None`` for any traversal attempt or symlink escape. The
+    realpath normalisation plus the ``startswith`` containment guard is
+    the shape CodeQL recognises as a path sanitiser.
     """
     base_real = os.path.realpath(allowed_base)
     candidate = os.path.realpath(os.path.join(base_real, name))
-    try:
-        if os.path.commonpath([base_real, candidate]) != base_real:
-            return None
-    except ValueError:
+    if not candidate.startswith(base_real + os.sep):
         return None
     return candidate
 
@@ -2871,7 +2869,7 @@ if not os.path.exists(UPLOAD_FOLDER):
 
 api_key = config.api_key
 
-route_malleable = config.c2_malleable_route
+route_malleable = config.c2_malleable_route or "/api/v1/"
 win_useragent_malleable = config.user_agent_win
 lin_useragent_malleable = config.user_agent_lin
 rhost = config.rhost
@@ -2964,10 +2962,11 @@ if _RUN_MAIN and not route_malleable:
     logging.error("Error: c2_malleable_route not found on payload.json")
     sys.exit(1)
 
-route_valid, route_error = _validate_route_path(route_malleable.lstrip("/"))
-if not route_valid:
-    logging.error("Error: c2_malleable_route is invalid: %s", route_error)
-    sys.exit(1)
+if _RUN_MAIN:
+    route_valid, route_error = _validate_route_path(str(route_malleable).lstrip("/"))
+    if not route_valid:
+        logging.error("Error: c2_malleable_route is invalid: %s", route_error)
+        sys.exit(1)
 
 
 class User(UserMixin):
@@ -3052,7 +3051,7 @@ def tojson_filter(value, **kwargs):
 
 
 @app.route("/", methods=["GET", "POST"])
-@requires_auth
+@requires_auth_or_session
 def index():
     response = decoy()
     client_ip = request.remote_addr
@@ -6152,10 +6151,10 @@ def compliance_add_evidence():
         description = request.form.get("description", "").strip()
         if not filepath:
             return jsonify({"error": "File not found"}), 400
-        from core.hardening import safe_path_join
+        from core.hardening import realpath_contained
 
         try:
-            safe_path = safe_path_join("sessions", filepath)
+            safe_path = realpath_contained(filepath, "sessions")
         except (PermissionError, ValueError):
             return jsonify({"error": "Invalid path"}), 400
         if not os.path.exists(safe_path):

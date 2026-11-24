@@ -101,7 +101,7 @@ class TestKillChainSnapshot:
 
 class TestEncryptedStateTransparency:
     def test_read_state_dict_decrypts_at_rest(self, tmp_path, monkeypatch):
-        from modules.world_model import read_state_dict, write_state_dict
+        from modules.world_model import read_state_dict
 
         # Given: a legacy world state persisted as clear-text JSON
         plain = tmp_path / "world_model.json"

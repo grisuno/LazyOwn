@@ -32,7 +32,9 @@ def _build_app(csrf_enabled=True):
     app.config["TESTING"] = True
     app.config["SECRET_KEY"] = "unit-test-secret"
     login_manager = LoginManager(app)
-    login_manager.user_loader(lambda user_id: type("U", (), {"id": user_id, "is_authenticated": True})() if user_id else None)
+    login_manager.user_loader(
+        lambda user_id: type("U", (), {"id": user_id, "is_authenticated": True})() if user_id else None
+    )
 
     policy = CSRFPolicy()
     enabled_fn = lambda: csrf_enabled  # noqa: E731

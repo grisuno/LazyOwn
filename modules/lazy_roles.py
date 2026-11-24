@@ -145,8 +145,7 @@ def roles_for_phase(phase: str) -> list[str]:
 
 
 CONFORMANCE_PROBE = (
-    "Task: name the single best Lazy shell command for a TCP port scan of 10.0.0.5. "
-    "Reply with ONLY the command line."
+    "Task: name the single best Lazy shell command for a TCP port scan of 10.0.0.5. Reply with ONLY the command line."
 )
 CONFORMANCE_FILE = "llm_conformance.json"
 
@@ -189,11 +188,14 @@ def conformance(role: str = "") -> dict:
                 prompt = role_prompt(role_name, "conformance probe") + "\n" + CONFORMANCE_PROBE
                 start = time.monotonic()
                 try:
-                    reply = pool.complete(
-                        prompt,
-                        max_tokens=60,
-                        members=[{"name": name, "model": member.get("model", name), "priority": 0}],
-                    ) or ""
+                    reply = (
+                        pool.complete(
+                            prompt,
+                            max_tokens=60,
+                            members=[{"name": name, "model": member.get("model", name), "priority": 0}],
+                        )
+                        or ""
+                    )
                 except Exception:
                     reply = ""
                 ms = int((time.monotonic() - start) * 1000)
@@ -223,4 +225,12 @@ def conformance(role: str = "") -> dict:
     return summary
 
 
-__all__ = ["CONFORMANCE_FILE", "CONFORMANCE_PROBE", "LAZY_ROLES", "conformance", "list_roles", "role_prompt", "roles_for_phase"]
+__all__ = [
+    "CONFORMANCE_FILE",
+    "CONFORMANCE_PROBE",
+    "LAZY_ROLES",
+    "conformance",
+    "list_roles",
+    "role_prompt",
+    "roles_for_phase",
+]

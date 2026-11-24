@@ -28,8 +28,7 @@ from modules.auto_registry import (  # noqa: E402
 def test_registry_covers_auto_family() -> None:
     """Every auto_* shell verb is registered exactly once with metadata."""
     names = verbs()
-    assert {"auto_pwn", "autopivot", "automsf", "autoblody",
-            "auto_populate", "pyautomate"} <= set(names)
+    assert {"auto_pwn", "autopivot", "automsf", "autoblody", "auto_populate", "pyautomate"} <= set(names)
     assert len(names) == len(set(names))
     for entry in AUTO_VERBS:
         assert entry.verb and entry.phases and entry.keywords and entry.description

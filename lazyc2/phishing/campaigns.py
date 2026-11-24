@@ -38,6 +38,7 @@ from flask import (
 )
 from flask_login import current_user, login_required
 
+from core.hardening import realpath_within_base
 from lazyc2.phishing.paths import CAMPAIGNS_DIR, DB_PATH, TEMPLATES_DIR
 from lazyc2.phishing.short_urls_store import load_short_urls, save_short_urls
 from modules.llm_orchestrator import complete_with_fallback
@@ -293,7 +294,9 @@ def campaign_report(campaign_id):
 @login_required
 def orchestrate_campaign(campaign_id):
     """Adapt one campaign using the orchestrator LLM chain."""
-    campaign_file = os.path.join(CAMPAIGNS_DIR, f"{campaign_id}.yaml")
+    if not re.fullmatch(r"[A-Za-z0-9_-]{1,64}", str(campaign_id)):
+        abort(404)
+    campaign_file = realpath_within_base(CAMPAIGNS_DIR, f"{campaign_id}.yaml")
     campaign = _load_yaml(campaign_file)
     if not campaign:
         abort(404)

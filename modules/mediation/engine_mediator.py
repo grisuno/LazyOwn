@@ -27,8 +27,6 @@ from __future__ import annotations
 
 from typing import Any, Protocol, runtime_checkable
 
-from modules.mediation.contracts import MediatorContract
-
 
 @runtime_checkable
 class ExploitRetryPort(Protocol):
@@ -156,5 +154,6 @@ class EngineMediator:
             return chainer.reason(context)
         except Exception:
             return None
+
 
 __all__ = ["EngineMediator", "ExploitRetryPort", "ReactionPort", "ReasoningPort"]

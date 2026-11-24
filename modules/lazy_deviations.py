@@ -151,10 +151,7 @@ class DeviationLedger:
             return ""
         lines = [f"## {title}", ""]
         for record in records:
-            lines.append(
-                f"- **Planned:** {record.planned} -> **Actual:** {record.actual}"
-                f" — *Reason:* {record.reason}"
-            )
+            lines.append(f"- **Planned:** {record.planned} -> **Actual:** {record.actual} — *Reason:* {record.reason}")
         return "\n".join(lines)
 
     def _last_matches(self, scope: str, planned: str, actual: str, reason: str) -> bool:
@@ -163,11 +160,7 @@ class DeviationLedger:
         if not latest:
             return False
         latest = latest[0]
-        return (
-            latest.planned == planned
-            and latest.actual == actual
-            and latest.reason == reason
-        )
+        return latest.planned == planned and latest.actual == actual and latest.reason == reason
 
     def _read(self) -> list[DeviationRecord]:
         """Read the ledger tolerating missing files and broken lines."""

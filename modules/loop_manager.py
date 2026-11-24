@@ -45,6 +45,8 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+from modules.loop_limits import DEFAULT_ROUNDS, DEFAULT_WORKERS, MAX_ROUNDS, MAX_WORKERS
+
 LOOPS_DIR = Path("sessions/loops")
 REGISTRY_FILENAME = "registry.json"
 LOG_FILENAME = "output.log"
@@ -58,7 +60,6 @@ KIND_BEACON_LOOP = "beacon_loop"
 LOOP_KINDS = frozenset({KIND_AUTO_LOOP, KIND_LAZY_NMAP, KIND_BEACON_LOOP})
 _BEACON_ID_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$")
 
-from modules.loop_limits import DEFAULT_ROUNDS, DEFAULT_WORKERS, MAX_ROUNDS, MAX_WORKERS
 MAX_TIMEOUT_SECONDS = 86400.0
 
 MAX_CONCURRENT_LOOPS = 5
@@ -377,9 +378,7 @@ class LoopManager:
         self._python = python_executable or sys.executable
         self._max_concurrent = max(1, int(max_concurrent))
         self._repo_root = Path(repo_root) if repo_root else Path(__file__).resolve().parent.parent
-        self._lazyown_script = (
-            Path(lazyown_script) if lazyown_script else self._repo_root / "lazyown.py"
-        )
+        self._lazyown_script = Path(lazyown_script) if lazyown_script else self._repo_root / "lazyown.py"
         self._lock = threading.Lock()
         self._popen: dict[str, subprocess.Popen] = {}
         self._stopping: dict[str, bool] = {}
@@ -509,9 +508,7 @@ class LoopManager:
         record["start_ticks"] = _process_start_ticks(process.pid) or 0
         self._popen[loop_id] = process
         self._stopping[loop_id] = False
-        (workspace / METADATA_FILENAME).write_text(
-            json.dumps(record, indent=2), encoding="utf-8"
-        )
+        (workspace / METADATA_FILENAME).write_text(json.dumps(record, indent=2), encoding="utf-8")
         threading.Thread(target=self._reap, args=(loop_id, process), daemon=True).start()
         return record
 
@@ -544,9 +541,7 @@ class LoopManager:
                     outcome = self._read_outcome(workspace)
                     if outcome:
                         record["outcome"] = outcome
-                        record["status"] = (
-                            STATUS_FINISHED if outcome.get("success") else STATUS_FAILED
-                        )
+                        record["status"] = STATUS_FINISHED if outcome.get("success") else STATUS_FAILED
                         if str(outcome.get("status", "")) == "cancelled":
                             record["status"] = STATUS_STOPPED
                     else:
@@ -567,9 +562,7 @@ class LoopManager:
         if not workspace:
             return
         try:
-            Path(workspace).joinpath(METADATA_FILENAME).write_text(
-                json.dumps(record, indent=2), encoding="utf-8"
-            )
+            Path(workspace).joinpath(METADATA_FILENAME).write_text(json.dumps(record, indent=2), encoding="utf-8")
         except (OSError, TypeError, ValueError):
             pass
 
@@ -885,9 +878,7 @@ class LoopManager:
         """
         self._loops_dir.mkdir(parents=True, exist_ok=True)
         tmp_path = self._registry_path.with_suffix(".tmp")
-        tmp_path.write_text(
-            json.dumps(records, indent=2, ensure_ascii=False), encoding="utf-8"
-        )
+        tmp_path.write_text(json.dumps(records, indent=2, ensure_ascii=False), encoding="utf-8")
         os.replace(tmp_path, self._registry_path)
 
 

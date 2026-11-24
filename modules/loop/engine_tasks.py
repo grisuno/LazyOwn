@@ -25,6 +25,7 @@ class EngineTaskMixin:
             extract_constraint_items,
             extract_scope_items,
         )
+
         task = self.store.create(goal, description)
         graph = ExplorationGraph(task.task_id)
         ActivityLog(task.task_id).emit("engine", "decompose", f"decomposing goal into verifiable goals: {goal[:160]}")
@@ -70,6 +71,7 @@ class EngineTaskMixin:
         without ever mutating the parents.
         """
         from modules.lazy_loop import ActivityLog, ExplorationGraph
+
         summary = self.create_task(goal, description)
         task_id = summary["task_id"]
         inherited = {"scope": 0, "facts": 0, "sources": []}
@@ -121,6 +123,7 @@ class EngineTaskMixin:
         touching each task's store by hand.
         """
         from modules.lazy_loop import ExplorationGraph
+
         out: list[dict] = []
         for record in self.store.list():
             task_id = str(record.get("task_id", ""))
@@ -145,6 +148,7 @@ class EngineTaskMixin:
     def pause_task(self, task_id: str, reason: str = "operator") -> bool:
         """Pause another task from here (cross-task control)."""
         from modules.lazy_loop import ActivityLog, RuntimeTracker
+
         if self.store.get(task_id) is None:
             raise KeyError(f"unknown task: {task_id}")
         if not self.store.pause(task_id):
@@ -157,6 +161,7 @@ class EngineTaskMixin:
     def resume_task(self, task_id: str) -> bool:
         """Resume a paused task from here (cross-task control)."""
         from modules.lazy_loop import ActivityLog
+
         if self.store.get(task_id) is None:
             raise KeyError(f"unknown task: {task_id}")
         if not self.store.resume(task_id):
@@ -178,6 +183,7 @@ class EngineTaskMixin:
             Dict with deleted flag and removed file names.
         """
         from modules.lazy_loop import STORE_DIR
+
         task_id = (task_id or "").strip()
         if not task_id:
             raise ValueError("task_id is required")
@@ -203,6 +209,7 @@ class EngineTaskMixin:
     def task_graph(self, task_id: str) -> dict:
         """Graph overview of another task (get_task_graph parity)."""
         from modules.lazy_loop import ExplorationGraph
+
         if self.store.get(task_id) is None:
             raise KeyError(f"unknown task: {task_id}")
         return ExplorationGraph(task_id).overview()
@@ -210,6 +217,7 @@ class EngineTaskMixin:
     def task_findings(self, task_id: str) -> list[dict]:
         """Findings of another task with severity, status and report size."""
         from modules.lazy_loop import ExplorationGraph
+
         if self.store.get(task_id) is None:
             raise KeyError(f"unknown task: {task_id}")
         rows = []
@@ -230,6 +238,7 @@ class EngineTaskMixin:
     def task_traces(self, task_id: str, query: str = "", limit: int = 50) -> list[dict]:
         """Worker traces of another task, keyword-filtered when asked."""
         from modules.lazy_loop import ActivityLog
+
         if self.store.get(task_id) is None:
             raise KeyError(f"unknown task: {task_id}")
         activity = ActivityLog(task_id)
@@ -240,6 +249,7 @@ class EngineTaskMixin:
     def task_node_detail(self, task_id: str, node_id: int) -> dict:
         """Full node view of another task (get_task_node_detail parity)."""
         from modules.lazy_loop import ExplorationGraph
+
         if self.store.get(task_id) is None:
             raise KeyError(f"unknown task: {task_id}")
         return ExplorationGraph(task_id).node_detail(int(node_id))
@@ -252,6 +262,7 @@ class EngineTaskMixin:
             last_results: Worker outcomes from the final round.
         """
         from modules.lazy_loop import ActivityLog, ExplorationGraph, resolve_target
+
         try:
             from modules import orchestrator_config
             from modules.sinks.findings import ingest_discarded
@@ -308,6 +319,7 @@ class EngineTaskMixin:
             Per-task run summaries.
         """
         from modules.lazy_loop import ActivityLog
+
         results: list[dict] = []
         args = dict(self._run_defaults or {})
         previous = self._in_drain
@@ -347,6 +359,7 @@ class EngineTaskMixin:
             Dict with admitted flag; queued tasks carry active/cap counts.
         """
         from modules.lazy_loop import ActivityLog
+
         cap = int(self.max_concurrent or 0)
         if cap <= 0:
             return {"admitted": True}
@@ -360,12 +373,14 @@ class EngineTaskMixin:
     def _parts(self, task_id: str) -> tuple[ExplorationGraph, ActivityLog, TrafficLog, Guard]:
         """Build per-task collaborators."""
         from modules.lazy_loop import ActivityLog, ExplorationGraph, Guard, TrafficLog
+
         graph = ExplorationGraph(task_id)
         return graph, ActivityLog(task_id), TrafficLog(task_id), Guard(task_id)
 
     def update_finding_report(self, task_id: str, finding_id: int, report: str) -> int:
         """Write the narrative report of another task's finding."""
         from modules.lazy_loop import ActivityLog, ExplorationGraph, FindingService
+
         if self.store.get(task_id) is None:
             raise KeyError(f"unknown task: {task_id}")
         graph = ExplorationGraph(task_id)
@@ -384,4 +399,3 @@ class EngineTaskMixin:
             push_tasks_to_c2(task_ids)
         except Exception:
             pass
-

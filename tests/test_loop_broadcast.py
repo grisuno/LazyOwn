@@ -20,8 +20,9 @@ def test_broadcast_rows_carry_neighbours_and_assets(tmp_path, monkeypatch):
     intent = engine.add_intent(task_id, "probe ssh on 127.0.0.1")
     graph_module = __import__("modules.lazy_loop", fromlist=["ExplorationGraph"])
     graph = graph_module.ExplorationGraph(task_id)
-    fact = graph.record_fact("ssh open on 127.0.0.1", evidence="nmap 22/open",
-                             intent_id=intent.node_id, asset_ids=[asset.asset_id])
+    fact = graph.record_fact(
+        "ssh open on 127.0.0.1", evidence="nmap 22/open", intent_id=intent.node_id, asset_ids=[asset.asset_id]
+    )
     result = engine.broadcast(task_id)
     assert result["total"] >= 2
     fact_row = next(i for i in result["items"] if i["id"] == fact.node_id)

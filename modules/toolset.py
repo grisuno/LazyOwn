@@ -10,8 +10,7 @@ safe defaults. Shell commands from the LLM go through
 from __future__ import annotations
 
 import shlex
-from dataclasses import dataclass, field
-
+from dataclasses import dataclass
 
 PLANNER = "planner"
 WORKER = "worker"
@@ -35,34 +34,20 @@ class ToolSeed:
 def builtin_seeds() -> list[ToolSeed]:
     """Return the default graph-tool catalog (handlers stay in code)."""
     return [
-        ToolSeed(key="set_goals", desc="Decompose an objective into goals.",
-                 agents=(GOALS, MAIN)),
-        ToolSeed(key="set_constraints", desc="Record task allow/deny constraints.",
-                 agents=(GOALS, MAIN)),
-        ToolSeed(key="graph_overview", desc="Read exploration frontier and coverage.",
-                 agents=(PLANNER, MAIN)),
-        ToolSeed(key="add_intent", desc="Queue one exploration intent.",
-                 agents=(PLANNER,)),
-        ToolSeed(key="prove_goal", desc="Link evidence to a goal and mark it met.",
-                 agents=(PLANNER, WORKER)),
+        ToolSeed(key="set_goals", desc="Decompose an objective into goals.", agents=(GOALS, MAIN)),
+        ToolSeed(key="set_constraints", desc="Record task allow/deny constraints.", agents=(GOALS, MAIN)),
+        ToolSeed(key="graph_overview", desc="Read exploration frontier and coverage.", agents=(PLANNER, MAIN)),
+        ToolSeed(key="add_intent", desc="Queue one exploration intent.", agents=(PLANNER,)),
+        ToolSeed(key="prove_goal", desc="Link evidence to a goal and mark it met.", agents=(PLANNER, WORKER)),
         ToolSeed(key="goal_met", desc="End the whole task immediately.", agents=()),
-        ToolSeed(key="record_fact", desc="Write an exploration fact.",
-                 agents=(WORKER,)),
-        ToolSeed(key="report_finding", desc="Record a confirmed finding with evidence.",
-                 agents=(WORKER,)),
-        ToolSeed(key="bind_finding_traffic",
-                 desc="Attach traffic refs to a finding.",
-                 agents=(WORKER, PLANNER)),
-        ToolSeed(key="insert_assets", desc="Upsert assets into the graph.",
-                 agents=(WORKER, PLANNER)),
-        ToolSeed(key="list_assets", desc="Query assets by DSL.",
-                 agents=(PLANNER, WORKER, MAIN)),
-        ToolSeed(key="traffic_search", desc="Search recorded exchanges.",
-                 agents=(PLANNER, WORKER)),
-        ToolSeed(key="traffic_get", desc="Fetch one exchange body.",
-                 agents=(PLANNER, WORKER)),
-        ToolSeed(key="node_detail", desc="Fetch one exploration node.",
-                 agents=(PLANNER, WORKER)),
+        ToolSeed(key="record_fact", desc="Write an exploration fact.", agents=(WORKER,)),
+        ToolSeed(key="report_finding", desc="Record a confirmed finding with evidence.", agents=(WORKER,)),
+        ToolSeed(key="bind_finding_traffic", desc="Attach traffic refs to a finding.", agents=(WORKER, PLANNER)),
+        ToolSeed(key="insert_assets", desc="Upsert assets into the graph.", agents=(WORKER, PLANNER)),
+        ToolSeed(key="list_assets", desc="Query assets by DSL.", agents=(PLANNER, WORKER, MAIN)),
+        ToolSeed(key="traffic_search", desc="Search recorded exchanges.", agents=(PLANNER, WORKER)),
+        ToolSeed(key="traffic_get", desc="Fetch one exchange body.", agents=(PLANNER, WORKER)),
+        ToolSeed(key="node_detail", desc="Fetch one exploration node.", agents=(PLANNER, WORKER)),
     ]
 
 
@@ -79,27 +64,83 @@ def resolve(agent: str, tool_key: str) -> ToolSeed | None:
     return seed
 
 
-PLANNER_SHELL = frozenset({
-    "lazynmap", "nmap", "rustscan", "masscan", "whatweb", "nikto",
-    "gobuster", "ffuf", "fuzz", "dig", "nslookup", "whois",
-    "smbclient", "rpcclient", "enum4linux", "ldapsearch",
-    "facts_show", "auto_populate", "threat_model", "recommend_next",
-})
+PLANNER_SHELL = frozenset(
+    {
+        "lazynmap",
+        "nmap",
+        "rustscan",
+        "masscan",
+        "whatweb",
+        "nikto",
+        "gobuster",
+        "ffuf",
+        "fuzz",
+        "dig",
+        "nslookup",
+        "whois",
+        "smbclient",
+        "rpcclient",
+        "enum4linux",
+        "ldapsearch",
+        "facts_show",
+        "auto_populate",
+        "threat_model",
+        "recommend_next",
+    }
+)
 
-WORKER_SHELL = PLANNER_SHELL | frozenset({
-    "hydra", "medusa", "crackmapexec", "cme", "nxc", "evil-winrm",
-    "impacket", "secretsdump", "psexec", "wmiexec", "smbexec",
-    "metasploit", "msfconsole", "msfvenom", "searchsploit",
-    "sqlmap", "burp", "curl", "wget", "ssh", "scp",
-    "powershell", "cmd", "mimikatz", "bloodhound",
-    "linpeas", "winpeas", "privesc", "hunt", "auto_pwn",
-    "exploit", "chain", "playbook", "payload",
-})
+WORKER_SHELL = PLANNER_SHELL | frozenset(
+    {
+        "hydra",
+        "medusa",
+        "crackmapexec",
+        "cme",
+        "nxc",
+        "evil-winrm",
+        "impacket",
+        "secretsdump",
+        "psexec",
+        "wmiexec",
+        "smbexec",
+        "metasploit",
+        "msfconsole",
+        "msfvenom",
+        "searchsploit",
+        "sqlmap",
+        "burp",
+        "curl",
+        "wget",
+        "ssh",
+        "scp",
+        "powershell",
+        "cmd",
+        "mimikatz",
+        "bloodhound",
+        "linpeas",
+        "winpeas",
+        "privesc",
+        "hunt",
+        "auto_pwn",
+        "exploit",
+        "chain",
+        "playbook",
+        "payload",
+    }
+)
 
-MAIN_SHELL = WORKER_SHELL | frozenset({
-    "orchestrate", "engage", "campaign", "report", "sitrep",
-    "dashboard", "collab", "ask", "chat",
-})
+MAIN_SHELL = WORKER_SHELL | frozenset(
+    {
+        "orchestrate",
+        "engage",
+        "campaign",
+        "report",
+        "sitrep",
+        "dashboard",
+        "collab",
+        "ask",
+        "chat",
+    }
+)
 
 
 def extract_tool(command: str) -> tuple[str, bool]:
@@ -157,8 +198,17 @@ def validate_shell(role: str, command: str) -> tuple[bool, str]:
 
 
 __all__ = [
-    "PLANNER", "WORKER", "MAIN", "GOALS", "VALID_ROLES",
-    "ToolSeed", "builtin_seeds", "resolve",
-    "PLANNER_SHELL", "WORKER_SHELL", "MAIN_SHELL",
-    "extract_tool", "validate_shell",
+    "PLANNER",
+    "WORKER",
+    "MAIN",
+    "GOALS",
+    "VALID_ROLES",
+    "ToolSeed",
+    "builtin_seeds",
+    "resolve",
+    "PLANNER_SHELL",
+    "WORKER_SHELL",
+    "MAIN_SHELL",
+    "extract_tool",
+    "validate_shell",
 ]

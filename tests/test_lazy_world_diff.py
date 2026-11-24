@@ -16,11 +16,10 @@ sys.path.insert(0, str(_ROOT))
 
 from modules.lazy_world_diff import (  # noqa: E402
     HOST_NEW,
-    HOST_RETIRED,
+    OS_CHANGED,
     PORT_CLOSED,
     PORT_OPENED,
     SERVICE_CHANGED,
-    OS_CHANGED,
     diff_snapshots,
     ghost_endpoints,
     ghost_state_apply,
@@ -215,7 +214,7 @@ def test_ghost_endpoints_prefers_web_ports() -> None:
             "22/tcp": {"service": "ssh"},
             "443/tcp": {"service": "https"},
             "80/tcp": {"service": "http"},
-        }
+        },
     }
     endpoints = ghost_endpoints(snap, limit=3)
     assert [port for _ip, port, _scheme in endpoints] == [443, 80, 8080]

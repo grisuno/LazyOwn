@@ -770,7 +770,9 @@ class WorkerAgenticMixin:
                     intent_id=intent.node_id,
                 )
             self.activity.emit(
-                self.name, "deterministic", "deterministic mode: heuristic steps win, model not consulted",
+                self.name,
+                "deterministic",
+                "deterministic mode: heuristic steps win, model not consulted",
                 intent_id=intent.node_id,
             )
             return kept[:MAX_WORKER_STEPS]
@@ -823,9 +825,7 @@ class WorkerAgenticMixin:
             )
             memory_block = self._recall_facts(f"{str(record.get('goal', ''))[:200]} {intent.text[:200]} {target}")
             memory_section = (
-                f"Known facts similar to the current step (vector memory):\n{memory_block}\n"
-                if memory_block
-                else ""
+                f"Known facts similar to the current step (vector memory):\n{memory_block}\n" if memory_block else ""
             )
             try:
                 from modules import lazy_osinfer

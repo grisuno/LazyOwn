@@ -387,7 +387,6 @@ class PurpleTeamCommandSet(LazyOwnCommandSet):
         self.poutput("")
 
 
-
 def _build_sync_parser() -> Cmd2ArgumentParser:
     parser = Cmd2ArgumentParser(prog="purple_sync")
     parser.add_argument(

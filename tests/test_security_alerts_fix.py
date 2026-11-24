@@ -274,7 +274,7 @@ def test_safe_open_under_rejects_symlink(tmp_path):
         safe_open_under(str(base), "evil.txt", "r", encoding="utf-8")
 
 
-def _response_calls_with_raw_exception(tree: "ast.AST") -> list[str]:
+def _response_calls_with_raw_exception(tree: object) -> list[str]:
     """Return response-call locations leaking a raw exception object.
 
     A response call is ``jsonify(...)``, ``render_template(...)`` or
@@ -381,7 +381,6 @@ def test_graph_nodes_scrubbed_before_persist(tmp_path):
 
 def test_goal_edit_scrubs_text(tmp_path):
     """BDD: direct goal edits cannot smuggle secrets into the store."""
-    import json as _json
 
     import modules.lazy_loop as loop
 

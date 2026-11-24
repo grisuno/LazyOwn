@@ -147,12 +147,8 @@ def _wired_engine(monkeypatch, config: dict, executed: list[str], shell_at: set[
         return ExploitResult(candidate=candidate, success=True, shell_obtained=got_shell)
 
     monkeypatch.setattr(eng, "execute_candidate", fake_exec)
-    monkeypatch.setattr(
-        eng, "_bounded_execute", lambda candidate, profile, timeout=None: fake_exec(candidate, profile)
-    )
-    monkeypatch.setattr(
-        AutonomousExploitEngine, "get_instance", classmethod(lambda cls: eng)
-    )
+    monkeypatch.setattr(eng, "_bounded_execute", lambda candidate, profile, timeout=None: fake_exec(candidate, profile))
+    monkeypatch.setattr(AutonomousExploitEngine, "get_instance", classmethod(lambda cls: eng))
     eng._attempted_cves = set()
     return eng
 
@@ -218,9 +214,7 @@ def test_full_auto_pwn_rereads_payload_between_runs(monkeypatch, tmp_path):
     monkeypatch.setattr(eng, "scan_vulnerabilities", lambda profile: [])
     monkeypatch.setattr(eng, "rank_exploits", lambda profile: _candidates(6))
     monkeypatch.setattr(eng, "_apply_stealth_delay", lambda: None)
-    monkeypatch.setattr(
-        eng, "_bounded_execute", lambda candidate, profile: eng.execute_candidate(candidate, profile)
-    )
+    monkeypatch.setattr(eng, "_bounded_execute", lambda candidate, profile: eng.execute_candidate(candidate, profile))
 
     def fake_exec(candidate, profile):
         executed.append(candidate.strategy)

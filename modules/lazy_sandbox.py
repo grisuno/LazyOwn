@@ -239,9 +239,7 @@ def status(task_id: str = "") -> dict:
         info["running"] = bool(container_running(task_id))
     else:
         try:
-            out = subprocess.run(
-                ["docker", "ps", "--format", "{{.Names}}"], capture_output=True, text=True, timeout=30
-            )
+            out = subprocess.run(["docker", "ps", "--format", "{{.Names}}"], capture_output=True, text=True, timeout=30)
             info["running"] = [n for n in (out.stdout or "").split() if n.startswith(CONTAINER_PREFIX)]
         except Exception:
             info["running"] = []

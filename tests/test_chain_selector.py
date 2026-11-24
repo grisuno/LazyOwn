@@ -38,8 +38,20 @@ def _rows() -> list[dict]:
     """Return a small registry fixture covering the match dimensions."""
     return [
         {"name": "apt_web_http", "enabled": True, "valid": True, "tags": ["web", "http"], "platforms": ["linux"]},
-        {"name": "apt_ad_coerce", "enabled": True, "valid": True, "tags": ["ad", "credentials"], "platforms": ["windows"]},
-        {"name": "apt_ad_lab", "enabled": True, "valid": True, "tags": ["ad-lab", "samba", "gym"], "platforms": ["linux"]},
+        {
+            "name": "apt_ad_coerce",
+            "enabled": True,
+            "valid": True,
+            "tags": ["ad", "credentials"],
+            "platforms": ["windows"],
+        },
+        {
+            "name": "apt_ad_lab",
+            "enabled": True,
+            "valid": True,
+            "tags": ["ad-lab", "samba", "gym"],
+            "platforms": ["linux"],
+        },
         {"name": "apt_disabled", "enabled": False, "valid": True, "tags": ["http"], "platforms": ["linux"]},
         {"name": "apt_invalid", "enabled": True, "valid": False, "tags": ["http"], "platforms": ["linux"]},
         {"name": "apt_untagged", "enabled": True, "valid": True, "tags": [], "platforms": []},

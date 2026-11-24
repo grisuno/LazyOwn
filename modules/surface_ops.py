@@ -5,7 +5,6 @@ Used by the ``surface`` CommandSet and unit-tested without the shell.
 
 from __future__ import annotations
 
-import json
 import re
 from pathlib import Path
 

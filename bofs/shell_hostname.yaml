@@ -7,7 +7,7 @@ source_file: SA/shell_hostname/entry.c
 client: beacon
 platform: windows
 category: execution
-client_artifact: 
+client_artifact:
 required_args: ['command']
 optional_args: []
 mitre_technique: T1059

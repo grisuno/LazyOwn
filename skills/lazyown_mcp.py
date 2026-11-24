@@ -21,7 +21,6 @@ import os
 import pty
 import select
 import shlex
-import shutil
 import ssl
 import struct
 import subprocess
@@ -434,17 +433,7 @@ MODULES_DIR = LAZYOWN_DIR / "modules"
 
 # ── Helper module (pure-function logic for new high-impact tools) ─────────────
 from lazyown_mcp_helpers import (  # noqa: E402
-    DEFAULT_FRESHNESS_THRESHOLD_SECONDS,
     JobStore,
-    audit_tasks,
-    build_target_context,
-    diff_snapshot,
-    evidence_freshness,
-    evidence_grep,
-    is_likely_credential,
-    needs_confirmation,
-    preflight_command,
-    take_snapshot,
 )
 
 _job_store = JobStore()
@@ -624,109 +613,7 @@ def _make_text(tool_name: str, content: str) -> list[types.TextContent]:
 # ── Registered handlers (migrated from the call_tool elif chain) ───────────────
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # ── New module handlers (ExploitRecommender, EvasionEngine, AutoPivot, Dashboard) ──
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 def _run_lazyown_command(command: str, timeout: int = 30) -> str:
@@ -867,9 +754,7 @@ try:
 except Exception as _registry_exc:  # noqa: BLE001
     import logging as _logging
 
-    _logging.getLogger("lazyown_mcp").warning(
-        "mcp_tools registry unavailable: %s", _registry_exc
-    )
+    _logging.getLogger("lazyown_mcp").warning("mcp_tools registry unavailable: %s", _registry_exc)
     _REGISTERED_TOOL_NAMES = []
 
     def _iter_registry_schemas():
@@ -912,15 +797,11 @@ try:
 
         return _decorator
 
-    _register_all_generated_handlers(
-        _register_generated_if_absent, _make_text, _run_lazyown_command
-    )
+    _register_all_generated_handlers(_register_generated_if_absent, _make_text, _run_lazyown_command)
 except Exception as _generated_exc:  # noqa: BLE001
     import logging as _logging
 
-    _logging.getLogger("lazyown_mcp").warning(
-        "generated MCP tools unavailable: %s", _generated_exc
-    )
+    _logging.getLogger("lazyown_mcp").warning("generated MCP tools unavailable: %s", _generated_exc)
 
     def _get_generated_tool_definitions() -> list:
         """Fallback when the generated tool module is absent."""
@@ -954,23 +835,28 @@ def _registry_schemas() -> list[types.Tool]:
 
 
 async def list_tools() -> list[types.Tool]:
-    return [        # ── Unified Dashboard ─────────────────────────────────────────────────────
-        # ── Master campaign SITREP ────────────────────────────────────────────
-        # ── Session intelligence ──────────────────────────────────────────────
-        # ── C2 AI endpoints ───────────────────────────────────────────────────
-        # ── Hive Mind tools ────────────────────────────────────────────────────
-        # ── END Hive Mind tools ────────────────────────────────────────────────
-        # ── Autonomous Daemon tools ─────────────────────────────────────────
-        # ── END Autonomous Daemon tools ─────────────────────────────────────
-        # ── Engage Orchestrator tools ───────────────────────────────────────
-        # ── END Engage Orchestrator tools ───────────────────────────────────
-        # ── Pipeline Engine tools (Pillar 3) ────────────────────────────────
-        # ── END Pipeline Engine tools ───────────────────────────────────────
-        # ── Campaign management ───────────────────────────────────────────────
-        # ── Unified daemon management ─────────────────────────────────────────
-        # ── ACI — Autonomous Campaign Intelligence ───────────────────────
-        # ── harness / meta tools ─────────────────────────────────────────
-    ] + (_automapper.mcp_tools() if _automapper is not None else []) + _registry_schemas() + _generated_tool_definitions()
+    return (
+        [  # ── Unified Dashboard ─────────────────────────────────────────────────────
+            # ── Master campaign SITREP ────────────────────────────────────────────
+            # ── Session intelligence ──────────────────────────────────────────────
+            # ── C2 AI endpoints ───────────────────────────────────────────────────
+            # ── Hive Mind tools ────────────────────────────────────────────────────
+            # ── END Hive Mind tools ────────────────────────────────────────────────
+            # ── Autonomous Daemon tools ─────────────────────────────────────────
+            # ── END Autonomous Daemon tools ─────────────────────────────────────
+            # ── Engage Orchestrator tools ───────────────────────────────────────
+            # ── END Engage Orchestrator tools ───────────────────────────────────
+            # ── Pipeline Engine tools (Pillar 3) ────────────────────────────────
+            # ── END Pipeline Engine tools ───────────────────────────────────────
+            # ── Campaign management ───────────────────────────────────────────────
+            # ── Unified daemon management ─────────────────────────────────────────
+            # ── ACI — Autonomous Campaign Intelligence ───────────────────────
+            # ── harness / meta tools ─────────────────────────────────────────
+        ]
+        + (_automapper.mcp_tools() if _automapper is not None else [])
+        + _registry_schemas()
+        + _generated_tool_definitions()
+    )
 
 
 # ── Tool handlers ─────────────────────────────────────────────────────────────

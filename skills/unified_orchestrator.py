@@ -526,7 +526,7 @@ class DaemonBackend:
             _ms = 0
         if _ms > 0:
             try:
-                engine._plan = tuple(engine._plan[:max(1, _ms)])
+                engine._plan = tuple(engine._plan[: max(1, _ms)])
             except Exception:
                 pass
         return engine
@@ -550,14 +550,16 @@ class DaemonBackend:
             from modules.engage_summary import next_actions as _next
             from modules.engage_summary import render_text as _render
             from modules.engage_summary import write_report as _persist
+
             shell = bool(raw.get("shell_obtained"))
             text = _render(engagement_id, target, shell, steps)
             report_path = _persist(engagement_id, target, shell, steps)
             upcoming = _next(target)
             if upcoming:
-                rendered = [f"  next: {item['action']}" +
-                            (f" — `{item['command']}`" if item.get("command") else "")
-                            for item in upcoming[:3]]
+                rendered = [
+                    f"  next: {item['action']}" + (f" — `{item['command']}`" if item.get("command") else "")
+                    for item in upcoming[:3]
+                ]
                 text += "\n" + "\n".join(rendered)
             return text + f"\n  report: {report_path}"
         except Exception:
@@ -590,11 +592,21 @@ class DaemonBackend:
                     continue
                 if key == "steps" and isinstance(value, list):
                     kept[key] = [
-                        {k: s.get(k, "") for k in
-                         ("phase", "label", "command", "success",
-                          "skipped_reason", "switched_from", "evidence",
-                          "output_tail")}
-                        for s in value if isinstance(s, dict)
+                        {
+                            k: s.get(k, "")
+                            for k in (
+                                "phase",
+                                "label",
+                                "command",
+                                "success",
+                                "skipped_reason",
+                                "switched_from",
+                                "evidence",
+                                "output_tail",
+                            )
+                        }
+                        for s in value
+                        if isinstance(s, dict)
                     ]
                 elif isinstance(value, (str, int, float, bool)):
                     kept[key] = value

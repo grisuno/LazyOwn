@@ -179,9 +179,7 @@ class C2ChainApprovalEndpoints(unittest.TestCase):
         module = self._server()
         module.config.c2_csrf_enabled = False
         module.config.c2_decoy_mode = "off"
-        module.login_manager._user_callback = lambda uid: module.User(
-            {"id": 1, "username": "op", "password_hash": "x"}
-        )
+        module.login_manager._user_callback = lambda uid: module.User({"id": 1, "username": "op", "password_hash": "x"})
         self.client = module.app.test_client()
         with self.client.session_transaction() as sess:
             sess["_user_id"] = "1"
@@ -201,9 +199,11 @@ class C2ChainApprovalEndpoints(unittest.TestCase):
         listed = self.client.get("/api/chain_approvals", query_string={"status": "pending"}).get_json()
         self.assertTrue(any(row["id"] == record["id"] for row in listed["requests"]))
 
-        self.assertEqual(self.client.post("/api/chain_approvals/NOPE/decide", json={"decision": "approve"}).status_code, 400)
         self.assertEqual(
-            self.client.post(f"/api/chain_approvals/{'0'*16}/decide", json={"decision": "approve"}).status_code,
+            self.client.post("/api/chain_approvals/NOPE/decide", json={"decision": "approve"}).status_code, 400
+        )
+        self.assertEqual(
+            self.client.post(f"/api/chain_approvals/{'0' * 16}/decide", json={"decision": "approve"}).status_code,
             404,
         )
         self.assertEqual(

@@ -310,8 +310,7 @@ def decompose_goal(goal_text: str, target: str = "") -> list[str]:
     if len(parts) <= 1:
         return [text]
     scope = f" on {target}" if target else ""
-    return [f"{part}{scope}" if target.lower() not in part.lower() else part
-            for part in parts]
+    return [f"{part}{scope}" if target.lower() not in part.lower() else part for part in parts]
 
 
 # ─── Soul helpers ─────────────────────────────────────────────────────────────

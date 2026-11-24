@@ -227,7 +227,13 @@ class IntelligenceEngine:
             new_facts = self._collect_from_scan_xml(xml_path, target)
             for fact in new_facts:
                 if fact.fact_type == "service":
-                    key = (fact.host, fact.port, fact.value, fact.metadata.get("product", ""), fact.metadata.get("version", ""))
+                    key = (
+                        fact.host,
+                        fact.port,
+                        fact.value,
+                        fact.metadata.get("product", ""),
+                        fact.metadata.get("version", ""),
+                    )
                     if key in seen_ports:
                         continue
                     seen_ports.add(key)
@@ -678,7 +684,7 @@ class IntelligenceEngine:
 
     def _legacy_match_rows(self, fact: CollectedFact) -> list[dict]:
         """Heat-grade the legacy product table without overstating it."""
-        from modules.lazy_heat import SEVERITY_FROM_HEAT, COLD, match_heat
+        from modules.lazy_heat import COLD, SEVERITY_FROM_HEAT, match_heat
 
         out: list[dict] = []
         for cve in self._match_known_vulns(fact):

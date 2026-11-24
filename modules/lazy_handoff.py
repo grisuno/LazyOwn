@@ -224,10 +224,7 @@ def _append_run_separator(log_path: Path, host: str, source: str, task_id: str) 
     try:
         stamp = datetime.now(UTC).isoformat(timespec="seconds")
         with open(log_path, "a", encoding="utf-8") as handle:
-            handle.write(
-                f"\n=== beacon handoff run {stamp} target={host} "
-                f"source={source} task={task_id} ===\n"
-            )
+            handle.write(f"\n=== beacon handoff run {stamp} target={host} source={source} task={task_id} ===\n")
     except OSError:
         pass
 
@@ -342,11 +339,7 @@ def maybe_beacon_handoff(
         sessions_dir.mkdir(parents=True, exist_ok=True)
         log_path = sessions_dir / f"{_MARKER_PREFIX}{_sanitize_filename(host)}.log"
         _append_run_separator(log_path, host, source, resolved_task)
-        env = {
-            key: value
-            for key, value in os.environ.items()
-            if not key.lower().endswith("_proxy")
-        }
+        env = {key: value for key, value in os.environ.items() if not key.lower().endswith("_proxy")}
         env["NO_PROXY"] = "*"
         env["no_proxy"] = "*"
         with open(log_path, "ab", buffering=0) as log_file:

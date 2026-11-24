@@ -22,11 +22,7 @@ SCRIPT_RE = re.compile(r"python3\s+(modules/[A-Za-z0-9_./-]+\.py)")
 
 class TestLegacyShims:
     def test_no_regular_file_clones(self) -> None:
-        clones = [
-            p.name
-            for p in sorted(LEGACY.glob("*.py"))
-            if p.name != "__init__.py" and not p.is_symlink()
-        ]
+        clones = [p.name for p in sorted(LEGACY.glob("*.py")) if p.name != "__init__.py" and not p.is_symlink()]
         assert not clones, f"must stay symlinks, found copies: {clones}"
 
     def test_symlinks_resolve_into_contrib(self) -> None:
@@ -34,20 +30,12 @@ class TestLegacyShims:
             if link.name == "__init__.py" or not link.is_symlink():
                 continue
             target = link.resolve()
-            assert CONTRIB.resolve() in target.parents, (
-                f"{link.name} must resolve inside contrib/legacy, got {target}"
-            )
+            assert CONTRIB.resolve() in target.parents, f"{link.name} must resolve inside contrib/legacy, got {target}"
             assert target.exists(), f"{link.name} is a dangling symlink"
 
 
 class TestReferencedScriptsExist:
     def test_exploit_migrated_script_paths(self) -> None:
-        source = (REPO_ROOT / "cli" / "commands" / "exploit.py").read_text(
-            encoding="utf-8"
-        )
-        missing = [
-            path
-            for path in sorted(set(SCRIPT_RE.findall(source)))
-            if not (REPO_ROOT / path).exists()
-        ]
+        source = (REPO_ROOT / "cli" / "commands" / "exploit.py").read_text(encoding="utf-8")
+        missing = [path for path in sorted(set(SCRIPT_RE.findall(source))) if not (REPO_ROOT / path).exists()]
         assert not missing, f"referenced scripts missing on disk: {missing}"

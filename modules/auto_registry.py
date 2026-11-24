@@ -30,6 +30,8 @@ import threading
 from dataclasses import dataclass
 from pathlib import Path
 
+from modules.service_aliases import ALIAS_PAIRS
+
 DEFAULT_SHELL_TIMEOUT_SEC = 600.0
 
 AUTO_VERB_PARAMS_LOCK = threading.Lock()
@@ -450,8 +452,6 @@ def _cli_verb_allowed(name: str) -> bool:
 
 
 ADDON_TRIGGER_CAP = 4
-
-from modules.service_aliases import ALIAS_PAIRS
 
 _SERVICE_ALIASES = ALIAS_PAIRS
 

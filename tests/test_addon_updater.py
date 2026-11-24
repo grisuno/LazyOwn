@@ -43,7 +43,9 @@ def _repo_with_remote(tmp_path: Path) -> tuple[Path, Path]:
     return seed, work
 
 
-def _addon(path: Path, *, update: bool = True, install_path: str = "work", repo_url: str = "https://example.invalid/repo.git") -> None:
+def _addon(
+    path: Path, *, update: bool = True, install_path: str = "work", repo_url: str = "https://example.invalid/repo.git"
+) -> None:
     """Write one addon YAML."""
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(
@@ -64,8 +66,7 @@ def test_every_shipped_addon_opts_in():
     addons = load_addons()
     assert len(addons) >= 180
     assert all(
-        item["update"] is True or not str((item.get("tool") or {}).get("repo_url", "") or "").strip()
-        for item in addons
+        item["update"] is True or not str((item.get("tool") or {}).get("repo_url", "") or "").strip() for item in addons
     )
 
 

@@ -66,9 +66,7 @@ def test_corrupt_store_fails_open(tmp_path):
     d = _dir(tmp_path)
     (d / "lazy" / lazy_ledger.LEDGER_FILENAME).write_text("{not json", encoding="utf-8")
     assert lazy_ledger.fresh("lazy_hydra", "127.0.0.1", sessions_dir=d) is False
-    assert lazy_ledger.stale_first([("lazy_hydra", "127.0.0.1")], sessions_dir=d) == [
-        ("lazy_hydra", "127.0.0.1")
-    ]
+    assert lazy_ledger.stale_first([("lazy_hydra", "127.0.0.1")], sessions_dir=d) == [("lazy_hydra", "127.0.0.1")]
 
 
 def test_routing_sink_records_terminal_outcomes(tmp_path, monkeypatch):
@@ -110,7 +108,9 @@ def test_planner_skips_fresh_addon_proposals(tmp_path, monkeypatch):
 
     import modules.lazy_loop as loop
 
-    monkeypatch.setattr(loop, "_store_path", lambda name: d / "lazy" / name if "verb_ledger" in str(name) else d / name, raising=False)
+    monkeypatch.setattr(
+        loop, "_store_path", lambda name: d / "lazy" / name if "verb_ledger" in str(name) else d / name, raising=False
+    )
     engine_store_patch = loop.TASK_STORES = {}
     del engine_store_patch
 

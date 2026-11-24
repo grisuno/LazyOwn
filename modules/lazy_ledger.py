@@ -115,7 +115,11 @@ def _path(sessions_dir: str | Path | None = None) -> Path:
     """Return the ledger file path under sessions/lazy."""
     from modules.lazy_loop import _store_path
 
-    return Path(str(_store_path(LEDGER_FILENAME))) if sessions_dir is None else Path(str(sessions_dir)) / "lazy" / LEDGER_FILENAME
+    return (
+        Path(str(_store_path(LEDGER_FILENAME)))
+        if sessions_dir is None
+        else Path(str(sessions_dir)) / "lazy" / LEDGER_FILENAME
+    )
 
 
 def _load(sessions_dir: str | Path | None = None) -> dict[str, dict[str, Any]]:
@@ -161,7 +165,9 @@ def fresh(verb: str, target: str, now: float | None = None, sessions_dir: str | 
     return (now if now is not None else time.time()) - ran_at < window
 
 
-def record(verb: str, target: str, ok: bool = True, now: float | None = None, sessions_dir: str | Path | None = None) -> None:
+def record(
+    verb: str, target: str, ok: bool = True, now: float | None = None, sessions_dir: str | Path | None = None
+) -> None:
     """Upsert one completed run so the pair stops being stale.
 
     Args:

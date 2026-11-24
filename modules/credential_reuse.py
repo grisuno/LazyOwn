@@ -360,9 +360,7 @@ class CredentialReuseEngine:
             display_command = c.command
             if c.password and c.password in display_command:
                 display_command = _PASSWORD_MASK.join(display_command.split(c.password))
-            lines.append(
-                f"\n#{i}  score={c.score:.2f}  {c.username}:{masked}  from {c.source_host} -> {c.target_host}"
-            )
+            lines.append(f"\n#{i}  score={c.score:.2f}  {c.username}:{masked}  from {c.source_host} -> {c.target_host}")
             lines.append(f"    {display_command}")
 
         return "\n".join(lines)

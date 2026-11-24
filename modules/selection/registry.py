@@ -80,6 +80,7 @@ def all_selectors() -> list[Selector]:
     cascade.append(BridgeSelector())
     return cascade
 
+
 def default_selectors() -> list[Selector]:
     """Return the cascade after applying the orchestrator's enable toggles.
 

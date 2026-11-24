@@ -9,7 +9,6 @@ interpolations of response/label/operator data are regressions.
 
 from __future__ import annotations
 
-import re
 from pathlib import Path
 
 T = Path(__file__).resolve().parent.parent / "templates"

@@ -35,9 +35,7 @@ def test_pre_commit_ruff_rev_matches_dev_pin() -> None:
     assert ruff_repos, "ruff-pre-commit hook missing"
     expected = "v" + _dev_pin("ruff")
     for repo in ruff_repos:
-        assert repo["rev"] == expected, (
-            f"pre-commit ruff {repo['rev']} != requirements-dev {expected}"
-        )
+        assert repo["rev"] == expected, f"pre-commit ruff {repo['rev']} != requirements-dev {expected}"
 
 
 def test_pre_commit_mypy_rev_matches_dev_pin() -> None:
@@ -46,9 +44,7 @@ def test_pre_commit_mypy_rev_matches_dev_pin() -> None:
     assert mypy_repos, "mirrors-mypy hook missing"
     expected = "v" + _dev_pin("mypy")
     for repo in mypy_repos:
-        assert repo["rev"] == expected, (
-            f"pre-commit mypy {repo['rev']} != requirements-dev {expected}"
-        )
+        assert repo["rev"] == expected, f"pre-commit mypy {repo['rev']} != requirements-dev {expected}"
 
 
 def test_lint_workflow_installs_dev_requirements() -> None:

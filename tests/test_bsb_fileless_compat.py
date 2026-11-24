@@ -309,9 +309,7 @@ class TestReportRoute:
         import json as _json
 
         forward_calls = []
-        monkeypatch.setattr(
-            server, "receive_result", lambda cid: forward_calls.append(cid) or "forwarded"
-        )
+        monkeypatch.setattr(server, "receive_result", lambda cid: forward_calls.append(cid) or "forwarded")
         report = _json.dumps(
             {
                 "output": "ok",

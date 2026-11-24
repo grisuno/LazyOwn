@@ -15,13 +15,22 @@ from dataclasses import dataclass, field
 class NotifyConfig:
     """Centralized constants for notification behavior (LAZY parity)."""
 
-    kinds: frozenset = frozenset(
-        {"dingtalk", "feishu", "wecom", "webhook", "telegram", "email"})
+    kinds: frozenset = frozenset({"dingtalk", "feishu", "wecom", "webhook", "telegram", "email"})
     events: frozenset = frozenset({"finding_created", "finding_status_changed"})
     severity_rank: tuple = ("low", "medium", "high", "critical")
-    secret_patterns: tuple = ("sk-", "AKIA", "xoxb-", "ghp_",
-                              "xoxp-", "xoxa-", "gho_", "glpat-",
-                              "-----BEGIN", "password=", "passwd=")
+    secret_patterns: tuple = (
+        "sk-",
+        "AKIA",
+        "xoxb-",
+        "ghp_",
+        "xoxp-",
+        "xoxa-",
+        "gho_",
+        "glpat-",
+        "-----BEGIN",
+        "password=",
+        "passwd=",
+    )
     digest_sec: float = 1800.0
 
 
@@ -41,16 +50,14 @@ def mask_secrets(text: str, config: NotifyConfig = CONFIG) -> str:
     redacted = str(text or "")
     for marker in config.secret_patterns:
         if marker.endswith("="):
-            redacted = re.sub(re.escape(marker) + r"[^\s&;]{1,64}",
-                              marker + "[REDACTED]", redacted,
-                              flags=re.IGNORECASE)
+            redacted = re.sub(
+                re.escape(marker) + r"[^\s&;]{1,64}", marker + "[REDACTED]", redacted, flags=re.IGNORECASE
+            )
         elif marker.startswith("-----"):
             redacted = redacted.replace(marker, "[REDACTED-KEY]")
         else:
-            redacted = re.sub(re.escape(marker) + r"[A-Za-z0-9_-]{4,}",
-                              "[REDACTED]", redacted)
-    redacted = re.sub(r"https?://[^/\s]*:[^@/\s]+@[^\s]+",
-                      "https://[REDACTED]@[hidden]", redacted)
+            redacted = re.sub(re.escape(marker) + r"[A-Za-z0-9_-]{4,}", "[REDACTED]", redacted)
+    redacted = re.sub(r"https?://[^/\s]*:[^@/\s]+@[^\s]+", "https://[REDACTED]@[hidden]", redacted)
     return redacted
 
 
@@ -210,27 +217,25 @@ class Notifier:
         self.sent: list[dict] = []
         self._digest: list[tuple] = []
         import time as _time
+
         self._digest_since: float = _time.time()
 
     def should_send(self, message: NotifyMessage, channel: Channel) -> bool:
         """Apply event, severity, keyword and scope gates (LAZY parity)."""
         if message.event not in self._config.events:
             return False
-        if severity_rank(message.severity, self._config) < \
-                severity_rank(channel.min_severity, self._config):
+        if severity_rank(message.severity, self._config) < severity_rank(channel.min_severity, self._config):
             return False
         hay = f"{message.title}\n{message.body}".lower()
-        for kw in (channel.exclude_keywords or ()):
+        for kw in channel.exclude_keywords or ():
             if kw and str(kw).lower() in hay:
                 return False
         if channel.include_keywords:
-            if not any(kw and str(kw).lower() in hay
-                       for kw in channel.include_keywords):
+            if not any(kw and str(kw).lower() in hay for kw in channel.include_keywords):
                 return False
         if channel.scope:
             wanted = {str(s).strip().lower() for s in channel.scope if str(s).strip()}
-            got = {str(message.task or '').strip().lower(),
-                   str(message.asset or '').strip().lower()} - {""}
+            got = {str(message.task or "").strip().lower(), str(message.asset or "").strip().lower()} - {""}
             if wanted and not (wanted & got):
                 return False
         return True
@@ -241,10 +246,8 @@ class Notifier:
         body = mask_secrets(message.body, self._config)
         return f"[{message.severity}] {title}\n{body}".strip()
 
-    def dispatch(self, message: NotifyMessage,
-                 channels: list[Channel]) -> list[dict]:
+    def dispatch(self, message: NotifyMessage, channels: list[Channel]) -> list[dict]:
         """Fan out to eligible channels and journal deliveries."""
-        import time as _time
         deliveries: list[dict] = []
         for channel in channels:
             if not self.should_send(message, channel):
@@ -252,14 +255,14 @@ class Notifier:
             if not channel.realtime:
                 self._digest.append((message, channel))
                 continue
-            deliveries.append({"channel": channel.name, "kind": channel.kind,
-                               "text": self.render(message)})
+            deliveries.append({"channel": channel.name, "kind": channel.kind, "text": self.render(message)})
         self.sent.extend(deliveries)
         return deliveries
 
     def flush_digest(self, max_age_sec: float = 0.0) -> list[dict]:
         """Emit one digest per channel when due (default 30m, LAZY parity)."""
         import time as _time
+
         window = max_age_sec or self._config.digest_sec
         if _time.time() - self._digest_since < window or not self._digest:
             return []
@@ -271,8 +274,7 @@ class Notifier:
             lines = [f"digest: {len(messages)} finding(s)"]
             for msg in messages[:20]:
                 lines.append(f"- [{msg.severity}] {mask_secrets(msg.title, self._config)}")
-            out.append({"channel": name, "kind": channel.kind,
-                        "text": "\n".join(lines)})
+            out.append({"channel": name, "kind": channel.kind, "text": "\n".join(lines)})
         self._digest.clear()
         self._digest_since = _time.time()
         self.sent.extend(out)

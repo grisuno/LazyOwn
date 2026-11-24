@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-import pytest
-
 from modules.reaction_bridge import ReactionPick, find_credentials, load_reaction_triggers, save_decisions
 
 
@@ -54,7 +52,10 @@ class TestCredentialExtraction:
         """Given placeholder-looking values, Then they are rejected."""
         story = "guessing creds from template text is noise"
         pairs = find_credentials("CHANGE_ME:CHANGE_ME\nadmin:password\nroot:toor\n")
-        assert not any(p.get("username", "").lower() in ("root", "admin") and p.get("password", "").lower() in ("toor", "password") for p in pairs), story
+        assert not any(
+            p.get("username", "").lower() in ("root", "admin") and p.get("password", "").lower() in ("toor", "password")
+            for p in pairs
+        ), story
 
     def test_hash_detected(self):
         """Given an md5-like line, Then a hash entry appears."""

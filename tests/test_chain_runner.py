@@ -221,6 +221,7 @@ def test_v2_schema_accepts_policy_and_rejects_bad_values(tmp_path):
 
 def test_runner_falls_back_to_os_commands():
     """Given a raw command, When the shell has no matching verb, Then subprocess output is captured."""
+
     class Shell:
         aliases: dict = {}
 
@@ -235,6 +236,7 @@ def test_runner_falls_back_to_os_commands():
 
 def test_runner_executes_python_module_commands():
     """Given a python3 module command, When the chain runs, Then subprocess captures its output."""
+
     class Shell:
         aliases: dict = {}
 
@@ -298,6 +300,7 @@ def test_runner_verb_timeout_releases_chain_off_main_thread():
 
 def test_runner_fails_on_nonzero_exit():
     """Given a raw command that exits non-zero, When the chain runs, Then the step fails."""
+
     class Shell:
         aliases: dict = {}
 
@@ -344,9 +347,7 @@ def test_when_evaluator_accepts_list_literals():
 
 def test_validate_rejects_malformed_when():
     """Given a broken condition, When validating, Then the chain is rejected."""
-    errors = validate_chain(
-        {"name": "demo", "steps": [{"id": "one", "run": "echo", "when": "phase =="}]}
-    )
+    errors = validate_chain({"name": "demo", "steps": [{"id": "one", "run": "echo", "when": "phase =="}]})
     assert any("invalid when" in error for error in errors)
 
 
@@ -370,6 +371,7 @@ def test_runner_quotes_captured_values_in_raw_shell_steps():
 
 def test_runner_captures_verb_stdout():
     """Given a cmd2 verb that prints, When it runs, Then capture sees stdout."""
+
     class FakeShell:
         aliases = {}
 
@@ -388,7 +390,6 @@ def test_runner_captures_verb_stdout():
 def test_runner_step_sleep_jitter_applies():
     """Given a step declaring sleep and jitter, When it succeeds, Then the
     inserted delay stays within the declared band (dry-free, real clock)."""
-    import threading
 
     started = time.time()
     chain = _chain(

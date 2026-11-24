@@ -38,13 +38,7 @@ REQUIRED_MUTATION_RUNNERS = [
 
 DEPLOY_GATE_COMMAND = "python -m pytest tests/ -q"
 
-_EMOJI_PATTERN = re.compile(
-    "["
-    "\U0001F300-\U0001FAFF"
-    "\U00002600-\U000027BF"
-    "\U00002B00-\U00002BFF"
-    "]+"
-)
+_EMOJI_PATTERN = re.compile("[\U0001f300-\U0001faff\U00002600-\U000027bf\U00002b00-\U00002bff]+")
 
 
 def _test_modules() -> list[Path]:

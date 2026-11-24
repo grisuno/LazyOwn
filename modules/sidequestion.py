@@ -11,8 +11,8 @@ from __future__ import annotations
 import threading
 import time
 import uuid
-from dataclasses import dataclass, field
-from typing import Callable
+from collections.abc import Callable
+from dataclasses import dataclass
 
 
 @dataclass(frozen=True, slots=True)
@@ -52,12 +52,10 @@ class SideQuestion:
 class SideQuestionService:
     """Bounded service for snapshot-scoped questions."""
 
-    def __init__(self, answer_fn: Callable[[str, str], str] | None = None,
-                 config: SideConfig = CONFIG) -> None:
+    def __init__(self, answer_fn: Callable[[str, str], str] | None = None, config: SideConfig = CONFIG) -> None:
         """Initialize registries with an optional answer function."""
         self._config = config
-        self._answer_fn = answer_fn or (lambda snapshot, question:
-                                        f"Context: {snapshot[:200]} | Q: {question[:200]}")
+        self._answer_fn = answer_fn or (lambda snapshot, question: f"Context: {snapshot[:200]} | Q: {question[:200]}")
         self._lock = threading.Lock()
         self._snapshots: dict[str, Snapshot] = {}
         self._requests: dict[str, SideQuestion] = {}
@@ -65,9 +63,9 @@ class SideQuestionService:
 
     def capture(self, task_id: str, text: str) -> Snapshot:
         """Freeze main-loop context into an immutable snapshot."""
-        snapshot = Snapshot(snapshot_id=uuid.uuid4().hex[:12],
-                            task_id=str(task_id), text=str(text or ""),
-                            captured_at=time.time())
+        snapshot = Snapshot(
+            snapshot_id=uuid.uuid4().hex[:12], task_id=str(task_id), text=str(text or ""), captured_at=time.time()
+        )
         with self._lock:
             self._snapshots[snapshot.snapshot_id] = snapshot
         return snapshot
@@ -86,9 +84,9 @@ class SideQuestionService:
             if self._running >= self._config.max_concurrency:
                 raise RuntimeError("Side-question concurrency exhausted.")
             self._running += 1
-            request = SideQuestion(request_id=uuid.uuid4().hex[:12],
-                                   snapshot_id=snapshot.snapshot_id,
-                                   question=clean, status="running")
+            request = SideQuestion(
+                request_id=uuid.uuid4().hex[:12], snapshot_id=snapshot.snapshot_id, question=clean, status="running"
+            )
             self._requests[request.request_id] = request
         try:
             request.answer = str(self._answer_fn(snapshot.text, clean))

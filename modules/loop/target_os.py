@@ -175,8 +175,6 @@ def persist_detected_os(
             }
         ]
         os_json_path = sessions_dir / "os.json"
-        os_json_path.write_text(
-            json.dumps(os_entry, indent=4, ensure_ascii=False), encoding="utf-8"
-        )
+        os_json_path.write_text(json.dumps(os_entry, indent=4, ensure_ascii=False), encoding="utf-8")
     except Exception as oe:
         log.debug("sessions/os.json write error: %s", oe)

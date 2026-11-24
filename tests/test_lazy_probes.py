@@ -52,9 +52,9 @@ class TestAllowlist:
 class TestRender:
     def test_version_banner_renders(self):
         story = "the banner check renders an nmap invocation with the structured expect"
-        check = render_check(CHECK_VERSION_BANNER, {
-            "port": 8080, "product": "tomcat", "ranges": [{"fixed": "10.0.20"}]
-        })
+        check = render_check(
+            CHECK_VERSION_BANNER, {"port": 8080, "product": "tomcat", "ranges": [{"fixed": "10.0.20"}]}
+        )
         assert check.errors == [], story
         assert check.read_only is not False, story
         assert f"-p 8080 {TARGET_PORT}" in check.command, story
@@ -63,7 +63,7 @@ class TestRender:
 
     def test_http_probe_quotes_url(self):
         story = "the probe url is shell-quoted and the expect carries codes"
-        check = render_check(CHECK_HTTP_PROBE, {"method": "HEAD", "path": "/foo bar" })
+        check = render_check(CHECK_HTTP_PROBE, {"method": "HEAD", "path": "/foo bar"})
         assert check.errors, story
         check = render_check(CHECK_HTTP_PROBE, {"method": "HEAD", "path": "/admin", "codes": [200, 301]})
         assert check.command.startswith("curl -sS -i -m1 -I"), story
@@ -84,7 +84,9 @@ class TestRender:
 
     def test_package_version_dpkg(self):
         story = "dpkg renders dpkg-query with a version_lt expect"
-        check = render_check(CHECK_PACKAGE_VERSION, {"ecosystem": "dpkg", "package": "openssh-server", "fixed_version": "9.6p1"})
+        check = render_check(
+            CHECK_PACKAGE_VERSION, {"ecosystem": "dpkg", "package": "openssh-server", "fixed_version": "9.6p1"}
+        )
         assert check.command.startswith("dpkg-query -W -f='"), story
         assert check.expect["bound"] == "9.6p1", story
 
@@ -96,10 +98,12 @@ class TestRender:
 
     def test_batch_order_kept(self):
         story = "a batch renders in order with per-item errors"
-        rendered = render_checks([
-            {"kind": CHECK_SERVICE_STATE, "params": {"service": "sshd", "state": "running"}},
-            {"kind": "nope", "params": {}},
-        ])
+        rendered = render_checks(
+            [
+                {"kind": CHECK_SERVICE_STATE, "params": {"service": "sshd", "state": "running"}},
+                {"kind": "nope", "params": {}},
+            ]
+        )
         assert rendered[0].errors == [], story
         assert rendered[1].errors, story
 

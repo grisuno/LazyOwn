@@ -768,8 +768,10 @@ def phase_techniques(phase: str, platform: str = "", top_n: int = 8) -> list[dic
             if tid in seen:
                 continue
             tests = index.get(tid) or []
-            if platform_l and tests and not any(
-                platform_l in [p.lower() for p in t.get("platforms", [])] for t in tests
+            if (
+                platform_l
+                and tests
+                and not any(platform_l in [p.lower() for p in t.get("platforms", [])] for t in tests)
             ):
                 continue
             if preferred and tid.split(".", 1)[0] not in {p.split(".", 1)[0] for p in preferred}:

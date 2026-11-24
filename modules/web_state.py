@@ -19,10 +19,7 @@ import requests
 
 DEFAULT_TIMEOUT = 15.0
 DEFAULT_DVWA_PREFIX = "/dvwa"
-USER_AGENT = (
-    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
-    "(KHTML, like Gecko) Chrome/124.0 Safari/537.36"
-)
+USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
 DVWA_CREDENTIALS: tuple[tuple[str, str], ...] = (
     ("1337", "charley"),
     ("admin", "password"),
@@ -91,9 +88,7 @@ class WebSession:
             The response text (empty on any transport error).
         """
         try:
-            response = self.session.post(
-                self.base + path, data=data, timeout=self.timeout, verify=True
-            )
+            response = self.session.post(self.base + path, data=data, timeout=self.timeout, verify=True)
             self.page = response.text or ""
         except requests.exceptions.SSLError:
             from core.http import lab_tolerant_request

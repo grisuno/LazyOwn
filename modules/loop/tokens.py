@@ -86,7 +86,9 @@ class TokenLedger:
         """Return the per-thread connection."""
         return thread_connection(self._db_path)
 
-    def charge_chars(self, member: str, prompt_chars: int, completion_chars: int, task_id: str = "", intent_id: int = 0) -> None:
+    def charge_chars(
+        self, member: str, prompt_chars: int, completion_chars: int, task_id: str = "", intent_id: int = 0
+    ) -> None:
         """Charge one estimated-token usage row from raw characters."""
         prompt_tokens = estimate_tokens(min(int(prompt_chars or 0), SINK_LIMIT_CHARS))
         completion_tokens = estimate_tokens(min(int(completion_chars or 0), SINK_LIMIT_CHARS))
@@ -101,14 +103,23 @@ class TokenLedger:
         except Exception:
             pass
 
-    def charge(self, task_id: str, prompt_tokens: int, completion_tokens: int, intent_id: int = 0, member: str = "") -> None:
+    def charge(
+        self, task_id: str, prompt_tokens: int, completion_tokens: int, intent_id: int = 0, member: str = ""
+    ) -> None:
         """Charge one explicit token usage row."""
         conn = self._conn()
         try:
             conn.execute(
                 "INSERT INTO token_usage (ts, task_id, intent_id, member, prompt_tokens, completion_tokens) "
                 "VALUES (?, ?, ?, ?, ?, ?)",
-                (time.time(), str(task_id), int(intent_id), str(member or ""), int(prompt_tokens), int(completion_tokens)),
+                (
+                    time.time(),
+                    str(task_id),
+                    int(intent_id),
+                    str(member or ""),
+                    int(prompt_tokens),
+                    int(completion_tokens),
+                ),
             )
             conn.commit()
         except Exception:

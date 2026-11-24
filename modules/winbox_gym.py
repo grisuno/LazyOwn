@@ -139,9 +139,7 @@ _CLI_ACTIONS = (
 )
 ALLOWED_ACTIONS = frozenset(_CLI_ACTIONS)
 
-_STATE_RE = re.compile(
-    r"(?im)^\s*(?:state|estados?|vm\s*state)\s*[:=]\s*([A-Za-z][A-Za-z0-9_ -]{0,39})$"
-)
+_STATE_RE = re.compile(r"(?im)^\s*(?:state|estados?|vm\s*state)\s*[:=]\s*([A-Za-z][A-Za-z0-9_ -]{0,39})$")
 _IP_RE = re.compile(r"(?i)\bip(?:address)?\s*[:=]\s*(\d{1,3}(?:\.\d{1,3}){3})")
 _ANY_IP_RE = re.compile(r"\b(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\b")
 
@@ -1104,7 +1102,7 @@ def _stream_command(
     return {
         "ok": code == 0 and not timed_out,
         "code": code,
-        "output": text[:MAX_OUTPUT_CHARS * 4],
+        "output": text[: MAX_OUTPUT_CHARS * 4],
         "stderr": "",
         "timed_out": timed_out,
     }

@@ -23,18 +23,31 @@ def intel(monkeypatch, tmp_path: Path):
 
 def _report(tmp_path: Path, target: str, matches: list[dict]) -> None:
     """Write one exposure report file in the sandbox."""
-    (tmp_path / f"lazy_intel_{target}.json").write_text(json.dumps({
-        "target": target,
-        "temperature": "hot",
-        "score": 50,
-        "matches": matches,
-    }), encoding="utf-8")
+    (tmp_path / f"lazy_intel_{target}.json").write_text(
+        json.dumps(
+            {
+                "target": target,
+                "temperature": "hot",
+                "score": 50,
+                "matches": matches,
+            }
+        ),
+        encoding="utf-8",
+    )
 
 
 FIRE = {
-    "cve_id": "CVE-2025-24813", "host": "10.66.44.7", "port": 8080, "protocol": "tcp",
-    "product": "apache tomcat", "version": "9.0.45", "tier": "hot",
-    "cvss": 9.8, "evidence": "in_range", "references": [], "source": "scanner",
+    "cve_id": "CVE-2025-24813",
+    "host": "10.66.44.7",
+    "port": 8080,
+    "protocol": "tcp",
+    "product": "apache tomcat",
+    "version": "9.0.45",
+    "tier": "hot",
+    "cvss": 9.8,
+    "evidence": "in_range",
+    "references": [],
+    "source": "scanner",
 }
 
 
@@ -98,9 +111,7 @@ class TestRefreshProposal:
     def test_no_report_with_feed(self, intel, tmp_path: Path):
         story = "a staged feed with no report proposes the first lazyintel run"
         (tmp_path / "intel").mkdir()
-        (tmp_path / "intel" / "exploit_feed.json").write_text(
-            json.dumps({"entries": []}), encoding="utf-8"
-        )
+        (tmp_path / "intel" / "exploit_feed.json").write_text(json.dumps({"entries": []}), encoding="utf-8")
         decision = intel.IntelSelector().propose(_ctx())
         assert decision is not None and decision.command == "lazyintel 10.66.44.7", story
         assert decision.priority == 6, story

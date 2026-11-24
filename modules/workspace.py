@@ -54,9 +54,7 @@ def list_entries(rel: str = "") -> list[dict]:
             size = entry.stat().st_size
         except OSError:
             size = 0
-        entries.append({"name": entry.name,
-                        "kind": "dir" if entry.is_dir() else "file",
-                        "size": size})
+        entries.append({"name": entry.name, "kind": "dir" if entry.is_dir() else "file", "size": size})
     return entries
 
 
@@ -99,6 +97,15 @@ def remove(rel: str) -> bool:
     return True
 
 
-__all__ = ["MAX_READ_BYTES", "MAX_WRITE_CHARS", "WORKSPACE_ROOT",
-           "list_entries", "make_dir", "read_text", "remove", "resolve",
-           "root", "write_text"]
+__all__ = [
+    "MAX_READ_BYTES",
+    "MAX_WRITE_CHARS",
+    "WORKSPACE_ROOT",
+    "list_entries",
+    "make_dir",
+    "read_text",
+    "remove",
+    "resolve",
+    "root",
+    "write_text",
+]

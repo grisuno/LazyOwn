@@ -32,9 +32,7 @@ class TestPromptBuilder:
         assert "enum smb" in prompt
 
     def test_command_analysis_includes_output(self):
-        prompt = lazyllmchat.PromptBuilder.for_command_analysis(
-            "lazynmap", "22/tcp open ssh", "ctx", history="prior"
-        )
+        prompt = lazyllmchat.PromptBuilder.for_command_analysis("lazynmap", "22/tcp open ssh", "ctx", history="prior")
         assert "22/tcp open ssh" in prompt
         assert "prior" in prompt
 

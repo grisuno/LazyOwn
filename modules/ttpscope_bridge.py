@@ -55,8 +55,7 @@ _PLATFORM_ALLOWLIST = frozenset({"windows", "linux", "macos"})
 _ACTION_ALLOWLIST = frozenset({"sync", "search", "show", "matrix", "note", "notes", "version", "chain"})
 
 _FALLBACK_DATA_URL = (
-    "https://raw.githubusercontent.com/mitre-attack/attack-stix-data/master/"
-    "enterprise-attack/enterprise-attack.json"
+    "https://raw.githubusercontent.com/mitre-attack/attack-stix-data/master/enterprise-attack/enterprise-attack.json"
 )
 _FALLBACK_MAX_DOWNLOAD_BYTES = 100_000_000
 _FALLBACK_MAX_SEARCH_ROWS = 50
@@ -160,9 +159,7 @@ def _fallback_sync() -> dict[str, Any]:
 
     dest = _cache_dataset_path()
     dest.parent.mkdir(parents=True, exist_ok=True)
-    request = urllib.request.Request(
-        _FALLBACK_DATA_URL, headers={"User-Agent": "LazyOwn-ttpscope-bridge/1.0"}
-    )
+    request = urllib.request.Request(_FALLBACK_DATA_URL, headers={"User-Agent": "LazyOwn-ttpscope-bridge/1.0"})
     total = 0
     tmp = dest.with_suffix(".tmp")
     try:
@@ -245,7 +242,9 @@ def _fallback_search_bundle(query: str, limit: int = 20) -> dict[str, Any]:
         if obj.get("type") == "relationship":
             continue
         aliases = " ".join(str(a) for a in (obj.get("aliases") or obj.get("x_mitre_aliases") or []) if a)
-        haystack = f"{_stix_external_id(obj)} {obj.get('name', '')} {aliases} {obj.get('description', '')[:500]}".lower()
+        haystack = (
+            f"{_stix_external_id(obj)} {obj.get('name', '')} {aliases} {obj.get('description', '')[:500]}".lower()
+        )
         if needle in haystack:
             ext = _stix_external_id(obj) or "-"
             hits.append(f"{ext:13s} {str(obj.get('type', '')):14s} {obj.get('name', '')}")
@@ -253,7 +252,13 @@ def _fallback_search_bundle(query: str, limit: int = 20) -> dict[str, Any]:
             break
     text = "\n".join(hits[:limit]) or f"No matches for '{query}' in cached bundle."
     path = _stage("search", _slug(query), text)
-    return {"returncode": 0 if hits else 3, "query": query, "staged": str(path), "output": text, "backend": "fallback-stix"}
+    return {
+        "returncode": 0 if hits else 3,
+        "query": query,
+        "staged": str(path),
+        "output": text,
+        "backend": "fallback-stix",
+    }
 
 
 def _load_parquet(name: str) -> Any | None:
@@ -297,7 +302,13 @@ def _fallback_search_parquet(query: str, limit: int = 20) -> dict[str, Any]:
             break
     text = "\n".join(lines) or f"No matches for '{query}' in parquet catalogue."
     path = _stage("search", _slug(query), text)
-    return {"returncode": 0 if lines else 3, "query": query, "staged": str(path), "output": text, "backend": "fallback-parquet"}
+    return {
+        "returncode": 0 if lines else 3,
+        "query": query,
+        "staged": str(path),
+        "output": text,
+        "backend": "fallback-parquet",
+    }
 
 
 def _fallback_show_bundle(object_id: str) -> dict[str, Any] | None:
@@ -308,12 +319,15 @@ def _fallback_show_bundle(object_id: str) -> dict[str, Any] | None:
     by_ext, by_id = _stix_index(bundle)
     obj = by_ext.get(object_id.upper())
     if obj is None:
-        text = (
-            f"Object {object_id} not in cached bundle.\n"
-            f"See https://attack.mitre.org/search?query={object_id}"
-        )
+        text = f"Object {object_id} not in cached bundle.\nSee https://attack.mitre.org/search?query={object_id}"
         path = _stage("show", object_id.replace(".", "_"), text)
-        return {"returncode": 3, "object_id": object_id, "staged": str(path), "output": text, "backend": "fallback-stix"}
+        return {
+            "returncode": 3,
+            "object_id": object_id,
+            "staged": str(path),
+            "output": text,
+            "backend": "fallback-stix",
+        }
     lines = [
         f"{object_id}  {obj.get('name', '')}  ({obj.get('type', '')})",
         "",
@@ -328,15 +342,21 @@ def _fallback_show_bundle(object_id: str) -> dict[str, Any] | None:
         lines.append(f"Platforms: {platforms}")
     stix_id = str(obj.get("id", ""))
     rels = [
-        o for o in bundle.get("objects", []) or []
-        if isinstance(o, dict) and o.get("type") == "relationship"
+        o
+        for o in bundle.get("objects", []) or []
+        if isinstance(o, dict)
+        and o.get("type") == "relationship"
         and stix_id in (str(o.get("source_ref", "")), str(o.get("target_ref", "")))
     ][:30]
     if rels:
         lines.append("")
         lines.append(f"Relationships ({len(rels)} shown, {object_id} <-> other):")
         for rel in rels:
-            other_id = str(rel.get("target_ref", "")) if str(rel.get("source_ref", "")) == stix_id else str(rel.get("source_ref", ""))
+            other_id = (
+                str(rel.get("target_ref", ""))
+                if str(rel.get("source_ref", "")) == stix_id
+                else str(rel.get("source_ref", ""))
+            )
             other = by_id.get(other_id, {})
             other_ext = _stix_external_id(other) or other_id[:30]
             lines.append(f"  - {rel.get('relationship_type', '')}: {other_ext} {other.get('name', '')}")
@@ -357,7 +377,13 @@ def _fallback_show_parquet(object_id: str) -> dict[str, Any]:
             f"See https://attack.mitre.org/search?query={object_id}"
         )
         path = _stage("show", object_id.replace(".", "_"), text)
-        return {"returncode": 3, "object_id": object_id, "staged": str(path), "output": text, "backend": "fallback-parquet"}
+        return {
+            "returncode": 3,
+            "object_id": object_id,
+            "staged": str(path),
+            "output": text,
+            "backend": "fallback-parquet",
+        }
     df = _load_atomic_parquet()
     if df is None or df.empty:
         raise FileNotFoundError("No backend available: run 'ttpscope action=sync' first.")
@@ -409,7 +435,13 @@ def _fallback_matrix_bundle(platform: str) -> dict[str, Any] | None:
         lines.extend(f"  {row}" for row in rows[:40])
     text = "\n".join(lines)[:12000]
     path = _stage("matrix", (platform or "all").lower(), text)
-    return {"returncode": 0, "platform": platform or "all", "staged": str(path), "output": text, "backend": "fallback-stix"}
+    return {
+        "returncode": 0,
+        "platform": platform or "all",
+        "staged": str(path),
+        "output": text,
+        "backend": "fallback-stix",
+    }
 
 
 def _notes_dir() -> Path:
@@ -436,7 +468,13 @@ def _fallback_note(object_id: str, text: str) -> dict[str, Any]:
         fh.write(f"\n## {stamp}\n\n{body}\n")
     summary = f"Note added to {object_id} ({target}) [fallback backend]"
     path = _stage("note", object_id.replace(".", "_"), summary)
-    return {"returncode": 0, "object_id": object_id, "staged": str(path), "output": summary, "backend": "fallback-notes"}
+    return {
+        "returncode": 0,
+        "object_id": object_id,
+        "staged": str(path),
+        "output": summary,
+        "backend": "fallback-notes",
+    }
 
 
 def _fallback_notes(object_id: str) -> dict[str, Any]:
@@ -457,6 +495,7 @@ def _fallback_matrix_parquet(platform: str) -> dict[str, Any]:
         raise FileNotFoundError("No backend available: run 'ttpscope action=sync' first.")
     wanted = platform.lower()
     if wanted and "platform_list" in df.columns:
+
         def _as_list(value: object) -> list[str]:
             if value is None:
                 return []
@@ -479,7 +518,13 @@ def _fallback_matrix_parquet(platform: str) -> dict[str, Any]:
         lines.append(f"  {prefix}: {groups[prefix]} test(s)")
     text = "\n".join(lines)[:12000]
     path = _stage("matrix", (platform or "all").lower(), text)
-    return {"returncode": 0, "platform": platform or "all", "staged": str(path), "output": text, "backend": "fallback-parquet"}
+    return {
+        "returncode": 0,
+        "platform": platform or "all",
+        "staged": str(path),
+        "output": text,
+        "backend": "fallback-parquet",
+    }
 
 
 def _stage(action: str, slug: str, stdout: str, extra: dict[str, Any] | None = None) -> Path:
@@ -514,7 +559,13 @@ def do_search(query: str) -> dict[str, Any]:
         log.info("ttpscope binary missing — searching cached STIX/parquet instead")
         return _fallback_search_bundle(clean)
     path = _stage("search", _slug(clean), stdout or stderr)
-    return {"returncode": code, "query": clean, "staged": str(path), "output": (stdout or stderr)[:8000], "backend": "ttpscope"}
+    return {
+        "returncode": code,
+        "query": clean,
+        "staged": str(path),
+        "output": (stdout or stderr)[:8000],
+        "backend": "ttpscope",
+    }
 
 
 def do_show(object_id: str) -> dict[str, Any]:
@@ -529,7 +580,13 @@ def do_show(object_id: str) -> dict[str, Any]:
             return bundled
         return _fallback_show_parquet(clean)
     path = _stage("show", clean.replace(".", "_"), stdout or stderr)
-    return {"returncode": code, "object_id": clean, "staged": str(path), "output": (stdout or stderr)[:12000], "backend": "ttpscope"}
+    return {
+        "returncode": code,
+        "object_id": clean,
+        "staged": str(path),
+        "output": (stdout or stderr)[:12000],
+        "backend": "ttpscope",
+    }
 
 
 def do_matrix(platform: str = "") -> dict[str, Any]:
@@ -545,7 +602,13 @@ def do_matrix(platform: str = "") -> dict[str, Any]:
             return bundled
         return _fallback_matrix_parquet(clean_platform)
     path = _stage("matrix", clean_platform.lower() or "all", stdout or stderr)
-    return {"returncode": code, "platform": clean_platform or "all", "staged": str(path), "output": (stdout or stderr)[:12000], "backend": "ttpscope"}
+    return {
+        "returncode": code,
+        "platform": clean_platform or "all",
+        "staged": str(path),
+        "output": (stdout or stderr)[:12000],
+        "backend": "ttpscope",
+    }
 
 
 def do_note(object_id: str, text: str) -> dict[str, Any]:
@@ -564,7 +627,13 @@ def do_note(object_id: str, text: str) -> dict[str, Any]:
         log.info("ttpscope binary missing — appending Markdown note directly")
         return _fallback_note(clean, body)
     path = _stage("note", clean.replace(".", "_"), stdout or stderr)
-    return {"returncode": code, "object_id": clean, "staged": str(path), "output": (stdout or stderr)[:2000], "backend": "ttpscope"}
+    return {
+        "returncode": code,
+        "object_id": clean,
+        "staged": str(path),
+        "output": (stdout or stderr)[:2000],
+        "backend": "ttpscope",
+    }
 
 
 def do_notes(object_id: str) -> dict[str, Any]:
@@ -576,7 +645,13 @@ def do_notes(object_id: str) -> dict[str, Any]:
         log.info("ttpscope binary missing — reading Markdown notes directly")
         return _fallback_notes(clean)
     path = _stage("notes", clean.replace(".", "_"), stdout or stderr)
-    return {"returncode": code, "object_id": clean, "staged": str(path), "output": (stdout or stderr)[:8000], "backend": "ttpscope"}
+    return {
+        "returncode": code,
+        "object_id": clean,
+        "staged": str(path),
+        "output": (stdout or stderr)[:8000],
+        "backend": "ttpscope",
+    }
 
 
 def do_chain(object_id: str, platform: str = "linux", limit: int = 5) -> dict[str, Any]:
@@ -617,9 +692,7 @@ def do_chain(object_id: str, platform: str = "linux", limit: int = 5) -> dict[st
 
         pdb = get_pdb(_BASE_DIR)
         if pdb is not None:
-            parquet_hits = pdb.query_atomic(
-                mitre_id=clean, platform=platform_norm, limit=capped
-            )
+            parquet_hits = pdb.query_atomic(mitre_id=clean, platform=platform_norm, limit=capped)
     except Exception as exc:
         log.warning("chain parquet lookup failed: %s", exc)
 

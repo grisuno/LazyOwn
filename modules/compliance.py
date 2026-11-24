@@ -787,9 +787,7 @@ class ComplianceEngine:
         description = str(fact.get("value") or fact.get("observable") or "")
         if fact_type == "vulnerability":
             severity = str(fact.get("severity", "MEDIUM") or "MEDIUM").upper()
-            description = (
-                f"{fact.get('vuln_id', '')} {fact.get('title', '')}".strip() or description
-            )
+            description = f"{fact.get('vuln_id', '')} {fact.get('title', '')}".strip() or description
         elif fact_type == "credential":
             severity = "HIGH"
             description = f"credential used on host: {description}"

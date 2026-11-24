@@ -18,6 +18,7 @@ sys.path.insert(0, str(REPO_ROOT / "modules"))
 sys.path.insert(0, str(REPO_ROOT / "skills"))
 
 import autonomous_daemon as daemon
+
 from modules.planner import PlanCandidate, PlanResult
 
 
@@ -67,16 +68,14 @@ class _Strategy:
         self._at += 1
         return daemon.CommandDecision(command=command, source="test", reason="canned")
 
-    def register_output(self, _output: str, _command: str, platform: str = "linux",
-                        success: bool = True) -> None:
+    def register_output(self, _output: str, _command: str, platform: str = "linux", success: bool = True) -> None:
         """Accept output without effect."""
 
 
 class _EmptyPlanner:
     def plan(self, _target: str, max_candidates: int = 10) -> PlanResult:
         """Always report no candidates."""
-        return PlanResult(target=_target, candidates=[], chosen=None,
-                          rationale="empty", facts_observed=[])
+        return PlanResult(target=_target, candidates=[], chosen=None, rationale="empty", facts_observed=[])
 
 
 def _patch(monkeypatch, tmp_path) -> None:
@@ -109,16 +108,27 @@ def _events(tmp_path) -> list[dict]:
     return [json.loads(line) for line in path.read_text().splitlines() if line.strip()]
 
 
-def _run(monkeypatch, tmp_path, objective: str, commands: list[str],
-         planner=None, world=None, max_steps: int = 5) -> list:
+def _run(
+    monkeypatch, tmp_path, objective: str, commands: list[str], planner=None, world=None, max_steps: int = 5
+) -> list:
     """Run one objective with fakes and return step results."""
     _patch(monkeypatch, tmp_path)
     loop = asyncio.new_event_loop()
     try:
-        return loop.run_until_complete(daemon._run_objective(
-            "obj1", objective, "10.9.0.7", max_steps,
-            _Strategy(commands), world or _World(), _Parser(), None, loop,
-            planner=_EmptyPlanner() if planner is None else planner))
+        return loop.run_until_complete(
+            daemon._run_objective(
+                "obj1",
+                objective,
+                "10.9.0.7",
+                max_steps,
+                _Strategy(commands),
+                world or _World(),
+                _Parser(),
+                None,
+                loop,
+                planner=_EmptyPlanner() if planner is None else planner,
+            )
+        )
     finally:
         loop.close()
 
@@ -136,14 +146,23 @@ def test_loop_skips_unapproved_gated_command(monkeypatch, tmp_path):
     seen: list[str] = []
     real_run = daemon._run_lazyown
     _patch(monkeypatch, tmp_path)
-    monkeypatch.setattr(daemon, "_run_lazyown",
-                        lambda cmd, timeout: (seen.append(cmd), "hash dumped")[1])
+    monkeypatch.setattr(daemon, "_run_lazyown", lambda cmd, timeout: (seen.append(cmd), "hash dumped")[1])
     loop = asyncio.new_event_loop()
     try:
-        results = loop.run_until_complete(daemon._run_objective(
-            "obj1", "dump creds", "10.9.0.7", 3,
-            _Strategy(["secretsdump.py LOCAL"]), _World(), _Parser(), None, loop,
-            planner=_EmptyPlanner()))
+        results = loop.run_until_complete(
+            daemon._run_objective(
+                "obj1",
+                "dump creds",
+                "10.9.0.7",
+                3,
+                _Strategy(["secretsdump.py LOCAL"]),
+                _World(),
+                _Parser(),
+                None,
+                loop,
+                planner=_EmptyPlanner(),
+            )
+        )
     finally:
         loop.close()
     assert results == []
@@ -154,8 +173,7 @@ def test_loop_skips_unapproved_gated_command(monkeypatch, tmp_path):
 
 def test_loop_stops_when_objective_proven(monkeypatch, tmp_path):
     """BDD: terminal world state matching the goal ends the loop."""
-    results = _run(monkeypatch, tmp_path, "gain access to host",
-                   ["lazynmap 10.9.0.7"], world=_World(state="exploited"))
+    results = _run(monkeypatch, tmp_path, "gain access to host", ["lazynmap 10.9.0.7"], world=_World(state="exploited"))
     assert len(results) == 1
     kinds = [e["type"] for e in _events(tmp_path)]
     assert "OBJECTIVE_PROVEN" in kinds
@@ -173,21 +191,35 @@ def test_loop_skips_duplicate_success(monkeypatch, tmp_path):
         def plan(self, target: str, max_candidates: int = 10) -> PlanResult:
             """Emit the same command with a changing fingerprint."""
             self.calls += 1
-            candidate = PlanCandidate(technique_id=f"T{self.calls}", name="n",
-                                      tactic="discovery", command="echo hello",
-                                      score=100.0)
-            return PlanResult(target=target, candidates=[candidate], chosen=candidate,
-                              rationale="r", facts_observed=[f"fact-{self.calls}"])
+            candidate = PlanCandidate(
+                technique_id=f"T{self.calls}", name="n", tactic="discovery", command="echo hello", score=100.0
+            )
+            return PlanResult(
+                target=target,
+                candidates=[candidate],
+                chosen=candidate,
+                rationale="r",
+                facts_observed=[f"fact-{self.calls}"],
+            )
 
     _patch(monkeypatch, tmp_path)
-    monkeypatch.setattr(daemon, "_run_lazyown",
-                        lambda cmd, timeout: (seen.append(cmd), "ok success")[1])
+    monkeypatch.setattr(daemon, "_run_lazyown", lambda cmd, timeout: (seen.append(cmd), "ok success")[1])
     loop = asyncio.new_event_loop()
     try:
-        results = loop.run_until_complete(daemon._run_objective(
-            "obj1", "enumerate", "10.9.0.7", 4,
-            _Strategy(["echo hello"]), _World(), _Parser(), None, loop,
-            planner=_RepeatPlanner()))
+        results = loop.run_until_complete(
+            daemon._run_objective(
+                "obj1",
+                "enumerate",
+                "10.9.0.7",
+                4,
+                _Strategy(["echo hello"]),
+                _World(),
+                _Parser(),
+                None,
+                loop,
+                planner=_RepeatPlanner(),
+            )
+        )
     finally:
         loop.close()
     assert len(results) == 1
@@ -207,9 +239,10 @@ def test_decompose_goal_splits_compound(tmp_path):
 
     assert decompose_goal("gain initial access") == ["gain initial access"]
     assert decompose_goal("") == []
-    assert decompose_goal("scan the target and then gain initial access",
-                          target="10.9.0.7") == [
-        "scan the target on 10.9.0.7", "gain initial access on 10.9.0.7"]
+    assert decompose_goal("scan the target and then gain initial access", target="10.9.0.7") == [
+        "scan the target on 10.9.0.7",
+        "gain initial access on 10.9.0.7",
+    ]
     assert decompose_goal("strengthen monitoring") == ["strengthen monitoring"]
 
 

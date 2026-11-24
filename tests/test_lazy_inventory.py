@@ -69,10 +69,17 @@ class TestPromotion:
 
     def test_host_source_fills_missing_lead(self):
         story = "a host-reported version promotes a lead into a match the feed can bind"
-        feed = lazy_feedmatch.parse_feed([
-            {"cve_id": "CVE-2025-2001", "product": "redis", "cvss": 9.8, "kev": True,
-             "ranges": [{"introduced": "7.0.0", "fixed": "7.4.2"}]},
-        ])
+        feed = lazy_feedmatch.parse_feed(
+            [
+                {
+                    "cve_id": "CVE-2025-2001",
+                    "product": "redis",
+                    "cvss": 9.8,
+                    "kev": True,
+                    "ranges": [{"introduced": "7.0.0", "fixed": "7.4.2"}],
+                },
+            ]
+        )
         banner = lazy_feedmatch.Sighting(host="10.66.44.7", port=6379, product="", version="")
         package = lazy_feedmatch.Sighting(host="10.66.44.7", port=0, product="redis", version="7.4.1", source="host")
         assert lazy_feedmatch.bind_sighting(banner, feed) == [], story

@@ -230,7 +230,7 @@ class WinboxBootstrapSpec(unittest.TestCase):
             fake = Path(tmp) / "winbox"
             fake.write_text(
                 "#!/bin/sh\n"
-                "if [ \"$1\" = exec ]; then echo Z_OK; exit 0; fi\n"
+                'if [ "$1" = exec ]; then echo Z_OK; exit 0; fi\n'
                 "echo 'State: running'\n"
                 "echo 'IP: 192.168.122.50'\n"
             )
@@ -481,7 +481,11 @@ class WinboxSelfHealSpec(unittest.TestCase):
                 for manager in self._lab_ready_patches(fake):
                     stack.enter_context(manager)
                 stack.enter_context(patch.object(winbox_gym, "vm_status", return_value={"state": "shut off", "ip": ""}))
-                stack.enter_context(patch.object(winbox_gym, "run_cli", return_value={"ok": True, "code": 0, "output": "Z_OK", "stderr": ""}))
+                stack.enter_context(
+                    patch.object(
+                        winbox_gym, "run_cli", return_value={"ok": True, "code": 0, "output": "Z_OK", "stderr": ""}
+                    )
+                )
                 stack.enter_context(patch.object(winbox_gym, "_clean_snapshot_present", return_value=False))
                 stack.enter_context(patch.object(winbox_gym, "_complete_partial_build", side_effect=fake_complete))
                 stack.enter_context(patch.object(winbox_gym, "_install_disk_is_substantial", return_value=True))
@@ -503,7 +507,9 @@ class WinboxSelfHealSpec(unittest.TestCase):
                 for manager in self._lab_ready_patches(fake):
                     stack.enter_context(manager)
                 stack.enter_context(patch.object(winbox_gym, "PROBE_BACKOFF_SEC", 0))
-                stack.enter_context(patch.object(winbox_gym, "vm_status", return_value={"state": "running", "ip": "10.0.0.9"}))
+                stack.enter_context(
+                    patch.object(winbox_gym, "vm_status", return_value={"state": "running", "ip": "10.0.0.9"})
+                )
                 stack.enter_context(patch.object(winbox_gym, "run_cli", side_effect=fake_run_cli))
                 stack.enter_context(patch.object(winbox_gym, "_clean_snapshot_present", return_value=True))
                 result = winbox_gym.ensure_lab_ready({})
@@ -522,7 +528,9 @@ class WinboxSelfHealSpec(unittest.TestCase):
                 for manager in self._lab_ready_patches(fake):
                     stack.enter_context(manager)
                 stack.enter_context(patch.object(winbox_gym, "PROBE_BACKOFF_SEC", 0))
-                stack.enter_context(patch.object(winbox_gym, "vm_status", return_value={"state": "running", "ip": "10.0.0.9"}))
+                stack.enter_context(
+                    patch.object(winbox_gym, "vm_status", return_value={"state": "running", "ip": "10.0.0.9"})
+                )
                 stack.enter_context(patch.object(winbox_gym, "run_cli", side_effect=fake_run_cli))
                 stack.enter_context(patch.object(winbox_gym, "_clean_snapshot_present", return_value=True))
                 result = winbox_gym.ensure_lab_ready({})
@@ -542,7 +550,9 @@ class WinboxSelfHealSpec(unittest.TestCase):
             with contextlib.ExitStack() as stack:
                 for manager in self._lab_ready_patches(fake):
                     stack.enter_context(manager)
-                stack.enter_context(patch.object(winbox_gym, "vm_status", return_value={"state": "running", "ip": "10.0.0.9"}))
+                stack.enter_context(
+                    patch.object(winbox_gym, "vm_status", return_value={"state": "running", "ip": "10.0.0.9"})
+                )
                 stack.enter_context(patch.object(winbox_gym, "run_cli", side_effect=fake_run_cli))
                 stack.enter_context(patch.object(winbox_gym, "_clean_snapshot_present", return_value=True))
                 result = winbox_gym.ensure_lab_ready({}, notify=messages.append)

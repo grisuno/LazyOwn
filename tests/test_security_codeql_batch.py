@@ -11,7 +11,6 @@ mutation) and passes with the fix.
 from __future__ import annotations
 
 import base64
-import os
 import stat
 import sys
 from pathlib import Path
@@ -254,8 +253,9 @@ class TestViewYamlTraversal:
 
 def _login_and_call(monkeypatch, tmp_path, view, path):
     """Call a @login_required view as an authenticated operator."""
-    import modules.lazy_loop as loop
     from flask_login import login_user
+
+    import modules.lazy_loop as loop
 
     lazyc2 = _server()
 
@@ -290,7 +290,9 @@ class TestGenericErrorResponses:
         lazyc2 = _server()
 
         monkeypatch.setattr(
-            loop.LazyLoopEngine, "loop_graph", lambda self, *a, **k: (_ for _ in ()).throw(RuntimeError("CANARY-LG-9f8"))
+            loop.LazyLoopEngine,
+            "loop_graph",
+            lambda self, *a, **k: (_ for _ in ()).throw(RuntimeError("CANARY-LG-9f8")),
         )
         response, code = _login_and_call(monkeypatch, tmp_path, lazyc2.api_loop_graph, "/api/loop_graph?task=t")
         assert code == 404
@@ -301,9 +303,7 @@ class TestGenericErrorResponses:
 
         lazyc2 = _server()
 
-        monkeypatch.setattr(
-            loop.Guard, "lookup", lambda self, *a, **k: (_ for _ in ()).throw(KeyError("CANARY-G-9f8"))
-        )
+        monkeypatch.setattr(loop.Guard, "lookup", lambda self, *a, **k: (_ for _ in ()).throw(KeyError("CANARY-G-9f8")))
         response, code = _login_and_call(
             monkeypatch, tmp_path, lazyc2.api_guard_audit, "/api/guard_audit?task=t&lookup=zzz"
         )
@@ -342,8 +342,9 @@ class TestGenericErrorResponses:
         assert b"event stream failed" in data
 
     def test_api_defaults_hide_exception(self, monkeypatch):
-        import core.defaults as defaults
         from flask import Flask
+
+        import core.defaults as defaults
         from lazyc2.blueprints import api as api_mod
 
         def _boom():

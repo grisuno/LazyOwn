@@ -73,9 +73,7 @@ def fake_stix(monkeypatch):
 
 
 def _ctx(phase: str = "postexp", os_hint: str = "linux", target: str = "10.66.44.7", exclude=()):
-    return SelectionContext(
-        target=target, phase=phase, os_hint=os_hint, exclude=frozenset(exclude), extra={}
-    )
+    return SelectionContext(target=target, phase=phase, os_hint=os_hint, exclude=frozenset(exclude), extra={})
 
 
 class TestPhaseTechniques:
@@ -91,22 +89,16 @@ class TestPhaseTechniques:
 
     def test_top_n_cap(self, fake_stix, monkeypatch, tmp_path):
         story = "top_n bounds the result list"
-        monkeypatch.setattr(
-            pe, "_ENTERPRISE_ATTACK_JSON", tmp_path / "missing.json", raising=False
-        )
+        monkeypatch.setattr(pe, "_ENTERPRISE_ATTACK_JSON", tmp_path / "missing.json", raising=False)
         engine = pe.get_engine()
-        monkeypatch.setattr(
-            engine, "_stix", pe._StixLoader(tmp_path / "missing.json"), raising=False
-        )
+        monkeypatch.setattr(engine, "_stix", pe._StixLoader(tmp_path / "missing.json"), raising=False)
         out = pe.phase_techniques("postexp", "", top_n=3)
         assert 0 < len(out) <= 3, story
 
     def test_atomic_fallback_when_stix_missing(self, monkeypatch, tmp_path):
         story = "without the STIX bundle the atomic index still feeds candidates"
         engine = pe.get_engine()
-        monkeypatch.setattr(
-            engine, "_stix", pe._StixLoader(tmp_path / "missing.json"), raising=False
-        )
+        monkeypatch.setattr(engine, "_stix", pe._StixLoader(tmp_path / "missing.json"), raising=False)
         out = pe.phase_techniques("exploit", "linux", top_n=4)
         assert out and all(t.get("technique_id", "").startswith("T") for t in out), story
 
@@ -138,9 +130,7 @@ class TestTechniqueSelector:
                 {"technique_id": "T1005", "name": "second"},
             ],
         )
-        decision = TechniqueSelector().propose(
-            _ctx(exclude={"atomic_tests T1003 --non-interactive --platform linux"})
-        )
+        decision = TechniqueSelector().propose(_ctx(exclude={"atomic_tests T1003 --non-interactive --platform linux"}))
         assert decision is not None and "T1005" in decision.command, story
 
     def test_routable_through_loop(self, fake_stix):

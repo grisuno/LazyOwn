@@ -92,6 +92,7 @@ class TestPhaseTechniques:
         monkeypatch.setattr(pe, "_ENTERPRISE_ATTACK_JSON", tmp_path / "missing.json", raising=False)
         engine = pe.get_engine()
         monkeypatch.setattr(engine, "_stix", pe._StixLoader(tmp_path / "missing.json"), raising=False)
+        monkeypatch.setattr(engine, "_atomic", pe._AtomicIndex(tmp_path / "missing-atomics"), raising=False)
         out = pe.phase_techniques("postexp", "", top_n=3)
         assert 0 < len(out) <= 3, story
 
@@ -99,8 +100,18 @@ class TestPhaseTechniques:
         story = "without the STIX bundle the atomic index still feeds candidates"
         engine = pe.get_engine()
         monkeypatch.setattr(engine, "_stix", pe._StixLoader(tmp_path / "missing.json"), raising=False)
+        monkeypatch.setattr(engine, "_atomic", pe._AtomicIndex(tmp_path / "missing-atomics"), raising=False)
         out = pe.phase_techniques("exploit", "linux", top_n=4)
         assert out and all(t.get("technique_id", "").startswith("T") for t in out), story
+
+    def test_parquet_fallback_without_external_checkout(self, monkeypatch, tmp_path):
+        story = "the shipped parquet catalogue feeds phases on a clean checkout"
+        engine = pe.get_engine()
+        monkeypatch.setattr(engine, "_stix", pe._StixLoader(tmp_path / "missing.json"), raising=False)
+        monkeypatch.setattr(engine, "_atomic", pe._AtomicIndex(tmp_path / "missing-atomics"), raising=False)
+        index = pe._AtomicIndex(tmp_path / "missing-atomics").build()
+        assert index and "T1003" in index, story
+        assert index["T1003"][0]["atomic_id"], story
 
 
 class TestTechniqueSelector:

@@ -408,9 +408,10 @@ def test_runner_step_sleep_jitter_applies():
     assert 0.1 <= elapsed < 1.0
 
 
-def test_runner_step_sleep_skipped_on_failure():
+def test_runner_step_sleep_skipped_on_failure(monkeypatch):
     """Given a failing step with sleep, When it runs, Then no delay applies."""
-    started = time.time()
+    sleeps: list[float] = []
+    monkeypatch.setattr("modules.chain_runner.time.sleep", lambda seconds: sleeps.append(seconds))
     chain = _chain([ChainStep(id="boom", run="boom", sleep=0.5, continue_on_error=True)])
 
     def executor(command: str) -> str:
@@ -418,7 +419,7 @@ def test_runner_step_sleep_skipped_on_failure():
 
     result = ChainRunner(chain, executor=executor, retry_backoff=0).run()
     assert result.ok is False
-    assert time.time() - started < 0.4
+    assert sleeps == []
 
 
 def test_runner_validate_rejects_parallel_sleep():

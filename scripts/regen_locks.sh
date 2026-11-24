@@ -76,9 +76,14 @@ seen = []
 for pin in pins:
     if pin.split("==")[0] not in [s.split("==")[0] for s in seen]:
         seen.append(pin)
-print("\n".join(header + seen + [""]))
+print("\n".join(header + seen).rstrip() + "\n")
 PY
 rm -f "$ROOT/.uv-export-full.tmp"
 
-echo "[+] Locks regenerated: uv.lock, requirements.txt, requirements-light.txt, requirements-ml.txt."
+echo "[*] Exporting requirements-dev.txt (dev extra, hash-pinned) ..."
+uv export --no-emit-project --extra dev \
+    --output-file requirements-dev.txt
+printf '\n' >> requirements-dev.txt
+
+echo "[+] Locks regenerated: uv.lock, requirements.txt, requirements-light.txt, requirements-ml.txt, requirements-dev.txt."
 echo "    Review 'git diff' before committing."

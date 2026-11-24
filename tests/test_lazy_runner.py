@@ -240,9 +240,11 @@ def test_autonomous_mode_flag_and_input_restore(monkeypatch):
     assert AUTONOMOUS_ENV == "LAZYOWN_AUTONOMOUS"
 
 
-def test_automsf_intent_needs_a_module_path():
+def test_automsf_intent_needs_a_module_path(monkeypatch):
     from modules import auto_registry as registry
 
+    monkeypatch.setattr(registry, "verb_gap", lambda verb: "")
+    monkeypatch.setattr(registry, "verb_enabled", lambda verb: True)
     assert registry.steps_for("auto automsf", "10.0.0.5") is None
     resolved = registry.steps_for("auto automsf use exploit/windows/smb/ms17_010_eternalblue", "10.0.0.5")
     assert resolved == ["automsf exploit/windows/smb/ms17_010_eternalblue"]

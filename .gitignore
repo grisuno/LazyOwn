@@ -9,6 +9,7 @@ puertos
 .env.*
 !.env.example
 *.csv
+!modules/data/default_creds.csv
 *.nmap*
 *.key
 *.pub

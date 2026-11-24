@@ -51,10 +51,7 @@ class TestSelectAgentFlavour:
         assert select(["atomic_test_a.ps1", "atomic_test_old.ps1"], "") == ".ps1"
 
     def test_mixed_run_prefers_majority(self, select):
-        assert (
-            select(["atomic_test_a.sh", "atomic_test_b.ps1", "atomic_test_c.ps1"], "")
-            == ".ps1"
-        )
+        assert select(["atomic_test_a.sh", "atomic_test_b.ps1", "atomic_test_c.ps1"], "") == ".ps1"
 
     def test_mixed_tie_falls_back_to_shell(self, select):
         assert select(["atomic_test_a.sh", "atomic_test_b.ps1"], "") == ".sh"

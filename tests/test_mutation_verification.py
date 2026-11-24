@@ -25,17 +25,18 @@ def test_sql_injection_blocked() -> None:
 
 
 def test_hmac_compare_digest_used() -> None:
-    """check_auth uses hmac.compare_digest and no plaintext comparison."""
-    source = Path("lazyc2.py").read_text(encoding="utf-8")
+    """Auth helpers use hmac.compare_digest and no plaintext comparison."""
+    source = (Path("lazyc2") / "security" / "auth.py").read_text(encoding="utf-8")
     tree = ast.parse(source)
-    check_auth = next(
-        (node for node in ast.walk(tree) if isinstance(node, ast.FunctionDef) and node.name == "check_auth"),
-        None,
-    )
-    assert check_auth is not None, "check_auth function not found"
-    func_source = ast.get_source_segment(source, check_auth) or ""
-    assert "hmac.compare_digest" in func_source
-    assert "username == USERNAME" not in func_source
+    auth_functions = [
+        node
+        for node in ast.walk(tree)
+        if isinstance(node, ast.FunctionDef) and node.name in ("check_auth", "_matches_boot")
+    ]
+    assert len(auth_functions) == 2, "check_auth/_matches_boot not found"
+    combined_source = "\n".join(ast.get_source_segment(source, node) or "" for node in auth_functions)
+    assert "compare_digest" in combined_source, "auth must use hmac.compare_digest"
+    assert "username == USERNAME" not in combined_source
 
 
 def test_shell_false_in_safe_runner() -> None:

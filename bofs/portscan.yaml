@@ -7,7 +7,7 @@ source_file: bofs/portscan.c
 client: beacon
 platform: windows
 category: enumeration
-client_artifact: 
+client_artifact:
 required_args: ['target', 'ports']
 optional_args: ['timeout_ms']
 mitre_technique: T1046

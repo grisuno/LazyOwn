@@ -19,7 +19,6 @@ from modules.lazy_triage import (
     SignatureStore,
     apply_rules,
     hard_evidence,
-    rank,
     signature_for,
 )
 

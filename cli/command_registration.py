@@ -25,6 +25,8 @@ import glob
 import json
 import os
 import re
+from collections.abc import Callable
+from typing import Any
 
 import cmd2
 import yaml
@@ -90,6 +92,11 @@ class CommandRegistrationMixin:
     that reads shell state through ``self`` and sets ``do_<name>``
     attributes on the shell instance.
     """
+
+    display_toastr: Callable[..., None]
+    lazyaddons_dir: str
+    lua: Any
+    plugins_dir: str
 
     def register_tool_commands(self) -> None:
         """Register every active ``tools/*.tool`` as a ``do_<toolname>`` command.

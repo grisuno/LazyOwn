@@ -745,10 +745,7 @@ class CertificateAuthority:
             if not cert_path.exists() or not key_path.exists():
                 self._write_leaf(host, cert_path, key_path)
             context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
-            try:
-                context.minimum_version = ssl.TLSVersion.TLSv1_2
-            except (AttributeError, ValueError):
-                pass
+            context.minimum_version = ssl.TLSVersion.TLSv1_2
             context.load_cert_chain(certfile=str(cert_path), keyfile=str(key_path))
             self._contexts[host] = context
             return context
@@ -1102,9 +1099,7 @@ def _make_handler():
                     auth = _upstream_auth_header(upstream.get("auth", ""))
                     if scheme == "https":
                         try:
-                            conn = _https_connection(
-                                upstream["host"], upstream["port"], timeout=UPSTREAM_TIMEOUT_SEC
-                            )
+                            conn = _https_connection(upstream["host"], upstream["port"], timeout=UPSTREAM_TIMEOUT_SEC)
                             conn.set_tunnel(host, port, headers=auth)
                             conn.request(self.command, path, body=body, headers=headers)
                         except ssl.SSLCertVerificationError:
@@ -1140,9 +1135,7 @@ def _make_handler():
                     except ssl.SSLCertVerificationError:
                         if not tls_lab_unverified_allowed(host):
                             raise
-                        log.warning(
-                            "unverified fallback for lab target %r (self-signed, operator opt-in)", host
-                        )
+                        log.warning("unverified fallback for lab target %r (self-signed, operator opt-in)", host)
                         conn = _PinnedHTTPSConnection(
                             host,
                             port,
@@ -1152,9 +1145,7 @@ def _make_handler():
                         )
                         conn.request(self.command, path, body=body, headers=headers)
                 else:
-                    conn = _PinnedHTTPConnection(
-                        host, port, pinned_ips=pinned, timeout=UPSTREAM_TIMEOUT_SEC
-                    )
+                    conn = _PinnedHTTPConnection(host, port, pinned_ips=pinned, timeout=UPSTREAM_TIMEOUT_SEC)
                     conn.request(self.command, path, body=body, headers=headers)
                 response = conn.getresponse()
                 payload = response.read(MAX_BODY_BYTES + 1)
@@ -1172,10 +1163,7 @@ def _make_handler():
                         "set LAZY_PROXY_ALLOW_SELF_SIGNED_LAB=1 or LAZY_PROXY_TRUST_CA",
                         host,
                     )
-                    hint = (
-                        " (lab self-signed: set LAZY_PROXY_ALLOW_SELF_SIGNED_LAB=1"
-                        " or LAZY_PROXY_TRUST_CA)"
-                    )
+                    hint = " (lab self-signed: set LAZY_PROXY_ALLOW_SELF_SIGNED_LAB=1 or LAZY_PROXY_TRUST_CA)"
                     return 0, "", [], b"", (str(exc) + hint)[:300]
                 return 0, "", [], b"", str(exc)[:300]
             except Exception as exc:

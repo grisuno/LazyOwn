@@ -7,7 +7,7 @@ source_file: SA/reg_query/entry.c
 client: beacon
 platform: windows
 category: enumeration
-client_artifact: 
+client_artifact:
 required_args: ['key']
 optional_args: ['value', 'server']
 mitre_technique: T1012

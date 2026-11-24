@@ -67,11 +67,7 @@ class TestCallSitesMigrated:
     def test_no_hardcoded_default_lport(self) -> None:
         for rel in ("lazyown.py", "modules/autonomous_exploit_engine.py"):
             tree = ast.parse((REPO_ROOT / rel).read_text(encoding="utf-8"))
-            hits = [
-                n
-                for n in ast.walk(tree)
-                if isinstance(n, ast.Constant) and n.value == 1337
-            ]
+            hits = [n for n in ast.walk(tree) if isinstance(n, ast.Constant) and n.value == 1337]
             assert not hits, f"{rel} must resolve the default lport via core.defaults"
 
     def test_helpers_imported(self) -> None:
@@ -82,13 +78,9 @@ class TestCallSitesMigrated:
 
 class TestWizardAndGui:
     def test_wizard_command_exists(self) -> None:
-        tree = ast.parse(
-            (REPO_ROOT / "cli" / "commands" / "defaults.py").read_text(encoding="utf-8")
-        )
+        tree = ast.parse((REPO_ROOT / "cli" / "commands" / "defaults.py").read_text(encoding="utf-8"))
         commands = {
-            node.name
-            for node in ast.walk(tree)
-            if isinstance(node, ast.FunctionDef) and node.name == "do_defaults"
+            node.name for node in ast.walk(tree) if isinstance(node, ast.FunctionDef) and node.name == "do_defaults"
         }
         assert commands == {"do_defaults"}
 

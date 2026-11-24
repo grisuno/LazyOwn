@@ -35,7 +35,12 @@ def _snapshot() -> dict:
             "relations": [
                 {"source": "host:10.0.0.2", "target": "host:10.0.0.4", "relation": "discovered_by", "weight": 1.0},
                 {"source": "shell:vsftpd", "target": "cred:msfadmin", "relation": "exposes_credential", "weight": 1.0},
-                {"source": "cred:msfadmin", "target": "host:10.0.0.4", "relation": "may_authenticate_to", "weight": 1.0},
+                {
+                    "source": "cred:msfadmin",
+                    "target": "host:10.0.0.4",
+                    "relation": "may_authenticate_to",
+                    "weight": 1.0,
+                },
                 {"source": "host:10.0.0.2", "target": "service:smb", "relation": "runs_service", "weight": 1.0},
             ]
         },

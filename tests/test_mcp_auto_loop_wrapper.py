@@ -9,8 +9,6 @@ honestly instead of falling back into a second loop.
 
 from __future__ import annotations
 
-import pytest
-
 
 def _patched(monkeypatch, tmp_path, *, run_result=None, raising=False, refused=False):
     """Patch the shared runner path plus payload loader; return captured calls."""

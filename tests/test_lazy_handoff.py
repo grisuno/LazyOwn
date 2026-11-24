@@ -55,9 +55,7 @@ class TestHandoffStart:
     def _enable(self, monkeypatch):
         monkeypatch.delenv("PYTEST_CURRENT_TEST", raising=False)
         monkeypatch.setenv(lazy_handoff.HANDOFF_ENV, "1")
-        monkeypatch.setattr(
-            "core.config.load_payload", lambda *a, **kw: {"loop_beacon_handoff": True}
-        )
+        monkeypatch.setattr("core.config.load_payload", lambda *a, **kw: {"loop_beacon_handoff": True})
 
     def test_starts_once_per_host(self, monkeypatch, tmp_path):
         self._enable(monkeypatch)
@@ -120,9 +118,7 @@ class TestHandoffStart:
         self._enable(monkeypatch)
         spawns = []
         monkeypatch.setattr(subprocess, "Popen", lambda *a, **kw: spawns.append(a))
-        assert lazy_handoff.maybe_beacon_handoff(
-            "10.0.0.11", sessions_dir=tmp_path, task_id="t0011"
-        ) is True
+        assert lazy_handoff.maybe_beacon_handoff("10.0.0.11", sessions_dir=tmp_path, task_id="t0011") is True
         argv = spawns[0][0]
         assert "--task-id" in argv
         assert argv[-1] == "t0011"
@@ -131,9 +127,7 @@ class TestHandoffStart:
 
     def test_windows_target_skipped(self, monkeypatch, tmp_path):
         self._enable(monkeypatch)
-        monkeypatch.setattr(
-            "modules.lazy_osinfer.host_os_for_target", lambda target: "windows"
-        )
+        monkeypatch.setattr("modules.lazy_osinfer.host_os_for_target", lambda target: "windows")
         spawns = []
         monkeypatch.setattr(subprocess, "Popen", lambda *a, **kw: spawns.append(a))
         assert lazy_handoff.maybe_beacon_handoff("10.0.0.6", sessions_dir=tmp_path) is False
@@ -206,10 +200,23 @@ class TestHeuristicPlan:
         goal = "privilege escalation, situational awareness and exfiltration"
         first = heuristic_plan(goal, "linux", [], sessions_dir=tmp_path)
         assert first == ["id", "netconfig:", PRIVESC_COMMAND, "exfil:/etc/passwd"]
-        seen = [{"command": c, "output": "ok"} for c in
-                ["id", "uname -a", "hostname", "pwd", "ls -la /etc", "cat /etc/passwd",
-                 "netconfig:", "softenum:", "discover:", "portscan:", PRIVESC_COMMAND,
-                 "exfil:/etc/passwd"]]
+        seen = [
+            {"command": c, "output": "ok"}
+            for c in [
+                "id",
+                "uname -a",
+                "hostname",
+                "pwd",
+                "ls -la /etc",
+                "cat /etc/passwd",
+                "netconfig:",
+                "softenum:",
+                "discover:",
+                "portscan:",
+                PRIVESC_COMMAND,
+                "exfil:/etc/passwd",
+            ]
+        ]
         second = heuristic_plan(goal, "linux", seen, sessions_dir=tmp_path)
         assert second == ["exfil:/etc/shadow"]
         seen.append({"command": "exfil:/etc/shadow", "output": "ok"})
@@ -217,9 +224,7 @@ class TestHeuristicPlan:
         assert third == []
 
     def test_os_json_fallback(self, tmp_path):
-        (tmp_path / "os.json").write_text(
-            json.dumps([{"os": "Linux", "state": "active"}]), encoding="utf-8"
-        )
+        (tmp_path / "os.json").write_text(json.dumps([{"os": "Linux", "state": "active"}]), encoding="utf-8")
         plan = heuristic_plan("exfil", "other", [], sessions_dir=tmp_path)
         assert plan[:1] == ["id"]
         assert "escalatelin:" in plan
@@ -357,25 +362,30 @@ class TestHookPlatformFilter:
     def test_windows_only_blocked_on_linux(self):
         engine = self._engine()
         for command in ("whoami /priv", "net user", "wmic process list", "dir %USERPROFILE%"):
-            assert engine._platform_compatible(
-                {"type": "run_command", "command": command}, {"platform": "linux"}
-            ) is False, command
+            assert (
+                engine._platform_compatible({"type": "run_command", "command": command}, {"platform": "linux"}) is False
+            ), command
 
     def test_linux_only_blocked_on_windows(self):
         engine = self._engine()
         for command in ("id", "uname -a", "chmod 777 /tmp", "ss -tlnp"):
-            assert engine._platform_compatible(
-                {"type": "run_command", "command": command}, {"platform": "windows"}
-            ) is False, command
+            assert (
+                engine._platform_compatible({"type": "run_command", "command": command}, {"platform": "windows"})
+                is False
+            ), command
 
     def test_dual_fallback_keeps_platform_fragment(self):
         engine = self._engine()
-        assert engine._platform_compatible(
-            {"type": "run_command", "command": "whoami /priv || id"}, {"platform": "linux"}
-        ) is True
-        assert engine._platform_compatible(
-            {"type": "run_command", "command": "ipconfig /all || ifconfig || ip a"}, {"platform": "windows"}
-        ) is True
+        assert (
+            engine._platform_compatible({"type": "run_command", "command": "whoami /priv || id"}, {"platform": "linux"})
+            is True
+        )
+        assert (
+            engine._platform_compatible(
+                {"type": "run_command", "command": "ipconfig /all || ifconfig || ip a"}, {"platform": "windows"}
+            )
+            is True
+        )
 
     def test_zero_cooldown_rule_fires_once_per_beacon(self):
         from modules.conditional_hooks import HookRule
@@ -434,9 +444,7 @@ class TestHandoffTaskResolution:
     def _enable(monkeypatch) -> None:
         monkeypatch.delenv("PYTEST_CURRENT_TEST", raising=False)
         monkeypatch.setenv(lazy_handoff.HANDOFF_ENV, "1")
-        monkeypatch.setattr(
-            "core.config.load_payload", lambda *a, **kw: {"loop_beacon_handoff": True}
-        )
+        monkeypatch.setattr("core.config.load_payload", lambda *a, **kw: {"loop_beacon_handoff": True})
 
     def test_marker_carries_resolved_task(self, monkeypatch, tmp_path):
         self._enable(monkeypatch)
@@ -474,9 +482,7 @@ class TestBeaconLiveness:
 
         monkeypatch.setattr(bof_delivery, "_c2_channel_base", lambda cfg, data: "https://127.0.0.1:1")
         monkeypatch.setattr(bof_delivery.time, "sleep", lambda *_: None)
-        monkeypatch.setattr(
-            "modules.bof_delivery.urllib.request.urlopen", raising, raising=False
-        )
+        monkeypatch.setattr("modules.bof_delivery.urllib.request.urlopen", raising, raising=False)
         assert bof_delivery.recent_beacons(config=cfg, payload={}, live_only=True) == []
         assert bof_delivery.recent_beacons(config=cfg, payload={}) != []
 
@@ -487,10 +493,13 @@ class TestBeaconLiveness:
             raise OSError("c2 down")
 
         monkeypatch.setattr(bof_delivery, "_c2_channel_base", lambda cfg, data: "https://127.0.0.1:1")
-        monkeypatch.setattr(
-            "modules.bof_delivery.urllib.request.urlopen", raising, raising=False
+        monkeypatch.setattr("modules.bof_delivery.urllib.request.urlopen", raising, raising=False)
+        assert (
+            bof_delivery.beacon_last_seen(
+                "linux_beacon", config=bof_delivery.BofDeliveryConfig(sessions_dir=tmp_path), payload={}
+            )
+            == ""
         )
-        assert bof_delivery.beacon_last_seen("linux_beacon", config=bof_delivery.BofDeliveryConfig(sessions_dir=tmp_path), payload={}) == ""
 
     def test_stale_last_seen_never_counts_as_live(self, monkeypatch, tmp_path):
         history = tmp_path / "linux_beacon.records.jsonl"
@@ -498,9 +507,7 @@ class TestBeaconLiveness:
             json.dumps({"client_id": "linux_beacon", "ips": "172.17.0.2", "timestamp": "2026-11-19T15:29:12+00:00"}),
             encoding="utf-8",
         )
-        monkeypatch.setattr(
-            "modules.bof_delivery.beacon_for_target", lambda target, config=None: "linux_beacon"
-        )
+        monkeypatch.setattr("modules.bof_delivery.beacon_for_target", lambda target, config=None: "linux_beacon")
         monkeypatch.setattr(
             "modules.bof_delivery.beacon_last_seen",
             lambda client_id, config=None, payload=None: "",
@@ -513,9 +520,7 @@ class TestBeaconLiveness:
             json.dumps({"client_id": "linux_beacon", "ips": "172.17.0.2", "timestamp": "2026-11-19T15:29:12+00:00"}),
             encoding="utf-8",
         )
-        monkeypatch.setattr(
-            "modules.bof_delivery.beacon_for_target", lambda target, config=None: "linux_beacon"
-        )
+        monkeypatch.setattr("modules.bof_delivery.beacon_for_target", lambda target, config=None: "linux_beacon")
         fresh = (datetime.now(UTC) - timedelta(seconds=30)).isoformat()
         monkeypatch.setattr(
             "modules.bof_delivery.beacon_last_seen",
@@ -529,9 +534,7 @@ class TestBeaconLiveness:
             json.dumps({"client_id": "linux_beacon", "ips": "172.17.0.2", "timestamp": "2026-11-19T15:29:12+00:00"}),
             encoding="utf-8",
         )
-        monkeypatch.setattr(
-            "modules.bof_delivery.beacon_for_target", lambda target, config=None: "linux_beacon"
-        )
+        monkeypatch.setattr("modules.bof_delivery.beacon_for_target", lambda target, config=None: "linux_beacon")
         stale = (datetime.now(UTC) - timedelta(minutes=27)).isoformat()
         monkeypatch.setattr(
             "modules.bof_delivery.beacon_last_seen",
@@ -545,16 +548,12 @@ class TestSkipReason:
     def _enable(monkeypatch) -> None:
         monkeypatch.delenv("PYTEST_CURRENT_TEST", raising=False)
         monkeypatch.setenv(lazy_handoff.HANDOFF_ENV, "1")
-        monkeypatch.setattr(
-            "core.config.load_payload", lambda *a, **kw: {"loop_beacon_handoff": True}
-        )
+        monkeypatch.setattr("core.config.load_payload", lambda *a, **kw: {"loop_beacon_handoff": True})
 
     def test_pending_marker_reason(self, monkeypatch, tmp_path):
         self._enable(monkeypatch)
         lines = []
-        lazy_handoff._marker_path("10.0.0.2", tmp_path).write_text(
-            json.dumps({"status": "pending"}), encoding="utf-8"
-        )
+        lazy_handoff._marker_path("10.0.0.2", tmp_path).write_text(json.dumps({"status": "pending"}), encoding="utf-8")
         lazy_handoff._log_skip_reason("10.0.0.2", tmp_path, lines.append)
         assert any("in flight" in line for line in lines)
 

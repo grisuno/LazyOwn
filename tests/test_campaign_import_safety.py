@@ -99,9 +99,7 @@ class TestCampaignRoutesThroughHelpers:
         calls = [
             n
             for n in ast.walk(tree)
-            if isinstance(n, ast.Call)
-            and isinstance(n.func, ast.Attribute)
-            and n.func.attr == "extractall"
+            if isinstance(n, ast.Call) and isinstance(n.func, ast.Attribute) and n.func.attr == "extractall"
         ]
         assert not calls, "campaign import must use safe_extract_zip"
 

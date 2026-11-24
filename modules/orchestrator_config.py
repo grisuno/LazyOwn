@@ -45,17 +45,37 @@ STAGE_DEFS = (
     ("archive", "Task and traffic archive snapshot", "on terminal status (done, exhausted, timeout)"),
     ("report", "Findings report export", "on terminal status when findings exist"),
     ("notify", "Channel notifications (finding, task_status)", "on finding creation and terminal status"),
-    ("ai_bus", "Publish loop events to the unified event bus and Hive Mind", "every activity line except raw stream kinds"),
+    (
+        "ai_bus",
+        "Publish loop events to the unified event bus and Hive Mind",
+        "every activity line except raw stream kinds",
+    ),
     ("detection_oracle", "Annotate commands with detection probability", "before every executed command"),
     (
         "opsec_gate",
         "Pre-execution OPSEC noise gating (allow/warn/confirm/block)",
         "before every executed command, alongside detection_oracle",
     ),
-    ("defense_validate", "Detection rule replay over attack and control logs", "on terminal status when rule_path and log files are configured"),
-    ("closedloop_tune", "Baseline vs candidate detection rule comparison with tuning suggestions", "on terminal status after defense_validate when both rules are configured"),
-    ("hunt_verify", "Evidence verdicts per chain stage (observed, inferred, not_observed, insufficient)", "on terminal status when a hunt design and evidence file exist"),
-    ("llm_pool", "LLM provider pool with circuit breaker and backoff ladder", "every pool and agent LLM call while providers trip"),
+    (
+        "defense_validate",
+        "Detection rule replay over attack and control logs",
+        "on terminal status when rule_path and log files are configured",
+    ),
+    (
+        "closedloop_tune",
+        "Baseline vs candidate detection rule comparison with tuning suggestions",
+        "on terminal status after defense_validate when both rules are configured",
+    ),
+    (
+        "hunt_verify",
+        "Evidence verdicts per chain stage (observed, inferred, not_observed, insufficient)",
+        "on terminal status when a hunt design and evidence file exist",
+    ),
+    (
+        "llm_pool",
+        "LLM provider pool with circuit breaker and backoff ladder",
+        "every pool and agent LLM call while providers trip",
+    ),
     ("rl_feedback", "MoE router and RL trainer outcome learning", "after each LLM reply, command and at terminal"),
     ("swan_ensemble", "SWAN ensemble planning (disabled by default)", "planner LLM step when enabled"),
     ("llm_stream", "Stream model deltas into the activity log", "every pool and agent LLM call while supported"),
@@ -1152,7 +1172,11 @@ def validate_config(data: Any) -> list[str]:
             if key in profile and not isinstance(profile[key], dict):
                 errors.append(f"profile {name} {key} must be a mapping")
         planner = profile.get("planner") or {}
-        if isinstance(planner, dict) and "bridge_enabled" in planner and not isinstance(planner["bridge_enabled"], bool):
+        if (
+            isinstance(planner, dict)
+            and "bridge_enabled" in planner
+            and not isinstance(planner["bridge_enabled"], bool)
+        ):
             errors.append(f"profile {name} planner bridge_enabled must be a boolean")
         termination = profile.get("termination") or {}
         if isinstance(termination, dict):
@@ -1162,7 +1186,11 @@ def validate_config(data: Any) -> list[str]:
                     f"profile {name} termination mode must be one of {'/'.join(TERMINATION_MODES)} (got {tmode!r})"
                 )
             for key in ("max_tokens_per_task", "max_tokens_per_intent", "wrapup_reserve_tokens"):
-                if key in termination and (isinstance(termination[key], bool) or not isinstance(termination[key], (int, float)) or termination[key] < 0):
+                if key in termination and (
+                    isinstance(termination[key], bool)
+                    or not isinstance(termination[key], (int, float))
+                    or termination[key] < 0
+                ):
                     errors.append(f"profile {name} termination {key} must be a non-negative number")
             if "wrapup_reserve_pct" in termination and (
                 isinstance(termination["wrapup_reserve_pct"], bool)
@@ -1175,7 +1203,9 @@ def validate_config(data: Any) -> list[str]:
             if "enabled" in leases and not isinstance(leases["enabled"], bool):
                 errors.append(f"profile {name} leases enabled must be a boolean")
             for key in ("ttl_sec", "heartbeat_sec"):
-                if key in leases and (isinstance(leases[key], bool) or not isinstance(leases[key], (int, float)) or leases[key] <= 0):
+                if key in leases and (
+                    isinstance(leases[key], bool) or not isinstance(leases[key], (int, float)) or leases[key] <= 0
+                ):
                     errors.append(f"profile {name} leases {key} must be a positive number")
         boundary = profile.get("boundary") or {}
         if isinstance(boundary, dict) and "enabled" in boundary and not isinstance(boundary["enabled"], bool):
@@ -1209,9 +1239,7 @@ def validate_config(data: Any) -> list[str]:
             errors.append(f"profile {name} progress handoff_on_strikes must be a boolean")
         mode = str(profile.get("mode", "") or "")
         if mode and mode not in ENGAGEMENT_MODES:
-            errors.append(
-                f"profile {name} mode must be one of {'/'.join(ENGAGEMENT_MODES)} (got {mode!r})"
-            )
+            errors.append(f"profile {name} mode must be one of {'/'.join(ENGAGEMENT_MODES)} (got {mode!r})")
         for key, value in (profile.get("limits") or {}).items():
             if isinstance(value, bool) or not isinstance(value, (int, float)):
                 errors.append(f"profile {name} limit {key} must be numeric")
@@ -1242,9 +1270,7 @@ def validate_config(data: Any) -> list[str]:
                     not isinstance(window, str) or not SLEEPER_WINDOW_RE.match(window.strip() or "")
                     for window in windows
                 ):
-                    errors.append(
-                        f"profile {name} pacing sleeper_windows must be a list of HH:MM-HH:MM strings"
-                    )
+                    errors.append(f"profile {name} pacing sleeper_windows must be a list of HH:MM-HH:MM strings")
             ranges = pacing.get("edr_pause_ranges")
             if ranges is not None:
                 if not isinstance(ranges, dict):
@@ -1266,7 +1292,7 @@ def validate_config(data: Any) -> list[str]:
                                 f"profile {name} pacing edr_pause_ranges level {level!r} "
                                 "must be [low, high] non-negative numbers"
                             )
-        for stage_name in (profile.get("stages") or {}):
+        for stage_name in profile.get("stages") or {}:
             if stage_name not in known_stages:
                 errors.append(f"profile {name} references unknown stage {stage_name!r}")
     try:

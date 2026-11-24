@@ -26,8 +26,7 @@ def check_file(path: Path) -> list[str]:
         tree = ast.parse(text)
     except SyntaxError as exc:
         return [f"{path}: syntax error {exc}"]
-    has_config = any(isinstance(n, ast.ClassDef) and "Config" in n.name
-                     for n in tree.body)
+    has_config = any(isinstance(n, ast.ClassDef) and "Config" in n.name for n in tree.body)
     if not has_config:
         violations.append(f"{path}: missing Config class")
     for node in tree.body:

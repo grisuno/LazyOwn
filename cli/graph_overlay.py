@@ -243,6 +243,11 @@ def _build_app(state: GraphOverlayState, theme: Theme) -> Any | None:
 
     cfg = state.config
 
+    class _GraphNodeItem(ListItem):
+        """List row carrying the graph node identifier."""
+
+        node_id: str
+
     class _GraphOverlayApp(App):
         TITLE = cfg.title
         SUB_TITLE = cfg.subtitle
@@ -292,7 +297,7 @@ def _build_app(state: GraphOverlayState, theme: Theme) -> Any | None:
             for item in items:
                 marker = f"[{item.badge}]".ljust(8)
                 row = f"{marker} {item.label}  ({item.score:.2f})"
-                element = ListItem(Static(row))
+                element = _GraphNodeItem(Static(row))
                 element.node_id = item.node_id
                 list_view.append(element)
 

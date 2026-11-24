@@ -17,7 +17,6 @@ from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
 from pathlib import Path
 
-
 WORKERS = 4
 QUEUE_SIZE = 1024
 COOLDOWN_SEC = 300.0
@@ -54,8 +53,7 @@ def scan_files_for(sessions_dir: str | Path, target: str) -> list[Path]:
     return seen
 
 
-def should_rescan(sessions_dir: str | Path, target: str,
-                  fresh_sec: float = SCAN_FRESH_SEC) -> bool:
+def should_rescan(sessions_dir: str | Path, target: str, fresh_sec: float = SCAN_FRESH_SEC) -> bool:
     """Return True when no fresh scan artefact exists for target."""
     files = scan_files_for(sessions_dir, target)
     if not files:
@@ -77,7 +75,7 @@ def resolve_dns(target: str, timeout: float = DNS_TIMEOUT_SEC) -> dict:
     try:
         _, _, addrs = socket.gethostbyname_ex(str(target))
         return {"a": list(addrs)}
-    except (socket.gaierror, socket.timeout, OSError):
+    except (TimeoutError, socket.gaierror, OSError):
         return {"a": []}
     finally:
         socket.setdefaulttimeout(old)
@@ -89,9 +87,11 @@ def fetch_http(target: str, timeout: float = HTTP_TIMEOUT_SEC) -> dict:
         try:
             req = urllib.request.Request(scheme + str(target), method="HEAD")
             with urllib.request.urlopen(req, timeout=timeout) as resp:
-                return {"scheme": scheme.rstrip("://"),
-                        "status": int(resp.status),
-                        "server": resp.headers.get("Server", "")[:128]}
+                return {
+                    "scheme": scheme[:-3],
+                    "status": int(resp.status),
+                    "server": resp.headers.get("Server", "")[:128],
+                }
         except Exception:
             continue
     return {}
@@ -105,6 +105,7 @@ class EnrichEngine:
         self._pool = ThreadPoolExecutor(max_workers=max(1, int(max_workers)))
         self._lock = threading.Lock()
         self._last: dict[str, float] = {}
+
     def submit(self, target: str) -> bool:
         """Queue DNS+HTTP enrichment unless inside cooldown."""
         key = str(target or "").strip().lower()
@@ -122,8 +123,7 @@ class EnrichEngine:
         """Execute DNS then HTTP enrichment for one target."""
         dns = resolve_dns(target)
         http = fetch_http(target)
-        return EnrichResult(target=target, ips=list(dns.get("a", [])),
-                            dns_attrs=dns, http_attrs=http)
+        return EnrichResult(target=target, ips=list(dns.get("a", [])), dns_attrs=dns, http_attrs=http)
 
     def shutdown(self, wait: bool = False) -> None:
         """Shut the pool down without blocking the loop by default."""
@@ -148,7 +148,15 @@ def shared_engine() -> EnrichEngine:
 
 
 __all__ = [
-    "WORKERS", "QUEUE_SIZE", "COOLDOWN_SEC", "SCAN_FRESH_SEC",
-    "EnrichResult", "scan_files_for", "should_rescan",
-    "resolve_dns", "fetch_http", "EnrichEngine", "shared_engine",
+    "WORKERS",
+    "QUEUE_SIZE",
+    "COOLDOWN_SEC",
+    "SCAN_FRESH_SEC",
+    "EnrichResult",
+    "scan_files_for",
+    "should_rescan",
+    "resolve_dns",
+    "fetch_http",
+    "EnrichEngine",
+    "shared_engine",
 ]

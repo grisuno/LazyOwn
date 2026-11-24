@@ -266,7 +266,7 @@ class LazyOwnDB:
             return ct.hex()
         except ImportError:
             logger.warning(
-                "Crypto module unavailable; credential stored as plaintext. Install pycryptodome to enable encryption."
+                "Crypto module unavailable; credential stored as plaintext. Install cryptography to enable encryption."
             )
             return value
 

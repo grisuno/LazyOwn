@@ -254,8 +254,6 @@ def test_enumeration_intent_does_not_escalate(tmp_path, monkeypatch):
 
 def test_worker_llm_steps_require_capable_member(tmp_path, monkeypatch):
     """Toy-model-only pools never propose worker commands."""
-    import modules.lazy_loop as loop
-
     loop, engine = _engine(tmp_path, monkeypatch)
     task_id = engine.create_task("gain initial access on 172.17.0.2")["task_id"]
     worker, graph = _worker(loop, engine, task_id)
@@ -288,7 +286,6 @@ def test_agent_with_zero_tool_calls_falls_back_to_deterministic(tmp_path, monkey
     nothing: the deterministic step loop must execute instead.
     """
     import modules.lazy_agent as agent
-    import modules.lazy_loop as loop
 
     loop, engine = _engine(tmp_path, monkeypatch)
     monkeypatch.setattr(agent, "tool_calling_enabled", lambda: True)
@@ -316,7 +313,6 @@ def test_agent_with_zero_tool_calls_falls_back_to_deterministic(tmp_path, monkey
 def test_agent_skipped_when_task_deadline_expired(tmp_path, monkeypatch):
     """An expired wall clock never starts the agent; steps still settle."""
     import modules.lazy_agent as agent
-    import modules.lazy_loop as loop
 
     loop, engine = _engine(tmp_path, monkeypatch)
     monkeypatch.setattr(agent, "tool_calling_enabled", lambda: True)
@@ -355,7 +351,6 @@ def test_goal_named_target_wins_over_payload_scope(tmp_path, monkeypatch):
     resolve_target returns the first item, so every deterministic step
     attacked loopback. The goal's explicit target must be inserted first.
     """
-    import modules.lazy_loop as loop
 
     loop, engine = _engine(tmp_path, monkeypatch)
     monkeypatch.setattr(

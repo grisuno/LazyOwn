@@ -99,9 +99,7 @@ def test_singleton_submit_roundtrip(tmp_path):
     set_write_queue(q)
     try:
         assert get_write_queue() is q
-        assert submit_write(
-            lambda db: db.host_add(db.default_workspace("default"), "10.2.2.2", hostname="b")
-        )
+        assert submit_write(lambda db: db.host_add(db.default_workspace("default"), "10.2.2.2", hostname="b"))
         assert len(database.host_list(database.default_workspace("default"))) == 1
     finally:
         set_write_queue(None)

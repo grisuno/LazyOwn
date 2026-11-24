@@ -67,6 +67,7 @@ class LazyOwnShellBridge:
         os.chdir(self.script_dir)
         try:
             import cmd2
+
             original_init = cmd2.Cmd.__init__
 
             def no_history_init(self_, *args, **kwargs):
@@ -234,10 +235,7 @@ class PromptBuilder:
         if history:
             prompt += f"Previous analysis:\n{history}\n\n"
         prompt += f"Operator query: {query}\n\n"
-        prompt += (
-            "Answer the query with tactical recommendations. "
-            "Suggest relevant LazyOwn commands if applicable."
-        )
+        prompt += "Answer the query with tactical recommendations. Suggest relevant LazyOwn commands if applicable."
         return prompt
 
 

@@ -683,7 +683,9 @@ class TestWiring:
 
     def test_lazyc2_has_engagement_hook_call(self):
         src = (REPO_ROOT / "lazyc2.py").read_text(encoding="utf-8")
-        assert "publish_shell_obtained" in src, "lazyc2.py must call publish_shell_obtained on beacon registration"
+        beacon_src = (REPO_ROOT / "lazyc2" / "beacons" / "service.py").read_text(encoding="utf-8")
+        combined = src + beacon_src
+        assert "publish_shell_obtained" in combined, "the beacon registration path must call publish_shell_obtained"
 
     def test_mcp_exposes_four_engage_tools(self):
         _sk = REPO_ROOT / "skills"

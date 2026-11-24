@@ -135,11 +135,13 @@ def test_drain_drafts_imports_pending_draft_as_task(tmp_path, monkeypatch):
     drafts_dir.mkdir(parents=True, exist_ok=True)
     draft_path = drafts_dir / "task_0001.json"
     draft_path.write_text(
-        json.dumps({
-            "status": "pending",
-            "goal": "recon 10.0.0.42",
-            "scope": [{"value": "10.0.0.42"}],
-        }),
+        json.dumps(
+            {
+                "status": "pending",
+                "goal": "recon 10.0.0.42",
+                "scope": [{"value": "10.0.0.42"}],
+            }
+        ),
         encoding="utf-8",
     )
 

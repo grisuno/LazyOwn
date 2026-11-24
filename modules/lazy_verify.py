@@ -26,8 +26,6 @@ Stdlib only; every check is bounded and non-fatal.
 from __future__ import annotations
 
 import re
-import shlex
-import socket
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
@@ -124,7 +122,11 @@ def plan_checks(finding_text: str, poc: str = "") -> list[dict]:
         _add("http_probe", f"curl -sSI --max-time {HTTP_TIMEOUT} {scheme}://{host}:{port}/", port)
     elif host and port and port not in (0,):
         _add("tcp_probe", f"timeout {CONNECT_TIMEOUT + 2} bash -c 'echo > /dev/tcp/{host}/{port}' 2>&1", port)
-        _add("banner_probe", f"timeout {CONNECT_TIMEOUT + 2} bash -c 'exec 3<>/dev/tcp/{host}/{port}; head -c 128 <&3' 2>&1", port)
+        _add(
+            "banner_probe",
+            f"timeout {CONNECT_TIMEOUT + 2} bash -c 'exec 3<>/dev/tcp/{host}/{port}; head -c 128 <&3' 2>&1",
+            port,
+        )
     if host and port and _nmap_available():
         _add("nmap_sv", f"nmap -sV -p {port} --host-timeout {NMAP_TIMEOUT}s {host}", port)
     return checks[:MAX_CHECKS]
@@ -184,7 +186,12 @@ def run_check(check: dict, executor=None) -> dict:
             result["verdict"] = "error"
         return result
     if kind == "tcp_probe":
-        if "connection refused" in lowered or "no route" in lowered or "timed out" in lowered or "unreachable" in lowered:
+        if (
+            "connection refused" in lowered
+            or "no route" in lowered
+            or "timed out" in lowered
+            or "unreachable" in lowered
+        ):
             result["verdict"] = "miss"
         elif output.strip() == "" or "completed" in lowered:
             result["verdict"] = "hit"

@@ -261,9 +261,7 @@ class LazyCommander:
             known = {str(row.get("task_id", "")) for row in rows}
             if decision.target not in known:
                 noop_streak += 1
-                decisions.append(
-                    {"action": "noop", "target": decision.target, "note": "unknown or parked target"}
-                )
+                decisions.append({"action": "noop", "target": decision.target, "note": "unknown or parked target"})
                 if noop_streak >= COMMANDER_NOOP_LIMIT:
                     reason = "unknown targets three times"
                     break
@@ -311,9 +309,7 @@ class LazyCommander:
         """
         if self._complete is not None:
             try:
-                prompt = build_commander_prompt(
-                    rows, format_commander_budget(deadline, self._clock()), worked
-                )
+                prompt = build_commander_prompt(rows, format_commander_budget(deadline, self._clock()), worked)
                 decision = parse_commander_decision(self._complete(prompt, 300) or "")
             except Exception:
                 decision = None

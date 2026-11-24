@@ -22,7 +22,6 @@ Config keys owned: none (the defaults live in
 
 from __future__ import annotations
 
-import re
 from collections.abc import Iterable
 
 import bleach
@@ -46,33 +45,70 @@ _DANGEROUS_BLOCK_TAGS: tuple[str, ...] = (
     "select",
 )
 
-_DANGEROUS_BLOCK_PATTERN = re.compile(
-    r"<\s*(?P<tag>" + "|".join(_DANGEROUS_BLOCK_TAGS) + r")\b[^>]*>.*?</\s*(?P=tag)\s*>",
-    re.IGNORECASE | re.DOTALL,
-)
-
-_DANGEROUS_VOID_PATTERN = re.compile(
-    r"<\s*(?P<tag>" + "|".join(_DANGEROUS_BLOCK_TAGS) + r")\b[^>]*/?>",
-    re.IGNORECASE,
-)
-
-_HTML_COMMENT_PATTERN = re.compile(r"<!--.*?-->", re.DOTALL)
+_DANGEROUS_OPEN_PREFIXES: tuple[str, ...] = tuple(f"<{tag}" for tag in _DANGEROUS_BLOCK_TAGS)
 
 
 def _strip_dangerous_blocks(raw_html: str) -> str:
     """Remove dangerous element blocks and their contents.
+
+    A single left-to-right scan keeps this linear in the input length:
+    every character is consumed once, so nested or repeated ``<!--`` /
+    ``<script`` sequences can never trigger polynomial backtracking.
 
     Args:
         raw_html: The HTML string to pre-process.
 
     Returns:
         The HTML with ``<script>``, ``<style>``, ``<iframe>`` and the
-        other dangerous block tags completely removed.
+        other dangerous block tags completely removed. HTML comments
+        are left for ``bleach`` (``strip_comments=True``) to strip with
+        its linear parser.
     """
-    cleaned = _DANGEROUS_BLOCK_PATTERN.sub("", raw_html)
-    cleaned = _DANGEROUS_VOID_PATTERN.sub("", cleaned)
-    cleaned = _HTML_COMMENT_PATTERN.sub("", cleaned)
-    return cleaned
+    if not raw_html:
+        return ""
+    lowered = raw_html.lower()
+    length = len(raw_html)
+    out: list[str] = []
+    index = 0
+    while index < length:
+        if lowered[index] != "<":
+            out.append(raw_html[index])
+            index += 1
+            continue
+        tag = _dangerous_tag_at(lowered, index)
+        if tag is None:
+            out.append(raw_html[index])
+            index += 1
+            continue
+        tag_end = lowered.find(">", index)
+        if tag_end == -1:
+            out.append(raw_html[index:])
+            break
+        close_marker = f"</{tag}"
+        close = lowered.find(close_marker, tag_end)
+        if close == -1:
+            index = tag_end + 1
+            continue
+        close_end = lowered.find(">", close)
+        if close_end == -1:
+            index = tag_end + 1
+            continue
+        index = close_end + 1
+    return "".join(out)
+
+
+def _dangerous_tag_at(lowered: str, index: int) -> str | None:
+    """Return the dangerous tag name starting at ``index``, else None."""
+    for tag in _DANGEROUS_BLOCK_TAGS:
+        marker = f"<{tag}"
+        if lowered.startswith(marker, index):
+            following = index + len(marker)
+            if following >= len(lowered):
+                return tag
+            nxt = lowered[following]
+            if nxt in (" ", ">", "/", "\t", "\r", "\n"):
+                return tag
+    return None
 
 
 def sanitize_html(

@@ -113,9 +113,7 @@ def test_multi_phase_verb_visible_in_each_declared_phase(sandbox, monkeypatch):
     )
     index_path = sandbox / "index.json"
     index_path.write_text(
-        '{"commands": ['
-        '{"name": "do_lazynmap", "phase": "recon"}, '
-        '{"name": "do_apt_chain", "phase": "c2"}]}',
+        '{"commands": [{"name": "do_lazynmap", "phase": "recon"}, {"name": "do_apt_chain", "phase": "c2"}]}',
         encoding="utf-8",
     )
 

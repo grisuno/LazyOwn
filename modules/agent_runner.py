@@ -559,7 +559,9 @@ class LazyOwnShellWrapper:
 
         if t.is_alive():
             logging.error(f"TIMEOUT in command: {command}")
-            return f"TIMEOUT: command '{command}' exceeded {COMMAND_TIMEOUT} seconds. It may be waiting for input or hung."
+            return (
+                f"TIMEOUT: command '{command}' exceeded {COMMAND_TIMEOUT} seconds. It may be waiting for input or hung."
+            )
 
         try:
             return result_queue.get_nowait() or "Command executed (no visible output)"

@@ -375,7 +375,7 @@ class TenantConfig:
 
     @classmethod
     def from_payload(cls, tenant_id: str, name: str, payload_path: str) -> TenantConfig:
-        sessions_dir = os.path.join("sessions", tenant_id)
+        sessions_dir = _tenant_sessions_dir(tenant_id)
         return cls(
             tenant_id=tenant_id,
             name=name,
@@ -460,16 +460,24 @@ class TenantManager:
             raise ValueError(f"Tenant '{tenant_id}' already exists")
 
         self._payloads_dir.mkdir(parents=True, exist_ok=True)
-        target_payload = self._payloads_dir / f"{tenant_id}.json"
+        payloads_base = os.path.realpath(str(self._payloads_dir))
+        target_real = os.path.realpath(os.path.join(payloads_base, f"{tenant_id}.json"))
+        if not target_real.startswith(payloads_base + os.sep):
+            raise ValueError(f"Invalid tenant id: '{tenant_id}'")
+        target_payload = Path(target_real)
 
         if base_payload and os.path.exists(base_payload):
-            target_payload.write_text(Path(base_payload).read_text(encoding="utf-8"))
+            base_real = os.path.realpath(str(self._default_payload))
+            source_real = os.path.realpath(base_payload)
+            if not source_real.startswith(base_real + os.sep):
+                raise ValueError(f"Invalid base payload: '{base_payload}'")
+            target_payload.write_text(Path(source_real).read_text(encoding="utf-8"))
         elif os.path.exists(self._default_payload):
             target_payload.write_text(Path(self._default_payload).read_text(encoding="utf-8"))
         else:
             target_payload.write_text("{}")
 
-        sessions_dir = os.path.join("sessions", tenant_id)
+        sessions_dir = _tenant_sessions_dir(tenant_id)
         os.makedirs(sessions_dir, exist_ok=True)
 
         tc = TenantConfig.from_payload(
@@ -518,6 +526,25 @@ def _slugify(name: str) -> str:
     slug = re.sub(r"[^a-z0-9]+", "_", slug)
     slug = re.sub(r"_+", "_", slug)
     return slug.strip("_") or "default"
+
+
+def _tenant_sessions_dir(tenant_id: str) -> str:
+    """Return the sessions directory for one tenant, containment-checked.
+
+    Args:
+        tenant_id: Slugified tenant id.
+
+    Returns:
+        The ``sessions/<tenant_id>`` path string.
+
+    Raises:
+        ValueError: If the resolved path escapes the sessions directory.
+    """
+    sessions_base = os.path.realpath(DEFAULT_SESSIONS_DIR)
+    candidate = os.path.realpath(os.path.join(sessions_base, tenant_id))
+    if not candidate.startswith(sessions_base + os.sep):
+        raise ValueError(f"Invalid tenant id: '{tenant_id}'")
+    return os.path.join(DEFAULT_SESSIONS_DIR, tenant_id)
 
 
 def init_rbac_store(users_path: str = DEFAULT_USERS_PATH) -> RBACStore:

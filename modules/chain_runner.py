@@ -439,7 +439,9 @@ class ChainRunner:
                     group.append(steps[cursor])
                     cursor += 1
                 self._warn_parallel_group(result, step, group, steps, cursor)
-                outcomes, group_failure = self._run_parallel_group(group, executions, resumed_ok, variables, captured_keys, dict(verdicts))
+                outcomes, group_failure = self._run_parallel_group(
+                    group, executions, resumed_ok, variables, captured_keys, dict(verdicts)
+                )
                 result.steps.extend(outcomes)
                 for group_outcome in outcomes:
                     self._record_verdict(verdicts, group_outcome)
@@ -453,7 +455,9 @@ class ChainRunner:
                     self._pace_after(max(ok_group, key=lambda out: out.duration_ms), started)
                 replan_skip = False
                 for group_outcome in outcomes:
-                    if self._apply_replanner(result, cursor - 1, group_outcome, steps, step_index, variables, captured_keys):
+                    if self._apply_replanner(
+                        result, cursor - 1, group_outcome, steps, step_index, variables, captured_keys
+                    ):
                         replan_skip = True
                         break
                 self._save_checkpoint(result, variables, captured_keys, cursor, "running", verdicts)
@@ -568,14 +572,8 @@ class ChainRunner:
             executed = [step for step in result.steps if step.status == "ok"]
             captured = [step for step in executed if step.captured]
             observed = [value for value in result.verdicts.values() if value == VERDICT_OBSERVED]
-            rescued = bool(result.fallback_used) and all(
-                step.ok for step in result.steps if step.from_fallback
-            )
-            open_steps = [
-                step.id
-                for step in result.steps
-                if not step.ok and not (rescued and not step.from_fallback)
-            ]
+            rescued = bool(result.fallback_used) and all(step.ok for step in result.steps if step.from_fallback)
+            open_steps = [step.id for step in result.steps if not step.ok and not (rescued and not step.from_fallback)]
             decision = lazy_finalizer.decide(
                 status="done" if not result.aborted else "failed",
                 candidate_verdict="achieved" if (result.ok and not result.aborted) else "partial",
@@ -832,11 +830,7 @@ class ChainRunner:
         """
         if outcome.status != "ok":
             return []
-        return [
-            sink
-            for sink in dict.fromkeys(outcome.sinks)
-            if sink and sink not in _STREAMING_SINKS
-        ]
+        return [sink for sink in dict.fromkeys(outcome.sinks) if sink and sink not in _STREAMING_SINKS]
 
     def _publish_step(self, outcome: StepOutcome) -> None:
         """Stream one executed step to the outcome bus (fail-soft).
@@ -859,11 +853,15 @@ class ChainRunner:
         if self.dry_run:
             return
         step = self._steps_by_id.get(outcome.id)
-        steer = bool(
-            not outcome.ok
-            and outcome.status not in ("skipped", "denied")
-            and not (step.on_fail or step.continue_on_error)
-        ) if step is not None else False
+        steer = (
+            bool(
+                not outcome.ok
+                and outcome.status not in ("skipped", "denied")
+                and not (step.on_fail or step.continue_on_error)
+            )
+            if step is not None
+            else False
+        )
         try:
             from modules.detection_oracle import get_oracle
             from modules.outcome_bus import OutcomeEvent, record
@@ -1442,9 +1440,7 @@ class ChainRunner:
                 _LOG.debug("command_filter failed, using original command: %s", exc)
         limit = float(timeout or self.default_timeout)
         allowed = {
-            code
-            for code in expect_exits[:_MAX_EXPECT_EXITS]
-            if isinstance(code, int) and 0 <= code <= _EXPECT_EXIT_MAX
+            code for code in expect_exits[:_MAX_EXPECT_EXITS] if isinstance(code, int) and 0 <= code <= _EXPECT_EXIT_MAX
         }
         if self.executor is not None:
             return self._call(lambda: self.executor(command), limit)
@@ -1467,11 +1463,7 @@ class ChainRunner:
         Returns:
             True when the in-place SIGALRM watchdog is usable.
         """
-        return (
-            limit > 0
-            and threading.current_thread() is threading.main_thread()
-            and hasattr(signal, "SIGALRM")
-        )
+        return limit > 0 and threading.current_thread() is threading.main_thread() and hasattr(signal, "SIGALRM")
 
     def _run_verb_bounded(self, command: str, limit: float) -> tuple[bool, str, str]:
         """Run a cmd2 verb with a timeout honoured on and off the main thread.
@@ -1542,9 +1534,7 @@ class ChainRunner:
 
         alarm_seconds = max(0, int(math.ceil(float(timeout or 0.0))))
         use_alarm = (
-            alarm_seconds > 0
-            and threading.current_thread() is threading.main_thread()
-            and hasattr(signal, "SIGALRM")
+            alarm_seconds > 0 and threading.current_thread() is threading.main_thread() and hasattr(signal, "SIGALRM")
         )
 
         def _raise_timeout(_signum: int, _frame: Any) -> None:

@@ -181,7 +181,9 @@ def resolve(node: dict, sessions_dir: str | Path = SESSIONS_DIR) -> str:
     sources = {str(s) for s in (node.get("sources", []) or [])}
     if len(sources) >= AUTO_CONFIRM_SOURCES:
         return CONFIRMED
-    hard = evidence_floor(list(sources) + [str(node.get("text", "")), str((node.get("meta") or {}).get("evidence", ""))])
+    hard = evidence_floor(
+        list(sources) + [str(node.get("text", "")), str((node.get("meta") or {}).get("evidence", ""))]
+    )
     if hard:
         return CONFIRMED
     return PENDING

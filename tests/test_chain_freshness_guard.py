@@ -48,8 +48,9 @@ def test_schema_validates_skip_max_age():
         errors = validate_chain(
             {
                 "name": "demo",
-                "steps": [{"run": "scan {target}", "skip_if_exists": "sessions/scan_{target}.nmap.xml",
-                           "skip_max_age": bad}],
+                "steps": [
+                    {"run": "scan {target}", "skip_if_exists": "sessions/scan_{target}.nmap.xml", "skip_max_age": bad}
+                ],
             },
             filename="demo",
         )
@@ -57,8 +58,9 @@ def test_schema_validates_skip_max_age():
     ok = validate_chain(
         {
             "name": "demo",
-            "steps": [{"run": "scan {target}", "skip_if_exists": "sessions/scan_{target}.nmap.xml",
-                       "skip_max_age": 86400}],
+            "steps": [
+                {"run": "scan {target}", "skip_if_exists": "sessions/scan_{target}.nmap.xml", "skip_max_age": 86400}
+            ],
         },
         filename="demo",
     )
@@ -77,8 +79,9 @@ def test_runner_reexecutes_stale_step(tmp_path: Path):
     chain = Chain(
         name="demo",
         defaults={"target": "10.0.0.9", "artifact": str(tmp_path / "scan.nmap.xml")},
-        steps=[ChainStep(id="scan", run="scan {target} --out {artifact}", skip_if_exists="{artifact}",
-                          skip_max_age=60)],
+        steps=[
+            ChainStep(id="scan", run="scan {target} --out {artifact}", skip_if_exists="{artifact}", skip_max_age=60)
+        ],
     )
     result = ChainRunner(chain, executor=executor, retry_backoff=0).run()
     assert result.ok is True
@@ -98,8 +101,9 @@ def test_runner_skips_fresh_step(tmp_path: Path):
     chain = Chain(
         name="demo",
         defaults={"target": "10.0.0.9", "artifact": str(tmp_path / "scan.nmap.xml")},
-        steps=[ChainStep(id="scan", run="scan {target} --out {artifact}", skip_if_exists="{artifact}",
-                          skip_max_age=3600)],
+        steps=[
+            ChainStep(id="scan", run="scan {target} --out {artifact}", skip_if_exists="{artifact}", skip_max_age=3600)
+        ],
     )
     result = ChainRunner(chain, executor=executor, retry_backoff=0).run()
     assert result.ok is True

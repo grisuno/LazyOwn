@@ -26,9 +26,7 @@ def test_can_parse_by_content_and_filename():
 
 def test_parse_extracts_crypt_credentials():
     """Given crypt lines, When parsed, Then each user yields a typed hash fact."""
-    creds, shares, access, _vulns, _paths = ShadowParser().parse_extended(
-        "10.0.0.55", _SHADOW_CONTENT, "spool.txt"
-    )
+    creds, shares, access, _vulns, _paths = ShadowParser().parse_extended("10.0.0.55", _SHADOW_CONTENT, "spool.txt")
     by_user = {cred.username: cred for cred in creds}
     assert set(by_user) == {"root", "svc", "ops"}
     assert by_user["root"].hash_type == "SHA-512-crypt"
@@ -58,12 +56,11 @@ def test_unknown_prefix_is_skipped():
 
 def test_access_root_fact_when_shadow_present():
     """Given any shadow-like line, When parsed, Then root access is recorded."""
-    _creds, _shares, access, _vulns, _paths = ShadowParser().parse_extended(
-        "10.0.0.55", _SHADOW_CONTENT, "spool.txt"
-    )
+    _creds, _shares, access, _vulns, _paths = ShadowParser().parse_extended("10.0.0.55", _SHADOW_CONTENT, "spool.txt")
     assert len(access) == 1
     assert access[0].level == "root"
     assert access[0].method == "shadow-read"
+
 
 def test_locked_only_dump_gets_access_fact(tmp_path: Path):
     """Given a shadow dump with locked accounts only, When ingested, Then root access records."""

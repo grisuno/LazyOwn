@@ -6,6 +6,7 @@ import sys
 from pathlib import Path
 from types import SimpleNamespace
 
+import pytest
 import yaml
 
 _ROOT = Path(__file__).parent.parent
@@ -47,9 +48,7 @@ def test_steps_for_explicit_atomic_intent() -> None:
     assert steps_for("auto atomic_tests T1059.001 on windows", "10.0.0.5") == [
         "atomic_tests T1059.001 --platform windows --non-interactive"
     ]
-    assert steps_for("auto atomic_gen T1059.001", "10.0.0.5") == [
-        "atomic_gen T1059.001 --non-interactive"
-    ]
+    assert steps_for("auto atomic_gen T1059.001", "10.0.0.5") == ["atomic_gen T1059.001 --non-interactive"]
 
 
 def test_steps_for_keyword_atomic_intent() -> None:
@@ -85,15 +84,16 @@ def test_steps_for_explicit_playbook_intent() -> None:
 
 def test_steps_for_keyword_playbook_intent() -> None:
     """Any '<name> playbook' intent resolves; bare mentions abstain."""
-    assert steps_for("emulate the rocke playbook against linux", "172.17.0.2") == [
-        "apt_playbook run rocke"
-    ]
+    assert steps_for("emulate the rocke playbook against linux", "172.17.0.2") == ["apt_playbook run rocke"]
     assert steps_for("run the apt29 playbook", "172.17.0.2") == ["apt_playbook run apt29"]
     assert steps_for("emulate apt playbook techniques", "172.17.0.2") is None
 
 
 def test_rocke_playbook_resolves_linux_chain() -> None:
     """Rocke playbook loads, validates, and every staged technique exists."""
+    atomics = _ROOT / "external" / ".exploit" / "atomic-red-team" / "atomics"
+    if not atomics.is_dir():
+        pytest.skip("atomic-red-team checkout not present")
     engine = AptPlaybookEngine(playbook_dir="playbooks")
     pb = engine.get("rocke")
     assert pb is not None and "linux" in pb.platforms
@@ -135,9 +135,7 @@ def test_loop_reaches_apt_chain_end_to_end() -> None:
 
 def test_apt_chain_binds_playbook_and_target() -> None:
     """Explicit chain intents bind both slots; explicit IP wins."""
-    assert steps_for("auto apt_chain rocke 172.17.0.2", "10.0.0.5") == [
-        "apt_chain apt_rocke 172.17.0.2"
-    ]
+    assert steps_for("auto apt_chain rocke 172.17.0.2", "10.0.0.5") == ["apt_chain apt_rocke 172.17.0.2"]
     assert steps_for("auto apt_chain apt29 10.0.0.9", "") == ["apt_chain apt_apt29 10.0.0.9"]
     assert steps_for("auto apt_chain 172.17.0.2", "") == ["apt_chain apt_rocke 172.17.0.2"]
     assert steps_for("auto apt_chain", "172.17.0.2") == ["apt_chain apt_rocke 172.17.0.2"]
@@ -146,12 +144,8 @@ def test_apt_chain_binds_playbook_and_target() -> None:
 def test_apt_chain_keyword_never_invents_playbook() -> None:
     """Free-text binds IPs and <name> playbook forms only, never filler."""
     assert steps_for("run the full apt chain", "172.17.0.2") == ["apt_chain apt_rocke 172.17.0.2"]
-    assert steps_for("run the full apt chain on 10.0.0.9", "172.17.0.2") == [
-        "apt_chain apt_rocke 10.0.0.9"
-    ]
-    assert steps_for("prove the chain with the apt29 playbook", "172.17.0.2") == [
-        "apt_chain apt_apt29 172.17.0.2"
-    ]
+    assert steps_for("run the full apt chain on 10.0.0.9", "172.17.0.2") == ["apt_chain apt_rocke 10.0.0.9"]
+    assert steps_for("prove the chain with the apt29 playbook", "172.17.0.2") == ["apt_chain apt_apt29 172.17.0.2"]
 
 
 def test_apt_chain_line_routes_via_shell() -> None:
@@ -172,8 +166,7 @@ def test_planner_discovers_apt_chain_verb() -> None:
     assert "auto apt_chain 172.17.0.2" in propose_intents("full apt chain", "172.17.0.2")
 
 
-def test_validate_resolves_technique_ids(
-    tmp_path: Path, monkeypatch) -> None:
+def test_validate_resolves_technique_ids(tmp_path: Path, monkeypatch) -> None:
     """Playbook T-IDs validate through the resolver, not just GUIDs."""
     atomics = _fixture_atomics(tmp_path)
     monkeypatch.setattr(

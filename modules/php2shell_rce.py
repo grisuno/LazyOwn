@@ -160,11 +160,11 @@ def _extract_output(stdout: str) -> str:
     confirmed = text.find(RCE_CONFIRMED_PREFIX)
     if confirmed == -1:
         return ""
-    output = text[confirmed + len(RCE_CONFIRMED_PREFIX):]
+    output = text[confirmed + len(RCE_CONFIRMED_PREFIX) :]
     output = output.strip()
     for marker in ("___START___", "___END___"):
         if output.startswith(marker):
-            output = output[len(marker):].lstrip("\n")
+            output = output[len(marker) :].lstrip("\n")
         if output.endswith(marker):
             output = output[: -len(marker)].rstrip("\n")
     return output.strip()

@@ -32,17 +32,33 @@ MAX_LAN_NODES = 500
 SKIP_ETYPES = frozenset({"source"})
 
 RAW_TYPE_MAP = {
-    "ipv4": "host", "ipv6": "host",
+    "ipv4": "host",
+    "ipv6": "host",
     "domain": "domain",
-    "cve": "finding", "ghsa": "finding",
-    "url": "url", "email": "email", "asn": "asn", "mac": "mac",
+    "cve": "finding",
+    "ghsa": "finding",
+    "url": "url",
+    "email": "email",
+    "asn": "asn",
+    "mac": "mac",
 }
 
-KNOWN_EDGE_TYPES = frozenset({
-    "commands", "owns", "serves", "has_finding", "targets", "runs",
-    "observed_in", "controls", "discovered", "opens",
-    "member_of", "layered_as",
-})
+KNOWN_EDGE_TYPES = frozenset(
+    {
+        "commands",
+        "owns",
+        "serves",
+        "has_finding",
+        "targets",
+        "runs",
+        "observed_in",
+        "controls",
+        "discovered",
+        "opens",
+        "member_of",
+        "layered_as",
+    }
+)
 
 
 def estorides_checkout() -> Path | None:
@@ -81,9 +97,9 @@ def find_export(sessions_dir: str | Path = SESSIONS_DIR) -> Path | None:
     return None
 
 
-def run_export(sessions_dir: str | Path = SESSIONS_DIR,
-               cli_path: str | None = None,
-               timeout_sec: float = 300.0) -> Path | None:
+def run_export(
+    sessions_dir: str | Path = SESSIONS_DIR, cli_path: str | None = None, timeout_sec: float = 300.0
+) -> Path | None:
     """Run ``estorides_cli.py graph --export lazyown`` into sessions/.
 
     Never raises: failures return None and the caller keeps working with
@@ -104,8 +120,11 @@ def run_export(sessions_dir: str | Path = SESSIONS_DIR,
     try:
         subprocess.run(
             ["python3", "estorides_cli.py", "graph", "--export", "lazyown"],
-            cwd=str(checkout), capture_output=True, text=True,
-            timeout=timeout_sec, check=False,
+            cwd=str(checkout),
+            capture_output=True,
+            text=True,
+            timeout=timeout_sec,
+            check=False,
         )
     except (OSError, subprocess.SubprocessError):
         return None
@@ -156,11 +175,16 @@ def _from_raw(document: dict) -> dict:
         nid = str(node.get("id", f"{etype}:{value}"))
         id_map[nid] = (kind, value)
         sources = node.get("sources", []) or []
-        nodes.append({"kind": kind, "etype": etype, "value": value,
-                      "label": value,
-                      "sources": [str(s) for s in sources if s],
-                      "attrs": {k: v for k, v in node.items()
-                                if isinstance(v, (str, int, float, bool))}})
+        nodes.append(
+            {
+                "kind": kind,
+                "etype": etype,
+                "value": value,
+                "label": value,
+                "sources": [str(s) for s in sources if s],
+                "attrs": {k: v for k, v in node.items() if isinstance(v, (str, int, float, bool))},
+            }
+        )
     edges = []
     for edge in document.get("edges", []) or []:
         if not isinstance(edge, dict):
@@ -170,10 +194,16 @@ def _from_raw(document: dict) -> dict:
         if not src or not dst:
             continue
         relation = str(edge.get("relation", edge.get("type", "related")))
-        edges.append({"source_kind": src[0], "source_value": src[1],
-                      "target_kind": dst[0], "target_value": dst[1],
-                      "type": relation if relation in KNOWN_EDGE_TYPES else "observed_in",
-                      "evidence": f"estorides:{edge.get('relation', 'related')}"[:200]})
+        edges.append(
+            {
+                "source_kind": src[0],
+                "source_value": src[1],
+                "target_kind": dst[0],
+                "target_value": dst[1],
+                "type": relation if relation in KNOWN_EDGE_TYPES else "observed_in",
+                "evidence": f"estorides:{edge.get('relation', 'related')}"[:200],
+            }
+        )
     return {"nodes": nodes, "edges": edges}
 
 
@@ -184,8 +214,7 @@ def community_for(kind: str, value: str) -> str:
     return "intel"
 
 
-def merge_estorides(nodes: dict[str, dict], edges: list[dict],
-                    est: dict, cap: int = MAX_NEW_NODES) -> dict:
+def merge_estorides(nodes: dict[str, dict], edges: list[dict], est: dict, cap: int = MAX_NEW_NODES) -> dict:
     """Fuse estorides entities into graph nodes/edges in place.
 
     Matching (kind, value) fuses records; new entities arrive with
@@ -225,13 +254,17 @@ def merge_estorides(nodes: dict[str, dict], edges: list[dict],
                 est_id[id(raw)] = nid
                 continue
             community = community_for(kind, value)
-            nodes[nid] = {"id": nid, "kind": kind, "value": value,
-                          "label": str(raw.get("label", value)),
-                          "meta": {}, "color": "#e0e0e0",
-                          "familyColor": "#e0e0e0",
-                          "community": community,
-                          "sources": ["estorides"] + [s for s in raw.get("sources", [])
-                                                     if s != "estorides"][:4]}
+            nodes[nid] = {
+                "id": nid,
+                "kind": kind,
+                "value": value,
+                "label": str(raw.get("label", value)),
+                "meta": {},
+                "color": "#e0e0e0",
+                "familyColor": "#e0e0e0",
+                "community": community,
+                "sources": ["estorides"] + [s for s in raw.get("sources", []) if s != "estorides"][:4],
+            }
             attrs = raw.get("attrs", {}) or {}
             for field in ("os", "service", "version", "severity", "confidence"):
                 if attrs.get(field):
@@ -244,23 +277,26 @@ def merge_estorides(nodes: dict[str, dict], edges: list[dict],
     for edge in est.get("edges", []) or []:
         if not isinstance(edge, dict):
             continue
-        src = key_to_id.get((str(edge.get("source_kind", "intel")),
-                             _norm(edge.get("source_value"))))
-        dst = key_to_id.get((str(edge.get("target_kind", "intel")),
-                             _norm(edge.get("target_value"))))
+        src = key_to_id.get((str(edge.get("source_kind", "intel")), _norm(edge.get("source_value"))))
+        dst = key_to_id.get((str(edge.get("target_kind", "intel")), _norm(edge.get("target_value"))))
         if not src or not dst or src == dst:
             continue
         etype = str(edge.get("type", "observed_in"))
         if etype not in KNOWN_EDGE_TYPES:
             etype = "observed_in"
-        if any(e["source"] == src and e["target"] == dst and e["type"] == etype
-               for e in edges):
+        if any(e["source"] == src and e["target"] == dst and e["type"] == etype for e in edges):
             continue
-        color = {"member_of": "rgba(167,139,250,.22)",
-                 "layered_as": "rgba(52,211,153,.16)"}.get(etype, "#808080")
-        edges.append({"source": src, "target": dst, "type": etype,
-                      "evidence": str(edge.get("evidence", "estorides"))[:200],
-                      "color": color, "weight": 1.0})
+        color = {"member_of": "rgba(167,139,250,.22)", "layered_as": "rgba(52,211,153,.16)"}.get(etype, "#808080")
+        edges.append(
+            {
+                "source": src,
+                "target": dst,
+                "type": etype,
+                "evidence": str(edge.get("evidence", "estorides"))[:200],
+                "color": color,
+                "weight": 1.0,
+            }
+        )
         stats["edges"] += 1
     return stats
 
@@ -301,21 +337,38 @@ def load_lan_bundle(path: str | Path) -> dict:
                 continue
             sources = [str(s) for s in (dev.get("sources") or []) if s] or ["lan"]
             for ip in dev.get("ips", []) or []:
-                nodes.append({"kind": "host",
-                              "etype": "ipv6" if ":" in str(ip) else "ipv4",
-                              "value": str(ip), "label": str(ip),
-                              "sources": sources,
-                              "attrs": {"device_id": str(dev.get("device_id", ""))}})
+                nodes.append(
+                    {
+                        "kind": "host",
+                        "etype": "ipv6" if ":" in str(ip) else "ipv4",
+                        "value": str(ip),
+                        "label": str(ip),
+                        "sources": sources,
+                        "attrs": {"device_id": str(dev.get("device_id", ""))},
+                    }
+                )
             if dev.get("mac"):
-                nodes.append({"kind": "mac", "etype": "mac",
-                              "value": str(dev["mac"]), "label": str(dev["mac"]),
-                              "sources": sources,
-                              "attrs": {"device_id": str(dev.get("device_id", ""))}})
+                nodes.append(
+                    {
+                        "kind": "mac",
+                        "etype": "mac",
+                        "value": str(dev["mac"]),
+                        "label": str(dev["mac"]),
+                        "sources": sources,
+                        "attrs": {"device_id": str(dev.get("device_id", ""))},
+                    }
+                )
             for host in dev.get("hostnames", []) or []:
-                nodes.append({"kind": "domain", "etype": "domain",
-                              "value": str(host), "label": str(host),
-                              "sources": sources,
-                              "attrs": {"device_id": str(dev.get("device_id", ""))}})
+                nodes.append(
+                    {
+                        "kind": "domain",
+                        "etype": "domain",
+                        "value": str(host),
+                        "label": str(host),
+                        "sources": sources,
+                        "attrs": {"device_id": str(dev.get("device_id", ""))},
+                    }
+                )
         return {"nodes": nodes, "edges": edges}
     return load_export(path)
 
@@ -331,9 +384,12 @@ def split_lan_targets(est: dict) -> tuple[dict, dict]:
     edges = [e for e in est.get("edges", []) if isinstance(e, dict)]
     attack_nodes = [n for n in nodes if n.get("kind") == "host"]
     host_values = {str(n.get("value", "")).strip().lower() for n in attack_nodes}
-    attack_edges = [e for e in edges
-                    if str(e.get("source_value", "")).strip().lower() in host_values
-                    or str(e.get("target_value", "")).strip().lower() in host_values]
+    attack_edges = [
+        e
+        for e in edges
+        if str(e.get("source_value", "")).strip().lower() in host_values
+        or str(e.get("target_value", "")).strip().lower() in host_values
+    ]
     attack = {"nodes": attack_nodes, "edges": attack_edges}
     return ({"nodes": nodes, "edges": edges}, attack)
 

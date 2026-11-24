@@ -10,7 +10,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from modules.lazy_world_diff import SurfaceChange, record_changes, recent_changes
+from modules.lazy_world_diff import SurfaceChange, recent_changes, record_changes
 from modules.outcome_bus import OutcomeEvent
 from modules.sinks.world_diff import _DIFF_KINDS
 

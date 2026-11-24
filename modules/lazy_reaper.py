@@ -81,8 +81,13 @@ def reap(
             expired_count += 1
             _log(
                 log_path,
-                {"ts": time.time(), "task_id": task_id, "age": round(age, 1),
-                 "action": "expired", "status": _TERMINAL_STATUS},
+                {
+                    "ts": time.time(),
+                    "task_id": task_id,
+                    "age": round(age, 1),
+                    "action": "expired",
+                    "status": _TERMINAL_STATUS,
+                },
             )
         else:
             kept += 1

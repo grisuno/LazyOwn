@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-import unittest
 import tempfile
+import unittest
 from pathlib import Path as _Path
 from unittest.mock import patch
 
@@ -141,7 +141,11 @@ class AdLabRuntimeSpec(unittest.TestCase):
         listing = type("R", (), {"returncode": 0, "stdout": "Administrator\nGuest\nkrbtgt\n", "stderr": ""})()
 
         def fake_docker(*args, **kwargs):
-            return listing if args[:2] == ("exec", "samba-tool-args") or True and "user" in args and "list" in args else probe
+            return (
+                listing
+                if args[:2] == ("exec", "samba-tool-args") or True and "user" in args and "list" in args
+                else probe
+            )
 
         calls = []
 

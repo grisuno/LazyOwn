@@ -90,9 +90,7 @@ def playbook_to_chain(
             if step is not None:
                 steps.append(step)
         techniques = [
-            test.atomic_id
-            for test in phase.atomic_tests
-            if (test.atomic_id or "").strip() and not test.manual
+            test.atomic_id for test in phase.atomic_tests if (test.atomic_id or "").strip() and not test.manual
         ]
         if techniques:
             step = _action_to_step(

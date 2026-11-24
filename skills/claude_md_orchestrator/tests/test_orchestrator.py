@@ -317,13 +317,9 @@ def test_cicd_deploy_gate_checks_secret(config: Config) -> None:
     )
     spec = sdd_agent.run(contract, config).spec
     config.deploy_gate_token = "gate-secret-token"
-    shipped = cicd_agent.run(
-        contract, spec, None, config, deploy_token="gate-secret-token"
-    )
+    shipped = cicd_agent.run(contract, spec, None, config, deploy_token="gate-secret-token")
     assert shipped.deployed is True
-    rejected = cicd_agent.run(
-        contract, spec, None, config, deploy_token="wrong-token"
-    )
+    rejected = cicd_agent.run(contract, spec, None, config, deploy_token="wrong-token")
     assert rejected.deployed is False
     closed = cicd_agent.run(contract, spec, None, config, deploy_token=None)
     assert closed.deployed is False
@@ -338,14 +334,8 @@ def test_cicd_deploy_gate_is_timing_safe() -> None:
     for node in _ast.walk(tree):
         if isinstance(node, _ast.FunctionDef) and node.name == "run":
             calls = {
-                n.func.attr
-                for n in _ast.walk(node)
-                if isinstance(n, _ast.Call)
-                and isinstance(n.func, _ast.Attribute)
+                n.func.attr for n in _ast.walk(node) if isinstance(n, _ast.Call) and isinstance(n.func, _ast.Attribute)
             }
-            assert "compare_digest" in calls, (
-                "cicd run must compare deploy tokens with "
-                "hmac.compare_digest"
-            )
+            assert "compare_digest" in calls, "cicd run must compare deploy tokens with hmac.compare_digest"
             return
     raise AssertionError("cicd run not found")

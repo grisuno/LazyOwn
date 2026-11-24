@@ -7,7 +7,7 @@ from pathlib import Path
 
 import pytest
 
-from modules.memory_embeddings import EmbeddingError, cosine, embed, semantic_top_k, as_floats
+from modules.memory_embeddings import EmbeddingError, as_floats, cosine, embed
 from modules.memory_store import MemoryEntry, MemoryStore, VectorSQLiteBackend
 
 

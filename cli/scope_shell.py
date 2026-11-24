@@ -19,8 +19,11 @@ from __future__ import annotations
 
 import shlex
 import sys
+from collections.abc import Callable
+from typing import Any
 
 import cmd2
+from rich.console import Console
 
 from cli.scope_guard import (
     ScopeGuard,
@@ -46,6 +49,12 @@ class ScopeShellMixin:
     Mixed into :class:`LazyOwnShell`; every method is an instance method
     that reads shell state through ``self``.
     """
+
+    aliases: dict[str, str]
+    console: Console
+    params: dict[str, Any]
+    get_all_commands: Callable[[], list[str]]
+    _scope_offensive: frozenset[str]
 
     def _build_scope_offensive(self) -> frozenset:
         """Compute the set of offensive command names from cmd2 categories.

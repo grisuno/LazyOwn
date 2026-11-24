@@ -10,7 +10,6 @@ import pytest
 from modules import loop_trace
 from modules import report_engagement as re_engage
 from modules.report_engagement import (
-    LoopRunSummary,
     aggregate_metrics,
     collect_loop_runs,
     render_beacons_html,
@@ -29,15 +28,58 @@ def fake_sessions(tmp_path, monkeypatch):
     (lazy / "audit_t0001.jsonl").write_text(
         "\n".join(
             [
-                json.dumps({"ts": 100.0, "kind": "run_start", "goal": "php2shell", "target": "10.0.0.5", "rounds": 2, "workers": 1}),
-                json.dumps({"ts": 101.0, "kind": "command", "command": "nmap -sT -sV 10.0.0.5", "ok": True, "judge_action": "allow", "opsec_gate": "allow", "detection_prob": 0.2, "step": "gain access", "output_tail": "PORT STATE"}),
-                json.dumps({"ts": 102.0, "kind": "command", "command": "curl http://10.0.0.5", "ok": False, "judge_action": "deny", "opsec_gate": "allow", "detection_prob": 0.4}),
-                json.dumps({"ts": 103.0, "kind": "command", "command": "nuclei -u http://10.0.0.5", "ok": False, "judge_action": "allow", "opsec_gate": "allow", "detection_prob": 0.4}),
+                json.dumps(
+                    {
+                        "ts": 100.0,
+                        "kind": "run_start",
+                        "goal": "php2shell",
+                        "target": "10.0.0.5",
+                        "rounds": 2,
+                        "workers": 1,
+                    }
+                ),
+                json.dumps(
+                    {
+                        "ts": 101.0,
+                        "kind": "command",
+                        "command": "nmap -sT -sV 10.0.0.5",
+                        "ok": True,
+                        "judge_action": "allow",
+                        "opsec_gate": "allow",
+                        "detection_prob": 0.2,
+                        "step": "gain access",
+                        "output_tail": "PORT STATE",
+                    }
+                ),
+                json.dumps(
+                    {
+                        "ts": 102.0,
+                        "kind": "command",
+                        "command": "curl http://10.0.0.5",
+                        "ok": False,
+                        "judge_action": "deny",
+                        "opsec_gate": "allow",
+                        "detection_prob": 0.4,
+                    }
+                ),
+                json.dumps(
+                    {
+                        "ts": 103.0,
+                        "kind": "command",
+                        "command": "nuclei -u http://10.0.0.5",
+                        "ok": False,
+                        "judge_action": "allow",
+                        "opsec_gate": "allow",
+                        "detection_prob": 0.4,
+                    }
+                ),
             ]
         )
         + "\n"
     )
-    (lazy / "activity_t0001.jsonl").write_text(json.dumps({"ts": 101.5, "kind": "decompose", "text": "split goal", "worker": "engine"}) + "\n")
+    (lazy / "activity_t0001.jsonl").write_text(
+        json.dumps({"ts": 101.5, "kind": "decompose", "text": "split goal", "worker": "engine"}) + "\n"
+    )
     findings = lazy / "findings"
     findings.mkdir()
     (findings / "progress_t0001.json").write_text(
@@ -63,11 +105,11 @@ class TestCollectLoopRuns:
         assert run.rounds == 2
         assert run.findings == 3
         assert run.reproduced == 1
-        assert run.detection_avg == pytest.approx(1/3)
+        assert run.detection_avg == pytest.approx(1 / 3)
 
     def test_ok_rate(self, fake_sessions):
         run = collect_loop_runs(fake_sessions / "lazy")[0]
-        assert run.ok_rate == pytest.approx(1/3)
+        assert run.ok_rate == pytest.approx(1 / 3)
         assert run.duration_sec == 3.0
 
     def test_metrics_aggregate(self, fake_sessions):
@@ -91,7 +133,19 @@ class TestRenderers:
     def test_beacons_html_rows(self, tmp_path, monkeypatch):
         monkeypatch.setattr(re_engage, "SESSIONS_DIR", tmp_path)
         record = tmp_path / "agent_x.records.jsonl"
-        record.write_text(json.dumps({"client_id": "agent_x", "hostname": "h1", "ips": "10.0.0.5", "user": "root", "command": "id", "output": "uid=0"}) + "\n")
+        record.write_text(
+            json.dumps(
+                {
+                    "client_id": "agent_x",
+                    "hostname": "h1",
+                    "ips": "10.0.0.5",
+                    "user": "root",
+                    "command": "id",
+                    "output": "uid=0",
+                }
+            )
+            + "\n"
+        )
         sessions = re_engage.collect_beacon_sessions()
         html = render_beacons_html(sessions)
         assert "agent_x" in html and "root" in html

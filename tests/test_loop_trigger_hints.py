@@ -107,9 +107,7 @@ def test_changed_banner_refires_the_hint(tmp_path: Path, monkeypatch: pytest.Mon
     assets = _Assets()
     store.due("", graph, None, assets=assets)
     assert len(graph.nodes) == 1
-    assert triggers.hint_fingerprint(CANNED_MATCH) != triggers.hint_fingerprint(
-        {**CANNED_MATCH, "version": "2.15.0"}
-    )
+    assert triggers.hint_fingerprint(CANNED_MATCH) != triggers.hint_fingerprint({**CANNED_MATCH, "version": "2.15.0"})
     state["version"] = "2.15.0"
     store.due("", graph, None, assets=assets)
     assert len(graph.nodes) == 2
@@ -142,9 +140,7 @@ def test_hint_ttl_expires_and_refires(tmp_path: Path, monkeypatch: pytest.Monkey
 
     monkeypatch.setattr(loop, "_store_path", lambda name: tmp_path / name)
     monkeypatch.setattr(world_module, "get_world_model", lambda: {"hosts": {}})
-    monkeypatch.setattr(
-        "modules.lazy_cve_feed.hot_matches", lambda services, allow_network=False: [dict(CANNED_MATCH)]
-    )
+    monkeypatch.setattr("modules.lazy_cve_feed.hot_matches", lambda services, allow_network=False: [dict(CANNED_MATCH)])
     monkeypatch.setattr(triggers, "HINT_REPEAT_TTL_SEC", 0.0)
     store = triggers.TriggerStore("")
     store.add("cve_hot", every_sec=0.0)
@@ -165,9 +161,7 @@ def test_hint_store_written_under_loop_stores(tmp_path: Path, monkeypatch: pytes
 
     monkeypatch.setattr(loop, "_store_path", lambda name: tmp_path / name)
     monkeypatch.setattr(world_module, "get_world_model", lambda: {"hosts": {}})
-    monkeypatch.setattr(
-        "modules.lazy_cve_feed.hot_matches", lambda services, allow_network=False: [dict(CANNED_MATCH)]
-    )
+    monkeypatch.setattr("modules.lazy_cve_feed.hot_matches", lambda services, allow_network=False: [dict(CANNED_MATCH)])
     store = triggers.TriggerStore("")
     store.add("cve_hot", every_sec=0.0)
     graph = _Graph()

@@ -68,13 +68,30 @@ def test_periodic_cycle_of_five_triggers_after_two_rounds():
     fired = [detector.record(command) for command in cycle * 2]
     assert not any(fired[: len(cycle)]), "one full round is still progress"
     assert fired[-1] is True
-    assert tuple(c.split()[0] for c in detector.cycle()) == ("ping", "searchsploit", "lazynmap", "auto_populate", "facts_show")
+    assert tuple(c.split()[0] for c in detector.cycle()) == (
+        "ping",
+        "searchsploit",
+        "lazynmap",
+        "auto_populate",
+        "facts_show",
+    )
 
 
 def test_periodic_cycle_never_fires_on_varied_progress():
     """Given ten distinct real-work commands, When recorded, Then not stuck."""
     detector = RepeatDetector(window=8)
-    sequence = ["scan 21", "scan 80", "probe ssh", "scan 445", "probe http", "dig t", "nmap t", "curl t", "hydra t", "enum t"]
+    sequence = [
+        "scan 21",
+        "scan 80",
+        "probe ssh",
+        "scan 445",
+        "probe http",
+        "dig t",
+        "nmap t",
+        "curl t",
+        "hydra t",
+        "enum t",
+    ]
     assert not any(detector.record(command) for command in sequence)
     assert detector.cycle() == ()
 

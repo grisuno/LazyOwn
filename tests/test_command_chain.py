@@ -25,7 +25,6 @@ from cli.command_chain import (  # noqa: E402
     SOURCE_STATIC,
     SOURCE_TOOL,
     ChainConfig,
-    CommandChain,
     DynamicNextResolver,
     NextStep,
     PrerequisiteRegistry,

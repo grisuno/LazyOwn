@@ -119,19 +119,13 @@ class TestBlueprintRouteContainment:
                     if isinstance(n, (ast.Attribute, ast.Name))
                 }
                 assert "resolve_contained_file_path" in names, (
-                    "blueprint redirect_to_file must resolve via "
-                    "resolve_contained_file_path"
+                    "blueprint redirect_to_file must resolve via resolve_contained_file_path"
                 )
                 abspath_calls = [
                     n
                     for n in ast.walk(node)
-                    if isinstance(n, ast.Call)
-                    and isinstance(n.func, ast.Attribute)
-                    and n.func.attr == "abspath"
+                    if isinstance(n, ast.Call) and isinstance(n.func, ast.Attribute) and n.func.attr == "abspath"
                 ]
-                assert not abspath_calls, (
-                    "blueprint redirect_to_file must not serve os.path.abspath "
-                    "of registry input"
-                )
+                assert not abspath_calls, "blueprint redirect_to_file must not serve os.path.abspath of registry input"
                 return
         pytest.fail("redirect_to_file not found in phishing blueprint")

@@ -10,6 +10,7 @@ from __future__ import annotations
 import json
 import time
 from pathlib import Path
+from typing import Any
 
 import cmd2
 import requests
@@ -177,8 +178,8 @@ class C2SessionCommandSet(LazyOwnCommandSet):
             return
         status = srv.status()
         try:
-            lab = json.loads((_BASE_DIR / "sessions" / "c2_lab.json").read_text())
-            status["live_user"] = lab.get("user", "")
+            lab_data: Any = json.loads((_BASE_DIR / "sessions" / "c2_lab.json").read_text())
+            status["live_user"] = lab_data.get("user", "")
         except (json.JSONDecodeError, OSError):
             pass
         print_msg(f"C2 server: {status}")

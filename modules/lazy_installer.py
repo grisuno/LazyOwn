@@ -82,7 +82,7 @@ def tool_from_intent(text: str) -> str:
     lowered = (text or "").strip().lower()
     if not lowered.startswith(INSTALL_INTENT_PREFIX):
         return ""
-    return lowered[len(INSTALL_INTENT_PREFIX):].split()[0] if lowered[len(INSTALL_INTENT_PREFIX):].split() else ""
+    return lowered[len(INSTALL_INTENT_PREFIX) :].split()[0] if lowered[len(INSTALL_INTENT_PREFIX) :].split() else ""
 
 
 def steps_for_install(text: str) -> list[str] | None:

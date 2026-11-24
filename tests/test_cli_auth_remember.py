@@ -78,14 +78,9 @@ class TestRememberMeComparison:
         for node in ast.walk(tree):
             if isinstance(node, ast.FunctionDef) and node.name == "try_auto_login":
                 calls = {
-                    n.func.attr
-                    for n in ast.walk(node)
-                    if isinstance(n, ast.Call) and isinstance(n.func, ast.Attribute)
+                    n.func.attr for n in ast.walk(node) if isinstance(n, ast.Call) and isinstance(n.func, ast.Attribute)
                 }
-                assert "compare_digest" in calls, (
-                    "try_auto_login must compare tokens with "
-                    "hmac.compare_digest"
-                )
+                assert "compare_digest" in calls, "try_auto_login must compare tokens with hmac.compare_digest"
                 return
         pytest.fail("try_auto_login not found")
 
@@ -100,9 +95,7 @@ class TestRememberMeComparison:
                     for a in n.names
                     if a.name == "save_payload"
                 }
-                assert imported, (
-                    "_save_payload must delegate to core.config.save_payload"
-                )
+                assert imported, "_save_payload must delegate to core.config.save_payload"
                 return
         pytest.fail("_save_payload not found")
 
@@ -111,6 +104,4 @@ class TestRememberMeComparison:
 
         _, payload_path, _ = isolated_auth
         assert cli_auth._save_payload({"cli_auto_login": "operator"}) is True
-        assert _json.loads(payload_path.read_text()) == {
-            "cli_auto_login": "operator"
-        }
+        assert _json.loads(payload_path.read_text()) == {"cli_auto_login": "operator"}

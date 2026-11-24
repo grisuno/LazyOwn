@@ -35,7 +35,7 @@ def _frontmatter(text: str) -> tuple[dict, str]:
                 key, _, value = line.partition(":")
                 if value.strip():
                     meta[key.strip().lower()] = value.strip().strip("\"'")
-            text = text[end + 4:]
+            text = text[end + 4 :]
     return meta, text
 
 
@@ -74,10 +74,18 @@ def _load(path: Path) -> dict:
                 description = stripped
                 break
     collapsed = re.sub(r"\s+", " ", re.sub(r"^#.*$", "", body, flags=re.MULTILINE)).strip()
-    keywords = {token.lower() for token in re.findall(r"[A-Za-z][A-Za-z0-9_-]+", f"{name} {description}")
-                if len(token) >= MIN_KEYWORD_LEN}
-    entry = {"name": name, "path": str(path), "description": description[:300],
-             "excerpt": collapsed[:EXCERPT_CHARS], "keywords": sorted(keywords)}
+    keywords = {
+        token.lower()
+        for token in re.findall(r"[A-Za-z][A-Za-z0-9_-]+", f"{name} {description}")
+        if len(token) >= MIN_KEYWORD_LEN
+    }
+    entry = {
+        "name": name,
+        "path": str(path),
+        "description": description[:300],
+        "excerpt": collapsed[:EXCERPT_CHARS],
+        "keywords": sorted(keywords),
+    }
     _CACHE[str(path)] = (mtime, entry)
     return entry
 
@@ -115,8 +123,7 @@ def match_skills(text: str, limit: int = MAX_SKILLS) -> list[dict]:
     return [entry for _score, entry in scored[: max(1, int(limit))]]
 
 
-def skills_context(text: str = "", explicit: list[str] | None = None,
-                   auto: bool = True, budget: int = 800) -> str:
+def skills_context(text: str = "", explicit: list[str] | None = None, auto: bool = True, budget: int = 800) -> str:
     """Render pinned plus auto-matched skills as one prompt section.
 
     Args:
@@ -146,5 +153,4 @@ def skills_context(text: str = "", explicit: list[str] | None = None,
     return ("Skills: " + " | ".join(chunks))[: max(200, int(budget))]
 
 
-__all__ = ["EXCERPT_CHARS", "MAX_SKILLS", "SKILLS_DIR",
-           "get_skill", "list_skills", "match_skills", "skills_context"]
+__all__ = ["EXCERPT_CHARS", "MAX_SKILLS", "SKILLS_DIR", "get_skill", "list_skills", "match_skills", "skills_context"]

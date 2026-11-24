@@ -221,6 +221,7 @@ def test_v2_schema_accepts_policy_and_rejects_bad_values(tmp_path):
 
 def test_runner_falls_back_to_os_commands():
     """Given a raw command, When the shell has no matching verb, Then subprocess output is captured."""
+
     class Shell:
         aliases: dict = {}
 
@@ -235,6 +236,7 @@ def test_runner_falls_back_to_os_commands():
 
 def test_runner_executes_python_module_commands():
     """Given a python3 module command, When the chain runs, Then subprocess captures its output."""
+
     class Shell:
         aliases: dict = {}
 
@@ -298,6 +300,7 @@ def test_runner_verb_timeout_releases_chain_off_main_thread():
 
 def test_runner_fails_on_nonzero_exit():
     """Given a raw command that exits non-zero, When the chain runs, Then the step fails."""
+
     class Shell:
         aliases: dict = {}
 
@@ -344,9 +347,7 @@ def test_when_evaluator_accepts_list_literals():
 
 def test_validate_rejects_malformed_when():
     """Given a broken condition, When validating, Then the chain is rejected."""
-    errors = validate_chain(
-        {"name": "demo", "steps": [{"id": "one", "run": "echo", "when": "phase =="}]}
-    )
+    errors = validate_chain({"name": "demo", "steps": [{"id": "one", "run": "echo", "when": "phase =="}]})
     assert any("invalid when" in error for error in errors)
 
 
@@ -370,6 +371,7 @@ def test_runner_quotes_captured_values_in_raw_shell_steps():
 
 def test_runner_captures_verb_stdout():
     """Given a cmd2 verb that prints, When it runs, Then capture sees stdout."""
+
     class FakeShell:
         aliases = {}
 
@@ -385,12 +387,23 @@ def test_runner_captures_verb_stdout():
     assert "noted hello" in result.steps[0].captured
 
 
-def test_runner_step_sleep_jitter_applies():
+def test_runner_step_sleep_jitter_applies(monkeypatch):
     """Given a step declaring sleep and jitter, When it succeeds, Then the
-    inserted delay stays within the declared band (dry-free, real clock)."""
-    import threading
+    inserted delay stays within the declared band."""
 
-    started = time.time()
+    class _QuietPacer:
+        def observe(self, *args, **kwargs):
+            return None
+
+        def inter_step_delay(self):
+            return 0.0
+
+        def decay(self):
+            return None
+
+    monkeypatch.setattr("modules.loop_guardrails.EdrPacer.from_config", classmethod(lambda cls, **kw: _QuietPacer()))
+    sleeps: list[float] = []
+    monkeypatch.setattr("modules.chain_runner.time.sleep", lambda seconds: sleeps.append(seconds))
     chain = _chain(
         [
             ChainStep(id="probe", run="probe", sleep=0.2, jitter=50.0),
@@ -402,14 +415,15 @@ def test_runner_step_sleep_jitter_applies():
         return "ok"
 
     result = ChainRunner(chain, executor=executor, retry_backoff=0).run()
-    elapsed = time.time() - started
     assert result.ok is True
-    assert 0.1 <= elapsed < 1.0
+    assert len(sleeps) == 1
+    assert 0.1 <= sleeps[0] <= 0.3
 
 
-def test_runner_step_sleep_skipped_on_failure():
+def test_runner_step_sleep_skipped_on_failure(monkeypatch):
     """Given a failing step with sleep, When it runs, Then no delay applies."""
-    started = time.time()
+    sleeps: list[float] = []
+    monkeypatch.setattr("modules.chain_runner.time.sleep", lambda seconds: sleeps.append(seconds))
     chain = _chain([ChainStep(id="boom", run="boom", sleep=0.5, continue_on_error=True)])
 
     def executor(command: str) -> str:
@@ -417,7 +431,7 @@ def test_runner_step_sleep_skipped_on_failure():
 
     result = ChainRunner(chain, executor=executor, retry_backoff=0).run()
     assert result.ok is False
-    assert time.time() - started < 0.4
+    assert sleeps == []
 
 
 def test_runner_validate_rejects_parallel_sleep():

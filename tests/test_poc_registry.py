@@ -124,9 +124,7 @@ class TestPoCSelector:
         assert decision.source == "poc"
 
     def test_selector_excludes_already_proposed_verb(self):
-        decision = PoCSelector().propose(
-            self._ctx(exclude=("lazy_poc run minio_info 10.10.11.5 rport=9000",))
-        )
+        decision = PoCSelector().propose(self._ctx(exclude=("lazy_poc run minio_info 10.10.11.5 rport=9000",)))
         assert decision is None
 
     def test_selector_abstains_without_target(self):

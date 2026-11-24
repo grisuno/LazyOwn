@@ -24,17 +24,12 @@ def _registry(tmp_path: Path) -> ModuleRegistry:
         encoding="utf-8",
     )
     (addons / "lazy_winsweep.yaml").write_text(
-        "name: lazy_winsweep\n"
-        "description: windows enumeration\n"
-        "category: 04. Post-Exploitation\n"
-        "os: windows\n",
+        "name: lazy_winsweep\ndescription: windows enumeration\ncategory: 04. Post-Exploitation\nos: windows\n",
         encoding="utf-8",
     )
     playbooks = tmp_path / "playbooks"
     playbooks.mkdir(parents=True, exist_ok=True)
-    (playbooks / "rocke.json").write_text(
-        '{"name": "rocke", "description": "ransomware emulation"}', encoding="utf-8"
-    )
+    (playbooks / "rocke.json").write_text('{"name": "rocke", "description": "ransomware emulation"}', encoding="utf-8")
     registry = ModuleRegistry(tmp_path)
     registry.scan()
     return registry

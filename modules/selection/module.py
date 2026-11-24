@@ -26,9 +26,7 @@ class ModuleSelector:
             from modules.module_registry import ModuleRegistry
 
             texts = [str(ctx.extra.get("goal", "") or ""), *ctx.services]
-            lines = ModuleRegistry.get_instance().proposal_intents(
-                texts, target=ctx.target, limit=_PROPOSAL_LIMIT
-            )
+            lines = ModuleRegistry.get_instance().proposal_intents(texts, target=ctx.target, limit=_PROPOSAL_LIMIT)
         except Exception:
             return None
         for line in lines:

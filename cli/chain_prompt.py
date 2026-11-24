@@ -17,6 +17,8 @@ of ``lazyown.py``, so it mixes in without any call-site rewrite.
 from __future__ import annotations
 
 import sys
+from collections.abc import Callable
+from typing import TYPE_CHECKING, Any
 
 from cli.chain_mode import LOOP_GUARD_MARGIN as _CHAIN_GUARD_MARGIN
 from cli.chain_mode import MAX_STEPS_DEFAULT as _CHAIN_MAX_STEPS
@@ -25,6 +27,9 @@ from cli.chain_mode import ChainPromptEngine as _ChainPromptEngine
 from cli.tips_engine import TipsEngine as _TipsEngine
 from utils import parse_bool, print_msg, print_warn
 
+if TYPE_CHECKING:
+    from cli.command_chain import CommandChain
+
 
 class ChainPromptMixin:
     """Wire the interactive chain-mode engine into :class:`LazyOwnShell`.
@@ -32,6 +37,10 @@ class ChainPromptMixin:
     Mixed into the shell; invoked from ``__init__`` (build + boot) and
     from the unified post-command hook (sync + step loop).
     """
+
+    params: dict[str, Any]
+    onecmd_plus_hooks: Callable[..., Any]
+    _command_chain: CommandChain | None
 
     def _sync_chain_active(self, tips_engine: _TipsEngine) -> None:
         """Mirror the chain-mode toggle into the tips engine suppression flag.

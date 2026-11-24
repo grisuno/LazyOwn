@@ -7,7 +7,7 @@ source_file: SA/ldap_enum/entry.c
 client: beacon
 platform: windows
 category: enumeration
-client_artifact: 
+client_artifact:
 required_args: ['domain']
 optional_args: ['server', 'username', 'password']
 mitre_technique: T1087

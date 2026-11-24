@@ -35,8 +35,8 @@ Generated chains start ``enabled: false`` and belong to the operator.
 
 from __future__ import annotations
 
-import json
 import hashlib
+import json
 import logging
 import re
 from dataclasses import dataclass, field
@@ -436,7 +436,9 @@ def _infer_target(
     """
     deny = operator_deny if operator_deny is not None else _operator_deny()
     goal = str(graph.get("goal", "") or "")
-    candidates = [host for host in _HOST_TOKEN_RE.findall(goal) if host.lower() != "127.0.0.1" and not _excluded_host(host, deny)]
+    candidates = [
+        host for host in _HOST_TOKEN_RE.findall(goal) if host.lower() != "127.0.0.1" and not _excluded_host(host, deny)
+    ]
     if candidates:
         return candidates[0]
     counts: dict[str, int] = {}

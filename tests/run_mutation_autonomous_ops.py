@@ -14,8 +14,8 @@ MUTATIONS = {
     "intercept_allow_bypass": {
         "file": "modules/intercept.py",
         "description": "Force deny verdicts to allow so deny rules never fire",
-        "old": "                    if rule.action == InterceptAction.DENY.value:\n                        return InterceptVerdict(\n                            action=\"deny\",",
-        "new": "                    if rule.action == InterceptAction.DENY.value:\n                        return InterceptVerdict(\n                            action=\"allow\",",
+        "old": '                    if rule.action == InterceptAction.DENY.value:\n                        return InterceptVerdict(\n                            action="deny",',
+        "new": '                    if rule.action == InterceptAction.DENY.value:\n                        return InterceptVerdict(\n                            action="allow",',
         "expected": "test_c01_deny_rule_and_expiry must fail",
     },
     "evidence_hash_skip": {
@@ -28,22 +28,22 @@ MUTATIONS = {
     "finding_no_auto_fix": {
         "file": "modules/finding_lifecycle.py",
         "description": "Resolve fixed retests to ignored so status never flips",
-        "old": "    if normalized == \"fixed\":\n        set_status(db, target_id, \"fixed\")",
-        "new": "    if normalized == \"fixed\":\n        set_status(db, target_id, \"ignored\")",
+        "old": '    if normalized == "fixed":\n        set_status(db, target_id, "fixed")',
+        "new": '    if normalized == "fixed":\n        set_status(db, target_id, "ignored")',
         "expected": "test_c06_finding_lifecycle_on_campaign_db must fail",
     },
     "pool_no_failover": {
         "file": "modules/llm_pool.py",
         "description": "Break failover so the first failure raises immediately",
-        "old": "                errors.append(f\"{member.name}: {exc}\")",
+        "old": '                errors.append(f"{member.name}: {exc}")',
         "new": "                raise PoolExhausted(str(exc))",
         "expected": "test_c07_pool_failover_and_exhaustion must fail",
     },
     "engage_gate_deny_disabled": {
         "file": "skills/autonomous_daemon.py",
         "description": "Disable the engage safety gate so denied commands execute",
-        "old": "                if _verdict is not None and _verdict.action == \"deny\":",
-        "new": "                if _verdict is not None and _verdict.action == \"never\":",
+        "old": '                if _verdict is not None and _verdict.action == "deny":',
+        "new": '                if _verdict is not None and _verdict.action == "never":',
         "expected": "test_denied_command_never_executes must fail",
     },
 }

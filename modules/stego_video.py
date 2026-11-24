@@ -55,19 +55,29 @@ def resolve_path(arg_path, payload_file, validator, kind):
         return arg_path
     if payload_file and validator(payload_file):
         return payload_file
-    return prompt_path("Enter path to the %s: " % kind)
+    return prompt_path(f"Enter path to the {kind}: ")
 
 
 def generate_carrier(output):
     """Generate a silent carrier video with ffmpeg."""
     command = [
-        "ffmpeg", "-hide_banner", "-loglevel", "error",
-        "-f", "lavfi", "-i", "testsrc=duration=%d:size=%s:rate=%d"
-        % (CARRIER_DURATION, CARRIER_SIZE, CARRIER_RATE),
-        "-f", "lavfi", "-i", "sine=frequency=%d:duration=%d"
-        % (AUDIO_FREQUENCY, CARRIER_DURATION),
-        "-c:v", "libx264", "-pix_fmt", "yuv420p", "-c:a", "aac",
-        "-movflags", "faststart", "-shortest", "-y", output,
+        "ffmpeg",
+        "-hide_banner",
+        "-loglevel",
+        "error",
+        f"-f lavfi -i testsrc=duration={CARRIER_DURATION}:size={CARRIER_SIZE}:rate={CARRIER_RATE}",
+        f"-f lavfi -i sine=frequency={AUDIO_FREQUENCY}:duration={CARRIER_DURATION}",
+        "-c:v",
+        "libx264",
+        "-pix_fmt",
+        "yuv420p",
+        "-c:a",
+        "aac",
+        "-movflags",
+        "faststart",
+        "-shortest",
+        "-y",
+        output,
     ]
     subprocess.run(command, check=True)
 
@@ -129,18 +139,18 @@ def main(argv):
             print("Error: selected file is not a zip.")
             return 1
         output_video = default_output(zip_path)
-        print("Encoding %s into %s ..." % (zip_path, output_video))
+        print(f"Encoding {zip_path} into {output_video} ...")
         encode(zip_path, output_video)
-        print("Done: %s" % output_video)
+        print(f"Done: {output_video}")
     elif mode == "decode":
         video_path = resolve_path(arg_path, payload_file, is_video, "video file")
         if not is_video(video_path):
             print("Error: selected file is not a video.")
             return 1
         output_zip = prompt_path("Enter output zip path [recovered.zip]: ") or "recovered.zip"
-        print("Decoding %s into %s ..." % (video_path, output_zip))
+        print(f"Decoding {video_path} into {output_zip} ...")
         decode(video_path, output_zip)
-        print("Done: %s" % output_zip)
+        print(f"Done: {output_zip}")
     else:
         print("Error: mode must be 'encode' or 'decode'.")
         return 1

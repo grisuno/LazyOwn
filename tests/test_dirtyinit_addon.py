@@ -183,7 +183,7 @@ class TestDirtyInitDriverContract:
         assert result.returncode == 0, result.stderr
 
     def test_driver_resolves_repo_root(self, driver_text):
-        assert 'BASH_SOURCE[0]' in driver_text
+        assert "BASH_SOURCE[0]" in driver_text
 
     @pytest.mark.parametrize(
         "action",

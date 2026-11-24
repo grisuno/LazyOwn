@@ -11,7 +11,6 @@ shift without reading an activity log.
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Any
 
 _DIGEST_NAME = "digest_{task_id}.md"
 _MAX_STEPS_IN_DIGEST = 40
@@ -64,7 +63,7 @@ def build_engine_digest(
         lines.append("")
     lines.append("## next shift")
     lines.append(f"- run `lazy_status {task_id}` / `lazy_overview` for the graph state")
-    lines.append(f"- archive + evidence are already under sessions/")
+    lines.append("- archive + evidence are already under sessions/")
     return "\n".join(lines)
 
 

@@ -32,10 +32,8 @@ AIResult fields:
 
 from __future__ import annotations
 
-import json
 import re
 from dataclasses import dataclass
-from pathlib import Path
 
 import requests
 
@@ -297,12 +295,19 @@ def call(
             model=orch.model_name,
             error=orch.attempts[0][1] if orch.attempts else "",
         )
-    groq_error = next((error for name, error in orch.attempts if "groq" in name.lower()), orch.attempts[0][1] if orch.attempts else "")
+    groq_error = next(
+        (error for name, error in orch.attempts if "groq" in name.lower()), orch.attempts[0][1] if orch.attempts else ""
+    )
     if api_key and not _chain_groq_attempted(orch):
         try:
             text = _groq_call(api_key, system, prompt, max_tokens, temperature)
             warning = _fallback_warning(orch)
-            return AIResult(text=warning + text, backend="groq", model=_groq_model_chain()[0], error=groq_error or _summarize_attempts(orch))
+            return AIResult(
+                text=warning + text,
+                backend="groq",
+                model=_groq_model_chain()[0],
+                error=groq_error or _summarize_attempts(orch),
+            )
         except Exception as exc:
             groq_error = str(exc)
             if not _is_quota_error(exc):

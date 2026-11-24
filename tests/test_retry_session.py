@@ -232,6 +232,7 @@ class TestUtilsGate:
         assert utils.sudo_available() is True, "askpass gate answers True"
         helper = os.environ["SUDO_ASKPASS"]
         os.unlink(helper)
+        utils._SUDO_STATE.update({"checked": True, "ok": False})
         assert utils.sudo_available() is False, "stale env without disk backing closes"
 
 

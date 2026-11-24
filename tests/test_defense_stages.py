@@ -84,7 +84,10 @@ def test_closedloop_tune_writes_comparison(tmp_path: Path, monkeypatch) -> None:
     """The stage compares both rules and persists suggestions."""
     baseline = tmp_path / "baseline.json"
     candidate = tmp_path / "candidate.json"
-    baseline.write_text('{"version": 1, "all": [{"field": "http.path", "op": "contains", "value": "/admin"}, {"field": "http.status", "op": "eq", "value": 200}]}', encoding="utf-8")
+    baseline.write_text(
+        '{"version": 1, "all": [{"field": "http.path", "op": "contains", "value": "/admin"}, {"field": "http.status", "op": "eq", "value": 200}]}',
+        encoding="utf-8",
+    )
     candidate.write_text(RULE, encoding="utf-8")
     target = tmp_path / "traffic"
     target.mkdir()

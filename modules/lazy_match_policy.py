@@ -149,8 +149,11 @@ class MatchStore:
         key = self._key(identity)
         row = rows.get(key, {"identity": dict(identity), "strand": "", "sightings": [], "timeline": []})
         strand = strand_from_sighting(sighting)
-        stamp = {"ts": float(now if now is not None else time.time()), "strand": strand,
-                 "version": str((sighting or {}).get("version", "") or "")}
+        stamp = {
+            "ts": float(now if now is not None else time.time()),
+            "strand": strand,
+            "version": str((sighting or {}).get("version", "") or ""),
+        }
         existing_versions = {entry.get("version", "") for entry in row.get("sightings", [])}
         if stamp["version"] or strand != LEAD or not existing_versions:
             row.setdefault("sightings", []).append(stamp)
@@ -170,8 +173,7 @@ class MatchStore:
     def _key(identity: dict[str, Any]) -> str:
         """Build the dedupe identity key."""
         return "|".join(
-            f"{part}={str((identity or {}).get(part, '') or '').strip().lower()}"
-            for part in ("cve", "product", "host")
+            f"{part}={str((identity or {}).get(part, '') or '').strip().lower()}" for part in ("cve", "product", "host")
         )
 
     def rows(self) -> dict[str, dict[str, Any]]:
@@ -216,7 +218,11 @@ class MatchStore:
         try:
             rows = store.setdefault("rows", {})
             if len(rows) > _MAX_STORE_ROWS:
-                pruned = dict(sorted(rows.items(), key=lambda item: -(item[1].get("timeline") or [{}])[-1].get("ts", 0.0))[:_MAX_STORE_ROWS])
+                pruned = dict(
+                    sorted(rows.items(), key=lambda item: -(item[1].get("timeline") or [{}])[-1].get("ts", 0.0))[
+                        :_MAX_STORE_ROWS
+                    ]
+                )
                 store["rows"] = pruned
             self._path.parent.mkdir(parents=True, exist_ok=True)
             self._path.write_text(json.dumps(store), encoding="utf-8")

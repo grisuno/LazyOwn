@@ -267,6 +267,7 @@ def evaluate_exploit_output(output: str) -> dict:
             matched[name] = evidence
     return {"matched": matched, "shell_objective": bool(matched)}
 
+
 _CHECKER_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("kerberos_ticket", ("kerberos", "asrep", "roast", "tgs", "ticket")),
     ("domain_enum", ("ldap", "domain", "samr", "rid", "naming", "sid", "bloodhound")),
@@ -303,9 +304,7 @@ def _expected_checkers(entry: dict) -> tuple[str, ...]:
         valid = [str(name) for name in declared if any(str(name) == known for known, _ in CHECKERS)]
         if valid:
             return tuple(dict.fromkeys(valid))
-    text = " ".join(
-        str(entry.get(field, "")) for field in ("id", "name", "service", "mitre")
-    ).lower()
+    text = " ".join(str(entry.get(field, "")) for field in ("id", "name", "service", "mitre")).lower()
     matched_names = [name for name, keywords in _CHECKER_KEYWORDS if any(key in text for key in keywords)]
     if matched_names:
         return tuple(dict.fromkeys(matched_names))

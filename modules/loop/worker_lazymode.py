@@ -161,8 +161,7 @@ class WorkerLazymodeMixin:
             from sdk.lazymode import build_index
 
             lines = [
-                f"{entry['path']}{entry['signature']} - {entry['summary']}".rstrip(" -")
-                for entry in build_index()
+                f"{entry['path']}{entry['signature']} - {entry['summary']}".rstrip(" -") for entry in build_index()
             ]
             return "\n".join(lines)
         except Exception:
@@ -336,12 +335,15 @@ class WorkerLazymodeMixin:
             intent_id=intent.node_id,
         )
         try:
-            reply = pool.complete(
-                self._codemode_prompt(intent, target),
-                max_tokens=self._codemode_max_tokens(),
-                members=chain or None,
-                task_id=self.task_id,
-            ) or ""
+            reply = (
+                pool.complete(
+                    self._codemode_prompt(intent, target),
+                    max_tokens=self._codemode_max_tokens(),
+                    members=chain or None,
+                    task_id=self.task_id,
+                )
+                or ""
+            )
         except Exception as exc:
             self.activity.emit(
                 self.name, "lazymode", f"code mode: model error: {str(exc)[:160]}", intent_id=intent.node_id
@@ -371,8 +373,7 @@ class WorkerLazymodeMixin:
         self.activity.emit(
             self.name,
             "lazymode",
-            f"code mode: script ok={result.ok} duration={result.duration_s:.1f}s "
-            f"(no model tokens spent on execution)",
+            f"code mode: script ok={result.ok} duration={result.duration_s:.1f}s (no model tokens spent on execution)",
             intent_id=intent.node_id,
         )
         if not result.ok:

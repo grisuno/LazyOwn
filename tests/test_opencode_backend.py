@@ -29,9 +29,7 @@ class _FakeOpenAIClient:
 @pytest.fixture
 def fake_openai(monkeypatch):
     """Patch the lazy OpenAI importer to the local fake client."""
-    monkeypatch.setattr(
-        ai_model._LazyImporter, "_OPENAI_CLIENT", _FakeOpenAIClient, raising=False
-    )
+    monkeypatch.setattr(ai_model._LazyImporter, "_OPENAI_CLIENT", _FakeOpenAIClient, raising=False)
     return _FakeOpenAIClient
 
 
@@ -93,9 +91,7 @@ class TestOpenCodeBuild:
     def test_placeholder_key_rejected(self, monkeypatch):
         monkeypatch.delenv(factory.ENV_OPENCODE_API_KEY, raising=False)
         with pytest.raises(factory.LLMBackendUnavailableError):
-            factory.get_llm_backend_raw(
-                {"opencode_api_key": "your_api_key_here"}, backend="opencode"
-            )
+            factory.get_llm_backend_raw({"opencode_api_key": "your_api_key_here"}, backend="opencode")
 
     def test_model_identifier_for_budget(self):
         config = {"llm_model_opencode": "glm-5"}

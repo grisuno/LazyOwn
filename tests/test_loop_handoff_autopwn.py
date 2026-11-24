@@ -25,9 +25,7 @@ def engine(tmp_path, monkeypatch):
     monkeypatch.setattr(loop, "SESSIONS_DIR", tmp_path)
     monkeypatch.setattr(loop, "_store_path", lambda name: tmp_path / name)
     monkeypatch.setattr(state_db, "default_db_path", lambda: tmp_path / "loop_state.db")
-    monkeypatch.setattr(
-        tokens, "shared_ledger", lambda: tokens.TokenLedger(db_path=str(tmp_path / "tokens.db"))
-    )
+    monkeypatch.setattr(tokens, "shared_ledger", lambda: tokens.TokenLedger(db_path=str(tmp_path / "tokens.db")))
     loop._TOKEN_POLICY = None
     engine = LazyEngine()
     yield engine
@@ -72,9 +70,7 @@ def test_handoff_in_save_tokens_mode_skips_autopwn(engine, monkeypatch):
     _strike_out(engine, monkeypatch)
     monkeypatch.setattr(engine, "_save_tokens_mode", lambda *a, **k: True)
     called = []
-    monkeypatch.setattr(
-        engine, "_terminal_autopwn_fallback", lambda *a, **k: called.append(1) or True
-    )
+    monkeypatch.setattr(engine, "_terminal_autopwn_fallback", lambda *a, **k: called.append(1) or True)
     engine.run(task_id, max_rounds=3, workers=1, executor=lambda command: "")
     record = engine.store.get(task_id)
     assert called == []

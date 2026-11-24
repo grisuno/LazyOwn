@@ -134,9 +134,7 @@ class TestTelemetryMediator:
         monkeypatch.setattr(
             lab,
             "record_outcome_quality",
-            lambda worker, intent_summary, facts, findings: received.append(
-                (worker, intent_summary, facts, findings)
-            ),
+            lambda worker, intent_summary, facts, findings: received.append((worker, intent_summary, facts, findings)),
         )
         TelemetryMediator().record_outcome_quality("worker-1", "probe service smb", 1, 0)
         assert received == [("worker-1", "probe service smb", 1, 0)]
@@ -268,10 +266,17 @@ class TestChainMediatorLlmPort:
 
         monkeypatch.setattr(lwd, "SESSIONS_DIR", tmp_path)
         (tmp_path / "lazy_changes.jsonl").write_text(
-            json.dumps({"kind": "service_changed", "ip": "10.0.0.9", "port": 445,
-                        "before": {"service": "smb", "version": "1"},
-                        "after": {"service": "smb", "version": "2"},
-                        "detected": time.time()}) + "\n",
+            json.dumps(
+                {
+                    "kind": "service_changed",
+                    "ip": "10.0.0.9",
+                    "port": 445,
+                    "before": {"service": "smb", "version": "1"},
+                    "after": {"service": "smb", "version": "2"},
+                    "detected": time.time(),
+                }
+            )
+            + "\n",
             encoding="utf-8",
         )
 

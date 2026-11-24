@@ -59,9 +59,16 @@ def test_worker_scope_enforcement_cidr(tmp_path, monkeypatch):
     task_id = engine.create_task("scope enforcement check")["task_id"]
     engine.store.add_scope(task_id, "cidr", "10.1.2.0/24", "test scope")
     graph = loop.ExplorationGraph(task_id)
-    worker = loop.Worker("worker-1", task_id, engine.assets, graph,
-                         loop.ActivityLog(task_id), loop.TrafficLog(task_id),
-                         loop.Guard(task_id), engine.store)
+    worker = loop.Worker(
+        "worker-1",
+        task_id,
+        engine.assets,
+        graph,
+        loop.ActivityLog(task_id),
+        loop.TrafficLog(task_id),
+        loop.Guard(task_id),
+        engine.store,
+    )
     assert worker._scope_allows_target("10.1.2.5") is True
     assert worker._scope_allows_target("http://10.1.2.5:8080/x") is True
     assert worker._scope_allows_target("10.9.9.9") is False

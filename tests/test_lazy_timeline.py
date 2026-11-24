@@ -10,27 +10,41 @@ from modules import lazy_timeline
 def _snap(path, ts: float, hosts: dict, dns: dict | None = None):
     """Write one snapshot file the way record() does."""
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps({
-        "ts": ts,
-        "hosts": hosts,
-        "dns": dns or {},
-    }), encoding="utf-8", )
+    path.write_text(
+        json.dumps(
+            {
+                "ts": ts,
+                "hosts": hosts,
+                "dns": dns or {},
+            }
+        ),
+        encoding="utf-8",
+    )
     return path
 
 
 HOSTS_A = {
-    "10.66.44.7": {"state": "scanned", "services": {
-        "22": {"name": "openssh", "version": "9.6", "state": "open"},
-    }},
-    "10.66.44.9": {"state": "scanned", "services": {
-        "80": {"name": "nginx", "version": "1.26", "state": "open"},
-    }},
+    "10.66.44.7": {
+        "state": "scanned",
+        "services": {
+            "22": {"name": "openssh", "version": "9.6", "state": "open"},
+        },
+    },
+    "10.66.44.9": {
+        "state": "scanned",
+        "services": {
+            "80": {"name": "nginx", "version": "1.26", "state": "open"},
+        },
+    },
 }
 HOSTS_B = {
-    "10.66.44.7": {"state": "scanned", "services": {
-        "22": {"name": "openssh", "version": "9.6", "state": "open"},
-        "3389": {"name": "ms-wbt-server", "version": "", "state": "open"},
-    }},
+    "10.66.44.7": {
+        "state": "scanned",
+        "services": {
+            "22": {"name": "openssh", "version": "9.6", "state": "open"},
+            "3389": {"name": "ms-wbt-server", "version": "", "state": "open"},
+        },
+    },
 }
 DNS_A = {"lab.lazyown.local": "10.66.44.9"}
 DNS_B = {"lab.lazyown.local": ""}
@@ -57,15 +71,20 @@ class TestDiff:
     def test_version_changed_kind(self, tmp_path):
         story = "a version bump on the same port is its own kind"
         newer = {
-            "10.66.44.7": {"state": "scanned", "services": {
-                "22": {"name": "openssh", "version": "9.8", "state": "open"},
-            }},
+            "10.66.44.7": {
+                "state": "scanned",
+                "services": {
+                    "22": {"name": "openssh", "version": "9.8", "state": "open"},
+                },
+            },
         }
         a = _snap(tmp_path / "a.json", 1000.0, HOSTS_A)
         b = _snap(tmp_path / "b.json", 2000.0, newer)
         result = lazy_timeline.diff(a, b)
-        assert any(change["kind"] == lazy_timeline.KIND_VERSION_CHANGED and change["port"] == 22
-                   for change in result["changes"]), story
+        assert any(
+            change["kind"] == lazy_timeline.KIND_VERSION_CHANGED and change["port"] == 22
+            for change in result["changes"]
+        ), story
 
     def test_zombie_via_lost_dns(self, tmp_path):
         story = "a name that stops resolving while its host still serves flags a zombie"
@@ -100,11 +119,19 @@ class TestRecordAndShow:
     def test_record_from_world_state(self, tmp_path):
         story = "record reads a world-model state file into host/service shape"
         state = tmp_path / "wm.json"
-        state.write_text(json.dumps({"hosts": {
-            "10.66.44.7": {"state": "scanned", "services": {
-                "22": {"port": 22, "name": "openssh", "version": "9.6"}
-            }},
-        }}), encoding="utf-8")
+        state.write_text(
+            json.dumps(
+                {
+                    "hosts": {
+                        "10.66.44.7": {
+                            "state": "scanned",
+                            "services": {"22": {"port": 22, "name": "openssh", "version": "9.6"}},
+                        },
+                    }
+                }
+            ),
+            encoding="utf-8",
+        )
         result = lazy_timeline.record(state_path=state, snaps_dir=tmp_path, keep=2)
         assert result["hosts"] == 1, story
         snaps = lazy_timeline.find_snapshots(tmp_path)

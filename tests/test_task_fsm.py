@@ -26,7 +26,14 @@ class TestVocabulary:
         from modules.loop import task_fsm
 
         assert set(task_fsm.ACTIVE_STATUSES) | set(task_fsm.TERMINAL_STATUSES) == {
-            "queued", "running", "paused", "done", "failed", "timeout", "exhausted", "handoff",
+            "queued",
+            "running",
+            "paused",
+            "done",
+            "failed",
+            "timeout",
+            "exhausted",
+            "handoff",
         }
         assert not set(task_fsm.ACTIVE_STATUSES) & set(task_fsm.TERMINAL_STATUSES)
 

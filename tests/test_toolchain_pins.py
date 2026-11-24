@@ -17,7 +17,7 @@ ROOT = Path(__file__).resolve().parent.parent
 
 def _dev_pin(package: str) -> str:
     text = (ROOT / "requirements-dev.txt").read_text(encoding="utf-8")
-    match = re.search(rf"^{re.escape(package)}==([0-9.]+)\s*$", text, re.MULTILINE)
+    match = re.search(rf"^{re.escape(package)}==([0-9.]+)(?:\s|\\)", text, re.MULTILINE)
     assert match, f"{package} must be pinned ==X.Y.Z in requirements-dev.txt"
     return match.group(1)
 

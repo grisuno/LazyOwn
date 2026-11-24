@@ -64,7 +64,7 @@ from modules.loop_guardrails import (
     TargetLimiter,
     listing_forbidden,
 )
-from modules.loop_triggers import TriggerStore
+from modules.loop_triggers import TRIGGER_KINDS, TriggerStore  # noqa: F401
 
 
 def _record_deviation(scope: str, planned: str, actual: str, reason: str, source: str) -> None:

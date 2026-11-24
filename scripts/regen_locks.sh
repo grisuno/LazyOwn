@@ -35,8 +35,8 @@ fi
 echo "[*] Resolving the full dependency graph (uv lock) ..."
 uv lock
 
-echo "[*] Exporting requirements.txt (full core: .[analytics,ai,cloud,rag], no dev tooling) ..."
-uv export --all-extras --no-emit-project --no-dev --no-extra dev \
+echo "[*] Exporting requirements.txt (full core: .[analytics,ai,cloud,rag], no ml/dev tooling) ..."
+uv export --all-extras --no-emit-project --no-dev --no-extra ml --no-extra dev \
     --output-file requirements.txt
 
 echo "[*] Exporting requirements-light.txt (base only) ..."

@@ -78,6 +78,7 @@ class TestRegistryDiscovery:
             get_claudemd=lambda: None,
             job_store=None,
             list_tools=lambda: [],
+            call_tool=None,
             sitrep_recommendations=lambda *a, **k: [],
         )
         registered = mcp_tools.register_handlers(table, ctx)

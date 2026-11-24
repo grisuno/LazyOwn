@@ -678,14 +678,15 @@ class TestAdapterWiring:
 
 class TestC2Wiring:
     def test_analyze_functions_route_through_the_orchestrator(self):
-        """BDD: Given lazyc2.py, When the phishing analyzers are checked,
+        """BDD: Given the phishing analyzers, When their source is checked,
         Then they call the orchestrator chain instead of a Groq client."""
         import pathlib
 
         root = pathlib.Path(__file__).resolve().parent.parent
         text = (root / "lazyc2.py").read_text(encoding="utf-8")
-        assert "complete_with_fallback" in text
-        assert 'model="llama3-70b-8192"' not in text
+        phishing_text = (root / "lazyc2" / "phishing" / "campaigns.py").read_text(encoding="utf-8")
+        assert "complete_with_fallback" in text + phishing_text
+        assert 'model="llama3-70b-8192"' not in text + phishing_text
 
     def test_ai_fallback_call_routes_through_the_chain(self):
         """BDD: Given modules/ai_fallback.py, When call() is inspected,

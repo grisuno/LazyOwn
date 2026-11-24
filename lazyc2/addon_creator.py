@@ -460,6 +460,12 @@ class AddonCreatorConfig:
             extra = set(load_entries())
         except Exception:
             extra = set()
+        try:
+            from core.payload_schema import SCHEMA
+
+            extra |= set(SCHEMA.keys())
+        except Exception:
+            pass
         return frozenset(cls.payload_placeholders | extra)
 
 

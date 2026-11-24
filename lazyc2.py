@@ -3051,7 +3051,7 @@ def tojson_filter(value, **kwargs):
 
 
 @app.route("/", methods=["GET", "POST"])
-@requires_auth
+@requires_auth_or_session
 def index():
     response = decoy()
     client_ip = request.remote_addr

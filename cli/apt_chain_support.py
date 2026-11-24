@@ -12,7 +12,7 @@ import os
 import re
 import shlex
 from dataclasses import dataclass, field
-from typing import Any
+from typing import Any, cast
 
 from modules.chain_approval import approval_backend, build_c2_approver
 from modules.chain_registry import Chain, ChainStep
@@ -515,10 +515,10 @@ def render_result(result: ChainRunResult) -> list[str]:
         else:
             lines.append(f"[apt_chain] {outcome.status}: {outcome.run} ({outcome.reason})")
             if outcome.status in ("failed", "timeout"):
-                verdict = classify_outcome(outcome)
-                hint = " stop: no further attempts" if verdict.is_hard_stop else ""
+                failure = classify_outcome(outcome)
+                hint = " stop: no further attempts" if failure.is_hard_stop else ""
                 lines.append(
-                    f"    classified {verdict.failure_class.value} -> {verdict.action.value} ({verdict.reason}){hint}"
+                    f"    classified {failure.failure_class.value} -> {failure.action.value} ({failure.reason}){hint}"
                 )
     for branch in result.branches:
         lines.append(f"[apt_chain] branch: {branch}")
@@ -843,8 +843,9 @@ def build_llm_recovery_chain(result: ChainRunResult, target: str = "", task_id: 
     if not failed:
         return None
     from modules.mediation import MediationDomains, resolve
+    from modules.mediation.chain_mediator import ChainMediator
 
-    pool = resolve(MediationDomains.CHAIN).llm()
+    pool = cast(ChainMediator, resolve(MediationDomains.CHAIN)).llm()
     if not pool.has_members():
         return None
     ok_ids = [outcome.id for outcome in result.steps if outcome.ok][:8]

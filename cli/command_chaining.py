@@ -19,6 +19,9 @@ mixin reads only shell state exposed through ``self`` (``onecmd_plus_hooks``,
 
 from __future__ import annotations
 
+from collections.abc import Callable
+from typing import Any
+
 from utils import print_warn
 
 
@@ -27,6 +30,11 @@ class CommandChainingMixin:
 
     Mixed into :class:`LazyOwnShell`; invoked from ``onecmd_plus_hooks``.
     """
+
+    aliases: dict[str, str]
+    perror: Callable[..., None]
+    onecmd_plus_hooks: Callable[..., Any]
+    get_command_func: Callable[..., Any]
 
     @staticmethod
     def _split_and_chain(raw_input: str) -> list | None:

@@ -39,6 +39,7 @@ DEFAULT_OPENCODE_MODEL = "grok-code"
 DEFAULT_OPENCODE_BASE_URL = "https://opencode.ai/zen/v1"
 DEFAULT_LLAMACPP_MODEL = "local-model"
 DEFAULT_LLAMACPP_HOST = "http://127.0.0.1:8080"
+_NOAUTH_KEY = "sk-no-key-required"
 DEFAULT_COMPLETE_MAX_TOKENS = 1024
 DEFAULT_COMPLETE_TEMPERATURE = 0.2
 HTTP_OK = 200
@@ -334,7 +335,7 @@ class LlamaCppModel(AIModel):
         self.host = (host or DEFAULT_LLAMACPP_HOST).rstrip("/")
         self.client = None
         try:
-            self.client = _LazyImporter.openai()(api_key="sk-no-key-required", base_url=f"{self.host}/v1")
+            self.client = _LazyImporter.openai()(_NOAUTH_KEY, base_url=f"{self.host}/v1")
             try:
                 self.client.model = model
             except Exception:

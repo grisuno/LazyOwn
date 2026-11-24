@@ -7,7 +7,7 @@ source_file: SA/netview/entry.c
 client: beacon
 platform: windows
 category: enumeration
-client_artifact: 
+client_artifact:
 required_args: []
 optional_args: ['server']
 mitre_technique: T1046

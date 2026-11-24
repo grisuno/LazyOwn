@@ -758,7 +758,7 @@ class MarketplaceConfigApp(App[MarketplaceSettings | None]):
         self._refresh_tab_labels(tab)
         self._refresh_table(tab)
 
-    def action_toggle(self) -> None:
+    def action_toggle(self) -> None:  # type: ignore[override]
         """Toggle the selected entry when the tab supports it."""
         tab = self._active_tab()
         addon = self._selected_addon(tab)

@@ -8293,7 +8293,7 @@ def finding_severity(text: str, evidence: str = "") -> str:
         return "critical" if any(m in blob for m in ("rce", "cve-", "ms17")) else "high"
     if any(m in blob for m in ("sqli", "ssrf", "lfi", "idor", "privesc", "exploit")):
         return "high"
-    if any(m in blob for m in ("xss", "open tcp", "login:", "password:", "unauthorized")):
+    if any(m in blob for m in ("xss", "open tcp", "login:", "password", "unauthorized")):
         return "medium"
     if any(m in blob for m in ("vulnerable", "exposed", "header")):
         return "low"

@@ -516,9 +516,7 @@ def sync(config: VerbCatalogConfig | None = None) -> dict[str, int]:
                     "risk": _risk_fallback(name),
                     "description": meta.get("summary") or "",
                     "source": (
-                        "addon"
-                        if addon_verb
-                        else ("poc" if poc_verb else ("builtin" if name in builtins else "cli"))
+                        "addon" if addon_verb else ("poc" if poc_verb else ("builtin" if name in builtins else "cli"))
                     ),
                 }
                 added += 1

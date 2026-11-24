@@ -286,9 +286,7 @@ def test_orchestrator_playbooks_crud(tmp_path):
             "apt_name": "Demo APT",
             "description": "updated",
             "platforms": ["linux"],
-            "phases": [
-                {"name": "execution", "technique_id": "T1059", "atomic_tests": [{"atomic_id": "T1059"}]}
-            ],
+            "phases": [{"name": "execution", "technique_id": "T1059", "atomic_tests": [{"atomic_id": "T1059"}]}],
         },
         sort_keys=False,
     )

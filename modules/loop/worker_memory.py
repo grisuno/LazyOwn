@@ -104,12 +104,12 @@ class WorkerMemoryMixin:
                 platform = "unknown"
             engines = get_hub().mediator_for(MediationDomains.ENGINES)
             decisions = (
-                engines.analyse(output[: self._ABSORB_OUTPUT_LIMIT], command, platform)
-                if engines is not None
-                else []
+                engines.analyse(output[: self._ABSORB_OUTPUT_LIMIT], command, platform) if engines is not None else []
             )
             picks = [
-                ReactionPick(command=str(d.command), reason=str(d.reason), priority=int(d.priority), mitre=str(d.mitre_tactic))
+                ReactionPick(
+                    command=str(d.command), reason=str(d.reason), priority=int(d.priority), mitre=str(d.mitre_tactic)
+                )
                 for d in decisions
                 if str(getattr(d, "command", "") or "").strip()
             ]
@@ -140,9 +140,7 @@ class WorkerMemoryMixin:
         try:
             from modules.outcome_attribution import BLOCKED, AttributionLedger, classify
 
-            scrubbed = "\n".join(
-                line for line in str(output or "").splitlines() if not _AMBIENT_NOISE_RE.search(line)
-            )
+            scrubbed = "\n".join(line for line in str(output or "").splitlines() if not _AMBIENT_NOISE_RE.search(line))
             if _SHELL_EVIDENCE_RE.search(scrubbed):
                 classification = "ok"
             else:

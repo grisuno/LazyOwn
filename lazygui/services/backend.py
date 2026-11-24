@@ -15,6 +15,7 @@ from __future__ import annotations
 from collections.abc import Sequence
 from dataclasses import dataclass
 from enum import StrEnum
+from pathlib import Path
 
 from PySide6.QtCore import QObject, Signal
 

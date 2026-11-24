@@ -139,7 +139,7 @@ class SignatureStore:
         """Bind the store file under sessions/lazy."""
         base = Path(str(sessions_dir or "sessions")) / "lazy"
         self._path = base / SIGNATURE_STORE_FILENAME
-        self._ttl = float(ttl or _SIGNATURE_TTL_SEC)
+        self._ttl = float(ttl or _SIGNITURE_TTL_SEC)
 
     def fresh_signature(self, signature: str, now: float) -> str | None:
         """Return the previous signature row when it is inside the TTL window.

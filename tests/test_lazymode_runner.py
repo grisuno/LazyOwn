@@ -63,9 +63,7 @@ def test_run_python_timeout(tmp_path):
     payload = _payload(tmp_path, {})
     sessions = tmp_path / "sessions"
     sessions.mkdir()
-    outcome = run_python(
-        "while True:\n    pass", payload_path=payload, sessions_dir=sessions, timeout=1.0
-    )
+    outcome = run_python("while True:\n    pass", payload_path=payload, sessions_dir=sessions, timeout=1.0)
     assert outcome.ok is False
     assert "timeout" in outcome.error
 

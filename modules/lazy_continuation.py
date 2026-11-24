@@ -124,9 +124,7 @@ def save(
         "status": str(status or ""),
         "settlement": str(settlement or "")[:_MAX_TEXT_CHARS],
         "findings": [str(item)[:400] for item in (findings or [])][:10],
-        "next_steps": [str(item)[:400] for item in (next_steps or []) if str(item).strip()][
-            :_MAX_NEXT_STEPS
-        ],
+        "next_steps": [str(item)[:400] for item in (next_steps or []) if str(item).strip()][:_MAX_NEXT_STEPS],
         "credentials": [str(item)[:200] for item in (credentials or []) if str(item).strip()][:_MAX_CREDENTIALS],
         "deviations": [str(item)[:400] for item in (deviations or []) if str(item).strip()][:_MAX_DEVIATIONS],
         "updated": datetime.datetime.now(datetime.UTC).isoformat(),

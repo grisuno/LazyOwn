@@ -47,12 +47,17 @@ def fire_report(tmp_path: Path, monkeypatch) -> Path:
     import modules.lazy_autofire as autofire_module
     import modules.selection.intel as intel_module
 
-    (tmp_path / f"lazy_intel_{REPORT_TARGET}.json").write_text(json.dumps({
-        "target": REPORT_TARGET,
-        "temperature": "hot",
-        "score": 50,
-        "matches": [dict(REPORT_MATCH)],
-    }), encoding="utf-8")
+    (tmp_path / f"lazy_intel_{REPORT_TARGET}.json").write_text(
+        json.dumps(
+            {
+                "target": REPORT_TARGET,
+                "temperature": "hot",
+                "score": 50,
+                "matches": [dict(REPORT_MATCH)],
+            }
+        ),
+        encoding="utf-8",
+    )
     monkeypatch.setattr(intel_module, "SESSIONS_DIR", tmp_path)
     monkeypatch.setattr(intel_module, "BASE_DIR", tmp_path)
     monkeypatch.setattr(autofire_module, "CHAINS_DIR", tmp_path / "chains")
@@ -81,7 +86,9 @@ class TestPlannerFireIntent:
         monkeypatch.setattr(loop, "resolve_target", lambda *a, **k: REPORT_TARGET)
         engine = LazyEngine()
         task_id = engine.create_task(f"probe {REPORT_TARGET}")["task_id"]
-        planner = loop.Planner(task_id, engine.assets, loop.ExplorationGraph(task_id), loop.ActivityLog(task_id), engine.store)
+        planner = loop.Planner(
+            task_id, engine.assets, loop.ExplorationGraph(task_id), loop.ActivityLog(task_id), engine.store
+        )
         intents = planner._selector_candidates()
         texts = [item[0] for item in intents]
         assert f"run action: lazyautofire fire {REPORT_TARGET}" in texts, story
@@ -100,10 +107,7 @@ class TestPlannerFireIntent:
         graph.add_node("intent", f"run action: lazyautofire fire {REPORT_TARGET}", priority=2)
         planner = loop.Planner(task_id, engine.assets, graph, loop.ActivityLog(task_id), engine.store)
         candidates = planner._selector_candidates()
-        assert all(
-            f"run action: lazyautofire fire {REPORT_TARGET}" not in (c[0] or "")
-            for c in candidates
-        ), story
+        assert all(f"run action: lazyautofire fire {REPORT_TARGET}" not in (c[0] or "") for c in candidates), story
 
 
 class TestWorkerExecutesFireAction:

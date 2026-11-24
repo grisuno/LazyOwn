@@ -9,13 +9,13 @@ REPO_ROOT = Path(__file__).parent.parent
 IMPLANT_DIR = REPO_ROOT / "sessions" / "implant"
 
 IMPLANT_TEMPLATE_CONSTANTS = (
-    "SLEEP_JIT_ENABLED = \"{sleep_jit_enabled}\"",
-    "SLEEP_JIT_PCT_MIN = \"{sleep_jit_pct_min}\"",
-    "SLEEP_JIT_PCT_MAX = \"{sleep_jit_pct_max}\"",
-    "ACT_DELAY_MIN = \"{sleep_activation_delay_min}\"",
-    "ACT_DELAY_MAX = \"{sleep_activation_delay_max}\"",
-    "PERSIST_CRON = \"{persistence_cron_schedule}\"",
-    "PERSIST_SERVICE = \"{persistence_service_name}\"",
+    'SLEEP_JIT_ENABLED = "{sleep_jit_enabled}"',
+    'SLEEP_JIT_PCT_MIN = "{sleep_jit_pct_min}"',
+    'SLEEP_JIT_PCT_MAX = "{sleep_jit_pct_max}"',
+    'ACT_DELAY_MIN = "{sleep_activation_delay_min}"',
+    'ACT_DELAY_MAX = "{sleep_activation_delay_max}"',
+    'PERSIST_CRON = "{persistence_cron_schedule}"',
+    'PERSIST_SERVICE = "{persistence_service_name}"',
 )
 
 

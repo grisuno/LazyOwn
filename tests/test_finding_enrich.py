@@ -65,9 +65,7 @@ def _graph_with(meta):
 
 
 def test_enrich_finding_canonicalises_and_bumps_version():
-    graph, finding = _graph_with(
-        {"traffic_refs": [_ref("b", "supporting"), _ref("a", "proof")], "evidence_version": 1}
-    )
+    graph, finding = _graph_with({"traffic_refs": [_ref("b", "supporting"), _ref("a", "proof")], "evidence_version": 1})
     result = finding_enrich.enrich_finding(TrafficLog("t"), 1, graph)
     assert result["ok"] and result["changed"] is True
     assert [r["digest"] for r in finding.meta["traffic_refs"]] == ["a", "b"]

@@ -136,6 +136,7 @@ def sort_members(members: list[dict]) -> list[dict]:
     Returns:
         New list ordered by descending priority weight.
     """
+
     def _weight(member: dict) -> int:
         try:
             return int(member.get("priority", 0))

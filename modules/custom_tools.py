@@ -49,9 +49,16 @@ def _save(payload: dict) -> None:
     path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
 
 
-def add_tool(name: str, kind: str, target: str, description: str = "",
-             method: str = "GET", body: str = "",
-             timeout: float = DEFAULT_TIMEOUT_SEC, trigger: str = "") -> dict:
+def add_tool(
+    name: str,
+    kind: str,
+    target: str,
+    description: str = "",
+    method: str = "GET",
+    body: str = "",
+    timeout: float = DEFAULT_TIMEOUT_SEC,
+    trigger: str = "",
+) -> dict:
     """Register or replace one custom tool.
 
     Args:
@@ -81,12 +88,16 @@ def add_tool(name: str, kind: str, target: str, description: str = "",
         raise ValueError("name and target are required")
     payload = _load()
     tools = [tool for tool in payload.get("tools", []) if tool.get("name") != clean_name]
-    entry = {"name": clean_name, "kind": kind, "target": clean_target[:2000],
-             "description": (description or "")[:300],
-             "trigger": _trigger_tokens(trigger),
-             "method": (method or "GET").upper()[:8] if kind == "http" else "",
-             "body": (body or "")[:4000] if kind == "http" else "",
-             "timeout": max(5.0, min(3600.0, float(timeout or DEFAULT_TIMEOUT_SEC)))}
+    entry = {
+        "name": clean_name,
+        "kind": kind,
+        "target": clean_target[:2000],
+        "description": (description or "")[:300],
+        "trigger": _trigger_tokens(trigger),
+        "method": (method or "GET").upper()[:8] if kind == "http" else "",
+        "body": (body or "")[:4000] if kind == "http" else "",
+        "timeout": max(5.0, min(3600.0, float(timeout or DEFAULT_TIMEOUT_SEC))),
+    }
     tools.append(entry)
     tools.sort(key=lambda tool: tool.get("name", ""))
     payload["tools"] = tools
@@ -121,8 +132,7 @@ def get_tool(name: str) -> dict | None:
 
 def _trigger_tokens(raw: str) -> list[str]:
     """Normalize a comma/space separated trigger string into tokens."""
-    return [token.strip().lower()
-            for token in re.split(r"[,\s]+", raw or "") if token.strip()]
+    return [token.strip().lower() for token in re.split(r"[,\s]+", raw or "") if token.strip()]
 
 
 def match_tools(text: str, limit: int = 3) -> list[dict]:
@@ -132,10 +142,11 @@ def match_tools(text: str, limit: int = 3) -> list[dict]:
         return []
     scored: list[tuple[int, dict]] = []
     for tool in list_tools():
-        tokens = {token.lower() for token in
-                  re.findall(r"[A-Za-z][A-Za-z0-9_-]+",
-                             f"{tool.get('name', '')} {tool.get('description', '')}")
-                  if len(token) >= 4}
+        tokens = {
+            token.lower()
+            for token in re.findall(r"[A-Za-z][A-Za-z0-9_-]+", f"{tool.get('name', '')} {tool.get('description', '')}")
+            if len(token) >= 4
+        }
         score = sum(1 for token in tokens if token in lowered)
         for trigger in tool.get("trigger", []) or []:
             if str(trigger).strip() and str(trigger).lower() in lowered:
@@ -229,5 +240,13 @@ def _run_http(tool: dict, arg: str, on_output=None) -> str:
     return f"HTTP {method} {url} :: {payload[:4000]}"
 
 
-__all__ = ["DEFAULT_TIMEOUT_SEC", "KINDS", "add_tool", "get_tool", "list_tools",
-           "match_tools", "remove_tool", "run_tool"]
+__all__ = [
+    "DEFAULT_TIMEOUT_SEC",
+    "KINDS",
+    "add_tool",
+    "get_tool",
+    "list_tools",
+    "match_tools",
+    "remove_tool",
+    "run_tool",
+]

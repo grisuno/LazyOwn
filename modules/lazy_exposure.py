@@ -79,7 +79,6 @@ def ensure_report(target: str, entries: list[dict] | dict | None = None, refresh
         if existing.exists():
             return existing
     try:
-
         sightings = read_sightings(clean, state_path=WORLD_MODEL_PATH)
         report = generate_report(clean, entries if entries else [], sightings=sightings)
         meaningful = bool(report.get("matches") or report.get("version_unknown"))
@@ -153,11 +152,7 @@ def generate_report(target: str, entries: list[dict] | dict | None, sightings: l
     review: list[dict] = []
     highest_cvss = {}
     for sighting in rows:
-        bindings = (
-            lazy_feedmatch.live_bindings(sighting)
-            if live_mode
-            else bind_sighting(sighting, feed)
-        )
+        bindings = lazy_feedmatch.live_bindings(sighting) if live_mode else bind_sighting(sighting, feed)
         for binding in bindings:
             row = {
                 "cve_id": binding.cve_id,
@@ -183,8 +178,7 @@ def generate_report(target: str, entries: list[dict] | dict | None, sightings: l
                 highest_cvss[binding.tier] = binding.cvss
     matches.sort(key=_match_hot_key)
     review.sort(key=_match_hot_key)
-    lead_rows = [{"host": s.host, "port": s.port, "product": s.product or s.name}
-                 for s in unversioned_leads(rows)]
+    lead_rows = [{"host": s.host, "port": s.port, "product": s.product or s.name} for s in unversioned_leads(rows)]
     score, detail = score_report(entries=matches, bounded_unknown=review, services=len(rows))
     temperatures = {row["tier"] for row in matches}
     report = {
@@ -234,16 +228,19 @@ def score_report(entries: list[dict], bounded_unknown: list[dict], services: int
     for row in entries:
         points = {HOT: 40, WARM: 20, COLD: 5}.get(row["tier"], 5)
         if worst is None or points > worst["points"]:
-            worst = {"label": f"{row['tier'].capitalize()} match {row['cve_id']} ({row['product']})",
-                     "points": points}
+            worst = {"label": f"{row['tier'].capitalize()} match {row['cve_id']} ({row['product']})", "points": points}
     if worst is not None:
         detail.append(worst)
         left -= min(worst["points"], left)
     if len(bounded_unknown):
         points = min(len(bounded_unknown), SCORE_UNBOUNDED_CAP)
         ids = ", ".join(sorted(row["cve_id"] for row in bounded_unknown)[:3])
-        detail.append({"label": f"Actively exploited matches with unbounded versions to review ({ids})",
-                       "points": min(points, left)})
+        detail.append(
+            {
+                "label": f"Actively exploited matches with unbounded versions to review ({ids})",
+                "points": min(points, left),
+            }
+        )
         left = max(0, left - points)
     if services:
         points = min(services, SCORE_SURFACE_CAP)
@@ -270,21 +267,26 @@ def probe_checks(matches: list[dict], feed: list[lazy_feedmatch.FeedEntry]) -> l
     for row in matches:
         if len(rendered) >= MAX_CHECKS:
             break
-        check = render_check(CHECK_VERSION_BANNER, {
-            "port": row["port"],
-            "product": row["product"],
-            "ranges": ranges_by_cve.get(row["cve_id"], []),
-        })
+        check = render_check(
+            CHECK_VERSION_BANNER,
+            {
+                "port": row["port"],
+                "product": row["product"],
+                "ranges": ranges_by_cve.get(row["cve_id"], []),
+            },
+        )
         if check.errors:
             continue
-        rendered.append({
-            "kind": check.kind,
-            "tool": check.tool,
-            "command": check.command,
-            "expect": check.expect,
-            "explain": check.explain,
-            "cve_id": row["cve_id"],
-        })
+        rendered.append(
+            {
+                "kind": check.kind,
+                "tool": check.tool,
+                "command": check.command,
+                "expect": check.expect,
+                "explain": check.explain,
+                "cve_id": row["cve_id"],
+            }
+        )
     return rendered
 
 
@@ -377,23 +379,27 @@ def _shape_sightings(rows: list[dict]) -> list[Sighting]:
             for port, svc in services.items():
                 if not isinstance(svc, dict):
                     continue
-                shaped.append(Sighting(
-                    host=host,
-                    port=_int(svc.get("port"), port),
-                    protocol=str(svc.get("protocol") or "tcp"),
-                    product=str(svc.get("name") or svc.get("product") or "").strip(),
-                    version=str(svc.get("version") or "").strip(),
-                    name=str(svc.get("service_name") or "").strip(),
-                ))
+                shaped.append(
+                    Sighting(
+                        host=host,
+                        port=_int(svc.get("port"), port),
+                        protocol=str(svc.get("protocol") or "tcp"),
+                        product=str(svc.get("name") or svc.get("product") or "").strip(),
+                        version=str(svc.get("version") or "").strip(),
+                        name=str(svc.get("service_name") or "").strip(),
+                    )
+                )
             continue
-        shaped.append(Sighting(
-            host=host,
-            port=_int(row.get("port"), 0),
-            protocol=str(row.get("protocol") or "tcp"),
-            product=str(row.get("product") or row.get("name") or "").strip(),
-            version=str(row.get("version") or "").strip(),
-            source=str(row.get("source") or "scanner"),
-        ))
+        shaped.append(
+            Sighting(
+                host=host,
+                port=_int(row.get("port"), 0),
+                protocol=str(row.get("protocol") or "tcp"),
+                product=str(row.get("product") or row.get("name") or "").strip(),
+                version=str(row.get("version") or "").strip(),
+                source=str(row.get("source") or "scanner"),
+            )
+        )
     return shaped
 
 

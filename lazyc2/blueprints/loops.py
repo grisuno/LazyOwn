@@ -88,18 +88,12 @@ def _loops_start():
             spec = LoopSpec(
                 kind=str(kind),
                 target=target,
-                goal=_loop_sanitize_goal(data.get("goal"))
-                if kind in (KIND_AUTO_LOOP, KIND_BEACON_LOOP)
-                else "",
-                rounds=_loop_clamp_int(
-                    data.get("rounds", DEFAULT_ROUNDS), "rounds", DEFAULT_ROUNDS, 1, MAX_ROUNDS
-                ),
+                goal=_loop_sanitize_goal(data.get("goal")) if kind in (KIND_AUTO_LOOP, KIND_BEACON_LOOP) else "",
+                rounds=_loop_clamp_int(data.get("rounds", DEFAULT_ROUNDS), "rounds", DEFAULT_ROUNDS, 1, MAX_ROUNDS),
                 workers=_loop_clamp_int(
                     data.get("workers", DEFAULT_WORKERS), "workers", DEFAULT_WORKERS, 1, MAX_WORKERS
                 ),
-                timeout=_loop_clamp_float(
-                    data.get("timeout", 0), "timeout", 0.0, 0.0, MAX_TIMEOUT_SECONDS
-                ),
+                timeout=_loop_clamp_float(data.get("timeout", 0), "timeout", 0.0, 0.0, MAX_TIMEOUT_SECONDS),
             )
             from flask_login import current_user
 

@@ -164,7 +164,7 @@ def rescore(
                 "services": services,
                 "findings": findings,
                 "cves": cves[:3],
-                "shell": str((host.get("state", "") or "")).lower() == "owned",
+                "shell": str(host.get("state", "") or "").lower() == "owned",
                 "admin_paths": bool(admin_paths),
                 "recency": 1.0 if ip in recent_hosts else 0.0,
             }

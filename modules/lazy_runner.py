@@ -164,7 +164,15 @@ FLAG_VALUES = (
     "--max-concurrent",
     "--mode",
 )
-FLAG_TOGGLES = ("--no-bootstrap", "--view", "--plain", "--no-progress", "--budget-confirm", "--fallback-phish", "--no-preflight")
+FLAG_TOGGLES = (
+    "--no-bootstrap",
+    "--view",
+    "--plain",
+    "--no-progress",
+    "--budget-confirm",
+    "--fallback-phish",
+    "--no-preflight",
+)
 _BUDGET_KEYS = ("rounds", "toolcalls", "findings", "timeout_sec")
 _BUDGET_MINIMUMS = {"rounds": 1, "toolcalls": 1, "findings": 1, "timeout_sec": 60.0}
 _BUDGET_TO_ENGINE = {
@@ -281,9 +289,7 @@ def parse_loop_line(line: str) -> LoopRunConfig:
                     parsed = float(raw_value)
                     clamped = max(_BUDGET_MINIMUMS[key], parsed)
                     if clamped != parsed:
-                        print_warn(
-                            f"[!] budget {key}={parsed:g} below the usable floor; clamped to {clamped:g}"
-                        )
+                        print_warn(f"[!] budget {key}={parsed:g} below the usable floor; clamped to {clamped:g}")
                     budget[key] = clamped
             idx += 2
             continue
@@ -368,8 +374,13 @@ def resolve_loop_defaults(config: LoopRunConfig) -> LoopRunConfig:
 
 
 def build_executor(
-    shell, config: LoopRunConfig, stream: Callable[[str], None], cancelled: dict,
-    sandbox_task_id: str = "", sandbox_image: str = "", audit=None,
+    shell,
+    config: LoopRunConfig,
+    stream: Callable[[str], None],
+    cancelled: dict,
+    sandbox_task_id: str = "",
+    sandbox_image: str = "",
+    audit=None,
 ) -> Callable[[str], str]:
     """Build the worker executor: shell verbs, custom tools, safe bash.
 
@@ -425,9 +436,7 @@ def build_executor(
                     from modules.lazy_sandbox import exec_command as _sandbox_exec
 
                     stream(f"[sandbox] {text[:200]}")
-                    return _sandbox_exec(
-                        sandbox_task_id, text, timeout_sec=verb_timeout, image=sandbox_image
-                    )
+                    return _sandbox_exec(sandbox_task_id, text, timeout_sec=verb_timeout, image=sandbox_image)
                 except Exception as exc:
                     return f"execution failed: {exc}"
             try:
@@ -657,14 +666,11 @@ def _maybe_start_c2(params: dict, force: bool = False) -> bool:
     deadline = time.monotonic() + timeout
     while time.monotonic() < deadline:
         if _c2_port_alive(host, port):
-            print_msg(
-                f"[*] c2 autostart: listening on {host}:{port} (sessions/{C2_AUTOSTART_LOGFILE})"
-            )
+            print_msg(f"[*] c2 autostart: listening on {host}:{port} (sessions/{C2_AUTOSTART_LOGFILE})")
             return _c2_autostart_tip(params)
         time.sleep(C2_AUTOSTART_POLL_S)
     print_warn(
-        f"[!] c2 autostart: not listening on {host}:{port} after {timeout:.0f}s; "
-        f"check sessions/{C2_AUTOSTART_LOGFILE}"
+        f"[!] c2 autostart: not listening on {host}:{port} after {timeout:.0f}s; check sessions/{C2_AUTOSTART_LOGFILE}"
     )
     return False
 
@@ -894,8 +900,7 @@ def report_result(result: dict) -> None:
         print_msg(
             f"[verdict] {verdict.get('verdict', '')} "
             f"coverage={verdict.get('coverage_pct', 0)}% "
-            f"confirmed={verdict.get('confirmed', 0)}"
-            + (f" ({detail})" if detail else "")
+            f"confirmed={verdict.get('confirmed', 0)}" + (f" ({detail})" if detail else "")
         )
         if verdict.get("path"):
             print_msg(f"[verdict] report: {verdict['path']}")
@@ -904,8 +909,7 @@ def report_result(result: dict) -> None:
         print_warn(f"Findings present — inspect with: lazy_findings {task_id} / lazy_trace {task_id} list")
     if str(result.get("status", "")) in ("failed", "timeout", "exhausted", "handoff"):
         print_warn(
-            "retry offer: retry loop "
-            f"{task_id} [--sudo] (elevated reruns prompt with a destructive-steps warning)"
+            f"retry offer: retry loop {task_id} [--sudo] (elevated reruns prompt with a destructive-steps warning)"
         )
 
 
@@ -920,10 +924,7 @@ def _print_handoff(handoff: dict) -> None:
     states = handoff.get("states") or {}
     if not any(states.values()):
         return
-    print_msg(
-        "[handoff] states: "
-        + " ".join(f"{name}={count}" for name, count in states.items())
-    )
+    print_msg("[handoff] states: " + " ".join(f"{name}={count}" for name, count in states.items()))
     for item in handoff.get("confirmed") or []:
         technique = str(item.get("technique_id") or "")
         print_msg(f"[handoff] confirmed: {str(item.get('title', ''))[:120]}" + (f" [{technique}]" if technique else ""))
@@ -1045,7 +1046,10 @@ def _run_with_progress(engine, config: LoopRunConfig) -> dict:
             stream(f"[*] sandbox task {task_id} bound to container\n")
     sandbox_image = "" if config.sandbox in ("", "default") else config.sandbox
     executor = build_executor(
-        engine.shell, config, stream, cancelled,
+        engine.shell,
+        config,
+        stream,
+        cancelled,
         sandbox_task_id=task_id if config.sandbox else "",
         sandbox_image=sandbox_image,
         audit=config.audit,
@@ -1338,7 +1342,10 @@ def _run_plain(engine, config: LoopRunConfig) -> dict:
                 engine.ensure_target(config.task_id, config.target, "loop target")
     sandbox_image = "" if config.sandbox in ("", "default") else config.sandbox
     executor = build_executor(
-        engine.shell, config, _terminal_stream(), cancelled,
+        engine.shell,
+        config,
+        _terminal_stream(),
+        cancelled,
         sandbox_task_id=config.task_id if config.sandbox else "",
         sandbox_image=sandbox_image,
         audit=config.audit,
@@ -1604,8 +1611,7 @@ def run_loop(shell, params: dict, config: LoopRunConfig) -> dict:
                                     audit.verdict(result.get("verdict") or {})
                                 audit.run_end(
                                     status=str(
-                                        result.get("status", "")
-                                        or ("cancelled" if result.get("cancelled") else "")
+                                        result.get("status", "") or ("cancelled" if result.get("cancelled") else "")
                                     ),
                                     rounds=int(result.get("rounds", 0) or 0),
                                     verdict=result.get("verdict") or {},

@@ -31,8 +31,8 @@ MUTATIONS = {
     "fail_closed_lost": {
         "file": "modules/lazy_cli_bridge.py",
         "description": "Return a generic list when the catalog view fails",
-        "old": "    except Exception:\n        return \"\"",
-        "new": "    except Exception:\n        return \"lazynmap\"",
+        "old": '    except Exception:\n        return ""',
+        "new": '    except Exception:\n        return "lazynmap"',
         "expected": "test_missing_catalog_view_adds_nothing must fail",
     },
     "prompt_wiring_off": {

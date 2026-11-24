@@ -13,11 +13,9 @@ import json
 import logging
 import re
 from collections import OrderedDict
+from collections.abc import Sequence
 from pathlib import Path
 from typing import Any
-from typing import Sequence
-
-from typing import Sequence
 
 logger = logging.getLogger(__name__)
 
@@ -749,4 +747,3 @@ __all__ = [
     "format_module_table",
     "format_module_detail",
 ]
-

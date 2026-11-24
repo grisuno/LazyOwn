@@ -70,9 +70,7 @@ def test_matrix_fallback_groups(monkeypatch: pytest.MonkeyPatch) -> None:
     assert "T1003" in result["output"]
 
 
-def test_notes_roundtrip_without_binary(
-    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
-) -> None:
+def test_notes_roundtrip_without_binary(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
     """Notes append/read work fully offline in the XDG layout."""
     monkeypatch.setattr(bridge, "locate_binary", lambda: None)
     monkeypatch.setenv("XDG_DATA_HOME", str(tmp_path))

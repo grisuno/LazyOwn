@@ -16,7 +16,7 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
@@ -41,7 +41,7 @@ jobs:
       matrix:
         python-version: ["3.11", "3.12"]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
@@ -62,7 +62,7 @@ jobs:
     needs: lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
@@ -79,13 +79,13 @@ jobs:
     needs: lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
       - name: Generate SBOM
         run: python3 scripts/generate_sbom.py --out sbom.json
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: sbom
           path: sbom.json
@@ -94,7 +94,7 @@ jobs:
     needs: lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
@@ -105,7 +105,7 @@ jobs:
       - name: Bandit security scan (high severity gate)
         run: bandit -c pyproject.toml -r . --severity-level high -f json -o bandit-report.json
       - name: Upload bandit report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: bandit-report
           path: bandit-report.json
@@ -116,7 +116,7 @@ jobs:
     needs: lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
@@ -126,4 +126,4 @@ jobs:
           pip install -r requirements-dev.txt
           pip install types-requests types-PyYAML types-tabulate types-Markdown 2>/dev/null || true
       - name: mypy type check
-        run: mypy --config-file pyproject.toml --no-strict-optional --no-site-packages --explicit-package-bases core cli setup.py
+        run: mypy --config-file pyproject.toml --no-strict-optional --explicit-package-bases core cli setup.py

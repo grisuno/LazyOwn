@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from modules.lazy_loop import _policy_proposals, load_intel_scores
+from modules.lazy_loop import _policy_proposals
 
 
 class _StubPolicy:
@@ -60,6 +60,7 @@ def test_duplicate_rows_dedupe():
 
 def test_policy_failure_degrades_to_empty():
     """Given a raising policy, When proposing, Then the list is empty."""
+
     class _Broken(_StubPolicy):
         """Policy raising on every call."""
 

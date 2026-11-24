@@ -166,9 +166,7 @@ class TestHeuristicPlan:
 
 class TestSummarizeHistory:
     def test_bounded_and_ordered(self):
-        records = [
-            {"command": f"cmd{i}", "output": f"out{i}"} for i in range(20)
-        ]
+        records = [{"command": f"cmd{i}", "output": f"out{i}"} for i in range(20)]
         text = summarize_history(records, max_chars=200)
         assert len(text) <= 200
         assert "cmd19" in text

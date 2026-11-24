@@ -36,7 +36,17 @@ _TTL_PATTERNS = (
 )
 
 _WINDOWS_STRONG_MARKERS = ("microsoft windows", "windows", "iis/", "microsoft-iis", "remote desktop")
-_WINDOWS_WEAK_MARKERS = ("msrpc", "netbios-ssn", "netbios-ns", "microsoft-ds", "ms-wbt-server", "rdp", "ms-sql", "winrm", "smb")
+_WINDOWS_WEAK_MARKERS = (
+    "msrpc",
+    "netbios-ssn",
+    "netbios-ns",
+    "microsoft-ds",
+    "ms-wbt-server",
+    "rdp",
+    "ms-sql",
+    "winrm",
+    "smb",
+)
 _LINUX_MARKERS = (
     "linux",
     "ubuntu",
@@ -240,9 +250,7 @@ def verb_compatible_with_host(command: str, host_os: str) -> tuple[bool, str, st
     verb_os = verb_target_os(command)
     if os_compatible(verb_os, host_os):
         return True, verb_os, ""
-    return False, verb_os, (
-        f"target os is {host_os} (inferred); verb targets {verb_os} so it cannot run here"
-    )
+    return False, verb_os, (f"target os is {host_os} (inferred); verb targets {verb_os} so it cannot run here")
 
 
 # -----------------------------------------------------------------------------

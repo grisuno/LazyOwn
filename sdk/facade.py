@@ -240,9 +240,7 @@ class ReconApi:
         if not is_binary_present("nmap"):
             raise RuntimeError("nmap binary not found")
         self._sessions_dir.mkdir(parents=True, exist_ok=True)
-        xml_path = _safe_session_name(
-            _SCAN_ARTIFACT_TEMPLATE.format(target=target), self._sessions_dir
-        )
+        xml_path = _safe_session_name(_SCAN_ARTIFACT_TEMPLATE.format(target=target), self._sessions_dir)
         command = f"nmap {flags} -oX {shlex.quote(str(xml_path))} {shlex.quote(target)}"
         self._run(command, timeout)
         return self.ports(target)

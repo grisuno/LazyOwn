@@ -69,7 +69,9 @@ def test_runner_dry_run_never_calls_executor(tmp_path: Path):
         sessions_dir=tmp_path,
         outcome_recorder=lambda **kwargs: None,
     )
-    report = runner.run("10.0.0.5", techniques=["T1059"], executor=lambda command: calls.append(command) or "x", dry_run=True)
+    report = runner.run(
+        "10.0.0.5", techniques=["T1059"], executor=lambda command: calls.append(command) or "x", dry_run=True
+    )
     assert report["dry_run"] is True
     assert report["executed"] == 1
     assert calls == []
@@ -207,6 +209,7 @@ def test_outcome_metadata_uses_scan_dir(tmp_path: Path):
 
 def test_resolver_errors_are_reported_not_hidden(tmp_path: Path):
     """Given a broken resolver, When it raises, Then the report carries the reason."""
+
     class Broken(FakeResolver):
         def list_for_technique(self, technique: str, platform: str = ""):
             raise RuntimeError("index corrupt")

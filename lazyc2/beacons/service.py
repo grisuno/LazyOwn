@@ -130,9 +130,7 @@ def looks_like_credential(value: str) -> bool:
     has_ntlm = "$" in candidate and len(candidate) >= 32
     has_hash = "$" in candidate and "$:" in candidate
     is_multiline = "\n" in candidate and has_user_pass
-    is_path_only = (
-        candidate.startswith("/") or candidate.startswith("\\") or candidate.startswith("C:")
-    )
+    is_path_only = candidate.startswith("/") or candidate.startswith("\\") or candidate.startswith("C:")
     if is_path_only and not has_user_pass:
         return False
     return has_user_pass or has_ntlm or has_hash or is_multiline
@@ -436,9 +434,7 @@ def _record_ground_truth_os(rt: BeaconRuntime, primary_ip: str, os_id: str, os_n
         ]
         with open(os_json_path, "w") as os_handle:
             json.dump(os_entry, os_handle, indent=4)
-        logging.info(
-            f"[c2-bidir] sessions/os.json updated: os={os_name} host={primary_ip} (beacon ground truth)"
-        )
+        logging.info(f"[c2-bidir] sessions/os.json updated: os={os_name} host={primary_ip} (beacon ground truth)")
     except Exception as exc:
         logging.debug(f"[c2-bidir] os.json write error: {exc}")
 
@@ -452,9 +448,7 @@ def _record_ground_truth_os(rt: BeaconRuntime, primary_ip: str, os_id: str, os_n
         if not host_entry.get("os_hint"):
             host_entry["os_hint"] = os_name.lower()
             write_state_dict(wm_path, world_model)
-            logging.info(
-                f"[c2-bidir] world_model.json os_hint={os_name.lower()} host={primary_ip}"
-            )
+            logging.info(f"[c2-bidir] world_model.json os_hint={os_name.lower()} host={primary_ip}")
     except Exception as exc:
         logging.debug(f"[c2-bidir] world_model update error: {exc}")
 
@@ -569,9 +563,7 @@ def _queue_first_checkin_tasks(rt: BeaconRuntime, client_id: str, platform: str)
             privesc_cmd,
         )
     recon_state = rt.store.load_recon_state(client_id)
-    if not recon_state.get("discover_queued") and bool(
-        getattr(rt.config, "auto_discover_on_checkin", False)
-    ):
+    if not recon_state.get("discover_queued") and bool(getattr(rt.config, "auto_discover_on_checkin", False)):
         commands.append("discover:")
         recon_state["discover_queued"] = True
         logging.info("[beacon_recon] Queued discover: for %s", client_id)

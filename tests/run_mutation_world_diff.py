@@ -15,7 +15,7 @@ MUTATIONS = {
     "enrichment_flagged_as_change": {
         "file": "modules/lazy_world_diff.py",
         "description": "Flag first observation of a product as a change",
-        "old": "            if not (was.get(\"product\") or was.get(\"version\")):",
+        "old": '            if not (was.get("product") or was.get("version")):',
         "new": "            if False:",
         "expected": "test_diff_service_change_requires_prior_identity must fail",
     },
@@ -29,14 +29,14 @@ MUTATIONS = {
     "ghost_clear_disabled": {
         "file": "modules/lazy_world_diff.py",
         "description": "Never clear a ghost state",
-        "old": "        if record.get(\"state\") == _GHOST:",
+        "old": '        if record.get("state") == _GHOST:',
         "new": "        if False:",
         "expected": "test_ghost_state_apply_roundtrip must fail",
     },
     "stats_cooldown_disabled": {
         "file": "modules/lazy_world_diff.py",
         "description": "Write a stats snapshot on every call",
-        "old": "    if rows and stamp - float(rows[-1].get(\"ts\", 0) or 0) < SNAPSHOT_MIN_INTERVAL:",
+        "old": '    if rows and stamp - float(rows[-1].get("ts", 0) or 0) < SNAPSHOT_MIN_INTERVAL:',
         "new": "    if False:",
         "expected": "test_snapshot_engagement_cooldown must fail",
     },

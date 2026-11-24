@@ -26,14 +26,16 @@ CHECK_NSE_SCRIPT = "nse_script"
 CHECK_PACKAGE_VERSION = "package_version"
 CHECK_SERVICE_STATE = "service_state"
 
-CHECK_KINDS = frozenset({
-    CHECK_VERSION_BANNER,
-    CHECK_HTTP_PROBE,
-    CHECK_NUCLEI_TEMPLATE,
-    CHECK_NSE_SCRIPT,
-    CHECK_PACKAGE_VERSION,
-    CHECK_SERVICE_STATE,
-})
+CHECK_KINDS = frozenset(
+    {
+        CHECK_VERSION_BANNER,
+        CHECK_HTTP_PROBE,
+        CHECK_NUCLEI_TEMPLATE,
+        CHECK_NSE_SCRIPT,
+        CHECK_PACKAGE_VERSION,
+        CHECK_SERVICE_STATE,
+    }
+)
 
 HTTP_METHODS = frozenset({"GET", "HEAD", "POST", "OPTIONS"})
 ECOSYSTEMS = frozenset({"dpkg", "rpm", "apk", "pip", "npm", "gem", "any"})
@@ -291,8 +293,12 @@ def _render_service_state(params: dict) -> RenderedCheck:
     """Render a read-only service state check for linux and windows."""
     service = shlex.quote(str(params.get("service")))
     state = str(params.get("state") or "")
-    wanted = {"running": ("is-active", "active"), "stopped": ("is-active", "inactive"),
-              "enabled": ("is-enabled", "enabled"), "disabled": ("is-enabled", "disabled")}[state]
+    wanted = {
+        "running": ("is-active", "active"),
+        "stopped": ("is-active", "inactive"),
+        "enabled": ("is-enabled", "enabled"),
+        "disabled": ("is-enabled", "disabled"),
+    }[state]
     rendered = RenderedCheck(
         kind=CHECK_SERVICE_STATE,
         tool="systemctl",

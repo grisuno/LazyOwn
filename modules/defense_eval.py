@@ -370,7 +370,11 @@ def evaluate_rule(rule_text: str, target_logs: str, control_logs: str) -> RuleRe
         result.reasons.append(f"{result.control.matched} control events matched the rule; false positives")
     if result.target.missed > 0 or result.control.matched > 0:
         result.verdict = VERDICT_FAIL
-    if result.target.total == 0 or result.control.total == 0 or result.target.inconclusive + result.control.inconclusive > 0:
+    if (
+        result.target.total == 0
+        or result.control.total == 0
+        or result.target.inconclusive + result.control.inconclusive > 0
+    ):
         result.verdict = VERDICT_INCONCLUSIVE
     if not result.reasons and result.target.missed == 0 and result.control.matched == 0:
         result.verdict = VERDICT_PASS

@@ -8,7 +8,6 @@ toggling with catalog persistence, and trigger management.
 
 from __future__ import annotations
 
-import json
 from pathlib import Path
 
 import pytest
@@ -116,7 +115,6 @@ def test_verb_toggle_unknown_command_rejected(orchestrator_client, tmp_path, mon
 def test_stage_toggle_round_trip(orchestrator_client, monkeypatch, tmp_path):
     """Given a stage name, the toggle flips its enabled flag."""
     import json as _json
-    from pathlib import Path as _Path
 
     from modules import orchestrator_config
     from modules.orchestrator_config import stage_enabled

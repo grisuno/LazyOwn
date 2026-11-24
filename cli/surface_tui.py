@@ -202,7 +202,9 @@ def launch_tui(sessions_dir: str = "sessions", payload_path: str = "payload.json
                 f"ports={stats.get(NODE_KIND_PORT, 0)} (Q quits)"
             )
 
-        def _add_children(self, parent_node: Any, graph: SurfaceGraph, parent_id: str) -> None:
+        def _add_children(  # type: ignore[override]
+            self, parent_node: Any, graph: SurfaceGraph, parent_id: str
+        ) -> None:
             for child in graph.children_of(parent_id):
                 node_view = parent_node.add(_styled_label(child), data=child.to_dict())
                 node_view.expand()

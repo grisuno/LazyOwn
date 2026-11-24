@@ -70,7 +70,9 @@ def test_ingest_new_absorbs_only_the_new_lesson(lessons_file, tmp_path):
     ing, _ = _ingestor(lessons_file, tmp_path)
     assert ing.ingest_new() == 2
     with lessons_file.open("a", encoding="utf-8") as fh:
-        fh.write("\n" + json.dumps({"campaign_id": "c2", "topic": "privesc", "lesson": "distcc exec", "derived_at": "t2"}))
+        fh.write(
+            "\n" + json.dumps({"campaign_id": "c2", "topic": "privesc", "lesson": "distcc exec", "derived_at": "t2"})
+        )
     ing2, trainer2 = _ingestor(lessons_file, tmp_path)
     assert ing2.ingest_new() == 1
     assert trainer2.updates == 1

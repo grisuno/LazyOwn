@@ -309,7 +309,7 @@ class TestRequirementsLock:
         return [
             line.strip()
             for line in (REPO_ROOT / name).read_text(encoding="utf-8").splitlines()
-            if line.strip() and not line.strip().startswith("#")
+            if line.strip() and not line.strip().startswith("#") and not line.strip().startswith("--hash")
         ]
 
     @staticmethod

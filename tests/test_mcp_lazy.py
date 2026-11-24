@@ -96,21 +96,11 @@ class TestWrappersDelegate:
             calls = [
                 n
                 for n in ast.walk(node)
-                if isinstance(n, ast.Call)
-                and isinstance(n.func, ast.Name)
-                and n.func.id == "_ensure_optional"
+                if isinstance(n, ast.Call) and isinstance(n.func, ast.Name) and n.func.id == "_ensure_optional"
             ]
             assert calls, f"{name} must delegate to _ensure_optional"
-            loaders = [
-                n
-                for n in node.body
-                if isinstance(n, ast.FunctionDef) and n.name == "_load"
-            ]
+            loaders = [n for n in node.body if isinstance(n, ast.FunctionDef) and n.name == "_load"]
             assert loaders, f"{name} must declare its imports in a _load step"
             load_ids = {id(n) for n in ast.walk(loaders[0])}
-            direct = [
-                n
-                for n in ast.walk(node)
-                if isinstance(n, ast.ExceptHandler) and id(n) not in load_ids
-            ]
+            direct = [n for n in ast.walk(node) if isinstance(n, ast.ExceptHandler) and id(n) not in load_ids]
             assert not direct, f"{name} must not repeat try/except skeleton"

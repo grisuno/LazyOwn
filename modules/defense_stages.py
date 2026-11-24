@@ -32,6 +32,7 @@ def _activity(task_id: str) -> Any:
 
         return ActivityLog(task_id)
     except Exception:
+
         class _Stub:
             def emit(self, *args: Any, **kwargs: Any) -> None:
                 """Swallow emissions when no activity log exists."""

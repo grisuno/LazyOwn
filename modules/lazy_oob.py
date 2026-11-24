@@ -161,7 +161,14 @@ def start(host: str = "", port: int = DEFAULT_PORT) -> dict[str, Any]:
         _STATE["thread"] = thread
         _STATE["tokens"] = (list(_STATE["tokens"]) + [token])[-MAX_TOKENS:]
         bound_port = int(httpd.server_address[1])
-    return {"ok": True, "already": False, "token": token, "port": bound_port, "url": f"http://{bind}:{bound_port}/oob/{token}", "error": ""}
+    return {
+        "ok": True,
+        "already": False,
+        "token": token,
+        "port": bound_port,
+        "url": f"http://{bind}:{bound_port}/oob/{token}",
+        "error": "",
+    }
 
 
 def new_token() -> str:

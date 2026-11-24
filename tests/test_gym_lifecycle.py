@@ -69,8 +69,10 @@ def test_start_spins_scenario_and_resolves_ip(sandbox, monkeypatch) -> None:
     monkeypatch.setattr(lab_runtime, "apply_gym_migrations", lambda name: {})
     print("DEBUG docker_avail:", lab_runtime.docker_available())
     import traceback
+
     try:
         from modules import lab_runtime as lr2
+
         print("DEBUG direct start:", lr2.start("metasploitable"))
     except Exception:
         traceback.print_exc()
@@ -175,7 +177,9 @@ def test_cleanup_gym_machines_stops_all(tmp_path, monkeypatch, capsys) -> None:
     import modules.gym_cleanup as gym_cleanup
 
     calls: list[list[str]] = []
-    monkeypatch.setattr(lab_runtime, "_docker", lambda *argv, **k: (calls.append([str(part) for part in argv]), _result(0, "x\n"))[1])
+    monkeypatch.setattr(
+        lab_runtime, "_docker", lambda *argv, **k: (calls.append([str(part) for part in argv]), _result(0, "x\n"))[1]
+    )
     monkeypatch.setattr(lab_runtime, "running_containers", lambda: ["lazyown-lab-metasploitable"])
     monkeypatch.setattr(lab_runtime, "running_range_containers", lambda: ["lazyown-range-dc"])
     monkeypatch.setattr(lab_runtime, "range_compose", lambda profile: None)

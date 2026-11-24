@@ -20,7 +20,7 @@ MUTATIONS = {
         "file": "modules/trigger_policy.py",
         "description": "Drop the triggers section so no seed ever loads",
         "old": '    raw = document.get("triggers") if isinstance(document, dict) else None',
-        "new": '    raw = []',
+        "new": "    raw = []",
         "expected": "test_orchestrator_yaml_declares_trigger_seeds must fail",
     },
     "seed_enabled_flag_forced": {

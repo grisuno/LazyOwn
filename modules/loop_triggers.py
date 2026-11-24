@@ -19,7 +19,18 @@ from __future__ import annotations
 import hashlib
 from collections.abc import Sequence
 
-TRIGGER_KINDS = ("interval", "finding", "goal", "timeout", "toolcall", "hint", "service", "task_create", "cve_hot", "ad_surface")
+TRIGGER_KINDS = (
+    "interval",
+    "finding",
+    "goal",
+    "timeout",
+    "toolcall",
+    "hint",
+    "service",
+    "task_create",
+    "cve_hot",
+    "ad_surface",
+)
 
 HINT_REPEAT_TTL_SEC = 86400.0
 HINT_FINGERPRINT_STORE = "hint_fingerprints.json"
@@ -360,7 +371,9 @@ class TriggerStore:
                     if fingerprint in fingerprints:
                         continue
                     try:
-                        graph.add_node("hint", lazy_netattack.hint_text(row), state="pending", meta={"family": row.family})
+                        graph.add_node(
+                            "hint", lazy_netattack.hint_text(row), state="pending", meta={"family": row.family}
+                        )
                     except Exception:
                         pass
                     fingerprints[fingerprint] = now
@@ -458,7 +471,12 @@ class TriggerStore:
                             f"{row.get('product', '')}: confirm the version and reproduce read-only"
                         )
                         try:
-                            graph.add_node("hint", text, state="pending", meta={"cve": row.get("cve", ""), "heat": row.get("heat", "")})
+                            graph.add_node(
+                                "hint",
+                                text,
+                                state="pending",
+                                meta={"cve": row.get("cve", ""), "heat": row.get("heat", "")},
+                            )
                         except Exception:
                             pass
                         if fingerprint:

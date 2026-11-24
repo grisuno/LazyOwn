@@ -24,13 +24,21 @@ from modules.lazy_match_policy import (
 
 def test_versioned_range_match():
     """Given a version inside a range, When stranding, Then it is a match."""
-    sighting = {"product": "openssh", "version": "8.4", "ranges": {"type": "ECOSYSTEM", "introduced": "7.0", "fixed": "8.9"}}
+    sighting = {
+        "product": "openssh",
+        "version": "8.4",
+        "ranges": {"type": "ECOSYSTEM", "introduced": "7.0", "fixed": "8.9"},
+    }
     assert strand_from_sighting(sighting) == MATCH
 
 
 def test_out_of_range_versions_stay_leads_not_matches():
     """Given a version past the fixed bound, When stranding, Then it is a lead."""
-    sighting = {"product": "openssh", "version": "9.9", "ranges": {"type": "ECOSYSTEM", "introduced": "7.0", "fixed": "8.9"}}
+    sighting = {
+        "product": "openssh",
+        "version": "9.9",
+        "ranges": {"type": "ECOSYSTEM", "introduced": "7.0", "fixed": "8.9"},
+    }
     assert strand_from_sighting(sighting) == LEAD
 
 

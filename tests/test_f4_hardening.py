@@ -169,9 +169,7 @@ class FootholdChainSpec(unittest.TestCase):
     def test_chain_loads_and_renders_tokens(self):
         chain = load_all().get("gym_ms2_foothold")
         self.assertIsNotNone(chain)
-        resolved = chain.resolve(
-            {"target": "172.17.0.2", "vuln": "vsftpd_backdoor", "exploit": "vsftpd_backdoor"}
-        )
+        resolved = chain.resolve({"target": "172.17.0.2", "vuln": "vsftpd_backdoor", "exploit": "vsftpd_backdoor"})
         ids = [step["id"] for step in resolved]
         self.assertEqual(
             ids,

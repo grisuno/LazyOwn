@@ -442,9 +442,11 @@ class MISPExporter:
             for key, val in data.items():
                 if isinstance(val, list):
                     for item in val:
-                        findings.extend(MISPExporter._dict_to_findings(
-                            item if isinstance(item, dict) else {"value": item, "host": key}
-                        ))
+                        findings.extend(
+                            MISPExporter._dict_to_findings(
+                                item if isinstance(item, dict) else {"value": item, "host": key}
+                            )
+                        )
                 elif isinstance(val, dict):
                     nested = dict(val)
                     nested.setdefault("host", nested.get("host") or key)

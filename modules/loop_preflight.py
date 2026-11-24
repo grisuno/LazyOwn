@@ -27,8 +27,26 @@ from collections.abc import Callable, Iterable
 from concurrent.futures import ThreadPoolExecutor
 
 PREFLIGHT_PROBE_PORTS: tuple[int, ...] = (
-    21, 22, 23, 25, 53, 80, 110, 135, 139, 443, 445,
-    1433, 3000, 3306, 3389, 5432, 8000, 8080, 8443, 9090,
+    21,
+    22,
+    23,
+    25,
+    53,
+    80,
+    110,
+    135,
+    139,
+    443,
+    445,
+    1433,
+    3000,
+    3306,
+    3389,
+    5432,
+    8000,
+    8080,
+    8443,
+    9090,
 )
 PREFLIGHT_CONNECT_TIMEOUT_SEC = 1.5
 PREFLIGHT_MAX_WORKERS = 24

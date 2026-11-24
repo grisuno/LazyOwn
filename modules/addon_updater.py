@@ -296,9 +296,7 @@ def update_all(
             continue
         if install_path:
             seen_paths[install_path] = str(item["name"])
-        results.append(
-            update_addon(item["name"], lazyaddons_dir=lazyaddons_dir, root=root, dry_run=dry_run)
-        )
+        results.append(update_addon(item["name"], lazyaddons_dir=lazyaddons_dir, root=root, dry_run=dry_run))
     counts: dict[str, int] = {}
     for result in results:
         counts[result.status] = counts.get(result.status, 0) + 1

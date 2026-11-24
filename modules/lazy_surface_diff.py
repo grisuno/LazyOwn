@@ -105,7 +105,7 @@ def diff_hosts(before: dict, after: dict) -> list[tuple]:
     """
     out: list[tuple] = []
     before, after = before or {}, after or {}
-    for host in sorted(set(before) | set(after), key=lambda h: (h)):
+    for host in sorted(set(before) | set(after), key=lambda h: h):
         b_state, a_state = before.get(host), after.get(host)
         if b_state is None and a_state is not None:
             out.append((KIND_HOST_NEW, host, None, {"os": a_state.get("os", "")}))

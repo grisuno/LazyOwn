@@ -31,11 +31,7 @@ def _legacy_schema_names() -> set[str]:
     tree = ast.parse(_MCP_SRC)
     names: set[str] = set()
     for node in ast.walk(tree):
-        if (
-            isinstance(node, ast.Call)
-            and isinstance(node.func, ast.Attribute)
-            and node.func.attr == "Tool"
-        ):
+        if isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute) and node.func.attr == "Tool":
             for kw in node.keywords:
                 if kw.arg == "name" and isinstance(kw.value, ast.Constant):
                     names.add(kw.value.value)

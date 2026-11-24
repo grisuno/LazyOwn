@@ -98,7 +98,9 @@ def test_neq_operator() -> None:
 
 def test_json_array_datasets() -> None:
     """JSON arrays are accepted alongside JSON lines."""
-    result = evaluate_rule(RULE, '[{"http": {"path": "/admin", "status": 200}}]', '[{"http": {"path": "/x", "status": 404}}]')
+    result = evaluate_rule(
+        RULE, '[{"http": {"path": "/admin", "status": 200}}]', '[{"http": {"path": "/x", "status": 404}}]'
+    )
     assert result.verdict == "pass"
 
 

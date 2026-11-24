@@ -12,7 +12,7 @@ from modules.detection_oracle import DetectionOracle, _benign_alternative_matche
 
 def test_benign_alternative_overlap_matches():
     """Given a declared twin sharing vocabulary, When matching, Then it counts as benign."""
-    assert _benign_alternative_matches("mimikatz sekurlsa", "", ["red-team authorized"] ) is False
+    assert _benign_alternative_matches("mimikatz sekurlsa", "", ["red-team authorized"]) is False
     assert (
         _benign_alternative_matches(
             "python loader_mimikatz.py",

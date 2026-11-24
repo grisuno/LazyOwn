@@ -1311,9 +1311,7 @@ def test_worker_llm_steps_filter_sudo(store, monkeypatch):
     from modules.lazy_engine import LazyEngine
 
     monkeypatch.setattr(registry, "missing_binary", lambda command: "")
-    monkeypatch.setattr(
-        loop.LlmPool, "members", lambda self: [{"name": "stub", "model": "groq:stub-model"}]
-    )
+    monkeypatch.setattr(loop.LlmPool, "members", lambda self: [{"name": "stub", "model": "groq:stub-model"}])
     monkeypatch.setattr(
         loop.LlmPool, "complete", lambda self, prompt, max_tokens=0, **kwargs: "sudo netstat\nnmap -sV 127.0.0.1"
     )
@@ -1630,9 +1628,7 @@ def test_plausibility_filter_drops_hallucinated_flags(store, monkeypatch):
     assert loop.plausible_command("/usr/bin/sqlmap --pwn-now") is False
 
     monkeypatch.setattr(registry, "missing_binary", lambda command: "")
-    monkeypatch.setattr(
-        loop.LlmPool, "members", lambda self: [{"name": "stub", "model": "groq:stub-model"}]
-    )
+    monkeypatch.setattr(loop.LlmPool, "members", lambda self: [{"name": "stub", "model": "groq:stub-model"}])
     monkeypatch.setattr(
         loop.LlmPool,
         "complete",

@@ -64,9 +64,7 @@ INTERPRETERS: dict[str, tuple[str, ...]] = {
     "mitmdump": ("mitmdump",),
 }
 
-_VALID_PHASES = frozenset(
-    {"recon", "enum", "exploit", "privesc", "lateral", "postexp", "exfil", "c2", "misc"}
-)
+_VALID_PHASES = frozenset({"recon", "enum", "exploit", "privesc", "lateral", "postexp", "exfil", "c2", "misc"})
 _VALID_RISKS = frozenset({"safe", "exploit", "dangerous"})
 
 _LOCK = threading.Lock()
@@ -140,9 +138,7 @@ class PocVerb:
             "enabled": self.enabled,
             "triggers": list(self.triggers),
             "requires": list(self.requires),
-            "args": [
-                {"flag": arg.flag, "value": arg.value, "default": arg.default} for arg in self.args
-            ],
+            "args": [{"flag": arg.flag, "value": arg.value, "default": arg.default} for arg in self.args],
             "proposal_overrides": dict(self.proposal_overrides),
             "timeout_sec": self.timeout_sec,
         }
@@ -234,16 +230,8 @@ def _parse_verb(name: str, raw: dict) -> PocVerb | None:
         risk=risk if risk in _VALID_RISKS else "exploit",
         os=str(raw.get("os", "any") or "any").strip().lower(),
         enabled=bool(raw.get("enabled", True)),
-        triggers=tuple(
-            str(token).strip().lower()
-            for token in (raw.get("triggers") or [])
-            if str(token).strip()
-        )[:12],
-        requires=tuple(
-            str(binary).strip()
-            for binary in (raw.get("requires") or [])
-            if str(binary).strip()
-        )[:8],
+        triggers=tuple(str(token).strip().lower() for token in (raw.get("triggers") or []) if str(token).strip())[:12],
+        requires=tuple(str(binary).strip() for binary in (raw.get("requires") or []) if str(binary).strip())[:8],
         args=_parse_args(raw.get("args")),
         proposal_overrides=tuple(
             (str(key).strip().lower(), str(value).strip())
@@ -298,7 +286,9 @@ def poc_verbs(catalog_path: str | Path | None = None) -> dict[str, PocVerb]:
 
     with _LOCK:
         cached = _CACHE["verbs"]
-        fresh = cached is not None and _CACHE["path"] == key and (time.monotonic() - float(_CACHE["at"])) < CACHE_TTL_SEC
+        fresh = (
+            cached is not None and _CACHE["path"] == key and (time.monotonic() - float(_CACHE["at"])) < CACHE_TTL_SEC
+        )
         if fresh:
             return dict(cached)
     verbs = _load_catalog(path)
@@ -369,9 +359,7 @@ def render_argv(
             resolved[name] = value
     argv: list[str] = list(interpreter_argv(verb))
     for arg in verb.args:
-        rendered = PLACEHOLDER_RE.sub(
-            lambda match: resolved.get(match.group(1), match.group(0)), arg.value
-        )
+        rendered = PLACEHOLDER_RE.sub(lambda match: resolved.get(match.group(1), match.group(0)), arg.value)
         still_unresolved = _placeholder_names(rendered)
         if still_unresolved:
             if arg.default:

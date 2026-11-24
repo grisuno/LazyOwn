@@ -124,6 +124,7 @@ class TestGenerateFallback:
     def test_primary_error_banner_triggers_chain(self, bot, tmp_path, monkeypatch):
         """BDD: Given a primary backend returning an error banner, When the
         console analysis runs, Then the chain serves the answer."""
+
         class _DeadModel:
             def generate(self, prompt: str) -> str:
                 return "Error from Groq: 401 invalid_api_key"

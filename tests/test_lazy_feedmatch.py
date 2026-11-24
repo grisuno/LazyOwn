@@ -160,9 +160,21 @@ class TestLoadFeed:
     def test_kev_dump_mapping(self, tmp_path):
         story = "a cisa KEV dump maps vendored product rows onto the schema"
         path = tmp_path / "kev.json"
-        path.write_text(json.dumps({"vulnerabilities": [
-            {"cveID": "CVE-2025-7775", "vendorProject": "F5", "product": "BIG-IP", "cisaExploitAdd": "2025-08-01"}
-        ]}), encoding="utf-8")
+        path.write_text(
+            json.dumps(
+                {
+                    "vulnerabilities": [
+                        {
+                            "cveID": "CVE-2025-7775",
+                            "vendorProject": "F5",
+                            "product": "BIG-IP",
+                            "cisaExploitAdd": "2025-08-01",
+                        }
+                    ]
+                }
+            ),
+            encoding="utf-8",
+        )
         rows = load_feed(path)
         assert rows[0]["cve_id"] == "CVE-2025-7775" and rows[0]["kev"] is True, story
         assert rows[0]["product"], story
@@ -196,7 +208,9 @@ class TestLiveBindings:
             else:
                 os.environ["LAZYOWN_CVE_FEEDS"] = old
         assert isinstance(binding, list), story
-        assert all(item.evidence in (lazy_feedmatch.EVIDENCE_IN_RANGE, lazy_feedmatch.EVIDENCE_UNBOUNDED) for item in binding), story
+        assert all(
+            item.evidence in (lazy_feedmatch.EVIDENCE_IN_RANGE, lazy_feedmatch.EVIDENCE_UNBOUNDED) for item in binding
+        ), story
 
     def test_live_bindings_source_passthrough(self):
         story = "live bindings keep the sighting source (scanner vs host)"

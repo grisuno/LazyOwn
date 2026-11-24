@@ -28,7 +28,9 @@ def test_client_id_derivation() -> None:
 
 def test_template_renders_without_tokens() -> None:
     """Rendered agents carry config, never raw placeholders."""
-    text = agent.build_agent("http://192.168.1.120:8080", "msf-172-17-0-2", "ab" * 32, rat_key="cd" * 32, route="/gmail/v1/users/")
+    text = agent.build_agent(
+        "http://192.168.1.120:8080", "msf-172-17-0-2", "ab" * 32, rat_key="cd" * 32, route="/gmail/v1/users/"
+    )
     assert "{C2}" not in text and "{KEY}" not in text and "{ID}" not in text
     assert "http://192.168.1.120:8080" in text and "msf-172-17-0-2" in text
     assert "ab" * 32 in text
@@ -198,9 +200,12 @@ def test_c2_session_commands_are_non_interactive() -> None:
     tree = _ast.parse((_ROOT / "cli" / "commands" / "c2_session.py").read_text(encoding="utf-8"))
     for node in _ast.walk(tree):
         if isinstance(node, _ast.FunctionDef) and node.name.startswith("do_c2_"):
-            src = _ast.get_source_segment(
-                (_ROOT / "cli" / "commands" / "c2_session.py").read_text(encoding="utf-8"), node
-            ) or ""
+            src = (
+                _ast.get_source_segment(
+                    (_ROOT / "cli" / "commands" / "c2_session.py").read_text(encoding="utf-8"), node
+                )
+                or ""
+            )
             assert "input(" not in src, f"{node.name} must never prompt"
 
 

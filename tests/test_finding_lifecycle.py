@@ -23,8 +23,7 @@ from modules.osint_enrich import enrich_evidence  # noqa: E402
 
 def _finding(fid: str, sources: tuple = ("world_model.json",)) -> dict:
     """Minimal finding node as produced by the graph builders."""
-    return {"id": fid, "kind": "finding", "value": f"vuln-{fid}",
-            "sources": list(sources)}
+    return {"id": fid, "kind": "finding", "value": f"vuln-{fid}", "sources": list(sources)}
 
 
 def test_pending_by_default(tmp_path: Path) -> None:
@@ -74,9 +73,17 @@ def test_apply_confirmation_stamps_nodes(tmp_path: Path) -> None:
 
 def test_enrich_evidence_appends_keyless_verdicts(tmp_path: Path, monkeypatch) -> None:
     """CVE mentions gain OSV/KEV/EPSS verdicts without any API key."""
-    monkeypatch.setattr(osint, "cve_lookup", lambda cve, sessions="": {
-        "cve": cve, "summary": "RCE in widget", "severity": "CVSS:3.1 9.8",
-        "kev": True, "epss": 0.94})
+    monkeypatch.setattr(
+        osint,
+        "cve_lookup",
+        lambda cve, sessions="": {
+            "cve": cve,
+            "summary": "RCE in widget",
+            "severity": "CVSS:3.1 9.8",
+            "kev": True,
+            "epss": 0.94,
+        },
+    )
     out = enrich_evidence(["open ssh CVE-2024-1234"], tmp_path)
     assert len(out) == 2
     assert "osint:" in out[1] and "CISA-KEV" in out[1] and "EPSS" in out[1]
@@ -84,6 +91,7 @@ def test_enrich_evidence_appends_keyless_verdicts(tmp_path: Path, monkeypatch) -
 
 def test_enrich_evidence_never_fails_offline(tmp_path: Path, monkeypatch) -> None:
     """Broken network degrades to the raw items, never an exception."""
+
     def _boom(cve, sessions=""):
         raise OSError("offline")
 

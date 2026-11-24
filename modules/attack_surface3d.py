@@ -36,8 +36,8 @@ except ImportError:  # minimal envs without the cmd2-based cli package
     import sys as _sys
 
     _SPEC = _ilu.spec_from_file_location(
-        "surface_graph_standalone",
-        Path(__file__).resolve().parent.parent / "cli" / "surface_graph.py")
+        "surface_graph_standalone", Path(__file__).resolve().parent.parent / "cli" / "surface_graph.py"
+    )
     _MOD = _ilu.module_from_spec(_SPEC)
     _sys.modules[_SPEC.name] = _MOD
     _SPEC.loader.exec_module(_MOD)
@@ -109,9 +109,9 @@ def _family_color(name: str) -> str:
     return f"hsl({hue}, {sat}%, {lit}%)"
 
 
-def _pagerank(ids: list[str], pairs: list[tuple[str, str]],
-              alpha: float = 0.85, max_iter: int = 100,
-              tol: float = 1e-6) -> dict[str, float]:
+def _pagerank(
+    ids: list[str], pairs: list[tuple[str, str]], alpha: float = 0.85, max_iter: int = 100, tol: float = 1e-6
+) -> dict[str, float]:
     """PageRank over node ids (same contract as ReadMenator rank)."""
     n = len(ids)
     if not n:
@@ -145,32 +145,35 @@ def _host_of(node: dict) -> str:
     return str(meta.get("ip") or meta.get("host_ip") or "")
 
 
-def build_attack_graph(sessions_dir: str | Path = SESSIONS_DIR,
-                       payload_path: str = "payload.json",
-                       est_cap: int = 300) -> dict:
+def build_attack_graph(
+    sessions_dir: str | Path = SESSIONS_DIR, payload_path: str = "payload.json", est_cap: int = 300
+) -> dict:
     """Fuse surface scans with campaign intel into one C2-centred graph."""
     root = Path(str(sessions_dir))
     nodes: dict[str, dict] = {}
     edges: list[dict] = []
 
-    def add_edge(src: str, dst: str, kind: str, evidence: str = "",
-                 weight: float = 1.0) -> None:
+    def add_edge(src: str, dst: str, kind: str, evidence: str = "", weight: float = 1.0) -> None:
         """Append one provenance-tagged relation between known nodes."""
         if src in nodes and dst in nodes and src != dst:
-            if not any(e["source"] == src and e["target"] == dst
-                       and e["type"] == kind for e in edges):
-                edges.append({"source": src, "target": dst, "type": kind,
-                              "evidence": (evidence or "")[:200],
-                              "color": EDGE_COLORS.get(kind, "#808080"),
-                              "weight": weight})
+            if not any(e["source"] == src and e["target"] == dst and e["type"] == kind for e in edges):
+                edges.append(
+                    {
+                        "source": src,
+                        "target": dst,
+                        "type": kind,
+                        "evidence": (evidence or "")[:200],
+                        "color": EDGE_COLORS.get(kind, "#808080"),
+                        "weight": weight,
+                    }
+                )
 
     def tag(nid: str, source: str) -> None:
         """Record a corroborating artefact on a node, deduped."""
         if nid in nodes and source not in nodes[nid]["sources"]:
             nodes[nid]["sources"].append(source)
 
-    surface = SurfaceGraphBuilder(SurfaceGraphConfig(
-        sessions_dir=str(root), payload_path=payload_path)).build()
+    surface = SurfaceGraphBuilder(SurfaceGraphConfig(sessions_dir=str(root), payload_path=payload_path)).build()
     for node in surface.nodes:
         meta = dict(node.metadata)
         kind = node.kind
@@ -186,10 +189,16 @@ def build_attack_graph(sessions_dir: str | Path = SESSIONS_DIR,
         elif kind == "host":
             value = meta.get("ip", node.label)
         community = "core" if kind in ("c2", "client") else f"net:{_host_of({'meta': meta}) or value}"
-        nodes[node.id] = {"id": node.id, "kind": kind, "value": value,
-                           "label": node.label, "meta": meta,
-                           "color": "#e0e0e0", "community": community,
-                           "sources": ["surface"]}
+        nodes[node.id] = {
+            "id": node.id,
+            "kind": kind,
+            "value": value,
+            "label": node.label,
+            "meta": meta,
+            "color": "#e0e0e0",
+            "community": community,
+            "sources": ["surface"],
+        }
     for edge in surface.edges:
         add_edge(edge.source, edge.target, edge.relation, evidence="surface")
 
@@ -231,14 +240,17 @@ def build_attack_graph(sessions_dir: str | Path = SESSIONS_DIR,
         else:
             nid = inode["id"]
             if nid not in nodes:
-                nodes[nid] = {"id": nid, "kind": ikind, "value": ivalue,
-                              "label": str(inode.get("label", ivalue)),
-                              "meta": {}, "color": inode.get("color", "#e0e0e0"),
-                              "community": str(inode.get("community_label")
-                                               or inode.get("community") or "misc"),
-                              "sources": list(inode.get("sources", []))}
-                for field in ("severity", "status", "goal", "port", "service",
-                              "version", "os", "log_hits", "log_only"):
+                nodes[nid] = {
+                    "id": nid,
+                    "kind": ikind,
+                    "value": ivalue,
+                    "label": str(inode.get("label", ivalue)),
+                    "meta": {},
+                    "color": inode.get("color", "#e0e0e0"),
+                    "community": str(inode.get("community_label") or inode.get("community") or "misc"),
+                    "sources": list(inode.get("sources", [])),
+                }
+                for field in ("severity", "status", "goal", "port", "service", "version", "os", "log_hits", "log_only"):
                     if inode.get(field) is not None:
                         nodes[nid][field] = inode[field]
             key_to_id[(ikind, ivalue.lower())] = nid
@@ -257,11 +269,16 @@ def build_attack_graph(sessions_dir: str | Path = SESSIONS_DIR,
             hid = by_host.get(host_ip.lower())
             if hid:
                 sid = f"svc-{inode['id']}"
-                nodes[sid] = {"id": sid, "kind": "service",
-                              "value": str(inode.get("value", sid)),
-                              "label": str(inode.get("label", sid)), "meta": {},
-                              "color": "#3ddc84", "community": f"net:{host_ip}",
-                              "sources": list(inode.get("sources", []))}
+                nodes[sid] = {
+                    "id": sid,
+                    "kind": "service",
+                    "value": str(inode.get("value", sid)),
+                    "label": str(inode.get("label", sid)),
+                    "meta": {},
+                    "color": "#3ddc84",
+                    "community": f"net:{host_ip}",
+                    "sources": list(inode.get("sources", [])),
+                }
                 key_to_id[("service", str(inode.get("value", "")).lower())] = sid
                 add_edge(hid, sid, "serves", evidence="world_model services")
     smap = _intel_id_map(intel, key_to_id)
@@ -271,14 +288,19 @@ def build_attack_graph(sessions_dir: str | Path = SESSIONS_DIR,
         src = smap.get(edge["source"])
         dst = smap.get(edge["target"])
         if src and dst:
-            add_edge(src, dst, str(edge.get("type", "observed_in")),
-                     evidence=str(edge.get("evidence", "")),
-                     weight=float(edge.get("weight", 1.0)))
+            add_edge(
+                src,
+                dst,
+                str(edge.get("type", "observed_in")),
+                evidence=str(edge.get("evidence", "")),
+                weight=float(edge.get("weight", 1.0)),
+            )
 
     try:
         from modules.estorides_fusion import find_export as _est_find
         from modules.estorides_fusion import load_export as _est_load
         from modules.estorides_fusion import merge_estorides as _est_merge
+
         est_path = _est_find(root)
         if est_path is not None:
             _est_merge(nodes, edges, _est_load(est_path), cap=est_cap)
@@ -305,10 +327,10 @@ def build_attack_graph(sessions_dir: str | Path = SESSIONS_DIR,
         pass
 
     for node in nodes.values():
-        node["degree"] = sum(1 for e in edges
-                             if e["source"] == node["id"] or e["target"] == node["id"])
+        node["degree"] = sum(1 for e in edges if e["source"] == node["id"] or e["target"] == node["id"])
     try:
         from modules.finding_lifecycle import apply_confirmation as _apply_conf
+
         _apply_conf(nodes, root)
     except Exception:
         pass
@@ -320,15 +342,17 @@ def build_attack_graph(sessions_dir: str | Path = SESSIONS_DIR,
         else:
             community = str(node.get("community", "misc"))
         communities[community] = communities.get(community, 0) + 1
-    stats = {"nodes": len(nodes), "edges": len(edges),
-             "hosts": sum(1 for n in nodes.values()
-                          if n.get("kind") in ("host", "host-owned")),
-             "clients": sum(1 for n in nodes.values() if n.get("kind") == "client"),
-             "ports": sum(1 for n in nodes.values() if n.get("kind") == "port"),
-             "services": sum(1 for n in nodes.values() if n.get("kind") == "service"),
-             "findings": sum(1 for n in nodes.values()
-                             if str(n.get("kind", "")).startswith("finding")),
-             "communities": communities, "generated": time.time()}
+    stats = {
+        "nodes": len(nodes),
+        "edges": len(edges),
+        "hosts": sum(1 for n in nodes.values() if n.get("kind") in ("host", "host-owned")),
+        "clients": sum(1 for n in nodes.values() if n.get("kind") == "client"),
+        "ports": sum(1 for n in nodes.values() if n.get("kind") == "port"),
+        "services": sum(1 for n in nodes.values() if n.get("kind") == "service"),
+        "findings": sum(1 for n in nodes.values() if str(n.get("kind", "")).startswith("finding")),
+        "communities": communities,
+        "generated": time.time(),
+    }
     return {"nodes": list(nodes.values()), "edges": edges, "stats": stats}
 
 
@@ -348,8 +372,7 @@ def _doc(node: dict) -> str:
     """Bounded purpose string for the inspector."""
     bits = [str(node.get("label", node.get("id", "")))]
     meta = node.get("meta", {})
-    for field in ("os", "user", "hostname", "service", "version", "protocol",
-                  "severity", "status", "state"):
+    for field in ("os", "user", "hostname", "service", "version", "protocol", "severity", "status", "state"):
         val = node.get(field, meta.get(field))
         if val:
             bits.append(f"{field} {val}")
@@ -371,21 +394,23 @@ def _symbols(node: dict) -> list[dict]:
     meta = node.get("meta", {})
     if node.get("kind") == "host":
         for port in sorted(meta.get("open_ports", [])):
-            out.append({"n": f"{port}/{meta.get('protocol', 'tcp')}", "k": "port",
-                        "l": int(port) if str(port).isdigit() else 0})
+            out.append(
+                {
+                    "n": f"{port}/{meta.get('protocol', 'tcp')}",
+                    "k": "port",
+                    "l": int(port) if str(port).isdigit() else 0,
+                }
+            )
     if meta.get("service") or node.get("service"):
-        out.append({"n": str(meta.get("service") or node.get("service"))[:60],
-                    "k": "service", "l": 1})
+        out.append({"n": str(meta.get("service") or node.get("service"))[:60], "k": "service", "l": 1})
     if meta.get("user") or node.get("user"):
-        out.append({"n": str(meta.get("user") or node.get("user"))[:60],
-                    "k": "user", "l": 2})
+        out.append({"n": str(meta.get("user") or node.get("user"))[:60], "k": "user", "l": 2})
     return out[:SYMBOLS_PER_NODE]
 
 
 def _enrich(nodes: dict[str, dict], edges: list[dict]) -> None:
     """Add ReadMenator explorer fields in place (type/layer/rank/doc)."""
-    pairs = [(e["source"], e["target"]) for e in edges
-             if e["source"] in nodes and e["target"] in nodes]
+    pairs = [(e["source"], e["target"]) for e in edges if e["source"] in nodes and e["target"] in nodes]
     rank = _pagerank(sorted(nodes), pairs)
     ordered = sorted(rank.values(), reverse=True)
     port_counts: dict[str, int] = {}
@@ -403,9 +428,15 @@ def _enrich(nodes: dict[str, dict], edges: list[dict]) -> None:
         community = str(node.get("community", "misc"))
         layer = KIND_TO_LAYER.get(kind, "unknown")
         meta = node.get("meta", {})
-        language = str(node.get("os") or meta.get("os") or node.get("service")
-                       or meta.get("service") or node.get("severity")
-                       or meta.get("protocol") or kind)
+        language = str(
+            node.get("os")
+            or meta.get("os")
+            or node.get("service")
+            or meta.get("service")
+            or node.get("severity")
+            or meta.get("protocol")
+            or kind
+        )
         node["type"] = "file"
         node["file"] = str(node.get("value", nid))
         node["language"] = language
@@ -437,17 +468,30 @@ def _enrich(nodes: dict[str, dict], edges: list[dict]) -> None:
     for label, cid in community_ids.items():
         hub_id = f"community:{cid}"
         if hub_id not in nodes:
-            nodes[hub_id] = {"id": hub_id, "kind": "community", "type": "community",
-                             "label": label, "value": label, "community": label,
-                             "community_label": label, "family": label,
-                             "language": "community", "layer": "unknown",
-                             "symbols": counts.get(label, 0), "degree": counts.get(label, 0),
-                             "findings": 0, "rank": 0.0, "rank_pos": 0,
-                             "doc": f"Community {label} · {counts.get(label, 0)} nodes",
-                             "symbol_list": [], "sources": [],
-                             "color": TYPE_COLORS["community"],
-                             "community_id": cid, "size": counts.get(label, 0),
-                             "familyColor": TYPE_COLORS["community"]}
+            nodes[hub_id] = {
+                "id": hub_id,
+                "kind": "community",
+                "type": "community",
+                "label": label,
+                "value": label,
+                "community": label,
+                "community_label": label,
+                "family": label,
+                "language": "community",
+                "layer": "unknown",
+                "symbols": counts.get(label, 0),
+                "degree": counts.get(label, 0),
+                "findings": 0,
+                "rank": 0.0,
+                "rank_pos": 0,
+                "doc": f"Community {label} · {counts.get(label, 0)} nodes",
+                "symbol_list": [],
+                "sources": [],
+                "color": TYPE_COLORS["community"],
+                "community_id": cid,
+                "size": counts.get(label, 0),
+                "familyColor": TYPE_COLORS["community"],
+            }
         else:
             nodes[hub_id]["size"] = counts.get(label, 0)
     for node in list(nodes.values()):
@@ -456,25 +500,51 @@ def _enrich(nodes: dict[str, dict], edges: list[dict]) -> None:
         cid = community_ids[str(node.get("community", "misc"))]
         hub_id = f"community:{cid}"
         node["community_id"] = cid
-        edges.append({"source": node["id"], "target": hub_id,
-                      "type": "member_of", "weight": 1,
-                      "color": EDGE_COLORS["member_of"], "evidence": "community"})
+        edges.append(
+            {
+                "source": node["id"],
+                "target": hub_id,
+                "type": "member_of",
+                "weight": 1,
+                "color": EDGE_COLORS["member_of"],
+                "evidence": "community",
+            }
+        )
         layer = str(node.get("layer", "unknown"))
         layer_id = f"layer:{layer}"
         if layer_id not in nodes:
-            nodes[layer_id] = {"id": layer_id, "kind": "layer", "type": "layer",
-                               "label": layer, "value": layer, "community": "misc",
-                               "community_label": "", "family": layer,
-                               "language": "layer", "layer": layer,
-                               "symbols": 0, "degree": 0, "findings": 0,
-                               "rank": 0.0, "rank_pos": 0,
-                               "doc": f"Layer {layer}",
-                               "symbol_list": [], "sources": [],
-                               "color": TYPE_COLORS["layer"],
-                               "familyColor": TYPE_COLORS["layer"]}
-        edges.append({"source": node["id"], "target": layer_id,
-                      "type": "layered_as", "weight": 1,
-                      "color": EDGE_COLORS["layered_as"], "evidence": "layer"})
+            nodes[layer_id] = {
+                "id": layer_id,
+                "kind": "layer",
+                "type": "layer",
+                "label": layer,
+                "value": layer,
+                "community": "misc",
+                "community_label": "",
+                "family": layer,
+                "language": "layer",
+                "layer": layer,
+                "symbols": 0,
+                "degree": 0,
+                "findings": 0,
+                "rank": 0.0,
+                "rank_pos": 0,
+                "doc": f"Layer {layer}",
+                "symbol_list": [],
+                "sources": [],
+                "color": TYPE_COLORS["layer"],
+                "familyColor": TYPE_COLORS["layer"],
+            }
+        edges.append(
+            {
+                "source": node["id"],
+                "target": layer_id,
+                "type": "layered_as",
+                "weight": 1,
+                "color": EDGE_COLORS["layered_as"],
+                "evidence": "layer",
+            }
+        )
 
 
 def refresh_summary(graph: dict, sessions_dir: str | Path = SESSIONS_DIR) -> dict:
@@ -484,5 +554,4 @@ def refresh_summary(graph: dict, sessions_dir: str | Path = SESSIONS_DIR) -> dic
     return write_summary(graph, sessions_dir)
 
 
-__all__ = ["build_attack_graph", "refresh_summary",
-           "NODE_C2", "EDGE_COLORS", "KIND_TO_LAYER"]
+__all__ = ["build_attack_graph", "refresh_summary", "NODE_C2", "EDGE_COLORS", "KIND_TO_LAYER"]

@@ -88,9 +88,16 @@ def test_worker_bash_unbound_blocks_without_execution(tmp_path, monkeypatch):
     graph = loop.ExplorationGraph(task_id)
     intent = graph.add_node("intent", "baseline recon: enumerate 127.0.0.1")
     calls: list[str] = []
-    worker = loop.Worker("worker-1", task_id, engine.assets, graph,
-                         loop.ActivityLog(task_id), loop.TrafficLog(task_id),
-                         loop.Guard(task_id), engine.store)
+    worker = loop.Worker(
+        "worker-1",
+        task_id,
+        engine.assets,
+        graph,
+        loop.ActivityLog(task_id),
+        loop.TrafficLog(task_id),
+        loop.Guard(task_id),
+        engine.store,
+    )
     outcome = worker.execute(intent, executor=lambda cmd: calls.append(cmd) or "out")
     assert outcome["state"] == "blocked"
     assert calls == []
@@ -104,6 +111,7 @@ def test_planner_intent_unbound_emits_nothing(tmp_path, monkeypatch):
     engine = _patched_engine(tmp_path, monkeypatch)
     task_id = engine.create_task("gain initial access on 127.0.0.1")["task_id"]
     loop.ToolCatalog().unbind("planner", "intent")
-    planner = loop.Planner(task_id, engine.assets, loop.ExplorationGraph(task_id),
-                           loop.ActivityLog(task_id), engine.store)
+    planner = loop.Planner(
+        task_id, engine.assets, loop.ExplorationGraph(task_id), loop.ActivityLog(task_id), engine.store
+    )
     assert planner.plan() == []

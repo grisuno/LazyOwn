@@ -33,13 +33,12 @@ from pathlib import Path
 
 from modules.lazy_heat import (
     COLD,
-    HOT,
     HEAT_RANK,
+    HOT,
     SEVERITY_FROM_HEAT,
     WARM,
     classify_heat,
     cvss3_base_score,
-    match_heat,
     parse_version,
     product_token,
     token_matches,
@@ -370,21 +369,37 @@ def cve_intel(cve_id: str, feeds: dict | None = None, allow_network: bool = True
     """
     cve = str(cve_id or "").upper().strip()
     feeds = feeds or {}
-    kev_rows = feeds.get("kev") if feeds.get("kev") is not None else (
-        load_kev() if allow_network else (load_kev() if _cache_fresh(_cache_path("kev.json"), KEV_TTL_SEC) else {})
+    kev_rows = (
+        feeds.get("kev")
+        if feeds.get("kev") is not None
+        else (
+            load_kev() if allow_network else (load_kev() if _cache_fresh(_cache_path("kev.json"), KEV_TTL_SEC) else {})
+        )
     )
-    epss_rows = feeds.get("epss") if feeds.get("epss") is not None else (
-        load_epss()
-        if allow_network or _cache_fresh(_cache_path("epss.json"), EPSS_TTL_SEC) or _cache_fresh(_cache_path("epss.csv.gz"), EPSS_TTL_SEC)
-        else {}
+    epss_rows = (
+        feeds.get("epss")
+        if feeds.get("epss") is not None
+        else (
+            load_epss()
+            if allow_network
+            or _cache_fresh(_cache_path("epss.json"), EPSS_TTL_SEC)
+            or _cache_fresh(_cache_path("epss.csv.gz"), EPSS_TTL_SEC)
+            else {}
+        )
     )
-    exploit_ids = feeds.get("exploit") if feeds.get("exploit") is not None else (
-        load_exploit_cves()
-        if allow_network or _cache_fresh(_cache_path("exploitdb.json"), EXPLOIT_TTL_SEC)
-        else set()
+    exploit_ids = (
+        feeds.get("exploit")
+        if feeds.get("exploit") is not None
+        else (
+            load_exploit_cves()
+            if allow_network or _cache_fresh(_cache_path("exploitdb.json"), EXPLOIT_TTL_SEC)
+            else set()
+        )
     )
-    msf_ids = feeds.get("msf") if feeds.get("msf") is not None else (
-        load_msf_cves() if allow_network or _cache_fresh(_cache_path("msf.json"), MSF_TTL_SEC) else set()
+    msf_ids = (
+        feeds.get("msf")
+        if feeds.get("msf") is not None
+        else (load_msf_cves() if allow_network or _cache_fresh(_cache_path("msf.json"), MSF_TTL_SEC) else set())
     )
     kev = cve in kev_rows
     epss = epss_rows.get(cve)
@@ -459,10 +474,34 @@ def correlate(product: str, version: str = "", allow_network: bool = True) -> li
     banner_words = [product_token(w) for w in re.findall(r"[A-Za-z][A-Za-z0-9_.-]*", str(product or ""))]
     banner_words = [w for w in banner_words if w] or [token]
     feeds = {
-        "kev": load_kev() if allow_network else ({k: v for k, v in (_load_json("kev.json") or {}).items()} if _cache_fresh(_cache_path("kev.json"), KEV_TTL_SEC) else {}),
-        "epss": load_epss() if allow_network else ({k: float(v) for k, v in (_load_json("epss.json") or {}).items()} if _cache_fresh(_cache_path("epss.json"), EPSS_TTL_SEC) else {}),
-        "exploit": load_exploit_cves() if allow_network else ({str(k) for k in (_load_json("exploitdb.json") or {}).get("ids", [])} if _cache_fresh(_cache_path("exploitdb.json"), EXPLOIT_TTL_SEC) else set()),
-        "msf": load_msf_cves() if allow_network else ({str(k) for k in (_load_json("msf.json") or {}).get("ids", [])} if _cache_fresh(_cache_path("msf.json"), MSF_TTL_SEC) else set()),
+        "kev": load_kev()
+        if allow_network
+        else (
+            {k: v for k, v in (_load_json("kev.json") or {}).items()}
+            if _cache_fresh(_cache_path("kev.json"), KEV_TTL_SEC)
+            else {}
+        ),
+        "epss": load_epss()
+        if allow_network
+        else (
+            {k: float(v) for k, v in (_load_json("epss.json") or {}).items()}
+            if _cache_fresh(_cache_path("epss.json"), EPSS_TTL_SEC)
+            else {}
+        ),
+        "exploit": load_exploit_cves()
+        if allow_network
+        else (
+            {str(k) for k in (_load_json("exploitdb.json") or {}).get("ids", [])}
+            if _cache_fresh(_cache_path("exploitdb.json"), EXPLOIT_TTL_SEC)
+            else set()
+        ),
+        "msf": load_msf_cves()
+        if allow_network
+        else (
+            {str(k) for k in (_load_json("msf.json") or {}).get("ids", [])}
+            if _cache_fresh(_cache_path("msf.json"), MSF_TTL_SEC)
+            else set()
+        ),
     }
     ver = parse_version(version) if version else None
     out: dict[str, dict] = {}
@@ -487,7 +526,9 @@ def correlate(product: str, version: str = "", allow_network: bool = True) -> li
         intel = cve_intel(cve, feeds=feeds, allow_network=False)
         cvss = _advisory_cvss(advisory) or intel["cvss"]
         if cvss:
-            intel["heat"] = classify_heat(kev=intel["kev"], epss=intel["epss"], exploit=intel["exploit"] or intel["msf"], cvss=cvss)
+            intel["heat"] = classify_heat(
+                kev=intel["kev"], epss=intel["epss"], exploit=intel["exploit"] or intel["msf"], cvss=cvss
+            )
         confidence = {True: 0.9, False: 0.0, None: 0.5}[in_range] if ver is not None else 0.5
         if intel["heat"] == COLD and in_range is False:
             continue
@@ -505,7 +546,9 @@ def correlate(product: str, version: str = "", allow_network: bool = True) -> li
     for cve, meta in load_kev_matches(token, feeds):
         if cve not in out:
             out[cve] = {**meta, "in_range": None, "confidence": 0.6, "cvss": meta.get("cvss", 0.0)}
-    ranked = sorted(out.values(), key=lambda row: (-HEAT_RANK.get(row.get("heat", COLD), 0), -float(row.get("cvss", 0.0))))
+    ranked = sorted(
+        out.values(), key=lambda row: (-HEAT_RANK.get(row.get("heat", COLD), 0), -float(row.get("cvss", 0.0)))
+    )
     return ranked[:CORRELATE_CAP]
 
 
@@ -622,8 +665,12 @@ def load_kev_matches(product: str, feeds: dict | None = None) -> list[tuple[str,
         kev_token = product_token(name) or product_token(meta.get("vendor", ""))
         if not kev_token:
             continue
-        if any(token_matches(kev_token, candidate) or token_matches(candidate, kev_token) for candidate in banner_words):
-            intel = cve_intel(cve, feeds={"kev": kev_rows, "epss": None, "exploit": None, "msf": None}, allow_network=False)
+        if any(
+            token_matches(kev_token, candidate) or token_matches(candidate, kev_token) for candidate in banner_words
+        ):
+            intel = cve_intel(
+                cve, feeds={"kev": kev_rows, "epss": None, "exploit": None, "msf": None}, allow_network=False
+            )
             intel["kev"] = True
             intel["heat"] = HOT
             intel["severity"] = SEVERITY_FROM_HEAT[HOT]

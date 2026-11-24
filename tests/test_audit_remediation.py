@@ -195,7 +195,7 @@ def test_rootkit_makefile_exposes_overrides():
 
 def test_backdoor_neutralized():
     text = (REPO_ROOT / "modules/backdoor/backdoor.c").read_text()
-    assert "TEXT(\"Hacked\")" not in text
+    assert 'TEXT("Hacked")' not in text
     assert "MessageBox" not in text
     assert "RUNKEY_NAME" in text
 
@@ -203,9 +203,7 @@ def test_backdoor_neutralized():
 def test_hygiene_findings_clean_on_current_tree():
     from cli.commands.audit import collect_hygiene_findings
 
-    findings = collect_hygiene_findings(
-        {"rat_key": "ab" * 32, "c2_require_beacon_hmac": "True"}
-    )
+    findings = collect_hygiene_findings({"rat_key": "ab" * 32, "c2_require_beacon_hmac": "True"})
     assert findings["beacon_hmac_required"] is True
     assert findings["rat_key_fresh"] is True
     assert not findings["artifact_leaks"]
@@ -214,9 +212,7 @@ def test_hygiene_findings_clean_on_current_tree():
 def test_hygiene_findings_flag_dirty_payload():
     from cli.commands.audit import collect_hygiene_findings
 
-    findings = collect_hygiene_findings(
-        {"rat_key": LEGACY_RAT_KEY, "auto_privesc_on_checkin": "true"}
-    )
+    findings = collect_hygiene_findings({"rat_key": LEGACY_RAT_KEY, "auto_privesc_on_checkin": "true"})
     assert findings["rat_key_fresh"] is False
     assert findings["noisy_flags"]["auto_privesc_on_checkin"] is True
     assert findings["findings_count"] >= 2

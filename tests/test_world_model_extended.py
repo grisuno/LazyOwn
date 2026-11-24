@@ -106,7 +106,6 @@ class TestGetPhaseAfterStateChanges:
         assert world_model.get_phase().value == "recon"
 
 
-
 def test_remove_host(tmp_path, monkeypatch):
     """Removing a host drops it from the model and the persisted file."""
     import modules.world_model as wm_mod

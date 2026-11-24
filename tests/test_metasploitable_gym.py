@@ -102,8 +102,16 @@ def test_invalid_matrix_is_reported(tmp_path):
         "version": 1,
         "vulnerabilities": [
             {"id": "Bad Id", "name": "x"},
-            {"id": "demo", "name": "Demo", "mitre": "T1190", "port": "1", "service": "http", "severity": "high",
-             "exploit": "missing_exploit", "chain": "missing_chain"},
+            {
+                "id": "demo",
+                "name": "Demo",
+                "mitre": "T1190",
+                "port": "1",
+                "service": "http",
+                "severity": "high",
+                "exploit": "missing_exploit",
+                "chain": "missing_chain",
+            },
         ],
     }
     path = tmp_path / "gym.yaml"

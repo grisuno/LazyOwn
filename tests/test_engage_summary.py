@@ -19,7 +19,6 @@ from modules.engage_summary import (
     write_report,
 )
 
-
 PING_OUTPUT = (
     "[+] rhost assign to 127.0.0.1  [+]\n"
     "    [+] Try... ping -c 1 127.0.0.1  [+]\n"
@@ -44,9 +43,16 @@ SCAN_XML = """<?xml version="1.0"?>
 
 def _step(command: str, **extra) -> dict:
     """Build one step result dict for rendering tests."""
-    base = {"phase": "recon", "label": command, "command": command,
-            "success": True, "skipped_reason": "", "switched_from": "",
-            "evidence": "", "output_tail": ""}
+    base = {
+        "phase": "recon",
+        "label": command,
+        "command": command,
+        "success": True,
+        "skipped_reason": "",
+        "switched_from": "",
+        "evidence": "",
+        "output_tail": "",
+    }
     base.update(extra)
     return base
 
@@ -104,6 +110,7 @@ def test_render_text_shows_skip_with_held_ports(tmp_path: Path):
 def test_full_output_prefers_evidence(tmp_path: Path):
     """Evidence vault beats the truncated tail when a hash exists."""
     from modules.evidence import EvidenceStore
+
     vault = EvidenceStore(tmp_path / "evidence")
     digest = vault.put(b"full-fidelity-output")
     step = _step("ping", evidence=digest, output_tail="truncated")

@@ -11,7 +11,6 @@ Run: pytest tests/test_security_hardening_v3.py -v
 from __future__ import annotations
 
 import os
-import subprocess
 from pathlib import Path
 from unittest.mock import patch
 

@@ -31,7 +31,21 @@ _BASE_DIR = Path(__file__).resolve().parent.parent
 
 _WRAPPERS: frozenset[str] = frozenset({"sudo", "doas", "env", "nice", "ionice", "timeout", "stdbuf", "nohup", "setsid"})
 _SHELL_WRAPPERS: frozenset[str] = frozenset({"bash", "sh", "zsh", "dash", "ash", "ksh"})
-_SYSTEM_PATHS: tuple[str, ...] = ("/", "/*", "/bin", "/boot", "/dev", "/etc", "/lib", "/lib64", "/sbin", "/usr", "/var", "/root", "/home")
+_SYSTEM_PATHS: tuple[str, ...] = (
+    "/",
+    "/*",
+    "/bin",
+    "/boot",
+    "/dev",
+    "/etc",
+    "/lib",
+    "/lib64",
+    "/sbin",
+    "/usr",
+    "/var",
+    "/root",
+    "/home",
+)
 
 _DEFAULT_VERBS: tuple[str, ...] = (
     "shutdown",

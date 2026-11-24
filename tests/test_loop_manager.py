@@ -210,9 +210,7 @@ class TestSpawnAndRegistry:
         manager.stop(record["id"])
 
     def test_metadata_written(self, manager, loops_dir):
-        record = manager.start(
-            LoopSpec(kind=KIND_LAZY_NMAP, target="127.0.0.1"), operator="tester"
-        )
+        record = manager.start(LoopSpec(kind=KIND_LAZY_NMAP, target="127.0.0.1"), operator="tester")
         meta = json.loads((loops_dir / record["id"] / "metadata.json").read_text())
         assert meta["id"] == record["id"]
         assert meta["started_by"] == "tester"
@@ -277,6 +275,7 @@ class TestStop:
         if manager.get_loop(record["id"])["status"] in ("stopped", "lost"):
             with pytest.raises(LoopValidationError):
                 manager.stop(record["id"])
+
 
 class TestLifecycle:
     def test_quick_exit_marks_finished(self, loops_dir, tmp_path):

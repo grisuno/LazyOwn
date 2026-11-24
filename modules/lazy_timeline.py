@@ -168,7 +168,9 @@ def diff(_old: dict | Path | str, _new: dict | Path | str) -> dict:
     b_hosts = b.get("hosts") or {}
     changes: list[dict] = []
     for ip in sorted(set(a_hosts) - set(b_hosts)):
-        changes.append({"kind": KIND_HOST_GONE, "host": ip, "port": 0, "detail": "host disappeared from the world model"})
+        changes.append(
+            {"kind": KIND_HOST_GONE, "host": ip, "port": 0, "detail": "host disappeared from the world model"}
+        )
     for ip in sorted(set(b_hosts) - set(a_hosts)):
         changes.append({"kind": KIND_HOST_NEW, "host": ip, "port": 0, "detail": "new host in the world model"})
     for ip in sorted(set(a_hosts) & set(b_hosts)):
@@ -193,7 +195,9 @@ def show(snaps_dir: str | Path | None = None, last: int = 3) -> list[dict]:
         if not snap:
             continue
         services = sum(len(host.get("services") or {}) for host in (snap.get("hosts") or {}).values())
-        out.append({"path": str(path), "ts": snap.get("ts"), "hosts": len(snap.get("hosts") or {}), "services": services})
+        out.append(
+            {"path": str(path), "ts": snap.get("ts"), "hosts": len(snap.get("hosts") or {}), "services": services}
+        )
     return out
 
 
@@ -232,26 +236,44 @@ def _host_diff(ip: str, before: dict, after: dict) -> list[dict]:
     before_services = before.get("services") or {}
     after_services = after.get("services") or {}
     for port in sorted(set(before_services) - set(after_services)):
-        changes.append({"kind": KIND_PORT_CLOSED, "host": ip, "port": int(port) if port.isdigit() else 0, "detail": "service no longer open"})
+        changes.append(
+            {
+                "kind": KIND_PORT_CLOSED,
+                "host": ip,
+                "port": int(port) if port.isdigit() else 0,
+                "detail": "service no longer open",
+            }
+        )
     for port in sorted(set(after_services) - set(before_services)):
-        changes.append({"kind": KIND_PORT_OPENED, "host": ip, "port": int(port) if port.isdigit() else 0, "detail": "service appeared"})
+        changes.append(
+            {
+                "kind": KIND_PORT_OPENED,
+                "host": ip,
+                "port": int(port) if port.isdigit() else 0,
+                "detail": "service appeared",
+            }
+        )
     for port in sorted(set(after_services) & set(before_services)):
         old = before_services[port] or {}
         new = after_services[port] or {}
         if str(old.get("version")) != str(new.get("version")) and str(new.get("version")):
-            changes.append({
-                "kind": KIND_VERSION_CHANGED,
-                "host": ip,
-                "port": int(port) if port.isdigit() else 0,
-                "detail": f"{str(old.get('version') or '?')} -> {str(new.get('version') or '?')}",
-            })
+            changes.append(
+                {
+                    "kind": KIND_VERSION_CHANGED,
+                    "host": ip,
+                    "port": int(port) if port.isdigit() else 0,
+                    "detail": f"{str(old.get('version') or '?')} -> {str(new.get('version') or '?')}",
+                }
+            )
     if str(before.get("state") or "") != str(after.get("state") or ""):
-        changes.append({
-            "kind": KIND_STATE_CHANGED,
-            "host": ip,
-            "port": 0,
-            "detail": f"{str(before.get('state') or '?')} -> {str(after.get('state') or '?')}",
-        })
+        changes.append(
+            {
+                "kind": KIND_STATE_CHANGED,
+                "host": ip,
+                "port": 0,
+                "detail": f"{str(before.get('state') or '?')} -> {str(after.get('state') or '?')}",
+            }
+        )
     return changes
 
 

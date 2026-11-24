@@ -205,4 +205,3 @@ def resolve_contained_file_path(raw_url: str, base_dir: Path) -> Path | None:
     if not resolved.startswith(resolved_base + os.sep):
         return None
     return Path(resolved)
-

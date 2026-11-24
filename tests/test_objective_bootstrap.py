@@ -21,9 +21,7 @@ def test_scope_denied_aborts_before_enrich_and_frontier(monkeypatch):
     events, emit = _collect_emit()
     enrich_calls: list = []
 
-    monkeypatch.setattr(
-        "modules.intercept.scope_blocked", lambda _t: "target.gov is out of scope"
-    )
+    monkeypatch.setattr("modules.intercept.scope_blocked", lambda _t: "target.gov is out of scope")
     monkeypatch.setattr(
         "modules.enrich.shared_engine",
         lambda: (_ for _ in ()).throw(AssertionError("enrich must not run")),

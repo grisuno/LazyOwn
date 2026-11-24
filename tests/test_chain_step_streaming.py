@@ -98,7 +98,9 @@ def test_unhandled_failure_sets_steer_but_handled_failure_does_not(monkeypatch):
             ChainStep(id="unhandled", run="unhandled {target}"),
         ]
     )
-    runner = ChainRunner(chain, tokens={"task_id": "t0001"}, executor=_failing_executor({"handled", "unhandled"}), retry_backoff=0)
+    runner = ChainRunner(
+        chain, tokens={"task_id": "t0001"}, executor=_failing_executor({"handled", "unhandled"}), retry_backoff=0
+    )
     result = runner.run()
     assert result.ok is False
     rows = {row["metadata"]["step_id"]: row for row in _chain_steps_for(captured)}
@@ -118,7 +120,9 @@ def test_alternatives_do_not_resolve_failures(monkeypatch):
             ChainStep(id="recovery", run="recovery {target}"),
         ]
     )
-    ChainRunner(chain, tokens={"task_id": "t0001"}, executor=_failing_executor({"alt", "routed"}), retry_backoff=0).run()
+    ChainRunner(
+        chain, tokens={"task_id": "t0001"}, executor=_failing_executor({"alt", "routed"}), retry_backoff=0
+    ).run()
     flags = {row["metadata"]["step_id"]: row["metadata"]["steer"] for row in _chain_steps_for(captured)}
     assert flags["alt"] is True
     assert "routed" not in flags

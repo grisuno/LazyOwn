@@ -625,7 +625,9 @@ class StateManager:
             synced_hosts[ip] = entry
         merged["hosts"] = synced_hosts
 
-        creds: list[dict[str, Any]] = list(merged.get("credentials") or []) if isinstance(merged.get("credentials"), list) else []
+        creds: list[dict[str, Any]] = (
+            list(merged.get("credentials") or []) if isinstance(merged.get("credentials"), list) else []
+        )
         credited = {(str(c.get("value", "")), str(c.get("host", ""))) for c in creds}
         for c in all_creds:
             record = {
@@ -637,7 +639,9 @@ class StateManager:
                 creds.append(record)
         merged["credentials"] = creds
 
-        vulns: list[dict[str, Any]] = list(merged.get("vulnerabilities") or []) if isinstance(merged.get("vulnerabilities"), list) else []
+        vulns: list[dict[str, Any]] = (
+            list(merged.get("vulnerabilities") or []) if isinstance(merged.get("vulnerabilities"), list) else []
+        )
         vuln_keys = {(str(v.get("description", "")), str(v.get("cve", "")), str(v.get("host", ""))) for v in vulns}
         for v in all_vulns:
             record = {

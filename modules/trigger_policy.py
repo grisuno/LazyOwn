@@ -159,7 +159,7 @@ def seed_store(policy: list[dict] | None = None, store=None, task_id: str = "") 
         ``{added, total}`` statistics for the brief and the API.
     """
     if policy is None:
-        policy = (read_policy().get("seeds") or [])
+        policy = read_policy().get("seeds") or []
     if store is None:
         from modules.loop_triggers import TriggerStore
 

@@ -1169,7 +1169,7 @@ def _svg_place(ids: list[str]) -> dict[str, tuple[float, float]]:
     rest = [nid for nid in ids if nid != "c2"]
     if "c2" in ids:
         positions["c2"] = (cx, cy)
-    inner = rest[: SVG_INNER_RING_MAX]
+    inner = rest[:SVG_INNER_RING_MAX]
     outer = rest[SVG_INNER_RING_MAX:]
     for group, radius in ((inner, SVG_INNER_RADIUS), (outer, SVG_OUTER_RADIUS)):
         count = len(group)
@@ -1217,9 +1217,7 @@ def relations_svg(graph: dict, cap_nodes: int = SVG_NODE_CAP) -> str:
         x1, y1 = positions[src]
         x2, y2 = positions[dst]
         style = EDGE_COLORS.get(str(edge.get("type", "")), _SVG_EDGE_DEFAULT)
-        lines.append(
-            f'<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke="{_svg_attr(style)}" stroke-width="1"/>'
-        )
+        lines.append(f'<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke="{_svg_attr(style)}" stroke-width="1"/>')
     dots: list[str] = []
     for nid, node in selected.items():
         cx, cy = positions[nid]
@@ -1251,7 +1249,7 @@ def relations_svg(graph: dict, cap_nodes: int = SVG_NODE_CAP) -> str:
         f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {SVG_WIDTH} {SVG_HEIGHT}" '
         f'width="{SVG_WIDTH}" height="{SVG_HEIGHT}" role="img" aria-label="campaign relation snapshot">'
         '<rect width="100%" height="100%" fill="#0f172a"/>'
-        f"<text x=\"12\" y=\"20\" font-size=\"11\" fill=\"#e2e8f0\">relations snapshot ({legend})</text>"
+        f'<text x="12" y="20" font-size="11" fill="#e2e8f0">relations snapshot ({legend})</text>'
         + "".join(lines)
         + "".join(dots)
         + "</svg>"

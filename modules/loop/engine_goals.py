@@ -25,6 +25,7 @@ class EngineGoalsMixin:
     ) -> ExplorationNode:
         """Directly inject high-priority intent like the planner main-agent add_intent."""
         from modules.lazy_loop import DEFAULT_PRIORITY, ActivityLog, AssetGate, ExplorationGraph
+
         if priority is None:
             priority = DEFAULT_PRIORITY
         for asset_id in asset_ids or []:
@@ -46,6 +47,7 @@ class EngineGoalsMixin:
     def set_goals(self, task_id: str, specs: list[dict]) -> list[ExplorationNode]:
         """Replace/append decomposed objectives like set_goals; wakes the task."""
         from modules.lazy_loop import ActivityLog, ExplorationGraph
+
         graph = ExplorationGraph(task_id)
         created = []
         for spec in specs or []:
@@ -64,6 +66,7 @@ class EngineGoalsMixin:
     def edit_goal(self, task_id: str, goal_id: int, text: str) -> bool:
         """Edit a goal node like the goals manager."""
         from modules.lazy_loop import ActivityLog, ExplorationGraph, _now, scrub_secrets
+
         graph = ExplorationGraph(task_id)
         node = graph.get(int(goal_id))
         if node is None or node.kind != "goal" or not (text or "").strip():
@@ -77,6 +80,7 @@ class EngineGoalsMixin:
     def delete_goal(self, task_id: str, goal_id: int) -> bool:
         """Delete a goal node; done tasks with no goals left stay done."""
         from modules.lazy_loop import ActivityLog, ExplorationGraph
+
         graph = ExplorationGraph(task_id)
         node = graph.get(int(goal_id))
         if node is None or node.kind != "goal":
@@ -97,6 +101,7 @@ class EngineGoalsMixin:
             Dict with intent_id, removable ids, shared (kept) ids.
         """
         from modules.lazy_loop import ExplorationGraph
+
         graph = ExplorationGraph(task_id)
         node = graph.get(int(intent_id))
         if node is None or node.kind != "intent":
@@ -137,6 +142,7 @@ class EngineGoalsMixin:
             _save_json,
             _store_path,
         )
+
         reason = (reason or "").strip()
         if not reason:
             raise ValueError("a deletion reason is required")
@@ -268,6 +274,7 @@ class EngineGoalsMixin:
         leaving the planner to discover the hint inside the overview.
         """
         from modules.lazy_loop import ActivityLog, ExplorationGraph
+
         graph = ExplorationGraph(task_id)
         node = graph.add_node("hint", text)
         activity = ActivityLog(task_id)
@@ -278,4 +285,3 @@ class EngineGoalsMixin:
             f"human added 1 strategic hint: {text[:200]}; this round fires on new hint #{node.node_id}",
         )
         return node
-

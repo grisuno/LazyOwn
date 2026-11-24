@@ -26,7 +26,9 @@ def test_default_path_points_into_sessions_lazy() -> None:
 def test_record_requires_reason_and_change(ledger) -> None:
     assert ledger.record("loop:t0001", "lazynmap 1.2.3.4", "lazynmap 1.2.3.4", "") is None
     assert ledger.record("loop:t0001", "same", "same", "no change") is None
-    row = ledger.record("loop:t0001", "nmap -p bad 1.2.3.4", "nmap 1.2.3.4", "dropped invalid port spec", "loop:sanitize")
+    row = ledger.record(
+        "loop:t0001", "nmap -p bad 1.2.3.4", "nmap 1.2.3.4", "dropped invalid port spec", "loop:sanitize"
+    )
     assert row is not None
     assert row.scope == "loop:t0001"
     assert row.source == "loop:sanitize"

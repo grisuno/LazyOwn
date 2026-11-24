@@ -52,10 +52,21 @@ EVIDENCE_NONE = "none"
 
 RANGE_KEYS = frozenset({"introduced", "fixed", "last_affected"})
 
-_GENERIC_WORDS = frozenset({
-    "http", "service", "server", "web", "daemon", "open", "project", "edition",
-    "community", "enterprise", "generic",
-})
+_GENERIC_WORDS = frozenset(
+    {
+        "http",
+        "service",
+        "server",
+        "web",
+        "daemon",
+        "open",
+        "project",
+        "edition",
+        "community",
+        "enterprise",
+        "generic",
+    }
+)
 _NOT_A_PRODUCT = frozenset({"unknown", "tcpwrapped"})
 _OS_SIGHTINGS = re.compile(
     r"^(?:(?:microsoft|canonical|gnu)\s+)?(?:"
@@ -229,19 +240,25 @@ def parse_feed(entries: list[dict]) -> list[FeedEntry]:
             continue
         seen.add(key)
         ranges = row.get("ranges") if isinstance(row.get("ranges"), list) else []
-        clean_ranges = [rng for rng in ranges if isinstance(rng, dict) and set(rng) & RANGE_KEYS and any(
-            isinstance(rng.get(key), str) and rng.get(key).strip() for key in RANGE_KEYS
-        )]
-        normalized.append(FeedEntry(
-            cve_id=cve_id,
-            product=product,
-            cvss=_cvss(row.get("cvss")),
-            kev=bool(row.get("kev")),
-            epss=_float(row.get("epss")) if _float(row.get("epss")) > 0 else None,
-            public_exploit=bool(row.get("public_exploit") or row.get("exploit_db")),
-            ranges=clean_ranges,
-            raw=dict(row),
-        ))
+        clean_ranges = [
+            rng
+            for rng in ranges
+            if isinstance(rng, dict)
+            and set(rng) & RANGE_KEYS
+            and any(isinstance(rng.get(key), str) and rng.get(key).strip() for key in RANGE_KEYS)
+        ]
+        normalized.append(
+            FeedEntry(
+                cve_id=cve_id,
+                product=product,
+                cvss=_cvss(row.get("cvss")),
+                kev=bool(row.get("kev")),
+                epss=_float(row.get("epss")) if _float(row.get("epss")) > 0 else None,
+                public_exploit=bool(row.get("public_exploit") or row.get("exploit_db")),
+                ranges=clean_ranges,
+                raw=dict(row),
+            )
+        )
     return normalized
 
 
@@ -370,17 +387,19 @@ def bind_sighting(sighting: Sighting, entries: list[FeedEntry]) -> list[ExploitS
             evidence = EVIDENCE_UNBOUNDED
         else:
             continue
-        bindings.append(ExploitSighting(
-            cve_id=entry.cve_id,
-            product=entry.product,
-            version=sighting.version.strip(),
-            tier=tier,
-            cvss=entry.cvss,
-            evidence=evidence,
-            version_in_range=in_range,
-            references=_references(entry.raw),
-            source=sighting.source,
-        ))
+        bindings.append(
+            ExploitSighting(
+                cve_id=entry.cve_id,
+                product=entry.product,
+                version=sighting.version.strip(),
+                tier=tier,
+                cvss=entry.cvss,
+                evidence=evidence,
+                version_in_range=in_range,
+                references=_references(entry.raw),
+                source=sighting.source,
+            )
+        )
     bindings.sort(key=lambda b: (0 if b.evidence == EVIDENCE_IN_RANGE else 1, -b.cvss))
     return bindings
 
@@ -446,17 +465,19 @@ def live_bindings(sighting: Sighting, allow_network: bool = True) -> list[Exploi
             evidence = EVIDENCE_UNBOUNDED
         else:
             continue
-        bindings.append(ExploitSighting(
-            cve_id=str(row.get("cve") or ""),
-            product=product_token(sighting.product or sighting.name),
-            version=sighting.version.strip(),
-            tier=tier,
-            cvss=_cvss(row.get("cvss")),
-            evidence=evidence,
-            version_in_range=in_range,
-            references=[],
-            source=sighting.source,
-        ))
+        bindings.append(
+            ExploitSighting(
+                cve_id=str(row.get("cve") or ""),
+                product=product_token(sighting.product or sighting.name),
+                version=sighting.version.strip(),
+                tier=tier,
+                cvss=_cvss(row.get("cvss")),
+                evidence=evidence,
+                version_in_range=in_range,
+                references=[],
+                source=sighting.source,
+            )
+        )
     bindings.sort(key=lambda b: (0 if b.evidence == EVIDENCE_IN_RANGE else 1, -b.cvss))
     return bindings
 
@@ -504,6 +525,7 @@ def feed_fingerprint(entries: list[dict]) -> str:
     except OSError:
         digest = "none"
     return f"rows={len(entries)} file={feed_path.name} sha16={digest}"
+
 
 __all__ = [
     "DEFAULT_FEED_PATH",

@@ -10,7 +10,8 @@ declares what to load.
 
 from __future__ import annotations
 
-from typing import Any, Callable, MutableMapping
+from typing import Any
+from collections.abc import Callable, MutableMapping
 
 Loader = Callable[[MutableMapping[str, Any]], bool]
 

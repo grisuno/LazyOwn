@@ -114,10 +114,20 @@ def test_intel_template_maps_edges_to_links() -> None:
 def test_intel_template_readmenator_grade() -> None:
     """ReadMenator engine: glyphs, labels, halos, communities, drag, fit."""
     html = (_ROOT / "templates" / "intel.html").read_text()
-    for token in ("nodeCanvasObject", "graph2ScreenCoords", "enableNodeDrag",
-                  "zoomToFit", "Halos", "inspector", "member_of",
-                  "data-color", "Top exposed", "Suggested intents",
-                  "Confirmed", "funnel:"):
+    for token in (
+        "nodeCanvasObject",
+        "graph2ScreenCoords",
+        "enableNodeDrag",
+        "zoomToFit",
+        "Halos",
+        "inspector",
+        "member_of",
+        "data-color",
+        "Top exposed",
+        "Suggested intents",
+        "Confirmed",
+        "funnel:",
+    ):
         assert token in html, token
     for emoji in ("🖥", "🔥", "🔌", "⚠", "☠", "🎯", "⚙", "♛", "GLYPH"):
         assert emoji not in html, emoji
@@ -177,8 +187,9 @@ def test_digest_overview_expandable(gate_env) -> None:
 
     graph = ExplorationGraph("overview-test")
     members = [graph.add_node("fact", f"member {i}", state="done").node_id for i in range(3)]
-    digest = graph.add_node("fact", "cold digest", state="done",
-                            meta={"cold_digest": True, "mode": "minor", "members": members})
+    digest = graph.add_node(
+        "fact", "cold digest", state="done", meta={"cold_digest": True, "mode": "minor", "members": members}
+    )
     for mid in members:
         node = graph.get(mid)
         node.meta["cold"] = True

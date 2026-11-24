@@ -17,6 +17,7 @@ class EngineVerdictMixin:
     def goal_met(self, task_id: str, reason: str = "") -> bool:
         """Declare the whole task complete like goal_met (weighted, audited)."""
         from modules.lazy_loop import ActivityLog, ExplorationGraph
+
         graph = ExplorationGraph(task_id)
         for node in graph.list("goal"):
             graph.set_state(node.node_id, "done")
@@ -28,6 +29,7 @@ class EngineVerdictMixin:
     def record_fact(self, task_id: str, text: str, evidence: str = "", intent_id: int = 0) -> ExplorationNode:
         """Operator-visible fact write like recordFact."""
         from modules.lazy_loop import ActivityLog, ExplorationGraph
+
         graph = ExplorationGraph(task_id)
         node = graph.record_fact(text, evidence=evidence, intent_id=int(intent_id))
         ActivityLog(task_id).emit("human", "fact", text[:300], intent_id=int(intent_id))
@@ -50,6 +52,7 @@ class EngineVerdictMixin:
             ValueError: Unsupported verdict.
         """
         from modules.lazy_loop import RETEST_VERDICTS, ActivityLog, ExplorationGraph
+
         if verdict not in RETEST_VERDICTS:
             raise ValueError(f"verdict must be one of {RETEST_VERDICTS}")
         graph = ExplorationGraph(task_id)
@@ -128,6 +131,7 @@ class EngineVerdictMixin:
             _store_path,
             task_llm_chain,
         )
+
         verdict: dict = {"task_id": task_id, "verdict": "failed", "path": ""}
         try:
             record = self.store.get(task_id) or {}
@@ -139,39 +143,28 @@ class EngineVerdictMixin:
             coverage = self.assets.coverage_for(graph, scope)
             facts = [n for n in graph.list("fact") if not n.meta.get("cold_digest")]
             findings = graph.list("finding")
-            confirmed = [n for n in findings if str(n.state) in ("confirmed",) or "reproduced" in str(n.meta.get("verdict", ""))]
+            confirmed = [
+                n for n in findings if str(n.state) in ("confirmed",) or "reproduced" in str(n.meta.get("verdict", ""))
+            ]
             ledger_confirmed = _ledger_confirmed_count(task_id)
             confirmed_count = max(len(confirmed), ledger_confirmed)
             lowered_goal = goal.lower()
             wants_creds = any(k in lowered_goal for k in ("cred", "password", "hash", "login"))
-            wants_access = any(k in lowered_goal for k in ("access", "shell", "session", "own", "exploit", "compromis", "foothold"))
-            wants_lateral = any(
-                k in lowered_goal for k in ("lateral", "pivot", "propagate", "spread", "move to")
+            wants_access = any(
+                k in lowered_goal for k in ("access", "shell", "session", "own", "exploit", "compromis", "foothold")
             )
+            wants_lateral = any(k in lowered_goal for k in ("lateral", "pivot", "propagate", "spread", "move to"))
             lateral_hit = False
             if wants_lateral:
-                scope_values = [
-                    str((item or {}).get("value", "") or "")
-                    for item in scope
-                    if (item or {}).get("value")
-                ]
+                scope_values = [str((item or {}).get("value", "") or "") for item in scope if (item or {}).get("value")]
                 primary = scope_values[0] if scope_values else ""
                 scoped_ips = {
-                    str((item or {}).get("value", "") or "")
-                    for item in scope
-                    if (item or {}).get("kind") == "ip"
+                    str((item or {}).get("value", "") or "") for item in scope if (item or {}).get("kind") == "ip"
                 }
-                lateral_hit = any(
-                    ip and ip in (n.text or "")
-                    for n in findings
-                    for ip in scoped_ips
-                    if ip != primary
-                )
+                lateral_hit = any(ip and ip in (n.text or "") for n in findings for ip in scoped_ips if ip != primary)
                 if not lateral_hit:
                     not_before = float((record.get("runtime") or {}).get("started", 0) or 0)
-                    lateral_hit = bool(
-                        _ledger_side_hits(task_id, sorted(scoped_ips), primary, not_before)
-                    )
+                    lateral_hit = bool(_ledger_side_hits(task_id, sorted(scoped_ips), primary, not_before))
             cred_hit = any(
                 k in (n.text or "").lower() for n in findings for k in ("password", "hash", "login:", "credential")
             )
@@ -203,8 +196,7 @@ class EngineVerdictMixin:
                     activity.emit(
                         "planner",
                         "finalizer",
-                        f"verdict {verdict['verdict']} -> {decision.verdict} "
-                        f"({decision.completion_reason})",
+                        f"verdict {verdict['verdict']} -> {decision.verdict} ({decision.completion_reason})",
                     )
                 verdict["verdict"] = decision.verdict
                 verdict["evidence_verified"] = decision.evidence_verified
@@ -234,11 +226,17 @@ class EngineVerdictMixin:
                 if pool.members() or chain:
                     from modules.lazy_roles import role_prompt as _role_prompt
 
-                    prompt = _role_prompt(
-                        "mirror", goal,
-                        f"coverage={coverage.get('pct', 0)}% facts={len(facts)} findings={len(findings)} confirmed={confirmed_count}",
-                    ) + " Reply with one verdict line: achieved, partial or failed, plus why."
-                    note = (pool.complete(prompt, max_tokens=120, members=chain or None, task_id=task_id) or "").strip()[:400]
+                    prompt = (
+                        _role_prompt(
+                            "mirror",
+                            goal,
+                            f"coverage={coverage.get('pct', 0)}% facts={len(facts)} findings={len(findings)} confirmed={confirmed_count}",
+                        )
+                        + " Reply with one verdict line: achieved, partial or failed, plus why."
+                    )
+                    note = (
+                        pool.complete(prompt, max_tokens=120, members=chain or None, task_id=task_id) or ""
+                    ).strip()[:400]
             except Exception:
                 note = ""
             if note:
@@ -260,7 +258,11 @@ class EngineVerdictMixin:
             path = _store_path(f"report_{task_id}.md")
             path.write_text("\n".join(lines) + "\n", encoding="utf-8")
             verdict["path"] = str(path)
-            activity.emit("planner", "verdict", f"{verdict['verdict']}: coverage={coverage.get('pct', 0)}% facts={len(facts)} findings={len(findings)}")
+            activity.emit(
+                "planner",
+                "verdict",
+                f"{verdict['verdict']}: coverage={coverage.get('pct', 0)}% facts={len(facts)} findings={len(findings)}",
+            )
         except Exception:
             pass
         return verdict
@@ -272,6 +274,7 @@ class EngineVerdictMixin:
         overview actually satisfies them — never stamp early.
         """
         from modules.lazy_loop import ActivityLog, ExplorationGraph
+
         graph = ExplorationGraph(task_id)
         goal = graph.get(goal_id)
         evidence = graph.get(evidence_id)
@@ -312,6 +315,7 @@ class EngineVerdictMixin:
             A finding ``node_id`` usable as ``prove_goal`` evidence, or None.
         """
         from modules.lazy_loop import _FOOTHOLD_FINDING_MARKS
+
         try:
             from modules.atomic_exploit_bridge import shell_output_evidence
         except Exception:
@@ -353,9 +357,7 @@ class EngineVerdictMixin:
             return
         evidence = None
         for candidate in graph.list("finding"):
-            if str(candidate.state) in ("confirmed",) or "reproduced" in str(
-                candidate.meta.get("verdict", "")
-            ):
+            if str(candidate.state) in ("confirmed",) or "reproduced" in str(candidate.meta.get("verdict", "")):
                 evidence = candidate
                 break
         if evidence is None:
@@ -400,6 +402,7 @@ class EngineVerdictMixin:
             _target_foothold_proven,
             resolve_target,
         )
+
         pending_goals = graph.list("goal", "pending")
         if not pending_goals:
             return
@@ -423,13 +426,12 @@ class EngineVerdictMixin:
                 and downstream_pending
                 and _initial_access_intent(goal.text.lower())
             ):
-                self.prove_goal(
-                    task_id, goal.node_id, foothold_evidence, "confirmed foothold proves initial access"
-                )
+                self.prove_goal(task_id, goal.node_id, foothold_evidence, "confirmed foothold proves initial access")
 
     def _goals_met(self, task_id: str) -> bool:
         """Report whether every goal node is done."""
         from modules.lazy_loop import ExplorationGraph
+
         graph = ExplorationGraph(task_id)
         goals = graph.list("goal")
         return bool(goals) and all(g.state == "done" for g in goals)
@@ -450,6 +452,7 @@ class EngineVerdictMixin:
             True when this engagement already recorded a confirmed foothold.
         """
         from modules.lazy_loop import _target_foothold_proven
+
         return _target_foothold_proven(target, task_id)
 
     def _terminal_autopwn_fallback(self, task_id: str, executor, activity: ActivityLog) -> bool:
@@ -470,6 +473,7 @@ class EngineVerdictMixin:
             True when the fallback obtained an interactive shell.
         """
         from modules.lazy_loop import ExplorationGraph, _auto_pwn_cover_all, resolve_target
+
         if executor is None:
             return False
         target = (resolve_target(task_id, self.store, ExplorationGraph(task_id)) or "").strip()
@@ -618,14 +622,11 @@ class EngineVerdictMixin:
             ``"pentest_proven"`` in pentest mode with confirmed evidence.
         """
         from modules.lazy_loop import STORE_DIR, ActivityLog, ExplorationGraph, _ledger_side_hits
+
         mode = str(getattr(self, "engagement_mode", "") or "").strip().lower()
         graph = ExplorationGraph(task_id)
         goals_done = sum(1 for goal in graph.list("goal") if goal.state == "done")
-        explained = [
-            1
-            for finding in graph.list("finding")
-            if str(finding.meta.get("vstate", "")) in ("confirmed",)
-        ]
+        explained = [1 for finding in graph.list("finding") if str(finding.meta.get("vstate", "")) in ("confirmed",)]
         brief = {
             "facts": int((summary.get("overview") or {}).get("facts", 0) or 0),
             "findings": int((summary.get("overview") or {}).get("findings", 0) or 0),
@@ -665,9 +666,7 @@ class EngineVerdictMixin:
         if mode == "pentest" and explained:
             record = self.store.get(task_id) or {}
             goal = str(record.get("goal", "") or "").lower()
-            wants_lateral = any(
-                k in goal for k in ("lateral", "pivot", "propagate", "spread", "move to")
-            )
+            wants_lateral = any(k in goal for k in ("lateral", "pivot", "propagate", "spread", "move to"))
             if wants_lateral:
                 scope_items = [
                     str((item or {}).get("value", "") or "")
@@ -695,12 +694,10 @@ class EngineVerdictMixin:
                 ActivityLog(task_id).emit(
                     "engine",
                     "pentest-decision",
-                    f"lateral goal satisfied: side evidence found "
-                    f"({len(scope_items)} scoped, primary {primary})",
+                    f"lateral goal satisfied: side evidence found ({len(scope_items)} scoped, primary {primary})",
                 )
             return "pentest_proven"
         if str(result.get("decision", "")) == "handoff":
             self._archive_discards(task_id, last_results=summary.get("results", []) or [])
             return "handoff"
         return ""
-

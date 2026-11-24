@@ -565,7 +565,7 @@ class HashCracker:
         def _hash_only(ident: HashIdentifier) -> str:
             raw = ident.raw.strip()
             if ident.username and raw.startswith(ident.username + ":"):
-                return raw[len(ident.username) + 1:]
+                return raw[len(ident.username) + 1 :]
             return raw
 
         tmp = tempfile.NamedTemporaryFile(mode="w", suffix=".hashes", delete=False)
@@ -607,10 +607,16 @@ class HashCracker:
                 )
             return results
         except subprocess.TimeoutExpired:
-            return [CrackResult(hash_value=ident.raw, password="", hash_type=hash_type, format=ident.format) for ident in idents]
+            return [
+                CrackResult(hash_value=ident.raw, password="", hash_type=hash_type, format=ident.format)
+                for ident in idents
+            ]
         except Exception as exc:
             log.debug("hashcat batch error: %s", exc)
-            return [CrackResult(hash_value=ident.raw, password="", hash_type=hash_type, format=ident.format) for ident in idents]
+            return [
+                CrackResult(hash_value=ident.raw, password="", hash_type=hash_type, format=ident.format)
+                for ident in idents
+            ]
         finally:
             try:
                 Path(tmp.name).unlink()
@@ -715,10 +721,16 @@ class HashCracker:
                 )
             return results
         except subprocess.TimeoutExpired:
-            return [CrackResult(hash_value=ident.raw, password="", hash_type=hash_type, format=ident.format) for ident in idents]
+            return [
+                CrackResult(hash_value=ident.raw, password="", hash_type=hash_type, format=ident.format)
+                for ident in idents
+            ]
         except Exception as exc:
             log.debug("john batch error: %s", exc)
-            return [CrackResult(hash_value=ident.raw, password="", hash_type=hash_type, format=ident.format) for ident in idents]
+            return [
+                CrackResult(hash_value=ident.raw, password="", hash_type=hash_type, format=ident.format)
+                for ident in idents
+            ]
         finally:
             try:
                 Path(tmp.name).unlink()

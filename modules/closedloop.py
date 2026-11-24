@@ -152,20 +152,14 @@ def suggest_tuning(candidate: RuleResult, baseline: RuleResult | None = None) ->
             failed.update(evaluation.failed_fields)
     if candidate.target.missed > 0:
         if failed:
-            suggestions.append(
-                f"loosen or split conditions on: {', '.join(sorted(failed))}"
-            )
+            suggestions.append(f"loosen or split conditions on: {', '.join(sorted(failed))}")
         suggestions.append("review the unmatched target events for field value drift")
     if candidate.control.matched > 0:
         suggestions.append("narrow the rule; control (benign) events matched")
         if failed:
-            suggestions.append(
-                f"consider adding negated conditions on: {', '.join(sorted(failed))}"
-            )
+            suggestions.append(f"consider adding negated conditions on: {', '.join(sorted(failed))}")
     if candidate.target.inconclusive + candidate.control.inconclusive > 0:
-        suggestions.append(
-            f"ensure referenced fields exist in every event: {', '.join(sorted(missing))}"
-        )
+        suggestions.append(f"ensure referenced fields exist in every event: {', '.join(sorted(missing))}")
     if candidate.verdict == "pass":
         if baseline is not None and baseline.verdict == "fail":
             suggestions.append("candidate fixes the baseline failure; keep the candidate")

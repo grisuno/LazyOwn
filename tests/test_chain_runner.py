@@ -387,11 +387,23 @@ def test_runner_captures_verb_stdout():
     assert "noted hello" in result.steps[0].captured
 
 
-def test_runner_step_sleep_jitter_applies():
+def test_runner_step_sleep_jitter_applies(monkeypatch):
     """Given a step declaring sleep and jitter, When it succeeds, Then the
-    inserted delay stays within the declared band (dry-free, real clock)."""
+    inserted delay stays within the declared band."""
 
-    started = time.time()
+    class _QuietPacer:
+        def observe(self, *args, **kwargs):
+            return None
+
+        def inter_step_delay(self):
+            return 0.0
+
+        def decay(self):
+            return None
+
+    monkeypatch.setattr("modules.loop_guardrails.EdrPacer.from_config", classmethod(lambda cls, **kw: _QuietPacer()))
+    sleeps: list[float] = []
+    monkeypatch.setattr("modules.chain_runner.time.sleep", lambda seconds: sleeps.append(seconds))
     chain = _chain(
         [
             ChainStep(id="probe", run="probe", sleep=0.2, jitter=50.0),
@@ -403,9 +415,9 @@ def test_runner_step_sleep_jitter_applies():
         return "ok"
 
     result = ChainRunner(chain, executor=executor, retry_backoff=0).run()
-    elapsed = time.time() - started
     assert result.ok is True
-    assert 0.1 <= elapsed < 1.0
+    assert len(sleeps) == 1
+    assert 0.1 <= sleeps[0] <= 0.3
 
 
 def test_runner_step_sleep_skipped_on_failure(monkeypatch):

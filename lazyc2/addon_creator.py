@@ -331,7 +331,6 @@ class AddonCreatorConfig:
             "start_user",
             "startip",
             "subdomain",
-            "target",
             "target_path",
             "technique_id",
             "template_name",
@@ -365,14 +364,7 @@ class AddonCreatorConfig:
             "proxy_gc_days",
             "proxy_upstream",
             "gym_cleanup_on_exit",
-            "rotate_keys_on_boot",
             "rotate_c2_creds_on_boot",
-            "session_magic",
-            "sleep_activation_delay_max",
-            "sleep_activation_delay_min",
-            "sleep_jit_enabled",
-            "sleep_jit_pct_max",
-            "sleep_jit_pct_min",
             "orchestrator",
             "local_llm",
             "llm_backend",
@@ -1017,11 +1009,11 @@ class AddonStore:
         """
         if not pattern.fullmatch(name):
             raise AddonValidationError([ValidationIssue("name", f"Invalid addon name '{name}'.")])
-        base = self._base_dir.resolve()
-        target = (base / f"{name}{self.config.file_suffix}").resolve()
-        if not target.is_relative_to(base):
+        base = os.path.realpath(str(self._base_dir))
+        target = os.path.realpath(os.path.join(base, f"{name}{self.config.file_suffix}"))
+        if not target.startswith(base + os.sep):
             raise AddonValidationError([ValidationIssue("name", "Addon path escapes the addons directory.")])
-        return target
+        return Path(target)
 
     def exists(self, name: str) -> bool:
         """Return True when an addon file already exists for the name.

@@ -160,12 +160,11 @@ class TestApiKeyStore:
         assert store.validate_key(plaintext) is None
 
     def test_updates_last_used_on_successful_validation(self, tmp_path):
-        from core.api_authz import _hash_secret
-
         store = self._make_store(tmp_path)
         _, token = store.create_key("acme", "stalker")
+        created = store.list_keys(tenant_id="acme")[0]
         store.validate_key(token)
-        record = store.find_by_hash(_hash_secret(token))
+        record = store.find_by_hash(created.key_hash)
         assert record is not None
         assert record.last_used_at is not None
         assert record.last_used_at > 0
@@ -273,8 +272,6 @@ class TestApiKeyStore:
         assert {k.label for k in keys} == {"k1", "k2"}
 
     def test_never_stores_plaintext_token_on_disk(self, tmp_path):
-        from core.api_authz import _hash_secret
-
         store = self._make_store(tmp_path)
         _, token = store.create_key("acme", "stealth")
         records = store._read()
@@ -282,7 +279,41 @@ class TestApiKeyStore:
         assert "key_hash" in stored
         raw = json.dumps(records)
         assert token not in raw
-        assert stored["key_hash"] == _hash_secret(token)
+        assert stored["key_hash"].startswith("pbkdf2_sha256$")
+
+    def test_hashes_use_pbkdf2_with_random_salt(self, tmp_path):
+        from core.api_authz import _hash_secret, _verify_secret
+
+        secret = "same-secret"
+        first = _hash_secret(secret)
+        second = _hash_secret(secret)
+        assert first != second
+        assert _verify_secret(secret, first)
+        assert _verify_secret(secret, second)
+        assert not _verify_secret("other", first)
+
+    def test_legacy_records_are_rejected_and_pruned(self, tmp_path):
+        import hashlib as _hashlib
+
+        from core.api_authz import _verify_secret
+
+        store = self._make_store(tmp_path)
+        legacy_hash = _hashlib.sha256(b"legacy-key-material").hexdigest()
+        with store._lock:
+            records = store._read()
+            records.append(
+                {
+                    "key_hash": legacy_hash,
+                    "tenant_id": "acme",
+                    "label": "legacy-bot",
+                    "permissions": [],
+                    "created_at": time.time(),
+                }
+            )
+            store._write(records)
+        assert not _verify_secret("legacy-key-material", legacy_hash)
+        assert store.validate_key("legacy-key-material") is None
+        assert store.list_keys() == []
 
 
 class TestRequireApiAuth:
@@ -433,13 +464,12 @@ class TestEdgeCases:
         )
 
     def test_constant_time_comparison_rejects_wrong_secrets(self):
-        import hashlib
+        from core.api_authz import _hash_secret, _verify_secret
 
-        from core.api_authz import _verify_secret
-
-        real = hashlib.sha256(b"realsecret").hexdigest()
+        real = _hash_secret("realsecret")
         assert _verify_secret("realsecret", real) is True
         assert _verify_secret("wrong", real) is False
+        assert _verify_secret("realsecret", "deadbeef") is False
 
     def test_generates_50_unique_tokens_without_collision(self):
         from core.api_authz import _generate_token_bytes

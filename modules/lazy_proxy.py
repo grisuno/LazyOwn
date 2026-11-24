@@ -745,10 +745,7 @@ class CertificateAuthority:
             if not cert_path.exists() or not key_path.exists():
                 self._write_leaf(host, cert_path, key_path)
             context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
-            try:
-                context.minimum_version = ssl.TLSVersion.TLSv1_2
-            except (AttributeError, ValueError):
-                pass
+            context.minimum_version = ssl.TLSVersion.TLSv1_2
             context.load_cert_chain(certfile=str(cert_path), keyfile=str(key_path))
             self._contexts[host] = context
             return context

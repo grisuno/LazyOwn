@@ -6,13 +6,92 @@ scrapers, news feeds, and web interaction helpers.
 
 from __future__ import annotations
 
+import ssl
 from typing import Any
 
 import requests
 from bs4 import BeautifulSoup
-from requests.exceptions import RequestException
+from requests.exceptions import RequestException, SSLError
 
 from core.console import print_error, print_msg
+
+
+class _LabTLSAdapter(requests.adapters.HTTPAdapter):
+    """HTTPAdapter that negotiates TLS with the audited lab fallback context.
+
+    Verification stays off only when the operator opted in via
+    ``LAZY_PROXY_ALLOW_SELF_SIGNED_LAB=1``; the helper checks that gate
+    before building this adapter.
+    """
+
+    def __init__(self, ssl_context: ssl.SSLContext) -> None:
+        """Bind the adapter to a pre-built SSL context.
+
+        Args:
+            ssl_context: Context built by ``core.hardening`` helpers.
+        """
+        self._ssl_context = ssl_context
+        super().__init__()
+
+    def init_poolmanager(self, *args: Any, **kwargs: Any) -> None:
+        """Initialise the urllib3 pool with the pinned SSL context.
+
+        Args:
+            *args: Positional poolmanager arguments.
+            **kwargs: Keyword poolmanager arguments.
+        """
+        kwargs["ssl_context"] = self._ssl_context
+        super().init_poolmanager(*args, **kwargs)
+
+
+def lab_tolerant_request(method: str, url: str, **kwargs: Any) -> requests.Response:
+    """Send *method* to *url* with certificate verification by default.
+
+    On a certificate verification failure, retries once with the audited
+    lab fallback context, only when the operator opt-in
+    (``LAZY_PROXY_ALLOW_SELF_SIGNED_LAB=1``) covers the target host.
+
+    Args:
+        method: HTTP verb (``get``, ``post``, ...).
+        url: Target URL.
+        **kwargs: Forwarded to ``requests.Session.request``.
+
+    Returns:
+        The HTTP response.
+
+    Raises:
+        RequestException: When the request fails or TLS verification
+            fails without operator opt-in.
+    """
+    session = requests.Session()
+    try:
+        return session.request(method, url, **kwargs)
+    except SSLError:
+        from urllib.parse import urlparse
+
+        from core.hardening import tls_lab_fallback_context, tls_lab_unverified_allowed
+
+        host = urlparse(url).hostname or ""
+        if not tls_lab_unverified_allowed(host):
+            raise
+
+        session.mount("https://", _LabTLSAdapter(tls_lab_fallback_context()))
+        return session.request(method, url, **kwargs)
+    finally:
+        session.close()
+
+
+def lab_tolerant_get(url: str, **kwargs: Any) -> requests.Response:
+    """GET *url* with verification by default and a lab-gated TLS fallback.
+
+    Args:
+        url: Target URL.
+        **kwargs: Forwarded to :func:`lab_tolerant_request`.
+
+    Returns:
+        The HTTP response.
+    """
+    return lab_tolerant_request("get", url, **kwargs)
 
 
 def generate_http_req(
@@ -60,7 +139,7 @@ def get_banner(host: str, port: int) -> str:
     scheme = "https" if port == 443 else "http"
     url = f"{scheme}://{host}:{port}/"
     try:
-        resp = requests.get(url, timeout=5, verify=False)  # noqa: S501
+        resp = lab_tolerant_get(url, timeout=5)
         return resp.text[:500]
     except RequestException:
         return ""

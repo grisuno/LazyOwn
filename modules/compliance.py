@@ -24,6 +24,7 @@ from __future__ import annotations
 import hashlib
 import json
 import logging
+import os
 import time
 from dataclasses import asdict, dataclass, field
 from datetime import UTC, datetime
@@ -381,7 +382,10 @@ class EvidenceChain:
         return hashlib.sha256(data.encode("utf-8")).hexdigest()
 
     def add_file(self, filepath: str, operator: str, description: str = "") -> EvidenceEntry:
-        path = Path(filepath)
+        base_real = os.path.realpath(str(self._sessions_dir))
+        path = Path(os.path.realpath(filepath))
+        if not str(path).startswith(base_real + os.sep):
+            raise PermissionError(f"Evidence path escapes the sessions directory: {filepath}")
         if not path.exists():
             raise FileNotFoundError(f"Evidence file not found: {filepath}")
 

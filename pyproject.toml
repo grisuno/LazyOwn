@@ -10,7 +10,7 @@ description = "LazyOwn Framework - Red Team & Post-Exploitation Tool"
 authors = [{ name = "Gris Iscomeback", email = "grisiscomeback@gmail.com" }]
 license = { text = "AGPL-3.0-only" }
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.11.5"
 # Base = the light profile: shell + C2 + recon/exploit core. Everything here
 # must be importable (or a shelled-out CLI tool the framework invokes) on a
 # headless install. Analytics, AI, ML, cloud and RAG stacks live in extras so
@@ -32,7 +32,6 @@ dependencies = [
     "tabulate",
     "flask-unsign",
     "name-that-hash",
-    "certipy-ad",
     "pykeepass",
     "Pillow",
     "netaddr",
@@ -110,10 +109,11 @@ ai = [
 cloud = [
     "boto3",
 ]
-# Retrieval-augmented generation vector store (keyword fallback in base).
-rag = [
-    "chromadb",
-]
+# RAG vector store: retired from the dependency set. chromadb had no
+# patched release for the pre-authentication advisory family, so the
+# semantic backends degrade to the keyword fallback and the dependency
+# is opt-in only (pip install chromadb by an operator who accepts it).
+rag = []
 ml = [
     "torch",
     "torchvision",

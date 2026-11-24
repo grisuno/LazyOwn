@@ -227,11 +227,7 @@ class SessionPathResolver:
             return None
         relative = "/".join(clean)
         candidate = os.path.realpath(os.path.join(self._base_real, relative))
-        try:
-            common = os.path.commonpath([self._base_real, candidate])
-        except ValueError:
-            return None
-        if common != self._base_real:
+        if not candidate.startswith(self._base_real + os.sep):
             return None
         return candidate, relative
 

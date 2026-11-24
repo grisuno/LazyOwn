@@ -126,4 +126,4 @@ jobs:
           pip install -r requirements-dev.txt
           pip install types-requests types-PyYAML types-tabulate types-Markdown 2>/dev/null || true
       - name: mypy type check
-        run: mypy --config-file pyproject.toml --no-strict-optional --no-site-packages --explicit-package-bases core cli setup.py
+        run: mypy --config-file pyproject.toml --no-strict-optional --explicit-package-bases core cli setup.py

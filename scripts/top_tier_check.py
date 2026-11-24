@@ -41,8 +41,18 @@ def count_cli_commands() -> int:
 
 
 def count_mcp_tools() -> int:
-    text = (ROOT / "skills" / "lazyown_mcp.py").read_text(errors="ignore")
-    return text.count("types.Tool(")
+    """Count the generated MCP tool catalogue (the execute_verb surface)."""
+    import importlib.util
+
+    spec = importlib.util.spec_from_file_location("mcp_generated_tools", ROOT / "skills" / "mcp_generated_tools.py")
+    module = importlib.util.module_from_spec(spec)
+    if spec.loader is None:
+        return 0
+    try:
+        spec.loader.exec_module(module)
+        return len(module._COMMAND_MAP)
+    except Exception:
+        return 0
 
 
 def count_addons() -> int:

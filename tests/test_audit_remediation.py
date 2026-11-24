@@ -137,8 +137,9 @@ def test_c2_signature_guard_wired_into_routes():
     assert source.count("_beacon_signature_guard()") >= 2
     assert "hashlib.sha256" in source
     assert "hmac.compare_digest" in source
-    assert "auto_privesc_on_checkin" in source
-    assert "auto_discover_on_checkin" in source
+    checkin_source = (REPO_ROOT / "lazyc2" / "beacons" / "service.py").read_text()
+    assert "auto_privesc_on_checkin" in checkin_source
+    assert "auto_discover_on_checkin" in checkin_source
 
 
 def test_c2_bootstraps_session_secrets_at_boot():

@@ -15,8 +15,8 @@ TOOL = types.Tool(
         "Semantic search over indexed sessions/ artefacts. "
         "Returns the top-n most relevant chunks from logs, scan results, "
         "credential files, and other session data. "
-        "Falls back to keyword search when ChromaDB is not available. "
-        "Install ChromaDB for full semantic search: pip install chromadb"
+        "Incremental keyword index over sessions/ artefacts. "
+        "Semantic memory lives in LazyHebb (lazyhebb spark)."
     ),
     inputSchema={
         "type": "object",

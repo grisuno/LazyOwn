@@ -68,8 +68,29 @@ _FALLBACK_PACING_LOCAL: dict[str, Any] = {
 _TOKEN_RE = re.compile(r"[a-z0-9]+")
 _STOPWORDS = frozenset(
     {
-        "the", "a", "an", "and", "or", "of", "to", "in", "on", "for", "with", "is",
-        "was", "at", "by", "from", "as", "it", "be", "this", "that", "are", "not",
+        "the",
+        "a",
+        "an",
+        "and",
+        "or",
+        "of",
+        "to",
+        "in",
+        "on",
+        "for",
+        "with",
+        "is",
+        "was",
+        "at",
+        "by",
+        "from",
+        "as",
+        "it",
+        "be",
+        "this",
+        "that",
+        "are",
+        "not",
     }
 )
 
@@ -142,11 +163,7 @@ class RepeatDetector:
     def _update_oscillation(self) -> None:
         """Refresh the detected alternating pair, if any."""
         entries = list(self._recent)
-        if (
-            len(entries) < self._OSCILLATION_MIN
-            or len(set(entries)) != 2
-            or not self._strict_alternating(entries)
-        ):
+        if len(entries) < self._OSCILLATION_MIN or len(set(entries)) != 2 or not self._strict_alternating(entries):
             self._oscillation_a = ""
             self._oscillation_b = ""
             return
@@ -213,11 +230,7 @@ class RepeatDetector:
 
     def _alternating(self) -> bool:
         """True when the window holds an exact two-command oscillation."""
-        return (
-            self._oscillation_a != ""
-            and self._oscillation_b != ""
-            and self._oscillation_a != self._oscillation_b
-        )
+        return self._oscillation_a != "" and self._oscillation_b != "" and self._oscillation_a != self._oscillation_b
 
     def oscillation_pair(self) -> tuple[str, str]:
         """Return the detected alternating pair, ('', '') when none."""
@@ -398,9 +411,7 @@ class EdrPacer:
             return self._last_signal
 
     @staticmethod
-    def _window_seconds_until_end(
-        windows: tuple[tuple[int, int, int, int], ...], now: float | None
-    ) -> float:
+    def _window_seconds_until_end(windows: tuple[tuple[int, int, int, int], ...], now: float | None) -> float:
         """Return seconds until the active window ends (0 when outside).
 
         Windows may wrap midnight (``23:00-03:00``); a wrapped window
@@ -429,9 +440,7 @@ class EdrPacer:
         return self._window_seconds_until_end(self._sleeper_windows, moment) > 0.0
 
     @staticmethod
-    def windows_delay(
-        windows: tuple[str, ...] | list[str], now: float | None = None
-    ) -> float:
+    def windows_delay(windows: tuple[str, ...] | list[str], now: float | None = None) -> float:
         """Static quiet-window delay for callers without a pacer instance.
 
         Args:
@@ -609,7 +618,7 @@ class TargetLimiter:
 class FactVectorStore:
     """JSON-persisted TF-IDF fact memory with cosine retrieval.
 
-    Pure stdlib: no chromadb, no FAISS, no embeddings service. Facts
+    Pure stdlib: no vector DB, no embeddings service. Facts
     dedupe by content hash, persist atomically and trim to
     ``max_facts`` oldest-first.
     """
@@ -702,10 +711,7 @@ class FactVectorStore:
                 if score > 0.0:
                     scored.append((score, fact))
         scored.sort(key=lambda item: item[0], reverse=True)
-        return [
-            {"text": fact.text, "meta": dict(fact.meta), "score": round(score, 6)}
-            for score, fact in scored[:k]
-        ]
+        return [{"text": fact.text, "meta": dict(fact.meta), "score": round(score, 6)} for score, fact in scored[:k]]
 
     def search_block(self, query: str, k: int = DEFAULT_SEARCH_RESULTS, max_chars: int = 1200) -> str:
         """Render retrieved facts as a prompt-ready block (may be empty)."""
@@ -727,12 +733,7 @@ class FactVectorStore:
         directory = self._path.parent
         try:
             directory.mkdir(parents=True, exist_ok=True)
-            payload = {
-                "facts": [
-                    {"text": fact.text, "meta": fact.meta, "ts": fact.ts}
-                    for fact in self._facts
-                ]
-            }
+            payload = {"facts": [{"text": fact.text, "meta": fact.meta, "ts": fact.ts} for fact in self._facts]}
             fd, tmp_name = tempfile.mkstemp(dir=str(directory), prefix=".facts_")
             with os.fdopen(fd, "w", encoding="utf-8") as handle:
                 json.dump(payload, handle, ensure_ascii=False)

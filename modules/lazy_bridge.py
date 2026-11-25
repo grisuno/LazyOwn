@@ -40,6 +40,7 @@ def _data_dir() -> Path:
     """
     return LAZY_DIR
 
+
 IP_RE = re.compile(r"\b(?:\d{1,3}\.){3}\d{1,3}\b")
 CVE_RE = re.compile(r"CVE-\d{4}-\d{4,7}", re.IGNORECASE)
 OS_RE = re.compile(
@@ -149,8 +150,7 @@ def lazy_graph(task_id: str) -> dict:
     Returns:
         Graph dict with nodes, edges and anchors.
     """
-    return _read_json(_data_dir() / f"exp_{task_id}.json",
-                      {"nodes": [], "edges": [], "anchors": []})
+    return _read_json(_data_dir() / f"exp_{task_id}.json", {"nodes": [], "edges": [], "anchors": []})
 
 
 def lazy_activity(task_id: str) -> list[dict]:
@@ -200,14 +200,21 @@ def bridge_status() -> dict:
     sync = _read_json(SESSIONS_DIR / SYNC_FILENAME, {})
     per_task = {}
     for task_id in tasks:
-        per_task[task_id] = {"graph_nodes": len(lazy_graph(task_id).get("nodes", [])),
-                             "activity": len(lazy_activity(task_id)),
-                             "traffic": len(lazy_traffic(task_id)),
-                             "guard": len(lazy_guard_audit(task_id)),
-                             "status": tasks[task_id].get("status", "")}
-    return {"lazy_dir": str(_data_dir()), "exists": _data_dir().exists(),
-            "tasks": len(tasks), "assets": len(assets),
-            "per_task": per_task, "last_sync": sync}
+        per_task[task_id] = {
+            "graph_nodes": len(lazy_graph(task_id).get("nodes", [])),
+            "activity": len(lazy_activity(task_id)),
+            "traffic": len(lazy_traffic(task_id)),
+            "guard": len(lazy_guard_audit(task_id)),
+            "status": tasks[task_id].get("status", ""),
+        }
+    return {
+        "lazy_dir": str(_data_dir()),
+        "exists": _data_dir().exists(),
+        "tasks": len(tasks),
+        "assets": len(assets),
+        "per_task": per_task,
+        "last_sync": sync,
+    }
 
 
 def _extract_hosts_from_graph(graph: dict) -> dict:
@@ -324,9 +331,14 @@ def pull_to_world_model() -> dict:
             value = str(asset.get("value", "")).strip()
             if is_world_host(value):
                 hosts_synced.add(value)
-    summary = {"hosts": sorted(hosts_synced), "services": services_synced,
-               "vulnerabilities": vulns_synced, "facts": facts_synced,
-               "tasks": len(tasks), "assets": len(assets)}
+    summary = {
+        "hosts": sorted(hosts_synced),
+        "services": services_synced,
+        "vulnerabilities": vulns_synced,
+        "facts": facts_synced,
+        "tasks": len(tasks),
+        "assets": len(assets),
+    }
     _record_sync("pull_world", summary)
     return summary
 
@@ -354,11 +366,17 @@ def pull_to_objectives() -> dict:
             goal = str(task.get("goal", "")).strip()
             if not goal or goal in existing:
                 continue
-            record = {"id": f"lazy_{task_id}_{uuid.uuid4().hex[:6]}", "text": goal,
-                      "priority": "high", "status": "pending", "source": f"lazy:{task_id}",
-                      "context": {"lazy_task": task_id},
-                      "created_at": time.strftime("%Y-%m-%dT%H:%M:%S"),
-                      "updated_at": time.strftime("%Y-%m-%dT%H:%M:%S"), "notes": ""}
+            record = {
+                "id": f"lazy_{task_id}_{uuid.uuid4().hex[:6]}",
+                "text": goal,
+                "priority": "high",
+                "status": "pending",
+                "source": f"lazy:{task_id}",
+                "context": {"lazy_task": task_id},
+                "created_at": time.strftime("%Y-%m-%dT%H:%M:%S"),
+                "updated_at": time.strftime("%Y-%m-%dT%H:%M:%S"),
+                "notes": "",
+            }
             handle.write(json.dumps(record) + "\n")
             injected += 1
     summary = {"injected": injected, "tasks": len(tasks)}
@@ -384,8 +402,7 @@ def pull_findings_to_lifecycle() -> dict:
                 continue
             finding_id = f"lazy_{task_id}_{node.get('node_id', '')}"
             try:
-                _confirm(finding_id, evidence=[str(node.get("text", ""))[:500]],
-                         by=f"lazy:{task_id}")
+                _confirm(finding_id, evidence=[str(node.get("text", ""))[:500]], by=f"lazy:{task_id}")
                 confirmed += 1
             except Exception:
                 continue
@@ -522,14 +539,21 @@ def push_objective_to_lazy(goal: str, scope: list[str] | None = None) -> dict:
     drafts_dir = SESSIONS_DIR / "lazy_drafts"
     drafts_dir.mkdir(parents=True, exist_ok=True)
     task_id = f"t{uuid.uuid4().hex[:6]}"
-    record = {"task_id": task_id, "goal": str(goal)[:500], "description": "",
-              "status": "pending", "created": time.time(), "updated": time.time(),
-              "constraints": [], "scope": [{"kind": "ip", "value": str(s),
-                                            "reason": "lazyown push", "ts": time.time()}
-                                           for s in (scope or [])][:10],
-              "steer": {}, "killed": []}
-    (drafts_dir / f"task_{task_id}.json").write_text(json.dumps(record, indent=2),
-                                                     encoding="utf-8")
+    record = {
+        "task_id": task_id,
+        "goal": str(goal)[:500],
+        "description": "",
+        "status": "pending",
+        "created": time.time(),
+        "updated": time.time(),
+        "constraints": [],
+        "scope": [{"kind": "ip", "value": str(s), "reason": "lazyown push", "ts": time.time()} for s in (scope or [])][
+            :10
+        ],
+        "steer": {},
+        "killed": [],
+    }
+    (drafts_dir / f"task_{task_id}.json").write_text(json.dumps(record, indent=2), encoding="utf-8")
     _record_sync("push_task", {"task_id": task_id, "goal": goal})
     return record
 
@@ -573,14 +597,21 @@ def push_tasks_to_c2(only: list[str] | None = None) -> dict:
             mapping[task_id] = c2_id
         status = C2_STATUS_MAP.get(str(record.get("status", "")).lower(), "New")
         title = f"[loop {task_id}] {str(record.get('goal', ''))[:120]}"
-        description = (f"Autonomous loop task {task_id}\n\n"
-                       f"Goal: {record.get('goal', '')}\n"
-                       f"Status: {record.get('status', '')}\n"
-                       f"Updated: {record.get('updated', '')}")
+        description = (
+            f"Autonomous loop task {task_id}\n\n"
+            f"Goal: {record.get('goal', '')}\n"
+            f"Status: {record.get('status', '')}\n"
+            f"Updated: {record.get('updated', '')}"
+        )
         card = by_id.get(c2_id)
         if card is None:
-            by_id[c2_id] = {"id": c2_id, "title": title, "description": description,
-                            "operator": "lazy_loop", "status": status}
+            by_id[c2_id] = {
+                "id": c2_id,
+                "title": title,
+                "description": description,
+                "operator": "lazy_loop",
+                "status": status,
+            }
             created += 1
         else:
             card["title"] = title
@@ -589,10 +620,8 @@ def push_tasks_to_c2(only: list[str] | None = None) -> dict:
             updated += 1
     try:
         board_path.parent.mkdir(parents=True, exist_ok=True)
-        board_path.write_text(json.dumps(list(by_id.values()), indent=2),
-                              encoding="utf-8")
-        (SESSIONS_DIR / C2_MAP_FILENAME).write_text(json.dumps(mapping, indent=2),
-                                                    encoding="utf-8")
+        board_path.write_text(json.dumps(list(by_id.values()), indent=2), encoding="utf-8")
+        (SESSIONS_DIR / C2_MAP_FILENAME).write_text(json.dumps(mapping, indent=2), encoding="utf-8")
     except OSError:
         return {"created": 0, "updated": 0, "error": "board unwritable"}
     _record_sync("c2_tasks", {"created": created, "updated": updated})
@@ -621,8 +650,7 @@ def sync_all(progress=None) -> dict:
     _notify(progress, "sync: c2 board")
     c2_tasks = push_tasks_to_c2()
     _notify(progress, "sync: done")
-    return {"world": world, "objectives": objectives,
-            "findings": findings, "traffic": traffic, "c2_tasks": c2_tasks}
+    return {"world": world, "objectives": objectives, "findings": findings, "traffic": traffic, "c2_tasks": c2_tasks}
 
 
 def _record_sync(action: str, summary: dict) -> None:
@@ -635,16 +663,24 @@ def _record_sync(action: str, summary: dict) -> None:
     try:
         current = _read_json(SESSIONS_DIR / SYNC_FILENAME, {})
         current[action] = {"at": time.time(), "summary": summary}
-        (SESSIONS_DIR / SYNC_FILENAME).write_text(json.dumps(current, indent=2),
-                                                  encoding="utf-8")
+        (SESSIONS_DIR / SYNC_FILENAME).write_text(json.dumps(current, indent=2), encoding="utf-8")
     except OSError:
         pass
 
 
 __all__ = [
-    "lazy_tasks", "lazy_assets", "lazy_graph", "lazy_activity",
-    "lazy_traffic", "lazy_guard_audit", "bridge_status",
-    "pull_to_world_model", "pull_to_objectives", "pull_findings_to_lifecycle",
-    "pull_traffic_to_recorder", "push_objective_to_lazy", "push_tasks_to_c2",
+    "lazy_tasks",
+    "lazy_assets",
+    "lazy_graph",
+    "lazy_activity",
+    "lazy_traffic",
+    "lazy_guard_audit",
+    "bridge_status",
+    "pull_to_world_model",
+    "pull_to_objectives",
+    "pull_findings_to_lifecycle",
+    "pull_traffic_to_recorder",
+    "push_objective_to_lazy",
+    "push_tasks_to_c2",
     "sync_all",
 ]

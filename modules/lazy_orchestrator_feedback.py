@@ -260,7 +260,9 @@ def export_dataset(out: str | Path | None = None, limit: int = 5000) -> dict:
     decisions: dict[tuple[str, int, str], dict] = {}
     for record in records:
         if record.get("kind") == "decision":
-            decisions[(str(record.get("task", "")), int(record.get("intent", 0) or 0), str(record.get("command", "")))] = record
+            decisions[
+                (str(record.get("task", "")), int(record.get("intent", 0) or 0), str(record.get("command", "")))
+            ] = record
     rows = []
     for record in records:
         if record.get("kind") != "outcome":

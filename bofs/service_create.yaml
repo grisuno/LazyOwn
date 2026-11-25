@@ -7,7 +7,7 @@ source_file: SA/service_create/entry.c
 client: beacon
 platform: windows
 category: persistence
-client_artifact: 
+client_artifact:
 required_args: ['servicename', 'binarypath']
 optional_args: ['displayname', 'server']
 mitre_technique: T1543

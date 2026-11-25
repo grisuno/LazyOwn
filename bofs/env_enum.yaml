@@ -7,7 +7,7 @@ source_file: bofs/env_enum.c
 client: beacon
 platform: windows
 category: reconnaissance
-client_artifact: 
+client_artifact:
 required_args: []
 optional_args: []
 mitre_technique: T1082

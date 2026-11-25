@@ -89,9 +89,7 @@ class TestTechniqueSynth:
     def test_technique_steps_staged(self):
         """Given technique ids, Then routable atomic_tests steps appear."""
         story = "technique ids become atomic_tests steps"
-        data, _n = synth_chain_data(
-            "", "10.5.5.7", [], techniques=["t1059.001", "T1003", "bogus"]
-        )
+        data, _n = synth_chain_data("", "10.5.5.7", [], techniques=["t1059.001", "T1003", "bogus"])
         ids = [s["id"] for s in data["steps"]]
         assert "tech_t1059_001" in ids and "tech_t1003" in ids, story
         assert "tech_bogus" not in ids, story

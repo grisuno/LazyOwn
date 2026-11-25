@@ -98,13 +98,19 @@ def test_render_admin_tags_severity_per_payload():
     assert ("warn", "    - x") in failed
 
     listing = render_admin(
-        {"ok": True, "action": "list", "rows": [{"name": "demo", "valid": True, "enabled": True, "steps": 3, "playbook": "rocke"}]},
+        {
+            "ok": True,
+            "action": "list",
+            "rows": [{"name": "demo", "valid": True, "enabled": True, "steps": 3, "playbook": "rocke"}],
+        },
         "list",
     )
     assert listing[0][0] == "msg"
     assert any("demo" in text for _level, text in listing)
 
-    synth_ok = render_admin({"ok": True, "action": "synth", "path": "chains/x.yaml", "name": "x", "steps": 2, "notes": ["n"]}, "synth")
+    synth_ok = render_admin(
+        {"ok": True, "action": "synth", "path": "chains/x.yaml", "name": "x", "steps": 2, "notes": ["n"]}, "synth"
+    )
     assert synth_ok[0][0] == "succ"
     synth_bad = render_admin({"ok": True, "action": "synth", "path": "", "error": "validation"}, "synth")
     assert synth_bad[0][0] == "error"
@@ -200,7 +206,7 @@ def test_run_checkpoints_and_resume(tmp_path, monkeypatch, capsys):
         "demo",
         [
             {"id": "first", "run": "echo first", "capture": "word"},
-            {"id": "second", "run": "python3 -c \"import sys; sys.exit(1)\""},
+            {"id": "second", "run": 'python3 -c "import sys; sys.exit(1)"'},
             {"id": "third", "run": "echo third {word}"},
         ],
     )

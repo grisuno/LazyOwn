@@ -60,9 +60,7 @@ _MAX_STEP_JITTER = 100.0
 _SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 _MAX_EVIDENCE_PATH_CHARS = 512
 _SHELL_METACHARS = re.compile(r"[;&|<>()`$\\]")
-_SHELL_METACHARS_REASON = (
-    "declare variable in raw_vars to interpolate it verbatim, or shell-quote the value in YAML"
-)
+_SHELL_METACHARS_REASON = "declare variable in raw_vars to interpolate it verbatim, or shell-quote the value in YAML"
 _MAX_SKIP_MAX_AGE = 365 * 86400
 
 
@@ -94,9 +92,10 @@ def skip_pending(path: str, max_age: int, now: float | None = None) -> str | Non
     if reference - stamp <= max_age:
         return f"exists: {path}"
     return None
+
+
 _YAML_REQUIRED = (
-    "PyYAML is required for chain YAML: pip install pyyaml, or run 'doctor --fix' "
-    "to install missing packages"
+    "PyYAML is required for chain YAML: pip install pyyaml, or run 'doctor --fix' to install missing packages"
 )
 
 
@@ -242,7 +241,7 @@ _render = render_text
 
 
 def step_gate_verdict(
-    step: "ChainStep",
+    step: ChainStep,
     render,
     variables: dict[str, str],
     dependency_reason: str = "",
@@ -438,9 +437,7 @@ def validate_chain(data: Any, filename: str = "", chains_dir: Path | str | None 
                 if str(var) in raw_names:
                     continue
                 if _SHELL_METACHARS.search(text):
-                    errors.append(
-                        f"{key}.{var} contains shell metacharacters; {_SHELL_METACHARS_REASON}"
-                    )
+                    errors.append(f"{key}.{var} contains shell metacharacters; {_SHELL_METACHARS_REASON}")
     for key in ("tags", "platforms"):
         value = data.get(key, [])
         if value is not None and not isinstance(value, list):
@@ -465,7 +462,11 @@ def validate_chain(data: Any, filename: str = "", chains_dir: Path | str | None 
             if not fallback_file.is_file():
                 errors.append(f"unknown fallback chain file: {fallback_file.name}")
     total_timeout = data.get("total_timeout", 0)
-    if isinstance(total_timeout, bool) or not isinstance(total_timeout, int) or not 0 <= total_timeout <= _MAX_TOTAL_TIMEOUT:
+    if (
+        isinstance(total_timeout, bool)
+        or not isinstance(total_timeout, int)
+        or not 0 <= total_timeout <= _MAX_TOTAL_TIMEOUT
+    ):
         errors.append(f"total_timeout must be 0-{_MAX_TOTAL_TIMEOUT} seconds")
     if "enabled" in data and not isinstance(data["enabled"], bool):
         errors.append("enabled must be true or false")
@@ -498,7 +499,11 @@ def validate_chain(data: Any, filename: str = "", chains_dir: Path | str | None 
             if isinstance(timeout, bool) or not isinstance(timeout, int) or not 0 <= timeout <= _MAX_STEP_TIMEOUT:
                 errors.append(f"step {step_id or step.get('run')!r}: timeout must be 0-{_MAX_STEP_TIMEOUT}")
             skip_max_age = step.get("skip_max_age", 0)
-            if isinstance(skip_max_age, bool) or not isinstance(skip_max_age, int) or not 0 <= skip_max_age <= _MAX_SKIP_MAX_AGE:
+            if (
+                isinstance(skip_max_age, bool)
+                or not isinstance(skip_max_age, int)
+                or not 0 <= skip_max_age <= _MAX_SKIP_MAX_AGE
+            ):
                 errors.append(
                     f"step {step_id or step.get('run')!r}: skip_max_age must be 0-{_MAX_SKIP_MAX_AGE} seconds"
                 )
@@ -537,7 +542,14 @@ def validate_chain(data: Any, filename: str = "", chains_dir: Path | str | None 
             if "parallel" in step and not isinstance(step["parallel"], bool):
                 errors.append(f"step {step_label}: parallel must be true or false")
             elif step.get("parallel") is True:
-                for forbidden in ("capture", "capture_regex", "capture_json", "resolve_newest", "on_fail", "on_success"):
+                for forbidden in (
+                    "capture",
+                    "capture_regex",
+                    "capture_json",
+                    "resolve_newest",
+                    "on_fail",
+                    "on_success",
+                ):
                     if step.get(forbidden):
                         errors.append(
                             f"step {step_label}: parallel steps cannot declare {forbidden} "
@@ -591,11 +603,15 @@ def validate_chain(data: Any, filename: str = "", chains_dir: Path | str | None 
             for list_key in ("required_fields", "benign_alternatives", "evidence", "needs_artifacts"):
                 values = step.get(list_key, [])
                 if not isinstance(values, list) or len(values) > _MAX_STEP_LIST_ITEMS:
-                    errors.append(f"step {step_label}: {list_key} must be a list of at most {_MAX_STEP_LIST_ITEMS} items")
+                    errors.append(
+                        f"step {step_label}: {list_key} must be a list of at most {_MAX_STEP_LIST_ITEMS} items"
+                    )
                     continue
                 for item in values:
                     if not isinstance(item, str) or not item.strip() or len(item) > _MAX_LIST_ITEM_CHARS:
-                        errors.append(f"step {step_label}: {list_key} entries must be strings up to {_MAX_LIST_ITEM_CHARS} chars")
+                        errors.append(
+                            f"step {step_label}: {list_key} entries must be strings up to {_MAX_LIST_ITEM_CHARS} chars"
+                        )
                         break
             evidence_sha = step.get("evidence_sha256", {})
             if not isinstance(evidence_sha, dict) or len(evidence_sha) > _MAX_STEP_LIST_ITEMS:
@@ -606,7 +622,9 @@ def validate_chain(data: Any, filename: str = "", chains_dir: Path | str | None 
                         errors.append(f"step {step_label}: evidence_sha256 keys must be non-empty paths")
                         break
                     if not isinstance(digest, str) or not _SHA256_RE.match(digest):
-                        errors.append(f"step {step_label}: evidence_sha256[{path!r}] must be a 64-char lowercase hex digest")
+                        errors.append(
+                            f"step {step_label}: evidence_sha256[{path!r}] must be a 64-char lowercase hex digest"
+                        )
                         break
             budget = step.get("budget", {})
             if not isinstance(budget, dict) or len(budget) > len(_BUDGET_KEYS):
@@ -631,7 +649,7 @@ def validate_chain(data: Any, filename: str = "", chains_dir: Path | str | None 
     return errors
 
 
-def chain_preview_lines(chain: "Chain") -> list[str]:
+def chain_preview_lines(chain: Chain) -> list[str]:
     """Render one chain's dry-run preview with placeholder tokens bound.
 
     Shared by the gym chain surfaces (metasploitable, redteam, winbox) so
@@ -756,9 +774,11 @@ def _step_from_raw(item: dict[str, Any]) -> ChainStep:
     """Build one validated step from YAML data."""
     resolver = item.get("resolve_newest") or {}
     raw_exits = item.get("expect_exit", []) or []
-    codes = [int(raw_exits)] if isinstance(raw_exits, int) and not isinstance(raw_exits, bool) else [
-        int(code) for code in raw_exits if str(code).strip().isdigit()
-    ]
+    codes = (
+        [int(raw_exits)]
+        if isinstance(raw_exits, int) and not isinstance(raw_exits, bool)
+        else [int(code) for code in raw_exits if str(code).strip().isdigit()]
+    )
     raw_budget = item.get("budget") or {}
     budget = {}
     if isinstance(raw_budget, dict):

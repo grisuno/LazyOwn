@@ -16,8 +16,7 @@ def _old_facts(graph, count, prefix="stale fact"):
     import modules.lazy_loop as loop
 
     parent = graph.add_node("intent", f"{prefix} parent direction", state="done")
-    nodes = [graph.add_node("fact", f"{prefix} body text for grouping {i // 3}",
-                            state="done") for i in range(count)]
+    nodes = [graph.add_node("fact", f"{prefix} body text for grouping {i // 3}", state="done") for i in range(count)]
     for node in nodes:
         node.updated = loop._now() - 1000.0
         graph.add_edge(parent.node_id, node.node_id, "yields")
@@ -87,8 +86,7 @@ def test_graph_overview_carries_findings_and_done_totals(tmp_path, monkeypatch):
     intent = engine.add_intent(task_id, "probe upload")
     loop.ExplorationGraph(task_id).set_state(intent.node_id, "done")
     view = engine.graph_overview(task_id)
-    assert [f["id"] for f in view["finding_list"]] == [critical.node_id] + [
-        f["id"] for f in view["finding_list"][1:]]
+    assert [f["id"] for f in view["finding_list"]] == [critical.node_id] + [f["id"] for f in view["finding_list"][1:]]
     assert view["finding_list"][0]["severity"] == "critical"
     assert view["done_intents_total"] == 1
     assert len(view["recent_done_intents"]) == 1

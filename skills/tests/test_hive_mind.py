@@ -3,7 +3,7 @@
 skills/tests/test_hive_mind.py — Tests for hive_mind.py (SOLID refactoring)
 
 All file I/O uses tmp_path (pytest) or tempfile.TemporaryDirectory.
-No external API calls. ChromaDB is mocked when not installed.
+No external API calls. No network access.
 """
 
 from __future__ import annotations
@@ -36,25 +36,12 @@ def _make_episodic(tmp_path: Path):
     return EpisodicStore(db_path=tmp_path / "test_hive.db")
 
 
-def _make_semantic(tmp_path: Path, episodic=None):
-    """Return a fresh SemanticStore (ChromaDB mocked or real if available)."""
-    from hive_mind import SemanticStore
-
-    return SemanticStore(
-        chroma_dir=tmp_path / "chroma",
-        episodic_fallback=episodic,
-    )
-
-
 def _make_hive_memory(tmp_path: Path):
-    """Return a HiveMemory with real EpisodicStore and mocked SemanticStore."""
-    from hive_mind import EpisodicStore, HiveMemory, LongtermStore, SemanticStore
+    """Return a HiveMemory with real EpisodicStore and HebbStore."""
+    from hive_mind import EpisodicStore, HebbStore, HiveMemory, LongtermStore
 
     episodic = EpisodicStore(db_path=tmp_path / "hive_mem.db")
-    semantic = SemanticStore(
-        chroma_dir=tmp_path / "chroma",
-        episodic_fallback=episodic,
-    )
+    semantic = HebbStore(db_path=tmp_path / "hebb.db")
     longterm = LongtermStore()
     return HiveMemory(
         stores=[episodic, semantic, longterm],
@@ -146,79 +133,6 @@ class TestEpisodicStore:
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 2. TestSemanticStore
-# ─────────────────────────────────────────────────────────────────────────────
-
-
-class TestSemanticStore:
-    """Unit tests for SemanticStore (ChromaDB, with fallback to episodic)."""
-
-    def setup_method(self):
-        self._tmp = tempfile.TemporaryDirectory()
-        self.tmp = Path(self._tmp.name)
-
-    def teardown_method(self):
-        self._tmp.cleanup()
-
-    def test_instantiation(self):
-        """SemanticStore can be instantiated regardless of ChromaDB availability."""
-        from hive_mind import SemanticStore
-
-        store = SemanticStore(chroma_dir=self.tmp / "chroma")
-        assert store is not None
-
-    def test_store_returns_id(self):
-        """store() returns a non-empty string."""
-        from hive_mind import SemanticStore
-
-        ep = _make_episodic(self.tmp)
-        store = SemanticStore(chroma_dir=self.tmp / "chroma", episodic_fallback=ep)
-        eid = store.store("test content", agent_id="queen")
-        assert isinstance(eid, str)
-        assert len(eid) > 0
-
-    def test_fallback_to_episodic_when_chroma_unavailable(self):
-        """When ChromaDB collection is None, recall() delegates to episodic store."""
-        from hive_mind import SemanticStore
-
-        ep = _make_episodic(self.tmp)
-        ep.store("lateral movement via psexec", agent_id="x")
-
-        store = SemanticStore(chroma_dir=self.tmp / "chroma", episodic_fallback=ep)
-        store._collection = None  # Force unavailability
-
-        results = store.recall("lateral", top_k=5)
-        assert len(results) >= 1
-
-    def test_recall_with_mock_chroma(self):
-        """When ChromaDB is mocked, recall() returns parsed results."""
-        from hive_mind import SemanticStore
-
-        mock_col = MagicMock()
-        mock_col.query.return_value = {
-            "documents": [["kerberos hash found"]],
-            "metadatas": [[{"agent_id": "a", "role": "cred", "event_type": "result", "ts": "0", "session": ""}]],
-            "distances": [[0.1]],
-            "ids": [["abc123"]],
-        }
-
-        store = SemanticStore(chroma_dir=self.tmp / "chroma")
-        store._collection = mock_col
-
-        results = store.recall("kerberos", top_k=5)
-        assert len(results) == 1
-        assert results[0]["id"] == "abc123"
-        assert results[0]["similarity"] == pytest.approx(0.9)
-
-    def test_count_returns_zero_when_unavailable(self):
-        """count() returns 0 when collection is None."""
-        from hive_mind import SemanticStore
-
-        store = SemanticStore(chroma_dir=self.tmp / "chroma")
-        store._collection = None
-        assert store.count() == 0
-
-
-# ─────────────────────────────────────────────────────────────────────────────
 # 3. TestHiveMemory
 # ─────────────────────────────────────────────────────────────────────────────
 
@@ -243,14 +157,16 @@ class TestHiveMemory:
 
     def test_recall_deduplication(self):
         """The same content stored twice appears only once in unified recall."""
-        from hive_mind import HiveMemory, LongtermStore, SemanticStore
+        from unittest.mock import MagicMock
+
+        from hive_mind import HebbStore, HiveMemory, LongtermStore
 
         ep = _make_episodic(self.tmp)
         content = "duplicate content for testing deduplication"
         ep.store(content, agent_id="a")
 
         # Mock semantic to return the same content
-        mock_sem = MagicMock(spec=SemanticStore)
+        mock_sem = MagicMock(spec=HebbStore)
         mock_sem.recall.return_value = [{"id": "x1", "content": content, "meta": {}, "similarity": 0.9}]
 
         lt = LongtermStore()
@@ -267,12 +183,12 @@ class TestHiveMemory:
         assert len(matching) == 1
 
     def test_stats_contains_expected_keys(self):
-        """stats() returns dict with episodic_events and chroma_vectors."""
+        """stats() returns dict with episodic_events and hebb layer."""
         mem = _make_hive_memory(self.tmp)
         s = mem.stats()
         assert "episodic_events" in s
-        assert "chroma_vectors" in s
-        assert "chroma_enabled" in s
+        assert "hebb_enabled" in s
+        assert "hebb" in s
 
     def test_forget_delegates_to_episodic(self):
         """forget() removes episodic entries older than cutoff."""

@@ -617,12 +617,16 @@ class TopoSwarmBridge:
         """
         if not _ORCHESTRATOR.exists():
             return f"[TopoSwarm] Orchestrator not found at {_ORCHESTRATOR}"
-        cmd = [sys.executable, str(_ORCHESTRATOR), "--prompt", prompt]
-        if no_model:
-            cmd.append("--no-model")
+        cmd_tail = ["--no-model"] if no_model else []
         try:
             result = subprocess.run(
-                cmd,
+                [
+                    sys.executable,
+                    str(_ORCHESTRATOR),
+                    "--prompt",
+                    prompt,
+                    *cmd_tail,
+                ],
                 capture_output=True,
                 text=True,
                 timeout=60,

@@ -118,7 +118,7 @@ class TestDataOfInterestMatcher:
 
 class TestReactiveEngineIntegration:
     def _make_engine(self, matchers):
-        """Create a ReactiveEngine with mocked advisors to avoid ChromaDB loading."""
+        """Create a ReactiveEngine with mocked advisors to keep the test offline."""
         from unittest.mock import MagicMock
 
         return ReactiveEngine(

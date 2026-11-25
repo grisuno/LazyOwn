@@ -218,7 +218,9 @@ def _term_hit(term: SearchTerm, row: dict, is_host: bool) -> bool:
         fields = f"{row.get('host') or row.get('address') or ''} {row.get('hostname') or ''}".lower()
         return term.value in fields
     if term.key == KEY_SEVERITY:
-        return term.value in SEVERITY_SYNONYMS.get(str(row.get("severity") or row.get("name") or "").strip().lower(), "")
+        return term.value in SEVERITY_SYNONYMS.get(
+            str(row.get("severity") or row.get("name") or "").strip().lower(), ""
+        )
     if term.key == KEY_CVE:
         return term.value in str(row.get("name") or "").lower()
     if term.key == KEY_USER:
@@ -243,7 +245,22 @@ def _searchable(row: dict, is_host: bool) -> str:
     if is_host:
         parts = [str(row.get(key) or "") for key in ("address", "hostname", "os", "state", "mac")]
     else:
-        parts = [str(row.get(key) or "") for key in ("address", "host", "name", "product", "service", "version", "username", "realm", "notes", "description", "severity")]
+        parts = [
+            str(row.get(key) or "")
+            for key in (
+                "address",
+                "host",
+                "name",
+                "product",
+                "service",
+                "version",
+                "username",
+                "realm",
+                "notes",
+                "description",
+                "severity",
+            )
+        ]
     return " ".join(parts).lower()
 
 

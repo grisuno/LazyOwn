@@ -93,16 +93,23 @@ class EventStoreSpec(unittest.TestCase):
         self.assertEqual(len(self.store.messages()), 2)
 
     def test_thread_connections_are_independent(self):
+        errors = []
+        db_path = self.tmp / "loop_state.db"
+
         def _write():
-            store = EventStore()
-            store.post_message("tX", f"w-{threading.get_ident()}", "note", "hello")
+            try:
+                store = EventStore(db_path)
+                store.post_message("tX", f"w-{threading.get_ident()}", "note", "hello")
+            except Exception as exc:
+                errors.append(exc)
 
         threads = [threading.Thread(target=_write) for _ in range(4)]
         for t in threads:
             t.start()
         for t in threads:
             t.join()
-        self.assertEqual(len(self.store.messages()), 4)
+        self.assertEqual(errors, [])
+        self.assertEqual(len(EventStore(db_path).messages()), 4)
 
 
 if __name__ == "__main__":

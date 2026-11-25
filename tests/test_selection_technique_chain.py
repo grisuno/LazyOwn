@@ -32,7 +32,8 @@ def synth_sandbox(monkeypatch):
 
     def _fake_write(data, chains_dir=None):
         writes.append(data)
-        return ("chains/%s.yaml" % data.get("name", "x"), [])
+        name = data.get("name", "x")
+        return (f"chains/{name}.yaml", [])
 
     monkeypatch.setattr(chain_synth, "write_generated_chain", _fake_write)
     monkeypatch.setattr(chain_registry, "get", lambda name: None)
@@ -85,9 +86,7 @@ class TestTechniqueChainSelector:
 
     def test_goal_named_ids_win_verbatim(self, synth_sandbox, monkeypatch):
         monkeypatch.setattr("modules.playbook_engine.phase_techniques", lambda *a, **k: [])
-        decision = TechniqueChainSelector().propose(
-            _ctx(extra={"goal": "emulate T1059.003 then T1486 ransomware"})
-        )
+        decision = TechniqueChainSelector().propose(_ctx(extra={"goal": "emulate T1059.003 then T1486 ransomware"}))
         assert decision is not None
         used = synth_sandbox[0]
         runs = [s["run"] for s in used["steps"]]
@@ -131,9 +130,7 @@ class TestTechniqueChainSelector:
         )
         monkeypatch.setattr(chain_registry, "get", lambda name: object())
         writes: list = []
-        monkeypatch.setattr(
-            chain_synth, "write_generated_chain", lambda d, c=None: writes.append(d) or (None, [])
-        )
+        monkeypatch.setattr(chain_synth, "write_generated_chain", lambda d, c=None: writes.append(d) or (None, []))
         decision = TechniqueChainSelector().propose(_ctx())
         assert decision is not None
         assert writes == []

@@ -2,7 +2,6 @@ banners/
 docs/
 modules/rootkit/
 parquets/
-persistent_chroma_db/
 sessions/
 static/
 test/

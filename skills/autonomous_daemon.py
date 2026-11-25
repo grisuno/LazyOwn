@@ -309,8 +309,7 @@ DECISION_SEED_LENGTH: int = 16
 REWARD_DISPLAY_PRECISION: int = 3
 
 
-def _record_intent(objective_id: str, step_n: int, command: str,
-                   state: str, reason: str = "") -> None:
+def _record_intent(objective_id: str, step_n: int, command: str, state: str, reason: str = "") -> None:
     """Append one intent transition to the shared ledger (LAZY activity).
 
     Both flows (engage plan and daemon objectives) write here, so
@@ -318,8 +317,7 @@ def _record_intent(objective_id: str, step_n: int, command: str,
     existing _ledger_write; never raises.
     """
     try:
-        _ledger_write(str(objective_id), f"step-{int(step_n)}",
-                      str(command or ""), "", str(state), str(reason or ""))
+        _ledger_write(str(objective_id), f"step-{int(step_n)}", str(command or ""), "", str(state), str(reason or ""))
     except Exception as exc:
         log.debug("intent record error: %s", exc)
 
@@ -343,14 +341,17 @@ def _notify_finding(title: str, body: str, severity: str = "high") -> None:
             return
         SESSIONS_DIR.mkdir(parents=True, exist_ok=True)
         with (SESSIONS_DIR / "notifications.jsonl").open("a", encoding="utf-8") as fh:
-            fh.write(json.dumps({"title": title, "text": _notifier.render(_message),
-                                 "severity": severity}, ensure_ascii=False) + "\n")
+            fh.write(
+                json.dumps(
+                    {"title": title, "text": _notifier.render(_message), "severity": severity}, ensure_ascii=False
+                )
+                + "\n"
+            )
     except Exception as exc:
         log.debug("notify error: %s", exc)
 
 
-def _objective_proven(objective_text: str, world_model: Any, target: str,
-                      credential_found: bool = False) -> bool:
+def _objective_proven(objective_text: str, world_model: Any, target: str, credential_found: bool = False) -> bool:
     """Return True when the objective text is satisfied by world state.
 
     Maps goal keywords onto terminal conditions so the loop stops on
@@ -375,8 +376,7 @@ def _objective_proven(objective_text: str, world_model: Any, target: str,
             _db = _get_db()
             _ws = _db.default_workspace()
             _rows = _db.host_list(_ws)
-            _row = next((r for r in _rows
-                         if str(r.get("address", "")).lower() == str(target).lower()), None)
+            _row = next((r for r in _rows if str(r.get("address", "")).lower() == str(target).lower()), None)
             if _row is not None and str(_row.get("state", "")).lower() in ("exploited", "owned"):
                 if any(k in goal for k in ("access", "shell", "session", "own", "exploit", "compromis")):
                     return True
@@ -450,7 +450,7 @@ def _strip_between_markers(output: str, marker: str) -> str:
         return str(output or "")
     if end <= start:
         return str(output or "")
-    return "\n".join(lines[start + 1:end]).strip()
+    return "\n".join(lines[start + 1 : end]).strip()
 
 
 def _daemon_tool(command: str) -> str:
@@ -461,6 +461,7 @@ def _daemon_tool(command: str) -> str:
     """
     try:
         from modules.toolset import extract_tool as _extract
+
         tool, _meta = _extract(command)
         return tool or "step"
     except Exception:
@@ -683,8 +684,6 @@ from modules.daemon_selectors import (  # noqa: E402
 )
 
 
-
-
 def _get_phase_command_catalog(phase: str) -> str:
     """
     Return a compact string listing available LazyOwn commands for the given phase.
@@ -701,14 +700,6 @@ def _get_phase_command_catalog(phase: str) -> str:
         return ", ".join(names)
     except Exception:
         return ""
-
-
-
-
-
-
-
-
 
 
 def _wrap_chain_with_metrics_bias(
@@ -747,8 +738,6 @@ def _wrap_chain_with_metrics_bias(
         else:
             wrapped.append(MetricsAwareSelector(wrapped=selector))
     return wrapped
-
-
 
 
 class CascadeStrategy:
@@ -1190,11 +1179,7 @@ async def _run_objective(
         # this objective's own step history first (process-level exchange).
         try:
             _dup = next(
-                (
-                    r
-                    for r in results
-                    if r.command == command and r.success
-                ),
+                (r for r in results if r.command == command and r.success),
                 None,
             )
         except Exception:
@@ -1210,8 +1195,7 @@ async def _run_objective(
                     "reason": "duplicate_of_successful_step",
                 },
             )
-            _record_intent(objective_id, step_n, command, "skipped",
-                           "duplicate_of_successful_step")
+            _record_intent(objective_id, step_n, command, "skipped", "duplicate_of_successful_step")
             continue
 
         if control is not None:
@@ -1264,8 +1248,7 @@ async def _run_objective(
                         "  [control] no non-vetoed alternative for step %d — skipping",
                         step_n,
                     )
-                    _record_intent(objective_id, step_n, command, "skipped",
-                                   "all alternatives vetoed")
+                    _record_intent(objective_id, step_n, command, "skipped", "all alternatives vetoed")
                     continue
             except Exception as _veto_exc:
                 log.debug("control veto loop error: %s", _veto_exc)
@@ -1312,17 +1295,24 @@ async def _run_objective(
                 _block_rule = ""
             if _block_rule:
                 log.info("[%s] constraint denied: %s (%s)", objective_id, command, _block_rule)
-                _emit("STEP_BLOCKED", {"objective_id": objective_id, "step": step_n,
-                                       "command": command, "reason": f"constraint:{_block_rule}"})
+                _emit(
+                    "STEP_BLOCKED",
+                    {
+                        "objective_id": objective_id,
+                        "step": step_n,
+                        "command": command,
+                        "reason": f"constraint:{_block_rule}",
+                    },
+                )
                 try:
                     strategy.register_output("", command, platform="linux", success=False)
                 except Exception:
                     pass
-                _record_intent(objective_id, step_n, command, "denied",
-                               f"constraint:{_block_rule}")
+                _record_intent(objective_id, step_n, command, "denied", f"constraint:{_block_rule}")
                 continue
         try:
             from modules.toolset import validate_shell as _validate_shell
+
             _ts_ok, _ts_reason = _validate_shell("worker", command)
         except Exception:
             _ts_ok, _ts_reason = True, "ok"
@@ -1333,39 +1323,49 @@ async def _run_objective(
             if control is not None and _wait_for_decision is not None:
                 try:
                     _ts_pending = control.propose(
-                        command, reason=f"toolset: {_ts_reason}",
-                        target=target, ttl_seconds=CONTROL_APPROVAL_TTL_S)
-                    _ts_final = await loop.run_in_executor(
-                        None, _wait_for_decision, control, _ts_pending)
+                        command, reason=f"toolset: {_ts_reason}", target=target, ttl_seconds=CONTROL_APPROVAL_TTL_S
+                    )
+                    _ts_final = await loop.run_in_executor(None, _wait_for_decision, control, _ts_pending)
                     control.consume(_ts_pending.action_id)
                     _ts_approved = _ts_final.decision == _DECISION_APPROVED
                 except Exception as _ts_exc:
                     log.debug("toolset approval error: %s", _ts_exc)
             if not _ts_approved:
                 log.info("[%s] toolset held: %s (%s)", objective_id, command, _ts_reason)
-                _emit("STEP_SKIPPED", {"objective_id": objective_id, "step": step_n,
-                                       "command": command, "reason": f"toolset:{_ts_reason}"})
+                _emit(
+                    "STEP_SKIPPED",
+                    {
+                        "objective_id": objective_id,
+                        "step": step_n,
+                        "command": command,
+                        "reason": f"toolset:{_ts_reason}",
+                    },
+                )
                 try:
                     strategy.register_output("", command, platform="linux", success=False)
                 except Exception:
                     pass
-                _record_intent(objective_id, step_n, command, "skipped",
-                               f"toolset:{_ts_reason}")
+                _record_intent(objective_id, step_n, command, "skipped", f"toolset:{_ts_reason}")
                 continue
         if _guard is not None:
             try:
                 _verdict = _guard.check("daemon", command)
             except Exception as _gate_exc:
-                log.warning("[%s] safety gate error — fail-closed, skipping: %s",
-                            objective_id, _gate_exc)
-                _emit("STEP_BLOCKED", {"objective_id": objective_id, "step": step_n,
-                                       "command": command, "reason": "gate_error_fail_closed"})
+                log.warning("[%s] safety gate error — fail-closed, skipping: %s", objective_id, _gate_exc)
+                _emit(
+                    "STEP_BLOCKED",
+                    {
+                        "objective_id": objective_id,
+                        "step": step_n,
+                        "command": command,
+                        "reason": "gate_error_fail_closed",
+                    },
+                )
                 try:
                     strategy.register_output("", command, platform="linux", success=False)
                 except Exception:
                     pass
-                _record_intent(objective_id, step_n, command, "denied",
-                               "gate_error_fail_closed")
+                _record_intent(objective_id, step_n, command, "denied", "gate_error_fail_closed")
                 continue
             if _verdict is not None and _verdict.action == "deny":
                 log.info("[%s] gate denied: %s", objective_id, _verdict.message)
@@ -1382,8 +1382,7 @@ async def _run_objective(
                     strategy.register_output("", command, platform="linux", success=False)
                 except Exception:
                     pass
-                _record_intent(objective_id, step_n, command, "denied",
-                               _verdict.message or "intercept rule")
+                _record_intent(objective_id, step_n, command, "denied", _verdict.message or "intercept rule")
                 continue
             if _verdict is not None and _verdict.action == "ask":
                 _approved_via_gate = False
@@ -1395,8 +1394,15 @@ async def _run_objective(
                             target=target,
                             ttl_seconds=CONTROL_APPROVAL_TTL_S,
                         )
-                        _emit("APPROVAL_REQUESTED", {"objective_id": objective_id, "step": step_n,
-                                                     "action_id": _pending.action_id, "command": command})
+                        _emit(
+                            "APPROVAL_REQUESTED",
+                            {
+                                "objective_id": objective_id,
+                                "step": step_n,
+                                "action_id": _pending.action_id,
+                                "command": command,
+                            },
+                        )
                         if _wait_for_decision is not None:
                             _final = await loop.run_in_executor(None, _wait_for_decision, control, _pending)
                             control.consume(_pending.action_id)
@@ -1405,10 +1411,16 @@ async def _run_objective(
                         log.debug("safety gate approval error: %s", _gate_exc)
                 if not _approved_via_gate:
                     log.info("[%s] gate held (no approval) — skipping", objective_id)
-                    _emit("STEP_SKIPPED", {"objective_id": objective_id, "step": step_n,
-                                           "command": command, "reason": "gate_ask_unapproved"})
-                    _record_intent(objective_id, step_n, command, "skipped",
-                                   "gate_ask_unapproved")
+                    _emit(
+                        "STEP_SKIPPED",
+                        {
+                            "objective_id": objective_id,
+                            "step": step_n,
+                            "command": command,
+                            "reason": "gate_ask_unapproved",
+                        },
+                    )
+                    _record_intent(objective_id, step_n, command, "skipped", "gate_ask_unapproved")
                     continue
 
         _emit(
@@ -1470,8 +1482,7 @@ async def _run_objective(
                         step_n,
                         final.decision,
                     )
-                    _record_intent(objective_id, step_n, command, "denied",
-                                   f"operator:{final.decision}")
+                    _record_intent(objective_id, step_n, command, "denied", f"operator:{final.decision}")
                     continue
             except Exception as _appr_exc:
                 log.debug("control approval gate error: %s", _appr_exc)
@@ -1506,8 +1517,7 @@ async def _run_objective(
                 _guard.observe(output, source=_daemon_tool(command))
             except Exception:
                 pass
-        _record_intent(objective_id, step_n, command,
-                       "done" if success else "failed", "")
+        _record_intent(objective_id, step_n, command, "done" if success else "failed", "")
 
         # ── Step transcript (RAG-indexed under sessions/) ───────────────
         # Every executed step lands in the traffic exchange log so past
@@ -1518,9 +1528,11 @@ async def _run_objective(
 
             _exchange = _TrafficRecorder(SESSIONS_DIR / "traffic").record(
                 _daemon_tool(command),
-                target, status=1 if success else 0,
+                target,
+                status=1 if success else 0,
                 req_body=command.encode("utf-8", "replace")[:4000],
-                resp_body=output.encode("utf-8", "replace")[:20000])
+                resp_body=output.encode("utf-8", "replace")[:20000],
+            )
             _step_exchange_id = getattr(_exchange, "exchange_id", "") or ""
         except Exception as _tx_exc:
             log.debug("traffic record error: %s", _tx_exc)
@@ -1558,8 +1570,7 @@ async def _run_objective(
                 try:
                     from modules.evidence import EvidenceStore as _EvidenceStore
 
-                    _ev_hash = _EvidenceStore(SESSIONS_DIR / "evidence").put(
-                        output.encode("utf-8", "replace"))
+                    _ev_hash = _EvidenceStore(SESSIONS_DIR / "evidence").put(output.encode("utf-8", "replace"))
                     for _fd in findings:
                         _fd["evidence_hash"] = _ev_hash
                 except Exception as _ev_exc:
@@ -1575,13 +1586,20 @@ async def _run_objective(
                     for f in obs.findings:
                         _ft = str(getattr(f.type, "value", f.type))
                         if _ft in ("cve", "service_version"):
-                            _vid = _db.vuln_add(_hid, str(f.value)[:200], severity="unknown",
-                                         description=f"daemon:{_tool}",
-                                         refs=f"status:pending|evidence:{_ev_ref}|tool:{_tool}" if _ev_ref else f"status:pending|tool:{_tool}")
+                            _vid = _db.vuln_add(
+                                _hid,
+                                str(f.value)[:200],
+                                severity="unknown",
+                                description=f"daemon:{_tool}",
+                                refs=f"status:pending|evidence:{_ev_ref}|tool:{_tool}"
+                                if _ev_ref
+                                else f"status:pending|tool:{_tool}",
+                            )
                             # LAZY finding_traffic binding: proof role.
                             if _step_exchange_id:
                                 try:
                                     from modules.finding_lifecycle import bind_traffic as _bind
+
                                     _bind(_db, str(_vid), _step_exchange_id, "proof")
                                 except Exception as _bind_exc:
                                     log.debug("traffic bind error: %s", _bind_exc)
@@ -1593,8 +1611,7 @@ async def _run_objective(
                 # achieved instead of relying on substring heuristics.
                 try:
                     _has_cred_now = any(
-                        str(getattr(f.type, "value", f.type)) in ("credential", "hash")
-                        for f in obs.findings
+                        str(getattr(f.type, "value", f.type)) in ("credential", "hash") for f in obs.findings
                     )
                     if _has_cred_now and _frontier is not None:
                         _frontier.todos.todo_add("creds")
@@ -1606,8 +1623,7 @@ async def _run_objective(
                             _ftype = str(getattr(_f.type, "value", _f.type))
                             if _ftype in ("credential", "hash"):
                                 if _goal_tracker.prove_goal("credential", evidence=_proven_ev):
-                                    _emit("GOAL_PROVEN", {"objective_id": objective_id,
-                                                          "goal": "credential"})
+                                    _emit("GOAL_PROVEN", {"objective_id": objective_id, "goal": "credential"})
                             elif _ftype in ("cve", "service_version"):
                                 _goal_tracker.prove_goal("exploit")
                 except Exception as _todo_exc:
@@ -1910,16 +1926,20 @@ async def _run_objective(
         )
         try:
             _proven = _objective_proven(
-                objective_text, world_model, target,
-                credential_found=bool(findings and any(
-                    str(f.get("type", "")) in ("credential", "hash") for f in findings)),
+                objective_text,
+                world_model,
+                target,
+                credential_found=bool(
+                    findings and any(str(f.get("type", "")) in ("credential", "hash") for f in findings)
+                ),
             )
         except Exception:
             _proven = False
         if _proven:
             log.info("[%s] objective proven — stopping loop early", objective_id)
-            _emit("OBJECTIVE_PROVEN", {"objective_id": objective_id, "step": step_n,
-                                       "command": command, "phase": phase})
+            _emit(
+                "OBJECTIVE_PROVEN", {"objective_id": objective_id, "step": step_n, "command": command, "phase": phase}
+            )
             break
         if high_value:
             log.info("  High-value finding — stopping loop early")
@@ -2255,16 +2275,25 @@ def _ledger_path() -> Path:
     return target
 
 
-def _ledger_write(engagement_id: str, intent_id: str, command: str,
-                  phase: str, state: str, reason: str = "") -> None:
+def _ledger_write(engagement_id: str, intent_id: str, command: str, phase: str, state: str, reason: str = "") -> None:
     """Append one intent lifecycle transition. Never raises."""
     try:
         with _ledger_path().open("a", encoding="utf-8") as fh:
-            fh.write(json.dumps({
-                "engagement_id": engagement_id, "intent_id": intent_id,
-                "command": command, "phase": phase, "state": state,
-                "reason": reason, "ts": time.time(),
-            }, ensure_ascii=False) + "\n")
+            fh.write(
+                json.dumps(
+                    {
+                        "engagement_id": engagement_id,
+                        "intent_id": intent_id,
+                        "command": command,
+                        "phase": phase,
+                        "state": state,
+                        "reason": reason,
+                        "ts": time.time(),
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n"
+            )
     except OSError as exc:
         log.debug("intent ledger error: %s", exc)
 
@@ -2595,12 +2624,7 @@ class EngageOrchestrator:
             # for the target (never re-scan what sessions/ holds).
             _base = _daemon_tool(step.primary) if step.primary.strip() else ""
             _dup = next(
-                (
-                    r
-                    for r in results
-                    if _daemon_tool(r.get("command") or "") == _base and _base
-                    and r.get("success")
-                ),
+                (r for r in results if _daemon_tool(r.get("command") or "") == _base and _base and r.get("success")),
                 None,
             )
             if _dup is not None:
@@ -2608,8 +2632,7 @@ class EngageOrchestrator:
                     kind="STEP_SKIPPED",
                     target=self._target,
                     message=f"{step.primary} skipped — duplicate of successful step",
-                    payload={"phase": step.phase, "command": step.primary,
-                             "reason": "duplicate_of_successful_step"},
+                    payload={"phase": step.phase, "command": step.primary, "reason": "duplicate_of_successful_step"},
                 )
                 results.append(
                     {
@@ -2633,8 +2656,7 @@ class EngageOrchestrator:
                         kind="STEP_SKIPPED",
                         target=self._target,
                         message=f"{step.primary} skipped — {_scans[0].name} already held",
-                        payload={"phase": step.phase, "command": step.primary,
-                                 "reason": "scan_already_held"},
+                        payload={"phase": step.phase, "command": step.primary, "reason": "scan_already_held"},
                     )
                     results.append(
                         {
@@ -2651,8 +2673,9 @@ class EngageOrchestrator:
 
             result = self._run_step(step)
             _state, _reason = _settle_state(result)
-            _ledger_write(self._engagement_id, uuid.uuid4().hex[:8],
-                          result.command_used, result.step.phase, _state, _reason)
+            _ledger_write(
+                self._engagement_id, uuid.uuid4().hex[:8], result.command_used, result.step.phase, _state, _reason
+            )
             results.append(
                 {
                     "phase": result.step.phase,
@@ -2669,8 +2692,7 @@ class EngageOrchestrator:
             self._shell.poll(target=self._target)
             if self._shell.detect_in_output(result.output, target=self._target):
                 shell_obtained = True
-                _notify_finding(f"Shell obtained on {self._target}",
-                                result.command_used or "", severity="critical")
+                _notify_finding(f"Shell obtained on {self._target}", result.command_used or "", severity="critical")
                 break
 
         if not shell_obtained and self._run_planner_intents(results, _fp_before):
@@ -2685,10 +2707,15 @@ class EngageOrchestrator:
 
         ran = sum(1 for r in results if not r.get("skipped_reason"))
         skipped = len(results) - ran
-        _skipped_names = [f"{r.get('phase')}:{r.get('command', '')[:40]} ({r.get('skipped_reason')})"
-                          for r in results if r.get("skipped_reason")]
-        _done_msg = (f"engagement {self._engagement_id} finished — {len(results)} steps "
-                     f"({ran} ran, {skipped} skipped), shell={shell_obtained}")
+        _skipped_names = [
+            f"{r.get('phase')}:{r.get('command', '')[:40]} ({r.get('skipped_reason')})"
+            for r in results
+            if r.get("skipped_reason")
+        ]
+        _done_msg = (
+            f"engagement {self._engagement_id} finished — {len(results)} steps "
+            f"({ran} ran, {skipped} skipped), shell={shell_obtained}"
+        )
         if _skipped_names:
             _done_msg += " skipped=[" + "; ".join(_skipped_names) + "]"
         self._narrator.narrate(
@@ -2710,8 +2737,9 @@ class EngageOrchestrator:
             "steps": results,
         }
 
-    def _run_planner_intents(self, results: list[dict[str, Any]], fp_before: str,
-                               max_intents: int = 2, planner: Any = None) -> bool:
+    def _run_planner_intents(
+        self, results: list[dict[str, Any]], fp_before: str, max_intents: int = 2, planner: Any = None
+    ) -> bool:
         """Execute planner-driven extra intents when the world changed.
 
         This is the event-driven wake: the fixed plan is one round, and a
@@ -2732,8 +2760,7 @@ class EngageOrchestrator:
             from modules.planner import Frontier as _Frontier
             from modules.planner import Planner as _Planner
 
-            fresh = _Frontier(planner or _Planner()).refill(
-                self._target, max_intents=max_intents)
+            fresh = _Frontier(planner or _Planner()).refill(self._target, max_intents=max_intents)
         except Exception as exc:
             log.debug("planner intent refill error: %s", exc)
             return False
@@ -2757,9 +2784,9 @@ class EngageOrchestrator:
                 message=f"no fresh intents — bridge fallback -> {fallback}",
                 payload={"engagement_id": self._engagement_id, "command": fallback},
             )
-            presult = self._run_step(EnginePhaseStep(
-                phase=_current_bridge_phase(), primary=fallback,
-                label="planner fallback"))
+            presult = self._run_step(
+                EnginePhaseStep(phase=_current_bridge_phase(), primary=fallback, label="planner fallback")
+            )
             results.append(
                 {
                     "phase": presult.step.phase,
@@ -2774,8 +2801,7 @@ class EngageOrchestrator:
             )
             self._shell.poll(target=self._target)
             if self._shell.detect_in_output(presult.output, target=self._target):
-                _notify_finding(f"Shell obtained on {self._target}",
-                                presult.command_used or "", severity="critical")
+                _notify_finding(f"Shell obtained on {self._target}", presult.command_used or "", severity="critical")
                 return True
             return False
         try:
@@ -2791,8 +2817,12 @@ class EngageOrchestrator:
             phase = _tactic_phase(intent.tactic)
             try:
                 suggested = dispatcher.suggest(
-                    phase=phase, target=self._target, services=services,
-                    mitre_hint=intent.technique_id or "", excluded=tried)
+                    phase=phase,
+                    target=self._target,
+                    services=services,
+                    mitre_hint=intent.technique_id or "",
+                    excluded=tried,
+                )
             except Exception as exc:
                 log.debug("bridge suggest error: %s", exc)
                 continue
@@ -2804,11 +2834,16 @@ class EngageOrchestrator:
                 kind="PLANNER_INTENT",
                 target=self._target,
                 message=f"{intent.technique_id} {intent.name} -> {verb}",
-                payload={"engagement_id": self._engagement_id, "phase": phase,
-                         "technique": intent.technique_id, "command": verb},
+                payload={
+                    "engagement_id": self._engagement_id,
+                    "phase": phase,
+                    "technique": intent.technique_id,
+                    "command": verb,
+                },
             )
-            presult = self._run_step(EnginePhaseStep(
-                phase=phase, primary=verb, label=f"planner: {intent.technique_id}"))
+            presult = self._run_step(
+                EnginePhaseStep(phase=phase, primary=verb, label=f"planner: {intent.technique_id}")
+            )
             results.append(
                 {
                     "phase": presult.step.phase,
@@ -2824,8 +2859,7 @@ class EngageOrchestrator:
             self._shell.poll(target=self._target)
             if self._shell.detect_in_output(presult.output, target=self._target):
                 shell_found = True
-                _notify_finding(f"Shell obtained on {self._target}",
-                                presult.command_used or "", severity="critical")
+                _notify_finding(f"Shell obtained on {self._target}", presult.command_used or "", severity="critical")
                 break
         return shell_found
 
@@ -2844,8 +2878,11 @@ class EngageOrchestrator:
             return None
         try:
             suggested = dispatcher.suggest(
-                phase=_current_bridge_phase(), target=self._target,
-                services=_target_services(self._target), excluded=tried)
+                phase=_current_bridge_phase(),
+                target=self._target,
+                services=_target_services(self._target),
+                excluded=tried,
+            )
         except Exception as exc:
             log.debug("fallback suggest error: %s", exc)
             return None
@@ -2905,17 +2942,20 @@ class EngageOrchestrator:
                 try:
                     _verdict = _engage_guard.check("engage", command)
                 except Exception as _engage_gate_exc:
-                    log.warning("engage gate error — fail-closed, blocking: %s",
-                                _engage_gate_exc)
+                    log.warning("engage gate error — fail-closed, blocking: %s", _engage_gate_exc)
                     self._narrator.narrate(
-                        kind="STEP_DENIED", target=self._target,
+                        kind="STEP_DENIED",
+                        target=self._target,
                         message=f"{command} blocked — gate error (fail-closed)",
                         payload={"phase": step.phase, "command": command},
                         severity="warning",
                     )
                     return EnginePhaseResult(
-                        step=step, command_used=command, output="",
-                        success=False, switched_from=switched_from,
+                        step=step,
+                        command_used=command,
+                        output="",
+                        success=False,
+                        switched_from=switched_from,
                         skipped_reason="gate: gate_error_fail_closed",
                     )
                 if _verdict is not None and _verdict.action == "deny":
@@ -2923,8 +2963,7 @@ class EngageOrchestrator:
                         kind="STEP_DENIED",
                         target=self._target,
                         message=f"{command} blocked — {_verdict.message}",
-                        payload={"phase": step.phase, "command": command,
-                                 "rule": _verdict.rule_pattern},
+                        payload={"phase": step.phase, "command": command, "rule": _verdict.rule_pattern},
                         severity="warning",
                     )
                     return EnginePhaseResult(
@@ -2966,20 +3005,21 @@ class EngageOrchestrator:
                 from modules.evidence import EvidenceStore as _EvidenceStore
                 from modules.traffic_recorder import TrafficRecorder as _TrafficRecorder
 
-                _ev_hash = _EvidenceStore(SESSIONS_DIR / "evidence").put(
-                    output.encode("utf-8", "replace"))
+                _ev_hash = _EvidenceStore(SESSIONS_DIR / "evidence").put(output.encode("utf-8", "replace"))
                 last_evidence = _ev_hash
                 _TrafficRecorder(SESSIONS_DIR / "traffic").record(
                     _daemon_tool(command),
-                    self._target, status=1 if success else 0,
+                    self._target,
+                    status=1 if success else 0,
                     req_body=command.encode("utf-8", "replace")[:4000],
-                    resp_body=output.encode("utf-8", "replace")[:20000])
+                    resp_body=output.encode("utf-8", "replace")[:20000],
+                )
                 try:
                     self._narrator.narrate(
-                        kind="EVIDENCE_STORED", target=self._target,
+                        kind="EVIDENCE_STORED",
+                        target=self._target,
                         message=f"evidence {(_ev_hash or '')[:12]} for {command}",
-                        payload={"phase": step.phase, "evidence": _ev_hash,
-                                 "success": success},
+                        payload={"phase": step.phase, "evidence": _ev_hash, "success": success},
                     )
                 except Exception:
                     pass
@@ -3534,20 +3574,19 @@ async def objective_loop(
         # the queue distinguishes proven goals from merely attempted ones.
         try:
             _cred_hit = any(
-                str(f.get("type", "") if isinstance(f, dict) else getattr(
-                    getattr(f, "type", ""), "value", f.type)) in ("credential", "hash")
+                str(f.get("type", "") if isinstance(f, dict) else getattr(getattr(f, "type", ""), "value", f.type))
+                in ("credential", "hash")
                 for f in all_findings
             )
-            _proven_goal = _objective_proven(obj.text, world_model, target,
-                                             credential_found=_cred_hit)
+            _proven_goal = _objective_proven(obj.text, world_model, target, credential_found=_cred_hit)
         except Exception:
             _proven_goal = False
         _proof_notes = (
             f"proven with {len(all_findings)} finding(s) in {len(results)} step(s)"
-            if _proven_goal else
-            f"attempted ({len(results)} step(s), {len(all_findings)} finding(s)) — unproven")
-        _emit("OBJECTIVE_PROVEN" if _proven_goal else "OBJECTIVE_UNPROVEN",
-              {"id": obj.id, "notes": _proof_notes})
+            if _proven_goal
+            else f"attempted ({len(results)} step(s), {len(all_findings)} finding(s)) — unproven"
+        )
+        _emit("OBJECTIVE_PROVEN" if _proven_goal else "OBJECTIVE_UNPROVEN", {"id": obj.id, "notes": _proof_notes})
 
         if _get_hive:
             try:
@@ -3985,6 +4024,7 @@ def cmd_inject(text: str, priority: str = "high") -> None:
         sys.exit(1)
     try:
         from lazyown_objective import decompose_goal as _decompose
+
         goals = _decompose(text)
     except Exception:
         goals = [text]

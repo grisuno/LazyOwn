@@ -143,7 +143,9 @@ def collect(
         if not vuln_id:
             continue
         try:
-            record = ctf_capture.capture(vuln_id, resolved_target, output=blob, sessions_dir=sessions_dir, catalogue=lookup)
+            record = ctf_capture.capture(
+                vuln_id, resolved_target, output=blob, sessions_dir=sessions_dir, catalogue=lookup
+            )
         except ValueError:
             missing.append(vuln_id)
             continue

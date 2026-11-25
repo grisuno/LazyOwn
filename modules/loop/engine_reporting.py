@@ -128,6 +128,7 @@ class EngineReportingMixin:
             _store_path,
             resolve_target,
         )
+
         fmt = (fmt or "md").lower()
         graph = ExplorationGraph(task_id)
         activity = ActivityLog(task_id)
@@ -235,6 +236,7 @@ class EngineReportingMixin:
     def status(self, task_id: str) -> dict:
         """Return full inspectable state for one task."""
         from modules.lazy_loop import ActivityLog, ExplorationGraph, InterceptQueue, TodoStore
+
         record = self.store.get(task_id) or {}
         graph = ExplorationGraph(task_id)
         activity = ActivityLog(task_id)
@@ -261,6 +263,7 @@ class EngineReportingMixin:
         an extra list call; host lists stay collapsed to a count.
         """
         from modules.lazy_loop import EXPLORATION_TERMINAL_STATES, ActivityLog, ColdCompactor, ExplorationGraph
+
         record = self.store.get(task_id) or {}
         graph = ExplorationGraph(task_id)
         overview = graph.overview()
@@ -290,6 +293,7 @@ class EngineReportingMixin:
     def _finding_list(self, graph: ExplorationGraph) -> list[dict]:
         """Full finding rows: severity-first, assets readable."""
         from modules.lazy_loop import SEV_RANK
+
         rows = []
         for node in sorted(
             graph.list("finding"), key=lambda n: (SEV_RANK.get(str(n.meta.get("severity", "")), 5), n.node_id)
@@ -334,6 +338,7 @@ class EngineReportingMixin:
             Dict with ``nodes`` and ``links`` lists.
         """
         from modules.lazy_loop import ExplorationGraph
+
         graph = ExplorationGraph(task_id)
         degree: dict[int, int] = {}
         for edge in graph.edges:
@@ -404,6 +409,7 @@ class EngineReportingMixin:
             Dict with ``hubs``, ``islands``, ``suggested`` and ``stats``.
         """
         from modules.lazy_loop import EXPLORATION_ACTIVE_STATES, ExplorationGraph
+
         record = self.store.get(task_id) or {}
         scope = record.get("scope", []) or []
         graph = ExplorationGraph(task_id)
@@ -497,6 +503,7 @@ class EngineReportingMixin:
             Dict with items, total, page, per_page, has_more and days.
         """
         from modules.lazy_loop import ExplorationGraph
+
         graph = ExplorationGraph(task_id)
         wanted = {k.strip() for k in (kinds or []) if k.strip()}
         wanted_states = {s.strip() for s in (states or []) if s.strip()}
@@ -609,6 +616,7 @@ class EngineReportingMixin:
             Dict with ``items``, the next ``cursor`` and current ``total``.
         """
         from modules.lazy_loop import _store_path
+
         path = _store_path(f"activity_{task_id}.jsonl")
         try:
             lines = path.read_text(encoding="utf-8", errors="replace").splitlines()
@@ -626,4 +634,3 @@ class EngineReportingMixin:
             if isinstance(record, dict):
                 items.append(record)
         return {"items": items, "cursor": start + len(window), "total": total}
-

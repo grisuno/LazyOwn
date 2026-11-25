@@ -104,7 +104,7 @@ class TestLazyC2Wiring:
         assert "_build_health_report" in health
         assert "_gather_health" in health
         assert ".pop(" not in health
-        assert '_is_local_request' in health
+        assert "_is_local_request" in health
 
 
 if __name__ == "__main__":

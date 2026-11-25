@@ -114,8 +114,10 @@ def test_timeline_merges_guard_and_activity(audit_dir, monkeypatch):
         json.dumps({"ts": base + 1.0, "tool": "Bash", "action": "deny", "reason": "rule", "command": "rm -rf /"}) + "\n"
     )
     (audit_dir / "activity_t9007.jsonl").write_text(
-        json.dumps({"ts": base + 2.0, "worker": "planner", "kind": "engine", "text": "digest"}) + "\n"
-        + json.dumps({"ts": base + 2.5, "worker": "w", "kind": "job", "text": "noise row"}) + "\n"
+        json.dumps({"ts": base + 2.0, "worker": "planner", "kind": "engine", "text": "digest"})
+        + "\n"
+        + json.dumps({"ts": base + 2.5, "worker": "w", "kind": "job", "text": "noise row"})
+        + "\n"
     )
     events = loop_audit.timeline("t9007", audit=audit)
     kinds = [event["kind"] for event in events]

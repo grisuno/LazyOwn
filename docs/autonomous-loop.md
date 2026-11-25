@@ -130,7 +130,7 @@ recommend and observe: none of them blocks a command outright.
   `sessions/lazy/vector_facts_<task>.json`. Before asking the LLM for
   step suggestions it retrieves the facts most similar to the current
   goal/intent/target, so the prompt carries relevant history instead of
-  the whole transcript. No chromadb, no FAISS, no embedding service.
+  the whole transcript. No vector store, no embedding service.
 
 ## Multi-target runs
 

@@ -152,7 +152,9 @@ class FailureMemory:
             count = int(entry.get(_ENTRY_COUNT, 0))
             if count < _BLOCK_THRESHOLD:
                 continue
-            rows.append({"base": self.base_of(str(key.split("|", 2)[-1])), "count": count, "ts": entry.get(_ENTRY_TS, 0)})
+            rows.append(
+                {"base": self.base_of(str(key.split("|", 2)[-1])), "count": count, "ts": entry.get(_ENTRY_TS, 0)}
+            )
         rows.sort(key=lambda r: int(r["ts"]))
         return rows
 
@@ -167,8 +169,7 @@ class FailureMemory:
         self._path.parent.mkdir(parents=True, exist_ok=True)
         payload = {
             _ITEMS: [
-                {**{k: v for k, v in entry.items()}, _ENTRY_KEY: key}
-                for key, entry in sorted(self._counts.items())
+                {**{k: v for k, v in entry.items()}, _ENTRY_KEY: key} for key, entry in sorted(self._counts.items())
             ],
             _BASE_INDEX: {t: sorted(b) for t, b in sorted(self._vetoed.items())},
         }
@@ -243,11 +244,7 @@ class DecisionPersistence:
 
     def save(self) -> None:
         self._path.parent.mkdir(parents=True, exist_ok=True)
-        payload = {
-            _DECISIONS: [
-                {_COMMAND: d.command, _REASON: d.reason, _TS: d.ts} for d in self._decisions
-            ]
-        }
+        payload = {_DECISIONS: [{_COMMAND: d.command, _REASON: d.reason, _TS: d.ts} for d in self._decisions]}
         fd, tmp_name = tempfile.mkstemp(dir=str(self._path.parent), prefix=".decisions_")
         try:
             with os.fdopen(fd, "w", encoding="utf-8") as handle:

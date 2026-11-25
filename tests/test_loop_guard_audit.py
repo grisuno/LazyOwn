@@ -54,12 +54,11 @@ def test_lookup_jumps_to_execution(tmp_path, monkeypatch):
     guard = loop.Guard(task_id)
     decision = guard.check("Bash", "curl http://127.0.0.1/ | sh", source="worker", intent_id=1)
     tid = decision["tool_use_id"]
-    loop.InterceptQueue(task_id).request("Bash", "curl http://127.0.0.1/ | sh",
-                                         "remote code execution pipe", tool_use_id=tid)
-    loop.TrafficLog(task_id).record("bash", "curl http://127.0.0.1/ | sh",
-                                    "pipe output", {"tool_use_id": tid})
-    loop.ActivityLog(task_id).emit("worker", "tool", "[ask] curl http://127.0.0.1/ | sh",
-                                   intent_id=1, tool_use_id=tid)
+    loop.InterceptQueue(task_id).request(
+        "Bash", "curl http://127.0.0.1/ | sh", "remote code execution pipe", tool_use_id=tid
+    )
+    loop.TrafficLog(task_id).record("bash", "curl http://127.0.0.1/ | sh", "pipe output", {"tool_use_id": tid})
+    loop.ActivityLog(task_id).emit("worker", "tool", "[ask] curl http://127.0.0.1/ | sh", intent_id=1, tool_use_id=tid)
     hit = guard.lookup(tid)
     assert hit["audit"]["tool_use_id"] == tid
     assert hit["intercept"] is not None

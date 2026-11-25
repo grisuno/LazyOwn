@@ -284,7 +284,7 @@ class ArtifactIdempotencyGuard:
 
 ### I. Graceful Degradation Layer (Medium Impact / Low Effort)
 
-**Current State:** Optional dependencies (ChromaDB, Groq API, pwntomate tools, graphify graph) are checked with try/except at import time. When unavailable, some tools return `"module unavailable"` strings -- others raise unhandled exceptions.
+**Current State:** Optional dependencies (Groq API, pwntomate tools, graphify graph) are checked with try/except at import time. When unavailable, some tools return `"module unavailable"` strings -- others raise unhandled exceptions.
 
 **Target:** A `CapabilityRegistry`:
 
@@ -299,7 +299,7 @@ class CapabilityRegistry:
 **Benefits:**
 - Every optional capability has a declared fallback.
 - `lazyown_capability_status` MCP tool: Hermes can query what's available.
-- Operator sees "ChromaDB unavailable -- falling back to keyword search" instead of raw errors.
+- Operator sees "capability unavailable -- falling back" instead of raw errors.
 
 **Files to create:**
 - `core/capability_registry.py`

@@ -5,12 +5,12 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "lazyown"
-version = "0.2.161"
+version = "0.5.0"
 description = "LazyOwn Framework - Red Team & Post-Exploitation Tool"
 authors = [{ name = "Gris Iscomeback", email = "grisiscomeback@gmail.com" }]
 license = { text = "AGPL-3.0-only" }
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.11.5"
 # Base = the light profile: shell + C2 + recon/exploit core. Everything here
 # must be importable (or a shelled-out CLI tool the framework invokes) on a
 # headless install. Analytics, AI, ML, cloud and RAG stacks live in extras so
@@ -32,7 +32,6 @@ dependencies = [
     "tabulate",
     "flask-unsign",
     "name-that-hash",
-    "certipy-ad",
     "pykeepass",
     "Pillow",
     "netaddr",
@@ -110,10 +109,12 @@ ai = [
 cloud = [
     "boto3",
 ]
-# Retrieval-augmented generation vector store (keyword fallback in base).
-rag = [
-    "chromadb",
-]
+# RAG vector store: the former vector dependency was removed entirely
+# (no patched release for its pre-authentication advisory family).
+# Search is the built-in keyword fallback and semantic memory lives in
+# LazyHebb (modules/lazy_hebb.py): SQLite FTS5 + hebbian co-activation,
+# zero dependencies.
+rag = []
 ml = [
     "torch",
     "torchvision",
@@ -177,7 +178,7 @@ ignore = [
 ]
 
 [tool.ruff.lint.per-file-ignores]
-"tests/*" = ["S", "B"]
+"tests/*" = ["S", "B", "E402"]
 # cli/commands: S103/S104/S608 are intentional in a pentest framework
 # (payloads chmod 0o755, C2 binding 0.0.0.0, imports over hardcoded tables).
 "cli/commands/*" = ["S103", "S104", "S608"]

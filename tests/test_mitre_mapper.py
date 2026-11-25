@@ -73,7 +73,6 @@ class TestCoverage:
         assert "not-a-tid" not in ids
 
     def test_executed_intersection(self, fake_catalog, isolated_loops, monkeypatch):
-        from modules import report_engagement as re_engage
 
         (isolated_loops / "lazy" / "audit_t0001.jsonl").write_text(
             json.dumps({"ts": 1.0, "kind": "command", "command": "lazynmap -sV 10.0.0.5", "ok": True}) + "\n"

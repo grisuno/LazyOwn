@@ -11,7 +11,6 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from modules.lazy_cve_feed import convert_osv_ranges, range_for_cve
 from modules.lazy_checks import (
     INCONCLUSIVE,
     REAFFIRMED,
@@ -20,6 +19,7 @@ from modules.lazy_checks import (
     extract_version,
     interpret_checks,
 )
+from modules.lazy_cve_feed import convert_osv_ranges, range_for_cve
 
 _RANGE = {"type": "ECOSYSTEM", "introduced": "7.0", "fixed": "8.9"}
 

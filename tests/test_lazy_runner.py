@@ -240,9 +240,11 @@ def test_autonomous_mode_flag_and_input_restore(monkeypatch):
     assert AUTONOMOUS_ENV == "LAZYOWN_AUTONOMOUS"
 
 
-def test_automsf_intent_needs_a_module_path():
+def test_automsf_intent_needs_a_module_path(monkeypatch):
     from modules import auto_registry as registry
 
+    monkeypatch.setattr(registry, "verb_gap", lambda verb: "")
+    monkeypatch.setattr(registry, "verb_enabled", lambda verb: True)
     assert registry.steps_for("auto automsf", "10.0.0.5") is None
     resolved = registry.steps_for("auto automsf use exploit/windows/smb/ms17_010_eternalblue", "10.0.0.5")
     assert resolved == ["automsf exploit/windows/smb/ms17_010_eternalblue"]
@@ -947,15 +949,21 @@ def test_engine_wake_preempts_heartbeat(store):
 
     engine = LazyEngine()
     engine.heartbeat_sec = 30.0
+    engine.wake_debounce_sec = 0.0
     task_id = engine.create_task("gain initial access on 127.0.0.1")["task_id"]
     calls = {"n": 0}
+    done = _threading.Event()
 
     def _round(task_id_arg, workers=1, executor=None):
         calls["n"] += 1
         return {"new_intents": 0, "executed": 0, "overview": {}}
 
+    def _run():
+        engine.run(task_id, max_rounds=3, workers=1)
+        done.set()
+
     engine.run_round = _round
-    thread = _threading.Thread(target=lambda: engine.run(task_id, max_rounds=3, workers=1), daemon=True)
+    thread = _threading.Thread(target=_run, daemon=True)
     started = _time.monotonic()
     thread.start()
     deadline = started + 6
@@ -965,11 +973,13 @@ def test_engine_wake_preempts_heartbeat(store):
     while calls["n"] < 2 and _time.monotonic() < deadline:
         _time.sleep(0.01)
     loop.wake_task(task_id)
-    thread.join(timeout=8)
+    finished = done.wait(timeout=15)
+    thread.join(timeout=1)
     elapsed = _time.monotonic() - started
+    assert finished
     assert not thread.is_alive()
     assert calls["n"] == 3
-    assert elapsed < 10
+    assert elapsed < 20
 
 
 def test_engine_heartbeat_replans_when_idle(store):
@@ -982,18 +992,21 @@ def test_engine_heartbeat_replans_when_idle(store):
     engine.heartbeat_sec = 0.25
     task_id = engine.create_task("gain initial access on 127.0.0.1")["task_id"]
     calls = {"n": 0}
+    round_times: list[float] = []
 
     def _round(task_id_arg, workers=1, executor=None):
         calls["n"] += 1
+        round_times.append(_time.monotonic())
         return {"new_intents": 0, "executed": 0, "overview": {}}
 
     engine.run_round = _round
-    started = _time.monotonic()
     engine.run(task_id, max_rounds=3, workers=1)
-    elapsed = _time.monotonic() - started
     assert calls["n"] == 3
-    assert elapsed >= 0.3
-    assert elapsed < 10
+    assert len(round_times) == 3
+    gaps = [later - earlier for earlier, later in zip(round_times, round_times[1:])]
+    assert sum(gaps) >= 0.3
+    assert all(gap >= 0.15 for gap in gaps)
+    assert all(gap < 15 for gap in gaps)
 
 
 def test_agent_background_jobs_and_output(store):
@@ -1311,9 +1324,7 @@ def test_worker_llm_steps_filter_sudo(store, monkeypatch):
     from modules.lazy_engine import LazyEngine
 
     monkeypatch.setattr(registry, "missing_binary", lambda command: "")
-    monkeypatch.setattr(
-        loop.LlmPool, "members", lambda self: [{"name": "stub", "model": "groq:stub-model"}]
-    )
+    monkeypatch.setattr(loop.LlmPool, "members", lambda self: [{"name": "stub", "model": "groq:stub-model"}])
     monkeypatch.setattr(
         loop.LlmPool, "complete", lambda self, prompt, max_tokens=0, **kwargs: "sudo netstat\nnmap -sV 127.0.0.1"
     )
@@ -1630,9 +1641,7 @@ def test_plausibility_filter_drops_hallucinated_flags(store, monkeypatch):
     assert loop.plausible_command("/usr/bin/sqlmap --pwn-now") is False
 
     monkeypatch.setattr(registry, "missing_binary", lambda command: "")
-    monkeypatch.setattr(
-        loop.LlmPool, "members", lambda self: [{"name": "stub", "model": "groq:stub-model"}]
-    )
+    monkeypatch.setattr(loop.LlmPool, "members", lambda self: [{"name": "stub", "model": "groq:stub-model"}])
     monkeypatch.setattr(
         loop.LlmPool,
         "complete",

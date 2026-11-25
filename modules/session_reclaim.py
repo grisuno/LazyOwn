@@ -157,9 +157,8 @@ RECLAIM_RULES: tuple[_Rule, ...] = (
     ),
     _Rule("C2 traffic archive", _glob_matcher("traffic")),
     _Rule(
-        "Knowledge caches and vector DB",
+        "Knowledge caches",
         _glob_matcher(
-            "chromadb",
             "cve_feed",
             "cve_cache",
             "detection_cache",

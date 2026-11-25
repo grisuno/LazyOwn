@@ -134,9 +134,7 @@ def test_reap_cancelled_outcome_maps_stopped(manager, tmp_path):
     workspace = tmp_path / loop_id
     workspace.mkdir()
     _register(manager, loop_id, workspace)
-    (workspace / "result.json").write_text(
-        json.dumps({"status": "cancelled", "success": False, "cancelled": True})
-    )
+    (workspace / "result.json").write_text(json.dumps({"status": "cancelled", "success": False, "cancelled": True}))
     manager._reap(loop_id, _FakeProcess(1))
     record = manager.get_loop(loop_id)
     assert record["status"] == loop_manager.STATUS_STOPPED

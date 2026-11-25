@@ -1,5 +1,4 @@
 # yaml_generator.py
-import json
 import os
 import re
 import sys

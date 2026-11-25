@@ -33,27 +33,21 @@ def _executor() -> CommandExecutor:
 class TestColorsPreserved:
     def test_writer_receives_raw_ansi_bytes(self) -> None:
         seen: list[str] = []
-        result = _executor().run_tee(
-            f"printf '{ANSI_RED}'", writer=seen.append, log_file=None
-        )
+        result = _executor().run_tee(f"printf '{ANSI_RED}'", writer=seen.append, log_file=None)
         assert result.exit_code == 0
         assert "".join(seen) == ANSI_RED
 
     def test_log_file_is_byte_identical_to_writer(self, tmp_path: Path) -> None:
         seen: list[str] = []
         log = tmp_path / "out.log"
-        result = _executor().run_tee(
-            f"printf '{ANSI_RED}'", writer=seen.append, log_file=str(log)
-        )
+        result = _executor().run_tee(f"printf '{ANSI_RED}'", writer=seen.append, log_file=str(log))
         assert result.exit_code == 0
         assert log.read_text() == "".join(seen) == ANSI_RED
         assert result.output == ANSI_RED
 
     def test_stderr_merged_into_stream(self) -> None:
         seen: list[str] = []
-        result = _executor().run_tee(
-            "echo out; echo err >&2", writer=seen.append, log_file=None
-        )
+        result = _executor().run_tee("echo out; echo err >&2", writer=seen.append, log_file=None)
         assert result.exit_code == 0
         assert "out\n" in seen
         assert "err\n" in seen
@@ -61,25 +55,16 @@ class TestColorsPreserved:
 
 class TestExitCodes:
     def test_shell_path_exit_code(self) -> None:
-        result = _executor().run_tee(
-            "bash -c 'exit 3'", writer=lambda _l: None
-        )
+        result = _executor().run_tee("bash -c 'exit 3'", writer=lambda _l: None)
         assert result.exit_code == 3
         assert result.success is False
 
     def test_argv_path_exit_code(self) -> None:
-        result = _executor().run_tee(
-            "python3 -c 'import sys; sys.exit(7)'", writer=lambda _l: None
-        )
+        result = _executor().run_tee("python3 -c 'import sys; sys.exit(7)'", writer=lambda _l: None)
         assert result.exit_code == 7
 
     def test_passthrough_returns_exit_code(self) -> None:
-        assert (
-            _executor().run_passthrough(
-                "python3 -c 'import sys; sys.exit(5)'"
-            )
-            == 5
-        )
+        assert _executor().run_passthrough("python3 -c 'import sys; sys.exit(5)'") == 5
         assert _executor().run_passthrough("true") == 0
         assert _executor().run_passthrough("false") == 1
 
@@ -105,9 +90,7 @@ class TestShellPolicy:
 
     def test_timeout_kills_and_raises(self) -> None:
         with __import__("pytest").raises(subprocess.TimeoutExpired):
-            _executor().run_tee(
-                "sleep 5", writer=lambda _l: None, log_file=None, timeout=0.2
-            )
+            _executor().run_tee("sleep 5", writer=lambda _l: None, log_file=None, timeout=0.2)
 
 
 class TestSingleSpawnPath:
@@ -115,11 +98,7 @@ class TestSingleSpawnPath:
         import ast as _ast
 
         tree = _ast.parse(LAZYOWN_SRC)
-        cmd = next(
-            node
-            for node in _ast.walk(tree)
-            if isinstance(node, _ast.FunctionDef) and node.name == "cmd"
-        )
+        cmd = next(node for node in _ast.walk(tree) if isinstance(node, _ast.FunctionDef) and node.name == "cmd")
         constructed = {
             (n.func.attr if isinstance(n.func, _ast.Attribute) else n.func.id)
             for n in _ast.walk(cmd)
@@ -141,9 +120,7 @@ class TestSingleSpawnPath:
 
     def test_cmd_keeps_telemetry(self) -> None:
         src = LAZYOWN_SRC[
-            LAZYOWN_SRC.index("    def cmd(self, line):") : LAZYOWN_SRC.index(
-                "    def onecmd_plus_hooks("
-            )
+            LAZYOWN_SRC.index("    def cmd(self, line):") : LAZYOWN_SRC.index("    def onecmd_plus_hooks(")
         ]
         for marker in (
             "display_toastr",

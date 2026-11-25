@@ -324,7 +324,7 @@ def synth_technique_chain_data(
         )
     description = f"Technique chain for {host} ({', '.join(ordered)}){_GEN_TAG}"
     if os_hint:
-        description = f"{description[:-len(_GEN_TAG)]} os:{os_hint[:40]}{_GEN_TAG}"
+        description = f"{description[: -len(_GEN_TAG)]} os:{os_hint[:40]}{_GEN_TAG}"
     data: dict[str, Any] = {
         "name": name,
         "description": description,

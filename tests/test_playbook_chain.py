@@ -25,7 +25,9 @@ def _playbook(**overrides) -> AptPlaybook:
                 steps=[
                     PlaybookAction(kind="lazyscript", run="recon_basics.ls", timeout=600),
                     PlaybookAction(kind="lazyaddon", run="nuclei_templates"),
-                    PlaybookAction(kind="command", run="curl -s http://{target}/shell.php?cmd=id", sinks=["world_model"]),
+                    PlaybookAction(
+                        kind="command", run="curl -s http://{target}/shell.php?cmd=id", sinks=["world_model"]
+                    ),
                     PlaybookAction(kind="plugin", run="plugin_registered_verb --flag"),
                 ],
             )

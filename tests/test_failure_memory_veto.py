@@ -57,7 +57,9 @@ def test_worker_helper_redirects_and_degrades(tmp_path, monkeypatch):
     monkeypatch.setattr(loop, "_store_path", lambda name: tmp_path / name, raising=False)
     memory = loop.Worker._failure_memory.__get__("probe", loop.Worker)()
     assert memory is not None
-    monkeypatch.setattr(loop, "_store_path", lambda name: (_ for _ in ()).throw(RuntimeError("no store")), raising=False)
+    monkeypatch.setattr(
+        loop, "_store_path", lambda name: (_ for _ in ()).throw(RuntimeError("no store")), raising=False
+    )
     try:
         assert loop.Worker._failure_memory.__get__("probe", loop.Worker)() is None
     finally:

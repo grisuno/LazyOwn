@@ -307,11 +307,61 @@ def escape_html_content(value: str) -> str:
     return html.escape(str(value), quote=True)
 
 
+def realpath_within_base(base_dir: str, user_path: str) -> str:
+    """Resolve ``user_path`` against ``base_dir`` and enforce containment.
+
+    Both sides go through ``os.path.realpath`` (normalisation) and the
+    result must pass a ``startswith`` guard against the base plus a
+    separator, which is the containment shape static analysers
+    recognise as a safe access check. Symlink escapes are rejected
+    because the final realpath of the candidate must still live under
+    the realpath of the base.
+
+    Args:
+        base_dir: The allowed root directory.
+        user_path: Untrusted relative path joined under ``base_dir``.
+
+    Returns:
+        Resolved absolute path strictly inside ``base_dir``.
+
+    Raises:
+        SecurityViolation: If the resolved path escapes ``base_dir``.
+    """
+    allowed = os.path.realpath(base_dir)
+    candidate = os.path.realpath(os.path.join(allowed, user_path))
+    if not candidate.startswith(allowed + os.sep):
+        raise SecurityViolation(f"Path traversal blocked: {user_path!r} resolves outside {base_dir}")
+    return candidate
+
+
+def realpath_contained(user_path: str, base_dir: str) -> str:
+    """Return ``user_path`` realpath-verified to stay inside ``base_dir``.
+
+    Unlike :func:`realpath_within_base` the untrusted value may already
+    be an absolute path (or CWD-relative); it is canonicalised on its
+    own and then containment-checked against the base.
+
+    Args:
+        user_path: Untrusted path (absolute or relative to the CWD).
+        base_dir: The allowed root directory.
+
+    Returns:
+        Resolved absolute path strictly inside ``base_dir``.
+
+    Raises:
+        SecurityViolation: If the resolved path escapes ``base_dir``.
+    """
+    allowed = os.path.realpath(base_dir)
+    candidate = os.path.realpath(user_path)
+    if not candidate.startswith(allowed + os.sep):
+        raise SecurityViolation(f"Path traversal blocked: {user_path!r} resolves outside {base_dir}")
+    return candidate
+
+
 def safe_path_join(base_dir: str, user_path: str) -> str:
     """Join base_dir and user_path safely, preventing path traversal.
 
-    Uses os.path.realpath to resolve symlinks and .. components, then
-    verifies the result starts with the allowed base directory.
+    Delegates to :func:`realpath_within_base`.
 
     Args:
         base_dir: The allowed root directory.
@@ -326,11 +376,7 @@ def safe_path_join(base_dir: str, user_path: str) -> str:
     """
     if not user_path or not user_path.strip():
         raise ValueError("user_path must not be empty")
-    allowed = os.path.realpath(base_dir)
-    candidate = os.path.realpath(os.path.join(allowed, user_path))
-    if not candidate.startswith(allowed + os.sep) and candidate != allowed:
-        raise SecurityViolation(f"Path traversal blocked: {user_path} resolves outside {base_dir}")
-    return candidate
+    return realpath_within_base(base_dir, user_path)
 
 
 def validate_network_cidr(cidr: str) -> bool:
@@ -463,10 +509,7 @@ def tls_secure_context(extra_ca: str = "") -> ssl.SSLContext:
     context = ssl.create_default_context()
     context.check_hostname = True
     context.verify_mode = ssl.CERT_REQUIRED
-    try:
-        context.minimum_version = TLS_MINIMUM_VERSION
-    except (AttributeError, ValueError):
-        pass
+    context.minimum_version = TLS_MINIMUM_VERSION
     bundle = (extra_ca or os.environ.get(ENV_TRUST_CA, "") or "").strip()
     if bundle:
         try:
@@ -518,10 +561,7 @@ def tls_lab_fallback_context() -> ssl.SSLContext:
     fallback = ssl.create_default_context()
     fallback.check_hostname = False
     fallback.verify_mode = ssl.CERT_NONE
-    try:
-        fallback.minimum_version = TLS_MINIMUM_VERSION
-    except (AttributeError, ValueError):
-        pass
+    fallback.minimum_version = TLS_MINIMUM_VERSION
     return fallback
 
 
@@ -623,8 +663,8 @@ def is_safe_yaml_name(name: str) -> bool:
 def safe_join_under(base_dir: str, user_path: str) -> str:
     """Join and resolve ``user_path`` under ``base_dir`` (symlink-safe).
 
-    Uses realpath on both sides plus a commonpath prefix check so
-    ``..`` segments and symlink escapes are rejected.
+    Delegates to :func:`realpath_within_base` so ``..`` segments and
+    symlink escapes are rejected with the recognised containment guard.
 
     Args:
         base_dir: Allowed root directory.
@@ -639,14 +679,7 @@ def safe_join_under(base_dir: str, user_path: str) -> str:
     """
     if not user_path or not user_path.strip():
         raise ValueError("user_path must not be empty")
-    allowed = os.path.realpath(base_dir)
-    candidate = os.path.realpath(os.path.join(allowed, user_path))
-    try:
-        if os.path.commonpath([allowed, candidate]) != allowed:
-            raise SecurityViolation(f"Path traversal blocked: {user_path!r} escapes base")
-    except ValueError as exc:
-        raise SecurityViolation(f"Path traversal blocked: {exc}") from exc
-    return candidate
+    return realpath_within_base(base_dir, user_path)
 
 
 def safe_open_under(base_dir: str, user_path: str, mode: str = "r", **kwargs: Any) -> Any:
@@ -873,6 +906,8 @@ __all__ = [
     "set_sshpass_env",
     "escape_html_content",
     "safe_path_join",
+    "realpath_within_base",
+    "realpath_contained",
     "validate_network_cidr",
     "validate_port_spec",
     "validate_host",

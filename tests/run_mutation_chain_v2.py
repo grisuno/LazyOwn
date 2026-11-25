@@ -35,8 +35,8 @@ MUTATIONS = {
     "onecmd_bool_printed": {
         "file": "modules/chain_runner.py",
         "description": "Print the boolean onecmd result instead of ignoring it",
-        "old": "        if result is None or isinstance(result, bool):\n            return \"\"",
-        "new": "        if result is None:\n            return \"\"",
+        "old": '        if result is None or isinstance(result, bool):\n            return ""',
+        "new": '        if result is None:\n            return ""',
         "expected": "test_runner_keeps_verbs_on_calling_thread must fail",
     },
     "nonzero_exit_ignored": {
@@ -49,7 +49,7 @@ MUTATIONS = {
     "capture_not_stored": {
         "file": "modules/chain_runner.py",
         "description": "Do not persist captured output for later steps",
-        "old": '                variables[step.capture] = outcome.captured',
+        "old": "                variables[step.capture] = outcome.captured",
         "new": "                pass",
         "expected": "test_runner_captures_output_for_later_steps must fail",
     },

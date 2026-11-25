@@ -1,6 +1,7 @@
 # slack_c2_bot_socket.py
 import contextlib
 import io
+import os
 import time
 
 import requests
@@ -10,6 +11,8 @@ from slack_bolt.adapter.socket_mode import SocketModeHandler
 from lazyown import LazyOwnShell
 from modules.llm_adapter import ask_general
 from utils import Config, load_payload
+
+C2_TLS_VERIFY = "cert.pem" if os.path.isfile("cert.pem") else True
 
 # === CONFIG ===
 config = Config(load_payload())
@@ -195,7 +198,7 @@ def cmd_addcli(ack, respond, command):
 def cmd_clients(ack, respond, command):
     ack()
     try:
-        response = requests.get(f"https://{config.lhost}:{config.c2_port}/get_connected_clients", verify=False)  # noqa: S501
+        response = requests.get(f"https://{config.lhost}:{config.c2_port}/get_connected_clients", verify=C2_TLS_VERIFY)
         if response.status_code == 200:
             clients = "\n".join(response.json().get("connected_clients", []))
             respond(f"🟢 Implants Online:\n{clients}")

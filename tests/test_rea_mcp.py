@@ -98,6 +98,7 @@ def _ctx(payload: dict | None = None) -> MCPContext:
         get_claudemd=lambda: None,
         job_store=None,
         list_tools=lambda: [],
+        call_tool=None,
         sitrep_recommendations=lambda *a, **k: [],
     )
 

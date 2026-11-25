@@ -75,9 +75,7 @@ def test_create_update_and_delete_round_trip(tmp_path):
     assert data["apt_name"] == "Demo"
     assert playbook_kind(data) == "apt"
 
-    data["phases"] = [
-        {"name": "initial_access", "technique_id": "T1566", "atomic_tests": [{"atomic_id": "T1566"}]}
-    ]
+    data["phases"] = [{"name": "initial_access", "technique_id": "T1566", "atomic_tests": [{"atomic_id": "T1566"}]}]
     update_playbook(path, data, directory=tmp_path)
     assert scan_playbooks(tmp_path)[0].steps == 1
 

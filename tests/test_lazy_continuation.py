@@ -89,13 +89,9 @@ class TestRecall:
 
     def test_recall_returns_intent_with_reason(self, monkeypatch, tmp_path):
         _install_sessions_dir(monkeypatch, tmp_path)
-        lazy_continuation.save(
-            "10.10.11.5", task_id="t1", status="timeout", next_steps=["verify ssh spray"]
-        )
+        lazy_continuation.save("10.10.11.5", task_id="t1", status="timeout", next_steps=["verify ssh spray"])
         candidates = lazy_continuation.recall_candidates("10.10.11.5")
-        assert candidates == [
-            ("continuation: verify ssh spray", "prior task t1 (timeout) left this open")
-        ]
+        assert candidates == [("continuation: verify ssh spray", "prior task t1 (timeout) left this open")]
 
     def test_recall_without_record_is_empty(self, monkeypatch, tmp_path):
         _install_sessions_dir(monkeypatch, tmp_path)
@@ -103,9 +99,7 @@ class TestRecall:
 
     def test_recall_respects_limit(self, monkeypatch, tmp_path):
         _install_sessions_dir(monkeypatch, tmp_path)
-        lazy_continuation.save(
-            "10.10.11.5", task_id="t1", next_steps=["one", "two", "three", "four"]
-        )
+        lazy_continuation.save("10.10.11.5", task_id="t1", next_steps=["one", "two", "three", "four"])
         assert len(lazy_continuation.recall_candidates("10.10.11.5", limit=2)) == 2
 
 
@@ -122,7 +116,9 @@ class TestPlannerWiring:
 
         import modules.lazy_loop as lazy_loop
 
-        source = inspect.getsource(lazy_loop.LazyLoopEngine._run_and_settle) if hasattr(
-            lazy_loop.LazyLoopEngine, "_run_and_settle"
-        ) else inspect.getsource(lazy_loop)
+        source = (
+            inspect.getsource(lazy_loop.LazyLoopEngine._run_and_settle)
+            if hasattr(lazy_loop.LazyLoopEngine, "_run_and_settle")
+            else inspect.getsource(lazy_loop)
+        )
         assert "_write_continuation" in source

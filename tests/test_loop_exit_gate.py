@@ -61,24 +61,11 @@ def test_loop_exit_code_mapping():
     assert loop_exit_code({"status": "done", "verdict": {"verdict": "partial"}}) == 1
     assert loop_exit_code({"status": "done", "verdict": {"verdict": "failed"}}) == 1
     assert loop_exit_code({"status": "exhausted"}) == 1
-    assert (
-        loop_exit_code(
-            {"status": "exhausted", "verdict": {"verdict": "achieved", "evidence_verified": True}}
-        )
-        == 0
-    )
+    assert loop_exit_code({"status": "exhausted", "verdict": {"verdict": "achieved", "evidence_verified": True}}) == 0
     assert loop_exit_code({"status": "exhausted", "verdict": {"verdict": "achieved"}}) == 1
-    assert (
-        loop_exit_code({"status": "failed", "verdict": {"verdict": "achieved", "evidence_verified": True}})
-        == 1
-    )
+    assert loop_exit_code({"status": "failed", "verdict": {"verdict": "achieved", "evidence_verified": True}}) == 1
     assert loop_exit_code({"status": "timeout"}) == 4
-    assert (
-        loop_exit_code(
-            {"status": "timeout", "verdict": {"verdict": "achieved", "evidence_verified": True}}
-        )
-        == 0
-    )
+    assert loop_exit_code({"status": "timeout", "verdict": {"verdict": "achieved", "evidence_verified": True}}) == 0
     assert loop_exit_code({"status": "handoff"}) == 1
     assert loop_exit_code({"error": "boom"}) == 1
     assert loop_exit_code({"cancelled": True}) == 1
@@ -114,7 +101,9 @@ def test_write_loop_result_workspace(tmp_path, monkeypatch):
     workspace.mkdir()
     monkeypatch.setenv(lazy_runner.LOOP_WORKSPACE_ENV, str(workspace))
     config = LoopRunConfig(goal="own it", target="10.0.0.5")
-    write_loop_result(config, {"task_id": "t5", "status": "exhausted", "rounds": 6, "verdict": {"verdict": "partial"}, "overview": {}})
+    write_loop_result(
+        config, {"task_id": "t5", "status": "exhausted", "rounds": 6, "verdict": {"verdict": "partial"}, "overview": {}}
+    )
     payload = json.loads((workspace / lazy_runner.LOOP_RESULT_FILENAME).read_text())
     assert payload["success"] is False
     assert payload["verdict"] == "partial"
@@ -181,7 +170,13 @@ def test_report_result_prints_verdict(capsys):
             "task_id": "t9",
             "status": "done",
             "rounds": 3,
-            "verdict": {"verdict": "achieved", "coverage_pct": 75.0, "confirmed": 2, "completion_reason": "shell", "path": "/tmp/r.md"},
+            "verdict": {
+                "verdict": "achieved",
+                "coverage_pct": 75.0,
+                "confirmed": 2,
+                "completion_reason": "shell",
+                "path": "/tmp/r.md",
+            },
             "overview": {"intents": [], "facts": 5, "findings": 4},
         }
     )

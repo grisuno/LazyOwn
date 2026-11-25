@@ -11,7 +11,7 @@ from mcp_tools._context import MCPContext
 TOOL = types.Tool(
     name="lazyown_hive_recall",
     description=(
-        "Semantic + episodic + long-term memory recall from the unified hive ChromaDB. "
+        "Semantic + episodic + long-term memory recall from the unified hive LazyHebb. "
         "Searches across ALL drone results, LazyOwn session history, and Parquet knowledge. "
         "Use this instead of lazyown_rag_query for cross-agent queries."
     ),

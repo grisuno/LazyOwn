@@ -1,0 +1,260 @@
+{% extends "base.html" %} {% block content %}
+<style>
+    .campaign-title {
+        font-family: "Courier New", monospace;
+        letter-spacing: 4px;
+        text-shadow: 0 0 12px #00ff9c, 0 0 32px #00ff9c55;
+        color: #00ff9c;
+    }
+    .campaign-pane {
+        background: rgba(13, 17, 23, 0.85);
+        border: 1px solid #2ea04333;
+        border-radius: 12px;
+        min-height: 320px;
+    }
+    .campaign-pane:hover { border-color: #00ff9c66; }
+    .host-row { cursor: pointer; border-bottom: 1px solid #2ea04322; }
+    .host-row:hover { background: #00ff9c11; }
+    .host-row.active { background: #00ff9c22; }
+    .frontier-row { border-bottom: 1px solid #2ea04322; }
+    .sev-critical, .sev-high { color: #ff5555; font-weight: 700; }
+    .sev-medium { color: #ffbf00; }
+    .beacon-live { color: #00ff9c; }
+    .scope-out { color: #ff5555; }
+    .campaign-viewer {
+        max-height: 60vh;
+        overflow: auto;
+        font-size: 0.8rem;
+        white-space: pre-wrap;
+        word-break: break-all;
+        color: #c9d1d9;
+        background: #0d1117;
+        border: 1px solid #2ea04322;
+        border-radius: 8px;
+        padding: 0.75rem;
+    }
+</style>
+<div class="container-fluid mt-4">
+    <div class="d-flex align-items-center justify-content-between flex-wrap mb-3">
+        <h1 class="campaign-title mb-0">▓▒░ Campaign Explorer ░▒▓</h1>
+        <span class="text-muted" id="campaign-header-meta"></span>
+    </div>
+    <p class="text-secondary">Campaña → Host → Evidencia. Vista read-only sobre sessions/; ejecutar sigue pasando por el shell y el scope guard.</p>
+
+    <div class="row g-3">
+        <div class="col-lg-3 campaign-pane p-3">
+            <h5 class="text-success">Hosts</h5>
+            <div id="campaign-hosts"></div>
+            <h5 class="text-success mt-3">Artefactos</h5>
+            <div id="campaign-kinds" class="small text-secondary"></div>
+        </div>
+
+        <div class="col-lg-6 campaign-pane p-3">
+            <h5 class="text-success" id="campaign-host-title">Host</h5>
+            <div id="campaign-host-detail" class="small mb-2"></div>
+            <div class="d-flex gap-2 mb-2">
+                <input class="form-control form-control-sm bg-dark text-light" id="campaign-search-q" placeholder="grep regex en toda la evidencia...">
+                <button class="btn btn-sm btn-outline-success" id="campaign-search-btn">Buscar</button>
+            </div>
+            <div id="campaign-search-results" class="small mb-2"></div>
+            <div class="text-secondary" id="campaign-file-meta"></div>
+            <pre class="campaign-viewer mt-2" id="campaign-file-viewer">Selecciona un artefacto del host…</pre>
+            <div class="d-flex flex-wrap gap-2 mt-2" id="campaign-file-buttons"></div>
+        </div>
+
+        <div class="col-lg-3 campaign-pane p-3">
+            <h5 class="text-success">★ Next scope</h5>
+            <div id="campaign-frontier" class="small"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+(function () {
+    "use strict";
+    var state = { overview: null, host: null };
+
+    function el(tag, cls, text) {
+        var node = document.createElement(tag);
+        if (cls) node.className = cls;
+        if (text !== undefined) node.textContent = text;
+        return node;
+    }
+
+    function fetchJson(url) {
+        return fetch(url, { credentials: "same-origin" }).then(function (r) {
+            if (!r.ok) throw new Error("HTTP " + r.status);
+            return r.json();
+        });
+    }
+
+    function badge(text, cls) {
+        return el("span", "badge bg-dark border " + (cls || ""), text);
+    }
+
+    function renderOverview(data) {
+        state.overview = data;
+        var meta = el("span", "text-muted", [
+            data.totals.hosts + " hosts · " + data.totals.artifacts + " artefactos · " +
+            data.totals.shells + " shells · " + data.totals.beacons + " beacons · scope: " +
+            (data.scope.entries.length ? data.scope.entries.join(", ") : "(sin definir)")
+        ].join(""));
+        var header = document.getElementById("campaign-header-meta");
+        header.replaceChildren(meta);
+
+        var hosts = document.getElementById("campaign-hosts");
+        hosts.replaceChildren();
+        data.hosts.forEach(function (card) {
+            var row = el("div", "host-row p-2");
+            var left = el("div", "fw-bold", card.ip + (card.state ? " · " + card.state : ""));
+            var chips = el("div", "small text-secondary");
+            if (card.os_hint) chips.appendChild(badge(card.os_hint));
+            if (card.services.length) chips.appendChild(badge(card.services.length + " svcs"));
+            if (card.credentials.length) chips.appendChild(badge(card.credentials.length + " creds"));
+            if (card.findings.top_severity) {
+                chips.appendChild(badge(card.findings.top_severity, "sev-" + card.findings.top_severity));
+            }
+            if (card.outcomes.shells) chips.appendChild(badge(card.outcomes.shells + " shells"));
+            card.beacons.forEach(function (b) {
+                chips.appendChild(badge("beacon " + b.client_id, b.active ? "beacon-live" : ""));
+            });
+            if (card.stale_recon) chips.appendChild(badge("recon stale", "sev-medium"));
+            if (data.scope.entries.length && !inScope(card.ip, data.scope.entries)) {
+                chips.appendChild(badge("fuera de scope", "scope-out"));
+            }
+            row.appendChild(left);
+            row.appendChild(chips);
+            row.addEventListener("click", function () { selectHost(card.ip); });
+            hosts.appendChild(row);
+        });
+
+        var kinds = document.getElementById("campaign-kinds");
+        kinds.replaceChildren();
+        Object.keys(data.artifacts_by_kind).forEach(function (kind) {
+            var line = el("div", null, kind + ": " + data.artifacts_by_kind[kind]);
+            kinds.appendChild(line);
+        });
+
+        renderFrontier(data.frontier);
+    }
+
+    function inScope(ip, entries) {
+        try {
+            var addr = ip.split(".").map(Number);
+            if (addr.length !== 4 || addr.some(isNaN)) return entries.includes(ip);
+            function toInt(p) { return ((p[0] << 24) | (p[1] << 16) | (p[2] << 8) | p[3]) >>> 0; }
+            var ipInt = toInt(addr);
+            return entries.some(function (entry) {
+                if (entry.indexOf("/") === -1) return ip === entry;
+                var baseAddr = entry.split("/")[0].split(".").map(Number);
+                if (baseAddr.length !== 4 || baseAddr.some(isNaN)) return false;
+                var maskBits = Number(entry.split("/")[1]);
+                if (isNaN(maskBits) || maskBits < 0 || maskBits > 32) return false;
+                var mask = maskBits === 0 ? 0 : ((0xffffffff << (32 - maskBits)) >>> 0);
+                return ((ipInt ^ toInt(baseAddr)) & mask) === 0;
+            });
+        } catch (err) { return false; }
+    }
+
+    function renderFrontier(frontier) {
+        var box = document.getElementById("campaign-frontier");
+        box.replaceChildren();
+        frontier.filter(function (f) { return f.score > 0; }).slice(0, 8).forEach(function (f, idx) {
+            var row = el("div", "frontier-row p-2");
+            var head = el("div", "fw-bold", (idx + 1) + ". " + f.ip + " · score " + f.score);
+            if (!f.in_scope) head.className = "fw-bold scope-out";
+            row.appendChild(head);
+            f.reasons.forEach(function (reason) { row.appendChild(el("div", "text-secondary", "↳ " + reason)); });
+            f.evidence.forEach(function (path) {
+                var link = el("a", "d-block text-info", "↳ " + path);
+                link.href = "/api/campaign/file?path=" + encodeURIComponent(path);
+                link.target = "_blank";
+                row.appendChild(link);
+            });
+            row.appendChild(el("div", null, f.in_scope ? badge("in scope") : badge("requiere aprobación", "scope-out")));
+            row.addEventListener("click", function () { selectHost(f.ip); });
+            box.appendChild(row);
+        });
+        if (!box.childNodes.length) box.appendChild(el("div", "text-secondary", "Sin candidatos: todo trabajado o sin datos."));
+    }
+
+    function selectHost(ip) {
+        document.querySelectorAll(".host-row").forEach(function (row) {
+            row.classList.toggle("active", row.firstChild && row.firstChild.textContent.indexOf(ip) === 0);
+        });
+        fetchJson("/api/campaign/host/" + encodeURIComponent(ip)).then(function (card) {
+            state.host = card;
+            document.getElementById("campaign-host-title").textContent = "Host " + card.ip;
+            var detail = document.getElementById("campaign-host-detail");
+            detail.replaceChildren();
+            var chips = el("div", "d-flex flex-wrap gap-1");
+            if (card.state) chips.appendChild(badge("estado: " + card.state));
+            if (card.os_hint) chips.appendChild(badge("os: " + card.os_hint));
+            chips.appendChild(badge(card.in_scope ? "in scope" : "requiere aprobación", card.in_scope ? "" : "scope-out"));
+            detail.appendChild(chips);
+            card.services.forEach(function (svc) {
+                detail.appendChild(el("div", null, "· " + svc.port + "/" + svc.protocol + " " + svc.name + " " + svc.version));
+            });
+            card.credentials.forEach(function (cred) {
+                detail.appendChild(el("div", "text-warning", "cred: " + cred.display + (cred.service ? " @" + cred.service : "") + (cred.confirmed ? " ✔" : "")));
+            });
+            if (card.findings.total) {
+                detail.appendChild(el("div", null, "findings: " + card.findings.total + " confirmados " + card.findings.confirmed + " top " + card.findings.top_severity));
+            }
+            if (card.outcomes.total) {
+                detail.appendChild(el("div", null, "outcomes: " + card.outcomes.total + " éxito " + card.outcomes.success + " shells " + card.outcomes.shells));
+            }
+            card.beacons.forEach(function (b) {
+                detail.appendChild(el("div", b.active ? "beacon-live" : "text-secondary", "beacon " + b.client_id + " user " + b.user + "@" + b.hostname + " last_seen " + b.last_seen_age + "s"));
+            });
+            var buttons = document.getElementById("campaign-file-buttons");
+            buttons.replaceChildren();
+            card.artifacts_list.slice(0, 12).forEach(function (a) {
+                var btn = el("button", "btn btn-sm btn-outline-secondary", a.kind + " · " + a.rel.split("/").pop());
+                btn.addEventListener("click", function () { openFile(a.rel); });
+                buttons.appendChild(btn);
+            });
+        }).catch(function () {
+            document.getElementById("campaign-host-title").textContent = "Host no encontrado";
+        });
+    }
+
+    function openFile(rel) {
+        document.getElementById("campaign-file-meta").textContent = rel;
+        fetch("/api/campaign/file?path=" + encodeURIComponent(rel), { credentials: "same-origin" })
+            .then(function (r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.text(); })
+            .then(function (text) {
+                document.getElementById("campaign-file-viewer").textContent = text;
+            })
+            .catch(function (err) {
+                document.getElementById("campaign-file-viewer").textContent = "error: " + err.message;
+            });
+    }
+
+    function runSearch() {
+        var q = document.getElementById("campaign-search-q").value.trim();
+        if (!q) return;
+        fetchJson("/api/campaign/search?q=" + encodeURIComponent(q)).then(function (data) {
+            var box = document.getElementById("campaign-search-results");
+            box.replaceChildren();
+            box.appendChild(el("div", "text-secondary", data.match_count + " matches en " + data.scanned + " archivos" + (data.truncated ? " (truncado)" : "")));
+            data.matches.forEach(function (m) {
+                var row = el("a", "d-block", m.path + ":" + m.line_no + " " + m.line);
+                row.href = "#";
+                row.addEventListener("click", function (ev) { ev.preventDefault(); openFile(m.path); });
+                box.appendChild(row);
+            });
+        });
+    }
+
+    document.getElementById("campaign-search-btn").addEventListener("click", runSearch);
+    document.getElementById("campaign-search-q").addEventListener("keydown", function (ev) {
+        if (ev.key === "Enter") runSearch();
+    });
+
+    fetchJson("/api/campaign/overview").then(renderOverview).catch(function (err) {
+        document.getElementById("campaign-header-meta").textContent = "error: " + err.message;
+    });
+})();
+</script>
+{% endblock %}

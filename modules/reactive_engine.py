@@ -634,7 +634,7 @@ class SemanticContextAdvisor:
 
     Last-resort hint that only fires when the regex-based matchers and
     advisors produce nothing useful. Relies on
-    :class:`modules.session_rag.SessionRAG` (ChromaDB when available,
+    :class:`modules.session_rag.SessionRAG` (keyword fallback,
     keyword fallback otherwise) so it carries no extra runtime
     dependency. When the RAG layer is missing or the operator disabled
     it via ``payload.json[reactive_semantic_enabled]``, the advisor

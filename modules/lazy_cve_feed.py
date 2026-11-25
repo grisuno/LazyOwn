@@ -27,6 +27,7 @@ import io
 import json
 import os
 import re
+import threading
 import time
 import urllib.request
 from pathlib import Path
@@ -51,6 +52,7 @@ CACHE_DIR = SESSIONS_DIR / "cve_feed"
 
 USER_AGENT = "LazyOwn intel feed (self-hosted red-team framework)"
 HTTP_TIMEOUT_SEC = 20
+DNS_GRACE_SEC = 5.0
 MAX_DOWNLOAD_BYTES = 64 * 1024 * 1024
 
 KEV_TTL_SEC = 24 * 3600
@@ -108,11 +110,41 @@ def _cache_fresh(path: Path, ttl_sec: int) -> bool:
         return False
 
 
+def _bounded(call, timeout_sec: float):
+    """Run ``call`` under a hard wall-clock deadline.
+
+    ``urlopen(timeout=...)`` bounds socket operations but not DNS
+    resolution (``getaddrinfo``), which can hang for minutes on hosts
+    with dead VPN/IPv6 resolvers. A daemon worker thread frees the
+    caller at the deadline; the worker dies silently at process exit.
+
+    Args:
+        call: Zero-argument callable to run.
+        timeout_sec: Hard deadline in seconds.
+
+    Returns:
+        The callable result, or None on timeout or error. Never raises.
+    """
+    result: dict = {}
+
+    def _runner() -> None:
+        try:
+            result["value"] = call()
+        except Exception:
+            result["value"] = None
+
+    worker = threading.Thread(target=_runner, daemon=True, name="lazy-cve-feed")
+    worker.start()
+    worker.join(max(0.1, float(timeout_sec)))
+    return result.get("value")
+
+
 def _fetch(url: str) -> bytes | None:
-    """Download a feed with a byte cap; None on any failure."""
+    """Download a feed with a byte cap; None on any failure or deadline."""
     if not _env_flag("LAZYOWN_CVE_FEEDS"):
         return None
-    try:
+
+    def _download() -> bytes | None:
         request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
         chunks: list[bytes] = []
         total = 0
@@ -126,8 +158,8 @@ def _fetch(url: str) -> bytes | None:
                     return None
                 chunks.append(chunk)
         return b"".join(chunks)
-    except Exception:
-        return None
+
+    return _bounded(_download, HTTP_TIMEOUT_SEC + DNS_GRACE_SEC)
 
 
 def _store_bytes(name: str, payload: bytes) -> None:
@@ -327,10 +359,11 @@ def fetch_product_advisories(product: str, force: bool = False) -> list[dict]:
     vulns: list[dict] = []
     for name in names[:3]:
         for ecosystem in OSV_ECOSYSTEMS:
-            try:
-                pkg: dict = {"name": name}
-                if ecosystem:
-                    pkg["ecosystem"] = ecosystem
+            pkg: dict = {"name": name}
+            if ecosystem:
+                pkg["ecosystem"] = ecosystem
+
+            def _query_osv(pkg: dict = pkg) -> dict | None:
                 payload = json.dumps({"package": pkg}).encode("utf-8")
                 request = urllib.request.Request(
                     OSV_QUERY_URL,
@@ -338,8 +371,10 @@ def fetch_product_advisories(product: str, force: bool = False) -> list[dict]:
                     headers={"User-Agent": USER_AGENT, "Content-Type": "application/json"},
                 )
                 with urllib.request.urlopen(request, timeout=HTTP_TIMEOUT_SEC) as resp:
-                    doc = json.loads(resp.read().decode("utf-8", "replace"))
-            except Exception:
+                    return json.loads(resp.read().decode("utf-8", "replace"))
+
+            doc = _bounded(_query_osv, HTTP_TIMEOUT_SEC + DNS_GRACE_SEC)
+            if not isinstance(doc, dict):
                 continue
             for advisory in doc.get("vulns") or []:
                 if not isinstance(advisory, dict):

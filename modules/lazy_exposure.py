@@ -53,7 +53,12 @@ SCORE_SURFACE_CAP = 10
 MAX_CHECKS = 3
 
 
-def ensure_report(target: str, entries: list[dict] | dict | None = None, refresh: bool = False) -> Path | None:
+def ensure_report(
+    target: str,
+    entries: list[dict] | dict | None = None,
+    refresh: bool = False,
+    allow_network: bool = True,
+) -> Path | None:
     """Create the target exposure report if absent (loop bootstrap path).
 
     Generates one report through :func:`generate_report` with the saved
@@ -66,6 +71,8 @@ def ensure_report(target: str, entries: list[dict] | dict | None = None, refresh
         entries: Optional live feed rows override; empty falls back to
             the local feed then the keyless live bundle.
         refresh: Regenerate even when a report already exists.
+        allow_network: When False the report is built cache-only (never
+            blocks on DNS/HTTP); the loop bootstrap passes False.
 
     Returns:
         The report path, or None when the target is empty or nothing
@@ -80,7 +87,7 @@ def ensure_report(target: str, entries: list[dict] | dict | None = None, refresh
             return existing
     try:
         sightings = read_sightings(clean, state_path=WORLD_MODEL_PATH)
-        report = generate_report(clean, entries if entries else [], sightings=sightings)
+        report = generate_report(clean, entries if entries else [], sightings=sightings, allow_network=allow_network)
         meaningful = bool(report.get("matches") or report.get("version_unknown"))
         if not meaningful and not refresh:
             return None
@@ -125,7 +132,12 @@ def read_sightings(target: str | None = None, state_path: str | Path | None = No
     return _shape_sightings(usable)
 
 
-def generate_report(target: str, entries: list[dict] | dict | None, sightings: list | None = None) -> dict:
+def generate_report(
+    target: str,
+    entries: list[dict] | dict | None,
+    sightings: list | None = None,
+    allow_network: bool = True,
+) -> dict:
     """Build the exposure report for one target.
 
     Args:
@@ -135,6 +147,8 @@ def generate_report(target: str, entries: list[dict] | dict | None, sightings: l
             (`modules.lazy_cve_feed`, bounded by LAZYOWN_CVE_FEEDS env).
         sightings: Explicit sightings override; when omitted the world
             model is consulted.
+        allow_network: Forwarded to the live bundle; False keeps it
+            cache-only so callers never block on DNS/HTTP.
 
     Returns:
         The report dict with score, matches, leads and rendered checks.
@@ -152,7 +166,11 @@ def generate_report(target: str, entries: list[dict] | dict | None, sightings: l
     review: list[dict] = []
     highest_cvss = {}
     for sighting in rows:
-        bindings = lazy_feedmatch.live_bindings(sighting) if live_mode else bind_sighting(sighting, feed)
+        bindings = (
+            lazy_feedmatch.live_bindings(sighting, allow_network=allow_network)
+            if live_mode
+            else bind_sighting(sighting, feed)
+        )
         for binding in bindings:
             row = {
                 "cve_id": binding.cve_id,

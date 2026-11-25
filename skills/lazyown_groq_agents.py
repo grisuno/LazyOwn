@@ -626,7 +626,7 @@ REGISTRY: dict[str, tuple[str, dict[str, Any], Callable]] = {
     ),
     "rag_query": (
         "Semantic search over indexed sessions/ artefacts (logs, scans, credentials, etc.). "
-        "Falls back to keyword search when ChromaDB is not installed.",
+        "Zero-inference recall over the LazyHebb store.",
         {
             "query": {"type": "string", "description": "Natural language search query"},
             "n": {"type": "integer", "description": "Number of results (default 5)"},

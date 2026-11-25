@@ -14,7 +14,7 @@ TOOL = types.Tool(
         "Spawn one or more hive-mind drones (Groq/Ollama) in PARALLEL for a goal. "
         "When n_drones>1 or role='auto', the Queen decomposes the goal into specialised "
         "tasks (recon, exploit, analyze, cred, lateral, report) and fires them all at once. "
-        "All drones share a unified ChromaDB+SQLite+Parquet memory. "
+        "All drones share a unified LazyHebb+SQLite+Parquet memory. "
         "Returns drone_ids to poll with lazyown_hive_result / lazyown_hive_collect."
     ),
     inputSchema={

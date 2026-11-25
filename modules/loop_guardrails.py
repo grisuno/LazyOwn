@@ -618,7 +618,7 @@ class TargetLimiter:
 class FactVectorStore:
     """JSON-persisted TF-IDF fact memory with cosine retrieval.
 
-    Pure stdlib: no chromadb, no FAISS, no embeddings service. Facts
+    Pure stdlib: no vector DB, no embeddings service. Facts
     dedupe by content hash, persist atomically and trim to
     ``max_facts`` oldest-first.
     """

@@ -345,7 +345,7 @@ lazyown_command_help(command="secretsdump")
 | `lazyown_facts_show` | Structured facts from nmap + tool output: ports, services, creds, shares, access level |
 | `lazyown_cve_search` | Search NVD for CVEs matching product + optional version (cached on disk) |
 | `lazyown_searchsploit` | **Multi-source vuln search** wrapping `ss` command: searchsploit+NVD+ExploitAlert+PacketStorm+Pompem+Metasploit(opt). Use after ANY service version is discovered. |
-| `lazyown_rag_index` | Incrementally index all sessions/ artefacts into ChromaDB (or keyword fallback). mode: `incremental` (default) / `full`. Persists between process restarts. Install: `pip install chromadb` |
+| `lazyown_rag_index` | Incrementally index all sessions/ artefacts into the keyword index. mode: `incremental` (default) / `full`. Persists between process restarts. |
 | `lazyown_rag_query` | Semantic search over indexed sessions/ (logs, scans, creds, XML, etc.). Falls back to keyword search. Used automatically by auto_loop on every step |
 | `lazyown_threat_model` | Build/load the blue team threat model: assets + risk scores, MITRE TTPs, IOC registry, Sigma-lite rules, purple team mapping. actions: `build`, `load`, `ttps`, `rules`, `iocs`, `purple`, `gaps` |
 
@@ -424,8 +424,8 @@ lazyown_command_help(command="secretsdump")
 | Tool | Purpose |
 |------|---------|
 | `lazyown_hive_spawn` | Spawn N drones (Groq/Ollama) IN PARALLEL for a goal. Roles: recon, exploit, analyze, cred, lateral, report, generic |
-| `lazyown_hive_status` | Full hive status: active drones, ChromaDB vector count, episodic memory entries |
-| `lazyown_hive_recall` | Semantic + episodic + long-term memory recall from unified hive ChromaDB |
+| `lazyown_hive_status` | Full hive status: active drones, LazyHebb memory/edge counts, episodic memory entries |
+| `lazyown_hive_recall` | Zero-inference semantic + episodic + long-term memory recall from unified hive LazyHebb |
 | `lazyown_hive_plan` | Queen generates task decomposition plan WITHOUT spawning drones — use for previewing |
 | `lazyown_hive_result` | Get the full result of a specific hive drone by drone_id |
 | `lazyown_hive_collect` | Wait for all drones to finish, return Queen's synthesized summary |
@@ -777,9 +777,9 @@ lazyown_rag_query(query="privilege escalation sudo NOPASSWD", n=5)
 lazyown_cron_schedule(action="add", time="00:30", command="rag_index")
 ```
 
-Note: install ChromaDB for semantic search (`pip install chromadb`).
-Without ChromaDB the fallback keyword index is persisted to
+The keyword index is persisted to
 `sessions/keyword_fallback_index.json` and survives process restarts.
+Semantic recall lives in LazyHebb (`lazyhebb spark`).
 
 ### 10c. Threat model — red + blue + purple spectrum
 
@@ -1032,7 +1032,7 @@ lazyown_hive_status()
 # 4. Wait for synthesis (Queen aggregates drone results)
 lazyown_hive_collect(goal="Enumerate AD users", timeout_s=120)
 
-# 5. Semantic recall from unified ChromaDB + episodic SQLite + Parquet long-term
+# 5. Semantic recall from unified LazyHebb + episodic SQLite + Parquet long-term
 lazyown_hive_recall(query="kerberoast SPN hash", n=5)
 
 # 6. Prune stale memory
@@ -1042,7 +1042,7 @@ lazyown_hive_forget(older_than_hours=48, topic="recon")
 **Memory layers:**
 - **Working memory**: current task context (shared via HiveBus)
 - **Episodic memory**: SQLite FTS5 (`sessions/hive/episodic.db`) — events, commands, outcomes
-- **Semantic memory**: ChromaDB vectors (`sessions/hive/chromadb/`) — similarity search
+- **Semantic memory**: LazyHebb zero-inference recall (`sessions/lazy/hebb.sqlite`) — BM25 + hebbian edges
 - **Long-term memory**: Parquet (`parquets/`) — GTFOBins, LOLBas, MITRE ATT&CK
 
 ### 17b. SWAN — Mixture of Experts with Reinforcement Learning
@@ -1179,7 +1179,7 @@ Access via `lazyown_rag_query`, `lazyown_hive_recall`, `lazyown_facts_show`, `la
 
 | # | Source | Tool | Content |
 |---|--------|------|---------|
-| 17 | ChromaDB RAG | `lazyown_rag_query`, `lazyown_hive_recall` | Semantic search over all sessions/ artefacts |
+| 17 | LazyHebb RAG | `lazyown_rag_query`, `lazyown_hive_recall` | Search over all sessions/ artefacts |
 | 18 | SQLite episodic memory | `lazyown_hive_recall`, `lazyown_memory_recall` | Per-session events, commands, outcomes (FTS5) |
 | 19 | FactStore | `lazyown_facts_show` | Structured facts: ports, services, creds, shares, access level |
 | 20 | sessionLazyOwn.json | `lazyown_campaign_sitrep`, `lazyown_c2_notes`, `lazyown_credentials` | Full operator session: params, creds, hashes, implants, notes, plan |
@@ -1561,7 +1561,7 @@ ollama pull mistral        # excellent for pentesting
 - `lazyown_addon_*`, `lazyown_plugin_*`, `lazyown_tool_*` are auto-discovered at startup. Run `mcp restart` to pick up new ones.
 - **Never kill or timeout `lazynmap` or `pwntomate`** — they are intentionally long-running.
 - Autonomous daemon env vars: `AUTO_USE_SWAN=1`, `AUTO_USE_LLM=1`, `AUTO_MAX_STEPS=N`, `AUTO_STEP_TIMEOUT=N`, `AUTO_HIVE_BACKEND=groq|ollama`
-- Hive Mind requires ChromaDB for semantic search: `pip install chromadb`
+- Hive Mind semantic search is zero-inference LazyHebb (no extra install)
 - SWAN+LLM selectors disabled by default in auto_loop — set env vars to enable full 6-selector cascade
 - 26 total data sources: 7 Parquets + 9 exploit sources + 8 session intelligence + 2 adversarial intelligence
 - PDF report body at `static/body_report.json` — use `lazyown_report_update` to read/write fields

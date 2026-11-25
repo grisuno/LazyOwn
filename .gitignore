@@ -54,7 +54,6 @@ users.json
 *.egg-info/
 lazysentinel.db
 parquets/session_knowledge.parquet
-persistent_chroma_db/
 sessions/phishing/tracking.db
 modules/sessions/
 sessions/phishing/campaigns/

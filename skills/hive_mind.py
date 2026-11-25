@@ -7,7 +7,7 @@ and Groq/Ollama agents are satellite drones executing in parallel.
 
 Architecture
 ------------
-  HiveMemory      — Unified ChromaDB (semantic) + SQLite (episodic) + Parquet (long-term)
+  HiveMemory      — Unified LazyHebb (semantic) + SQLite (episodic) + Parquet (long-term)
   QueenBrain      — Orchestrator: plan -> delegate -> synthesize (Claude is here via MCP)
   DronePool       — Parallel Groq/Ollama agents with specialised roles
   HiveBus         — In-memory message bus between queen and drones
@@ -17,7 +17,7 @@ Memory layers
 -------------
   working    — current task context (dict in memory, shared via bus)
   episodic   — SQLite FTS5: events, commands, outcomes per session
-  semantic   — ChromaDB vectors: similarity search across all agents
+  semantic   — LazyHebb zero-inference recall: BM25 + hebbian edges across agents
   longterm   — Parquet: compressed historical knowledge
 
 Drone roles
@@ -34,7 +34,7 @@ MCP tools added to lazyown_mcp.py
 ----------------------------------
   lazyown_hive_spawn     — spawn N drones for a goal (parallel)
   lazyown_hive_status    — hive-wide status + memory stats
-  lazyown_hive_recall    — semantic recall from ChromaDB
+  lazyown_hive_recall    — zero-inference semantic recall from LazyHebb
   lazyown_hive_plan      — queen generates task decomposition
   lazyown_hive_result    — get aggregated drone results
   lazyown_hive_forget    — prune hive memory by topic/age
@@ -84,59 +84,6 @@ for _p in [str(SKILLS_DIR), str(LAZYOWN_DIR / "modules")]:
 
 log = logging.getLogger("hive_mind")
 
-# ── Optional ChromaDB ──────────────────────────────────────────────────────────
-
-try:
-    import chromadb
-    from chromadb.config import Settings  # noqa: F401 as _ChromaSettings
-
-    _CHROMA_OK = True
-except ImportError:
-    _CHROMA_OK = False
-
-# ── Optional sentence-transformers (fully lazy — import + model deferred) ─────
-# torch takes 10-15s to import. We must NOT import sentence_transformers at
-# module level — it would block the MCP server startup handshake. Both the
-# import and the model instantiation happen on the first call to _embed().
-
-_EMBED_MODEL = None  # populated lazily
-_EMBED_MODEL_LOCK = threading.Lock()
-_EMBED_CHECKED = False  # True after first availability check
-_EMBED_OK = False  # set after first successful import
-
-
-def _get_embed_model():
-    """Return the embedding model. Imports sentence_transformers + loads model
-    on first call. Thread-safe. Returns None if unavailable."""
-    global _EMBED_MODEL, _EMBED_OK, _EMBED_CHECKED
-    if _EMBED_MODEL is not None:
-        return _EMBED_MODEL
-    with _EMBED_MODEL_LOCK:
-        if _EMBED_MODEL is not None:
-            return _EMBED_MODEL
-        if _EMBED_CHECKED:
-            return None
-        _EMBED_CHECKED = True
-        try:
-            from sentence_transformers import SentenceTransformer as _ST  # noqa: PLC0415
-
-            _EMBED_MODEL = _ST("all-MiniLM-L6-v2")
-            _EMBED_OK = True
-            log.info("sentence-transformers model loaded")
-        except Exception as exc:
-            log.debug("sentence-transformers unavailable: %s", exc)
-    return _EMBED_MODEL
-
-
-# ── Optional numpy ────────────────────────────────────────────────────────────
-
-try:
-    import numpy  # noqa: F401 as np
-
-    _NUMPY_OK = True
-except ImportError:
-    _NUMPY_OK = False
-
 # ─────────────────────────────────────────────────────────────────────────────
 # SECTION 0 — Interfaces (I — Interface Segregation, O — Open/Closed)
 # ─────────────────────────────────────────────────────────────────────────────
@@ -162,7 +109,7 @@ class IMemoryStore(IReadableMemory, IWritableMemory):
     """
     Combined readable + writable memory store.
 
-    Concrete subclasses (EpisodicStore, SemanticStore, LongtermStore) all
+    Concrete subclasses (EpisodicStore, HebbStore, LongtermStore) all
     satisfy the Liskov Substitution Principle — they can replace each other
     in any context that expects IMemoryStore.
     """
@@ -342,170 +289,44 @@ class EpisodicStore(IMemoryStore):
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# SECTION 1B — SemanticStore  (S — Single Responsibility: ChromaDB only)
+# SECTION 1B — HebbStore  (S — Single Responsibility: LazyHebb zero-inference only)
 # ─────────────────────────────────────────────────────────────────────────────
 
 
-class SemanticStore(IMemoryStore):
+class HebbStore(IMemoryStore):
     """
-    ChromaDB-backed vector similarity store.
+    LazyHebb zero-inference semantic store (default semantic layer).
 
-    Falls back to the provided episodic_fallback when ChromaDB is unavailable.
-    Responsible for: embedding, upsert into ChromaDB, similarity recall.
-    Nothing else.
+    Ports the HebbMesh concepts over SQLite FTS5: write-time semantic
+    seeding, hebbian co-activation recall, privacy firewall. Zero
+    embeddings, zero LLM calls. Satisfies IMemoryStore so it substitutes
+    EpisodicStore anywhere (Liskov).
     """
 
-    def __init__(
-        self,
-        chroma_dir: Path | None = None,
-        episodic_fallback: EpisodicStore | None = None,
-    ) -> None:
-        self._episodic = episodic_fallback
-        self._collection = self._init_chroma(chroma_dir or (HIVE_DIR / "chroma"))
+    def __init__(self, db_path: Path | None = None) -> None:
+        from modules.lazy_hebb import LazyHebb
 
-    def _init_chroma(self, chroma_dir: Path):
-        if not _CHROMA_OK:
-            return None
-        try:
-            from modules.orchestrator_config import chroma_config
+        self._hebb = LazyHebb(db_path=db_path)
 
-            if not chroma_config().get("enabled"):
-                log.info(
-                    "hive_mind: ChromaDB disabled by orchestrator.chroma.enabled=false (opt-in); episodic fallback active"
-                )
-                return None
-        except Exception:
-            return None
-        try:
-            client = chromadb.PersistentClient(path=str(chroma_dir))
-            return client.get_or_create_collection(
-                name="hive_memory",
-                metadata={"hnsw:space": "cosine"},
-            )
-        except Exception as exc:
-            log.warning("ChromaDB init failed: %s", exc)
-            return None
+    def store(self, content: str, agent_id: str = "queen", **meta: Any) -> str:
+        """Persist one memory through LazyHebb. Returns the memory uid."""
+        return self._hebb.store(
+            content,
+            agent_id=agent_id,
+            phase=str(meta.get("event_type", "") or ""),
+        )
 
-    @property
-    def available(self) -> bool:
-        """True when ChromaDB is operational."""
-        return self._collection is not None
+    def recall(self, query: str, top_k: int = 10) -> list[dict]:
+        """Recall via BM25 + one-hop hebbian spreading activation."""
+        winners = self._hebb.spark(query, top_k=top_k)
+        for winner in winners:
+            winner.setdefault("id", winner.get("uid", ""))
+            winner["layer"] = "hebb"
+        return winners
 
-    # IWritableMemory ---------------------------------------------------------
-
-    def store(
-        self,
-        content: str,
-        agent_id: str = "queen",
-        role: str = "generic",
-        event_type: str = "observation",
-        meta: dict | None = None,
-        session_tag: str = "",
-        event_id: str | None = None,
-        **_ignored: Any,
-    ) -> str:
-        """Add a document to ChromaDB. Returns the event_id used."""
-        eid = event_id or uuid.uuid4().hex
-        if self._collection is None:
-            if self._episodic is not None:
-                return self._episodic.store(
-                    content,
-                    agent_id=agent_id,
-                    role=role,
-                    event_type=event_type,
-                    meta=meta,
-                    session_tag=session_tag,
-                )
-            return eid
-
-        ts = time.time()
-        try:
-            embedding = self._embed(content)
-            self._collection.add(
-                ids=[eid],
-                documents=[content[:2000]],
-                embeddings=[embedding] if embedding else None,
-                metadatas=[
-                    {
-                        "agent_id": agent_id,
-                        "role": role,
-                        "event_type": event_type,
-                        "ts": str(ts),
-                        "session": session_tag,
-                    }
-                ],
-            )
-        except Exception as exc:
-            log.debug("ChromaDB store error: %s", exc)
-        return eid
-
-    # IReadableMemory ---------------------------------------------------------
-
-    def recall(
-        self,
-        query: str,
-        top_k: int = 8,
-        where: dict | None = None,
-    ) -> list[dict]:
-        """Vector similarity search. Falls back to episodic FTS if unavailable."""
-        if self._collection is None:
-            if self._episodic is not None:
-                return self._episodic.recall(query, top_k)
-            return []
-        try:
-            embedding = self._embed(query)
-            kw: dict[str, Any] = {
-                "n_results": top_k,
-                "include": ["documents", "metadatas", "distances"],
-            }
-            if embedding:
-                kw["query_embeddings"] = [embedding]
-            else:
-                kw["query_texts"] = [query]
-            if where:
-                kw["where"] = where
-            res = self._collection.query(**kw)
-            docs = res.get("documents", [[]])[0]
-            metas = res.get("metadatas", [[]])[0]
-            dists = res.get("distances", [[]])[0]
-            ids_ = res.get("ids", [[]])[0]
-            return [
-                {
-                    "id": ids_[i],
-                    "content": docs[i],
-                    "meta": metas[i],
-                    "similarity": round(1.0 - dists[i], 4),
-                }
-                for i in range(len(docs))
-            ]
-        except Exception as exc:
-            log.debug("ChromaDB recall error: %s — falling back to FTS", exc)
-            if self._episodic is not None:
-                return self._episodic.recall(query, top_k)
-            return []
-
-    def count(self) -> int:
-        """Return number of vectors stored."""
-        if self._collection is None:
-            return 0
-        try:
-            return self._collection.count()
-        except Exception:
-            return 0
-
-    # Internal ----------------------------------------------------------------
-
-    def _embed(self, text: str) -> list[float] | None:
-        model = _get_embed_model()
-        if model is None:
-            return None
-        try:
-            vec = model.encode(text[:512], show_progress_bar=False)
-            if _NUMPY_OK:
-                return vec.tolist()
-            return list(vec)
-        except Exception:
-            return None
+    def stats(self) -> dict[str, Any]:
+        """Return LazyHebb counters."""
+        return self._hebb.stats()
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -569,11 +390,16 @@ def build_default_hive_memory(db_path: Path | None = None) -> HiveMemory:
     """
     Factory that creates HiveMemory with the default three-layer backend.
 
+    The semantic layer is LazyHebb (zero-inference FTS5).
+
     Callers that need a custom configuration can construct each store
     explicitly and pass them to HiveMemory directly.
     """
     episodic = EpisodicStore(db_path=db_path)
-    semantic = SemanticStore(episodic_fallback=episodic)
+    try:
+        semantic: IMemoryStore = HebbStore()
+    except Exception:
+        semantic = None
     longterm = LongtermStore()
     return HiveMemory(stores=[episodic, semantic, longterm], episodic=episodic, semantic=semantic, longterm=longterm)
 
@@ -582,7 +408,7 @@ class HiveMemory:
     """
     Unified three-layer memory shared across all hive agents.
 
-    Composes EpisodicStore, SemanticStore, and LongtermStore.
+    Composes EpisodicStore, HebbStore, and LongtermStore.
     Handles cross-layer deduplication in recall().
 
     Dependency Inversion: concrete backends are injected via __init__.
@@ -593,7 +419,7 @@ class HiveMemory:
         self,
         stores: list[IMemoryStore],
         episodic: EpisodicStore | None = None,
-        semantic: SemanticStore | None = None,
+        semantic: IMemoryStore | None = None,
         longterm: LongtermStore | None = None,
     ) -> None:
         self._stores = stores
@@ -616,7 +442,7 @@ class HiveMemory:
         Store content in all writable layers.
 
         Returns the event_id from the first store (episodic).
-        The same id is forwarded to semantic so ChromaDB and SQLite stay aligned.
+        The same id is forwarded to semantic so LazyHebb and SQLite stay aligned.
         """
         event_id: str | None = None
         kwargs = dict(
@@ -633,7 +459,7 @@ class HiveMemory:
             if event_id is None:
                 event_id = store.store(content, **kwargs)
             else:
-                # Forward the same event_id so ChromaDB row aligns with SQLite row
+                # Forward the same event_id so LazyHebb row aligns with SQLite row
                 store.store(content, event_id=event_id, **kwargs)
 
         return event_id or uuid.uuid4().hex
@@ -652,7 +478,7 @@ class HiveMemory:
             return []
         return self._episodic.recall(query, top_k, role=role, event_type=event_type)
 
-    # ── Recall — semantic (ChromaDB) ─────────────────────────────────────────
+    # ── Recall — semantic (LazyHebb) ─────────────────────────────────────────
 
     def recall_semantic(
         self,
@@ -660,9 +486,11 @@ class HiveMemory:
         top_k: int = 8,
         where: dict | None = None,
     ) -> list[dict]:
-        """Vector similarity search in ChromaDB."""
+        """Zero-inference semantic recall (LazyHebb)."""
         if self._semantic is None:
             return self.recall_episodic(query, top_k)
+        if isinstance(self._semantic, HebbStore):
+            return self._semantic.recall(query, top_k)
         return self._semantic.recall(query, top_k, where=where)
 
     # ── Recall — long-term (Parquet) ─────────────────────────────────────────
@@ -677,7 +505,7 @@ class HiveMemory:
 
     def recall(self, query: str, top_k: int = 10) -> list[dict]:
         """
-        Unified recall: semantic (ChromaDB) + episodic (SQLite) + longterm (Parquet).
+        Unified recall: semantic (LazyHebb) + episodic (SQLite) + longterm (Parquet).
         Deduplicates by content hash.
         """
         seen: set = set()
@@ -703,10 +531,11 @@ class HiveMemory:
 
     def stats(self) -> dict[str, Any]:
         """Return combined statistics from all layers."""
-        result: dict[str, Any] = {"chroma_enabled": _CHROMA_OK, "embed_enabled": _EMBED_OK}
+        result: dict[str, Any] = {"hebb_enabled": self._semantic is not None}
         if self._episodic is not None:
             result.update(self._episodic.stats())
-        result["chroma_vectors"] = self._semantic.count() if self._semantic else 0
+        if self._semantic is not None and hasattr(self._semantic, "stats"):
+            result["hebb"] = self._semantic.stats()
         return result
 
     # ── Forget ────────────────────────────────────────────────────────────────

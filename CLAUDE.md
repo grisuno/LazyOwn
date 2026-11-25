@@ -303,7 +303,7 @@ change it via CLI).
 | `campaign_lessons.jsonl` | EpisodeReflectionEngine | next campaign |
 | `policy_facts.json` | policy engine | dashboard |
 | `captured_images/` | decoy site | operator review |
-| `keyword_fallback_index.json` | rag fallback (no ChromaDB) | rag_query |
+| `keyword_fallback_index.json` | keyword RAG index (vector store removed) | rag_query |
 | `blacksandbeacon` | `blacksandbeacon` addon (`make`) | collab_join delivery |
 
 Before any tool: (1) `ls sessions/`, (2) read existing artefacts. If answer exists, don't re-scan.

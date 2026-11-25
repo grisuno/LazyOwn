@@ -913,7 +913,12 @@ def _make_handler():
         """Forwards and records HTTP and MITM'd HTTPS exchanges."""
 
         protocol_version = "HTTP/1.1"
-        server_version = "LazyOwnRecorder/1.0"
+        server_version = ""
+        sys_version = ""
+
+        def version_string(self) -> str:
+            """Emit no Server header: never fingerprint the recorder."""
+            return ""
 
         def log_message(self, fmt, *args):  # noqa: ANN002, ANN003
             """Silence per-request logging; the recorder is the audit trail."""

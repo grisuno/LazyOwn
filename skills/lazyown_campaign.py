@@ -175,7 +175,7 @@ class Campaign:
 class LessonLearned:
     """A single distilled lesson extracted from a completed campaign.
 
-    Stored in hive memory (ChromaDB) so future campaigns can retrieve
+    Stored in hive memory (LazyHebb) so future campaigns can retrieve
     relevant lessons via semantic search.
     """
 
@@ -197,7 +197,7 @@ class EpisodeReflectionEngine:
     After a campaign completes, analyses milestones and notes to produce
     a set of LessonLearned records and persists them to:
       1. sessions/campaign_lessons.jsonl  — local flat file for offline review
-      2. hive_memory (ChromaDB / SQLite)  — for semantic retrieval in future campaigns
+      2. hive_memory (LazyHebb / SQLite)  — for semantic retrieval in future campaigns
 
     Design
     ------

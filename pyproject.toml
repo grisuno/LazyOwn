@@ -109,10 +109,11 @@ ai = [
 cloud = [
     "boto3",
 ]
-# RAG vector store: retired from the dependency set. chromadb had no
-# patched release for the pre-authentication advisory family, so the
-# semantic backends degrade to the keyword fallback and the dependency
-# is opt-in only (pip install chromadb by an operator who accepts it).
+# RAG vector store: the former vector dependency was removed entirely
+# (no patched release for its pre-authentication advisory family).
+# Search is the built-in keyword fallback and semantic memory lives in
+# LazyHebb (modules/lazy_hebb.py): SQLite FTS5 + hebbian co-activation,
+# zero dependencies.
 rag = []
 ml = [
     "torch",

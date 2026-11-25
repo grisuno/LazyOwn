@@ -959,11 +959,20 @@ def _bootstrap(scan_target: str, executor: Callable[[str], str]) -> None:
     try:
         from modules.lazy_exposure import ensure_report
 
-        path = ensure_report(scan_target)
+        path = ensure_report(scan_target, allow_network=False)
         if path:
-            print_msg(f"[*] bootstrap: exposure report staged at {path}")
+            print_msg(f"[*] bootstrap: exposure report staged at {path} (cache-only)")
+        else:
+            print_msg("[*] bootstrap: exposure report deferred (no cached intel; live feeds on demand)")
     except Exception as exc:
         print_warn(f"[!] bootstrap intel report skipped: {exc}")
+    try:
+        from modules.lazy_hebb import shared_hebb
+
+        stats = shared_hebb().stats()
+        print_msg(f"[*] lazyhebb: {stats['memories']} memories, {stats['edges']} edges ({stats['db']})")
+    except Exception as exc:
+        print_warn(f"[!] lazyhebb unavailable: {exc}")
 
 
 def _apply_budget(engine, task_id: str, budget: dict) -> None:

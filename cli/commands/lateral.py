@@ -127,13 +127,16 @@ class LateralMovementCommandSet(LazyOwnCommandSet):
 
     @cmd2.with_category(lateral_movement_category)
     def do_ssh(self, line):
-        """SSH to a remote host (custom port)."""
+        """SSH to a remote host (custom port, legacy algorithm negotiation)."""
         rhost = self.params["rhost"]
         if not check_rhost(rhost):
             return
         user = input("[?] Username (default: root): ") or "root"
         port = input("[?] Port (default: 22): ") or "22"
-        self.cmd(f"ssh {user}@{rhost} -p {port}")
+        self.cmd(
+            f"ssh -o HostKeyAlgorithms=+ssh-rsa,ssh-dss -o PubkeyAcceptedAlgorithms=+ssh-rsa,ssh-dss"
+            f" -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null {user}@{rhost} -p {port}"
+        )
 
 
 for _lazy_name in dir(_lazy_utils):

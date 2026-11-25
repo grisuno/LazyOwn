@@ -13,7 +13,7 @@ TOOL = types.Tool(
     name="lazyown_rag_index",
     description=(
         "Incrementally index all sessions/ artefacts (*.log, *.txt, *.csv, *.xml, "
-        "*.json, *.nmap, *.md) into the ChromaDB semantic store. "
+        "*.json, *.nmap, *.md) into the keyword index. "
         "Only new or changed files are processed — safe to call from cron. "
         "mode='incremental' (default) indexes only new/changed files. "
         "mode='full' rebuilds the entire index from scratch. "
@@ -58,10 +58,6 @@ async def handle(arguments: dict[str, Any], tool_name: str, ctx: MCPContext) -> 
             f"Indexed files:  {stats['indexed_files']}",
             f"Total chunks:   {stats['total_chunks']}",
         ]
-        if not stats["chroma_ok"]:
-            lines.append(
-                "Note: chromadb not installed — using keyword fallback. For semantic search: pip install chromadb"
-            )
         return ctx.text(tool_name, "\n".join(lines))
     except Exception as exc:
         return ctx.text(tool_name, f"[rag_index error] {exc}")

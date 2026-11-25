@@ -5610,6 +5610,19 @@ class Planner:
             context = build_prompt_context(
                 self.task_id, self.graph, self.assets, self.store, budget=pool.context_budget()
             )
+            try:
+                from modules.lazy_hebb import last_recall
+
+                stats = last_recall()
+                if stats.get("count"):
+                    self.activity.emit(
+                        "planner",
+                        "hebb",
+                        f"hebb intel: {stats['count']} memories"
+                        f" ({stats['hops']} propagated) recalled in {stats['ms']}ms",
+                    )
+            except Exception:
+                pass
             prompt = (
                 f"Goal: {(record.get('goal', ''))[:300]}\n{context}\n"
                 f"Constraints: {constraint_block(record.get('constraints', []), scope='planner')[:400]}\n"
@@ -8252,6 +8265,14 @@ def build_prompt_context(
             fleet_text = fleet_prompt_context(task_id=fleet_task, limit=int(comms.get("max_messages", 6) or 6))
             if fleet_text:
                 parts.append(fence("fleet_intel", fleet_text) if boundary_on else fleet_text)
+    except Exception:
+        pass
+    try:
+        from modules.lazy_hebb import hebb_prompt_context
+
+        hebb_text = hebb_prompt_context(f"{record.get('goal', '')} {' '.join(n.text[:60] for n in facts[-top:])}")
+        if hebb_text:
+            parts.append(fence("hebb_intel", hebb_text) if boundary_on else hebb_text)
     except Exception:
         pass
     try:

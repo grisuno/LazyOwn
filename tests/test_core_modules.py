@@ -770,7 +770,7 @@ def test_session_rag_stats():
     assert "backend" in s
     assert "indexed_files" in s
     assert "total_chunks" in s
-    assert s["backend"] in ("chromadb", "keyword_fallback")
+    assert s["backend"] == "keyword_fallback"
 
 
 def test_session_rag_chunk_text():

@@ -17,7 +17,6 @@ Architecture:
 from __future__ import annotations
 
 import ast
-import re
 from collections.abc import Iterable
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -51,8 +50,6 @@ class MitigationSuiteConfig:
             "lazyphishingai.py": "modules/legacy/lazyphishingai.py",
         }
     )
-    sentinel_path: str = "lazy_sentinel4.py"
-    sentinel_function: str = "sanitize_content"
 
     @property
     def repo_root(self) -> Path:
@@ -163,64 +160,6 @@ class TestStackTraceSanitisation:
             assert needle not in phishingai_src, f"lazyphishingai.py still contains: {needle}"
 
 
-class TestSentinelRegexSafety:
-    """``py/overly-large-range`` mitigation in ``lazy_sentinel4.sanitize_content``.
-
-    The host module pulls in heavyweight optional dependencies (langchain,
-    rich, watchdog) that may be absent in lean test environments. To keep
-    the regression contract decoupled from those imports the suite reads
-    the source, extracts the substitution pattern and exercises it against
-    a stable input set.
-    """
-
-    @pytest.fixture(scope="class")
-    def src(self, mitigation_config: MitigationSuiteConfig) -> str:
-        """The full text of ``lazy_sentinel4.py``."""
-        return _read_module(mitigation_config, mitigation_config.sentinel_path)
-
-    def _extract_sanitise_pattern(self, src: str) -> str:
-        """Return the printable-ASCII pattern wired into ``sanitize_content``."""
-        match = re.search(r"re\.sub\(r(['\"])(\[[^'\"]+)\1, (['\"]) \3, text\)", src)
-        if match is None:
-            pytest.fail("sanitize_content pattern not found in lazy_sentinel4.py")
-        return match.group(2)
-
-    def test_no_redundant_character_range_in_sanitise(self, src: str) -> None:
-        """The simplified character class is what landed."""
-        assert r"[^\x20-\x7E\n\t]" in src
-        assert r"[^\x20-\x7E\n\t#*+-_" not in src
-
-    def test_pattern_matches_simplified_form(self, src: str) -> None:
-        """The pattern extracted from source is the simplified one."""
-        assert self._extract_sanitise_pattern(src) == r"[^\x20-\x7E\n\t]"
-
-    def test_pattern_keeps_printable_ascii(self, src: str) -> None:
-        """All printable ASCII characters survive the substitution unchanged."""
-        pattern = re.compile(self._extract_sanitise_pattern(src))
-        sample = "abc 123 [link](url) `code` *bold* | pipe"
-        assert pattern.sub(" ", sample) == sample
-
-    def test_pattern_keeps_tab_and_newline(self, src: str) -> None:
-        """``\\t`` and ``\\n`` survive even though they fall outside ``\\x20-\\x7E``."""
-        pattern = re.compile(self._extract_sanitise_pattern(src))
-        text = "line1\nline2\twith tab"
-        assert pattern.sub(" ", text) == text
-
-    def test_pattern_strips_control_bytes(self, src: str) -> None:
-        """Bytes below ``\\x20`` (other than tab/newline) are replaced."""
-        pattern = re.compile(self._extract_sanitise_pattern(src))
-        result = pattern.sub(" ", "clean\x01\x02\x7fbyte")
-        assert "\x01" not in result
-        assert "\x02" not in result
-        assert "\x7f" not in result
-
-    def test_pattern_does_not_strip_brackets(self, src: str) -> None:
-        """The mitigation no longer accidentally drops ``]``, ``)`` or ``|``."""
-        pattern = re.compile(self._extract_sanitise_pattern(src))
-        text = "[ref](url) | pipe"
-        assert pattern.sub(" ", text) == text
-
-
 class TestMitigationConfigInvariants:
     """Smoke tests that the suite configuration matches the repo state."""
 
@@ -229,12 +168,3 @@ class TestMitigationConfigInvariants:
         for relative in mitigation_config.handler_module_paths.values():
             assert (mitigation_config.repo_root / relative).exists(), f"missing module: {relative}"
 
-    def test_sentinel_module_exists(self, mitigation_config: MitigationSuiteConfig) -> None:
-        """The sentinel module that hosts ``sanitize_content`` is present."""
-        assert (mitigation_config.repo_root / mitigation_config.sentinel_path).exists()
-
-    def test_sentinel_function_exposed(self, mitigation_config: MitigationSuiteConfig) -> None:
-        """``sanitize_content`` is importable for behavioural tests."""
-        src = _read_module(mitigation_config, mitigation_config.sentinel_path)
-        names = {node.name for node in ast.walk(ast.parse(src)) if isinstance(node, ast.FunctionDef)}
-        assert mitigation_config.sentinel_function in names

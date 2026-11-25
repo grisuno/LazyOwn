@@ -2099,7 +2099,7 @@ SCHEMA: dict[str, FieldSpec] = {
             "Allow reactive_engine to emit semantic suggestions from SessionRAG.",
             long_help=(
                 "When enabled, the reactive engine queries the SessionRAG index "
-                "(ChromaDB or keyword fallback) for past sessions whose output "
+                "(keyword fallback) for past sessions whose output "
                 "resembles the current one and emits a priority-5 suggest_next "
                 "decision pointing at the originating command. Regex-based "
                 "matchers always outrank these hints; disable to keep the "

@@ -12,7 +12,7 @@ TOOL = types.Tool(
     name="lazyown_hive_status",
     description=(
         "Full hive-mind status: all active drones with role/status/duration, "
-        "ChromaDB vector count, episodic memory events, queen mailbox depth."
+        "LazyHebb memory/edge counts, episodic memory events, queen mailbox depth."
     ),
     inputSchema={"type": "object", "properties": {}, "required": []},
 )

@@ -156,9 +156,10 @@ FALLBACK_WORKER_COMMS: dict[str, Any] = {
     "cross_task_only": True,
 }
 
-FALLBACK_CHROMA: dict[str, Any] = {
-    "enabled": False,
-    "reason": "chromadb is on an unpatched critical CVE path; opt in explicitly",
+FALLBACK_HEBB: dict[str, Any] = {
+    "enabled": True,
+    "max_memories": 5,
+    "record_outcomes": True,
 }
 
 DECOY_MODES: tuple[str, ...] = ("off", "page", "deny")
@@ -706,21 +707,22 @@ def ss_cve_config() -> dict[str, Any]:
     return merged
 
 
-def chroma_config() -> dict[str, Any]:
-    """Return resolved ChromaDB/RAG settings.
+def hebb_config() -> dict[str, Any]:
+    """Return resolved LazyHebb zero-inference memory settings.
 
-    Precedence: module fallback < YAML profile ``chroma`` < payload
-    ``orchestrator.chroma``. Default is OFF: the chromadb dependency
-    currently has an unpatched critical advisory, so vector search is an
-    explicit operator opt-in (``orchestrator.chroma.enabled: true``).
+    Precedence: module fallback < YAML profile ``hebb`` < payload
+    ``orchestrator.hebb``.
 
     Returns:
-        Mapping with ``enabled``.
+        Mapping with ``enabled``, ``max_memories`` and
+        ``record_outcomes``.
     """
-    merged = dict(FALLBACK_CHROMA)
-    merged.update(profile_config().get("chroma") or {})
-    merged.update(_section().get("chroma") or {})
-    merged["enabled"] = bool(merged.get("enabled", False))
+    merged = dict(FALLBACK_HEBB)
+    merged.update(profile_config().get("hebb") or {})
+    merged.update(_section().get("hebb") or {})
+    merged["enabled"] = bool(merged.get("enabled", True))
+    merged["max_memories"] = max(1, min(12, int(merged.get("max_memories", 5) or 5)))
+    merged["record_outcomes"] = bool(merged.get("record_outcomes", True))
     return merged
 
 
@@ -1322,7 +1324,6 @@ __all__ = [
     "FALLBACK_STAGES",
     "FALLBACK_TERMINATION",
     "FALLBACK_WORKER_COMMS",
-    "FALLBACK_CHROMA",
     "DECOY_MODES",
     "ORCHESTRATOR_YAML_PATH",
     "STAGE_DEFS",

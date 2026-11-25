@@ -36,7 +36,7 @@ After registration, restart with `bash skills/mcp_restart.sh` whenever
 | `lazyown_parquet_db.py` | Parquet knowledge base: session history + GTFOBins + LOLBas + ATT&CK |
 | `lazyown_campaign.py` | Campaign store: episode reflection + lesson extraction |
 | `autonomous_daemon.py` | 4-role asyncio daemon: objective loop, execution engine, world model watcher, drone coordinator |
-| `hive_mind.py` | Queen (Claude) + Drone (Groq/Ollama) multi-agent system with ChromaDB memory |
+| `hive_mind.py` | Queen (Claude) + Drone (Groq/Ollama) multi-agent system with LazyHebb memory |
 | `swan_agent.py` | SWAN orchestrator: MoE routing + RL Q-learning + ensemble synthesis + detection oracle feedback |
 | `mcp_restart.sh` | Restart helper for the MCP server process |
 
@@ -191,8 +191,8 @@ Tools are grouped by function. All names are prefixed `lazyown_`.
 | `facts_show` | Show structured facts extracted from nmap XML and tool output: open ports, services, credentials, access level. Optionally re-parse sessions/ |
 | `cve_search` | Search NVD for CVEs matching product + optional version. Results cached on disk |
 | `searchsploit` | Search public exploits by CVE ID or service/version. Uses searchsploit CLI, falls back to ExploitDB API |
-| `rag_index` | Incrementally index all sessions/ artefacts into ChromaDB (falls back to keyword search). mode: `incremental` (default) or `full`. Returns file/chunk counts. Install: `pip install chromadb` |
-| `rag_query` | Semantic search over indexed sessions/ artefacts (logs, scans, credentials, XMLs, etc.). Falls back to keyword search when ChromaDB is unavailable. Enriches auto_loop thought prompts |
+| `rag_index` | Incrementally index all sessions/ artefacts into the keyword index. mode: `incremental` (default) or `full`. Returns file/chunk counts |
+| `rag_query` | Keyword search over indexed sessions/ artefacts (logs, scans, credentials, XMLs, etc.). Enriches auto_loop thought prompts |
 | `threat_model` | Build or load the blue team threat model from session data. Maps commands to MITRE ATT&CK, scores assets by risk, produces IOC registry and Sigma-lite detection rules. Saved to `sessions/reports/threat_model.json` |
 
 ### Memory & Learning
@@ -313,7 +313,7 @@ hive_mind.py — Multi-Agent Hive Mind ─────────────�
   QueenBrain (Claude)                                                  │
     └── ConsensusProtocol — weighted voting for high-risk actions      │
   DronePool (Groq/Ollama agents — parallel execution)                 │
-  HiveMemory — ChromaDB (semantic) + SQLite (episodic) + Parquet      │
+  HiveMemory — LazyHebb (semantic) + SQLite (episodic) + Parquet     │
   EpisodeReflectionEngine — post-campaign lesson extraction           │
                                                                        │
 LazyOwn framework ─────────────────────────────────────────────────────┘
@@ -371,7 +371,7 @@ and Kerberos tooling are never dispatched against Linux targets, and vice-versa.
 | `recommender.py` | Groq/Ollama command recommendation |
 | `timeline_narrator.py` | AI-written timeline narration |
 | `session_state.py` | Aggregated session state snapshot |
-| `session_rag.py` | ChromaDB/keyword RAG over sessions/ — incremental indexing, semantic search, auto_loop context injection |
+| `session_rag.py` | Keyword RAG over sessions/ — incremental indexing, search, auto_loop context injection |
 | `threat_model.py` | Blue team threat model builder: assets × risk scores, MITRE TTPs, IOC registry, Sigma-lite detection rules |
 | `detection_oracle.py` | Blue Team Mirror: predicts detection probability before execution using 17 Sigma-lite rules. Enables detection-aware reward shaping in the policy engine and SWAN |
 | `moe_router.py` | Mixture-of-Experts router: temperature-scaled softmax selection across groq_fast, groq_powerful, groq_deepseek_r1, ollama_reason, groq_gemma. Performance EMA per (expert, task_type) pair |

@@ -3,7 +3,7 @@
 After a campaign completes, :class:`EpisodeReflectionEngine` in
 ``skills/lazyown_campaign.py`` extracts :class:`LessonLearned` records and
 persists them to ``sessions/campaign_lessons.jsonl`` and Hive Memory
-(ChromaDB).  However, those lessons were never fed back into the MoE router
+(LazyHebb).  However, those lessons were never fed back into the MoE router
 or RL trainer to influence future expert selection.
 
 This module closes that gap.  :class:`LessonIngestor` reads lessons and

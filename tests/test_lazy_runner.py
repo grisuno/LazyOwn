@@ -992,18 +992,21 @@ def test_engine_heartbeat_replans_when_idle(store):
     engine.heartbeat_sec = 0.25
     task_id = engine.create_task("gain initial access on 127.0.0.1")["task_id"]
     calls = {"n": 0}
+    round_times: list[float] = []
 
     def _round(task_id_arg, workers=1, executor=None):
         calls["n"] += 1
+        round_times.append(_time.monotonic())
         return {"new_intents": 0, "executed": 0, "overview": {}}
 
     engine.run_round = _round
-    started = _time.monotonic()
     engine.run(task_id, max_rounds=3, workers=1)
-    elapsed = _time.monotonic() - started
     assert calls["n"] == 3
-    assert elapsed >= 0.3
-    assert elapsed < 10
+    assert len(round_times) == 3
+    gaps = [later - earlier for earlier, later in zip(round_times, round_times[1:])]
+    assert sum(gaps) >= 0.3
+    assert all(gap >= 0.15 for gap in gaps)
+    assert all(gap < 15 for gap in gaps)
 
 
 def test_agent_background_jobs_and_output(store):

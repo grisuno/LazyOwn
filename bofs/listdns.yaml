@@ -7,7 +7,7 @@ source_file: SA/listdns/entry.c
 client: beacon
 platform: windows
 category: enumeration
-client_artifact: 
+client_artifact:
 required_args: []
 optional_args: ['domain']
 mitre_technique: T1590

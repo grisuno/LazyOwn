@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import csv
 import os
+from typing import Any
 
 from cli.autosuggest import SuggestionContext as _SuggestionContext
 
@@ -26,6 +27,8 @@ class AutosuggestMixin:
     Mixed into :class:`LazyOwnShell`; invoked after a command executes to
     refresh the ghost-text suggestion.
     """
+
+    params: dict[str, Any]
 
     def _read_recent_commands_for_autosuggest(self, limit: int = 5) -> list:
         """Return the last ``limit`` first-tokens from the session transcript.

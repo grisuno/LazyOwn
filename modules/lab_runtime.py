@@ -248,17 +248,13 @@ PHP2SHELL56_INI = (
 PHP2SHELL56_INDEX = (
     "<?php\n"
     "session_start();\n"
-    "echo \"PHP \" . PHP_VERSION . \"\\n\";\n"
-    "echo \"SAPI \" . php_sapi_name() . \"\\n\";\n"
-    "echo \"upload_progress \" . ini_get('session.upload_progress.enabled') . \"\\n\";\n"
-    "echo \"OK\\n\";\n"
+    'echo "PHP " . PHP_VERSION . "\\n";\n'
+    'echo "SAPI " . php_sapi_name() . "\\n";\n'
+    'echo "upload_progress " . ini_get(\'session.upload_progress.enabled\') . "\\n";\n'
+    'echo "OK\\n";\n'
 )
 
-PHP2SHELL56_LFI = (
-    "<?php\n"
-    "$page = isset($_GET['page']) ? $_GET['page'] : 'home';\n"
-    "include($page);\n"
-)
+PHP2SHELL56_LFI = "<?php\n$page = isset($_GET['page']) ? $_GET['page'] : 'home';\ninclude($page);\n"
 
 PHP2SHELL56_INI_B64 = base64.b64encode(PHP2SHELL56_INI.encode()).decode()
 PHP2SHELL56_INDEX_B64 = base64.b64encode(PHP2SHELL56_INDEX.encode()).decode()

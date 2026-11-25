@@ -8,8 +8,7 @@ RECON_OUTPUT = (
     "HTTP/1.1 200 OK\n"
     "Server: Apache/2.2.8 (Ubuntu) DAV/2\n"
     "X-Powered-By: PHP/5.2.4-2ubuntu5.10\n"
-    "Content-Type: text/html\n\n"
-    + "<html><body><h1>Welcome</h1><p>" + "x" * 500 + "</p></body></html>"
+    "Content-Type: text/html\n\n" + "<html><body><h1>Welcome</h1><p>" + "x" * 500 + "</p></body></html>"
 )
 
 

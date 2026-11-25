@@ -15,7 +15,7 @@ Domain: penetration testing, red teaming, C2 operations
 
 LazyOwn is a professional pentest/red-team framework:
 
-- **CLI** (`lazyown.py`): cmd2 shell with 879 commands and 130 aliases covering the full kill chain.
+- **CLI** (`lazyown.py`): cmd2 shell with 887 commands and 130 aliases covering the full kill chain.
 - **C2** (`lazyc2.py`): Flask + Socket.IO web dashboard, beacon protocol, phishing, multi-operator collaboration.
 - **MCP** (`skills/lazyown_mcp.py`): 194 tools exposing the framework to AI agents.
 - **DB** (`modules/db.py`): SQLite database layer — workspaces, hosts, services, vulns, creds, loot, notes, nmap import.
@@ -39,7 +39,7 @@ Hermes Agent -> MCP -> skills/lazyown_mcp.py -> lazyown.py (CLI) / lazyc2.py (C2
 
 - `utils.py`: shared helpers, Config class, run_command wrapper. Imported by both CLI and C2. Also `resolve_alias` (single shell-alias resolver for runner + workers).
 - `skills/`: MCP server, autonomous daemon, hive mind, SWAN (MoE+RL), policy engine, parquet DB.
-- `modules/`: LLM clients, blueprints, world model, playbook engine, **db (SQLite)**, **module_registry (120+ modules)**, **payload_factory (native payloads)**, **orchestrator_config (YAML profiles)**, **chain_registry/chain_runner (chain v2)**, **outcome_bus (sink fan-out)**, **emulation_runner (Atomic execution)**, **metasploitable_gym (MS2 matrix)**, **gym_registry (YAML gyms + world-model runs)**, **addon_updater (git updates)**, **loop_preflight (target/labs liveness before a loop spends rounds)**, **loop_audit (per-task campaign timeline: every command, worker, judge verdict, opsec, outcome)**, **loop_limits (canonical loop defaults/caps)**, **nmap_fingerprint (shared defusedxml nmap parser + ServiceInfo)**, **service_aliases (one home for the three alias tables)**, **ss_cve_context (keyless CVE intel blocks for LLMs from `ss` output)**.
+- `modules/`: LLM clients, blueprints, world model, playbook engine, **db (SQLite)**, **module_registry (120+ modules)**, **payload_factory (native payloads)**, **resource_script (enhanced `.ls` scripts)**, **lazy_hebb (zero-inference inter-agent memory)**, **orchestrator_config (YAML profiles)**, **chain_registry/chain_runner (chain v2)**, **outcome_bus (sink fan-out)**, **emulation_runner (Atomic execution)**, **metasploitable_gym (MS2 matrix)**, **gym_registry (YAML gyms + world-model runs)**, **addon_updater (git updates)**, **loop_preflight (target/labs liveness before a loop spends rounds)**, **loop_audit (per-task campaign timeline: every command, worker, judge verdict, opsec, outcome)**, **loop_limits (canonical loop defaults/caps)**, **nmap_fingerprint (shared defusedxml nmap parser + ServiceInfo)**, **service_aliases (one home for the three alias tables)**, **ss_cve_context (keyless CVE intel blocks for LLMs from `ss` output)**.
 - `parquets/`: columnar knowledge bases (GTFOBins, LOLBas, MITRE ATT&CK).
 - `lazyaddons/`: 124 YAML tool integrations. `plugins/`: Lua + YAML plugins. `tools/`: pwntomate auto-jobs.
 
@@ -226,7 +226,7 @@ LazyOwn uses three branches. Autonomous agents (Claude, Groq, SWAN) operate on `
 | `QUICKSTART.md` | ~140 | First-time setup and onboarding |
 | `skills/lazyown/SKILL.md` | ~120 | Hermes skill definition |
 | `skills/lazyown.md` | ~1600 | Complete 194-tool MCP playbook |
-| `COMMANDS.md` | ~1600 | Full 879-command reference (auto-generated) |
+| `COMMANDS.md` | ~1600 | Full 887-command reference (auto-generated) |
 | `CLAUDE.md` | ~540 | Architecture and developer reference |
 
 ---
@@ -264,6 +264,7 @@ single contract.
 | C2 operator channels | `modules/c2_channels/registry.py` (`create_channel`/`create_enabled`, payload keys `enable_<name>_c2`) + `core.protocols.C2Channel`/`C2Message` | `telegram`/`discord`/`slack` adapters in `modules/c2_channels/` are transport-only (`send`/`poll`), fail soft without credentials, and never own command execution. Tests: `tests/test_c2_channels.py` |
 | Native payload builds | `modules/payload_native.py` (`build_donut_shellcode`/`build_garble`, `PayloadNativeError`) | Schema fields `donut_*`/`garble_*` in `core/payload_schema.py`; CLI `lazypayload_donut`/`lazypayload_garble` (payload_generation) and `exe2donutbin` (postexp, refactored onto the shared builder). Tests: `tests/test_payload_native.py` |
 | LazyBox gym dashboard | `modules/lazybox.py` (`catalogue`/`challenge_intel`/`scoreboard`, delegates to `redteam_gym`) + `lazyc2.blueprints.lazybox` (`/lazybox`, `/api/lazybox/*`) | Single registration home `lazyc2.blueprints.register_blueprints(app)` (monolith + factory share it); gym scenario-status probing lives once in `lazybox._scenario_rows` (gym_bp delegates). Tests: `tests/test_lazybox.py` |
+| Inter-agent zero-inference memory (LazyHebb) | `modules/lazy_hebb.py` (`LazyHebb`: SQLite FTS5 `spark` + hebbian co-activation edges + `bridge` Dijkstra + private firewall + `| sem:` write-time seeding, `auto_seed_tags` keyword map, Markdown import/export, `sessions/lazy/hebb.sqlite`) | Prompt side: `lazy_loop.build_prompt_context` fenced `hebb_intel` section (config `orchestrator.hebb.{enabled,max_memories}` via `hebb_config()`); write side: `modules/sinks/loop_state.py` -> `remember_outcome`; hive side: `skills.hive_mind.HebbStore` is the default semantic layer of `build_default_hive_memory` (the former vector store removed entirely: unpatched upstream critical CVEs). CLI: `lazyhebb add|spark|bridge|stats|export|import|forget`. Tests: `tests/test_lazy_hebb.py` |
 
 Retired as dead code (zero production callers, verified): `send_worker_message`,
 `pause_intent`/`resume_intent`, `set_node_state`/`set_node_meta`,

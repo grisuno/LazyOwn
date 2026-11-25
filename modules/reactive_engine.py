@@ -176,7 +176,7 @@ class PrivescHintMatcher(AbstractSignalMatcher):
 
     _PATTERNS = [
         (r"sudo\s+-l", "sudo_allowed"),
-        (r"\(root\)\s+NOPASSWD", "sudo_nopasswd"),
+        (r"\([\w:]+(?:,\s*[\w:]+)*\)\s*NOPASSWD", "sudo_nopasswd"),
         (r"suid\s+bit|s-isuid|setuid", "suid_binary"),
         (r"writable.*cron|cron.*writable|/etc/cron", "writable_cron"),
         (r"CVE-20[12][0-9]-\d{4,}", "cve_match"),
@@ -193,7 +193,7 @@ class PrivescHintMatcher(AbstractSignalMatcher):
         lower = output.lower()
         signals: list[Signal] = []
         for pattern, hint in self._PATTERNS:
-            m = re.search(pattern, lower)
+            m = re.search(pattern, lower, re.IGNORECASE)
             if m:
                 signals.append(
                     Signal(
@@ -277,7 +277,7 @@ class ShellErrorMatcher(AbstractSignalMatcher):
         lower = output.lower()
         signals: list[Signal] = []
         for pattern, kind in self._PATTERNS:
-            m = re.search(pattern, lower)
+            m = re.search(pattern, lower, re.IGNORECASE)
             if m:
                 signals.append(
                     Signal(
@@ -634,7 +634,7 @@ class SemanticContextAdvisor:
 
     Last-resort hint that only fires when the regex-based matchers and
     advisors produce nothing useful. Relies on
-    :class:`modules.session_rag.SessionRAG` (ChromaDB when available,
+    :class:`modules.session_rag.SessionRAG` (keyword fallback,
     keyword fallback otherwise) so it carries no extra runtime
     dependency. When the RAG layer is missing or the operator disabled
     it via ``payload.json[reactive_semantic_enabled]``, the advisor

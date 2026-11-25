@@ -20,14 +20,12 @@ LAZYC2_SRC = (REPO_ROOT / "lazyc2.py").read_text(encoding="utf-8")
 LAZYOWN_SRC = (REPO_ROOT / "lazyown.py").read_text(encoding="utf-8")
 LAZYC2_TREE = ast.parse(LAZYC2_SRC)
 LAZYOWN_TREE = ast.parse(LAZYOWN_SRC)
+TERMINAL_GLUE_SRC = (REPO_ROOT / "lazyc2" / "terminal" / "glue.py").read_text(encoding="utf-8")
+TERMINAL_GLUE_TREE = ast.parse(TERMINAL_GLUE_SRC)
 
 
 def _find(tree: ast.Module, name: str, kind=ast.FunctionDef):
-    return next(
-        node
-        for node in ast.walk(tree)
-        if isinstance(node, kind) and node.name == name
-    )
+    return next(node for node in ast.walk(tree) if isinstance(node, kind) and node.name == name)
 
 
 def _route_decorators(tree: ast.Module) -> dict[str, set[str]]:
@@ -65,9 +63,9 @@ class TestNoOperatorCredentialLeak:
         index = _find(LAZYC2_TREE, "index")
         for kw in ast.walk(index):
             if isinstance(kw, ast.keyword) and kw.arg in ("username", "password"):
-                assert not (
-                    isinstance(kw.value, ast.Name) and kw.value.id in ("USERNAME", "PASSWORD")
-                ), f"index route still renders live operator {kw.arg}"
+                assert not (isinstance(kw.value, ast.Name) and kw.value.id in ("USERNAME", "PASSWORD")), (
+                    f"index route still renders live operator {kw.arg}"
+                )
 
     def test_templates_do_not_embed_operator_password(self) -> None:
         for template in (REPO_ROOT / "templates").glob("*.html"):
@@ -89,13 +87,13 @@ def _has_jsonify_key(func: ast.FunctionDef, key: str) -> bool:
 
 class TestWebTerminalInputHandler:
     def test_handle_input_never_writes_shell_stdin(self) -> None:
-        handler = _find(LAZYC2_TREE, "handle_input")
+        handler = _find(TERMINAL_GLUE_TREE, "handle_input")
         src = ast.dump(handler)
         assert "stdin.write" not in src, "handle_input still writes to the shell's unwritable stdin"
         assert "stdin.seek" not in src
 
     def test_handle_input_keeps_one_cmd_and_guards(self) -> None:
-        handler = _find(LAZYC2_TREE, "handle_input")
+        handler = _find(TERMINAL_GLUE_TREE, "handle_input")
         src = ast.dump(handler)
         assert "one_cmd" in src
         assert "login_required" in {ast.dump(d) for d in handler.decorator_list} or any(
@@ -113,11 +111,7 @@ class TestAdminMfaWarning:
     def test_boot_block_calls_both_bootstrap_and_warning(self) -> None:
         for node in ast.walk(LAZYC2_TREE):
             if isinstance(node, ast.If) and isinstance(node.test, ast.Name) and node.test.id == "_RUN_MAIN":
-                calls = {
-                    n.func.id
-                    for n in ast.walk(node)
-                    if isinstance(n, ast.Call) and isinstance(n.func, ast.Name)
-                }
+                calls = {n.func.id for n in ast.walk(node) if isinstance(n, ast.Call) and isinstance(n.func, ast.Name)}
                 assert "_bootstrap_initial_admin" in calls
                 assert "_warn_admins_without_mfa" in calls
                 return
@@ -150,9 +144,9 @@ class TestC2TlsVerification:
         for name, tree in (("lazyc2.py", LAZYC2_TREE), ("lazyown.py", LAZYOWN_TREE)):
             for node in ast.walk(tree):
                 if isinstance(node, ast.keyword) and node.arg == "verify":
-                    assert not (
-                        isinstance(node.value, ast.Constant) and node.value.value is False
-                    ), f"{name}: request issued with verify=False"
+                    assert not (isinstance(node.value, ast.Constant) and node.value.value is False), (
+                        f"{name}: request issued with verify=False"
+                    )
 
     def test_resolve_c2_tls_verify_pins_local_cert(self, tmp_path, monkeypatch) -> None:
         fn, payload_ref = _resolve_c2_tls_verify_fn()

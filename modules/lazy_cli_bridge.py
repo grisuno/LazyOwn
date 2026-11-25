@@ -54,10 +54,54 @@ NO_TARGET_VERBS = frozenset(
 )
 
 _PHASE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
-    ("recon", ("scan", "nmap", "enum", "discover", "amass", "dns", "arp", "ping", "fuzz", "gobuster", "ffuf", "nikto", "whatweb", "host", "dig", "traceroute", "snmp", "smbmap", "ldap")),
-    ("exploit", ("pwn", "exploit", "msf", "spray", "inject", "rce", "sqli", "lfi", "payload", "shell", "metasploit", "brute", "hydra", "crack")),
+    (
+        "recon",
+        (
+            "scan",
+            "nmap",
+            "enum",
+            "discover",
+            "amass",
+            "dns",
+            "arp",
+            "ping",
+            "fuzz",
+            "gobuster",
+            "ffuf",
+            "nikto",
+            "whatweb",
+            "host",
+            "dig",
+            "traceroute",
+            "snmp",
+            "smbmap",
+            "ldap",
+        ),
+    ),
+    (
+        "exploit",
+        (
+            "pwn",
+            "exploit",
+            "msf",
+            "spray",
+            "inject",
+            "rce",
+            "sqli",
+            "lfi",
+            "payload",
+            "shell",
+            "metasploit",
+            "brute",
+            "hydra",
+            "crack",
+        ),
+    ),
     ("cred", ("cred", "dump", "hash", "secret", "password", "kerb", "ticket", "vault", "domaindump")),
-    ("lateral", ("pivot", "lateral", "winrm", "smb", "ssh", "rdp", "wmi", "psexec", "socks", "tunnel", "relay", "coerce")),
+    (
+        "lateral",
+        ("pivot", "lateral", "winrm", "smb", "ssh", "rdp", "wmi", "psexec", "socks", "tunnel", "relay", "coerce"),
+    ),
     ("privesc", ("peas", "privesc", "escalat", "suid", "sudo", "bypass", "uac", "token", "mimikatz", "seatbelt")),
     ("persist", ("persist", "backdoor", "implant", "beacon", "stager", "autorun", "cron")),
     ("exfil", ("exfil", "loot", "download", "siphon", "extract")),
@@ -68,7 +112,19 @@ _PHASE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
 
 _RISK_SAFE_PREFIXES = ("lazy_", "auto_", "list", "show", "help", "status", "ping", "dig", "host", "whatweb", "curl")
 _RISK_HIGH_KEYWORDS = ("wipe", "shred", "format", "destroy", "rm_rf", "ransom", "wiper", "drop_table")
-_RISK_EXPLOIT_KEYWORDS = ("pwn", "exploit", "msf", "payload", "inject", "rce", "brute", "spray", "bypass", "disable_defender", "auditd_disable")
+_RISK_EXPLOIT_KEYWORDS = (
+    "pwn",
+    "exploit",
+    "msf",
+    "payload",
+    "inject",
+    "rce",
+    "brute",
+    "spray",
+    "bypass",
+    "disable_defender",
+    "auditd_disable",
+)
 
 
 def _source_files() -> list[Path]:
@@ -259,11 +315,7 @@ def catalog_cli_for_phase(limit: int = 24) -> str:
 
         phase = str(KillChain.current_phase() or "").strip().lower()
         view = entries()
-        names = [
-            name
-            for name, row in view.items()
-            if bool(row.get("enabled")) and _verb_in_phase(row, phase)
-        ]
+        names = [name for name, row in view.items() if bool(row.get("enabled")) and _verb_in_phase(row, phase)]
         if not names:
             names = [name for name, row in view.items() if bool(row.get("enabled"))]
         return ", ".join(names[: max(1, int(limit or 24))])

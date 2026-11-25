@@ -8,8 +8,10 @@ and persistence helpers stay single-responsibility here.
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Any
 
 from rich.text import Text
 from textual.widgets import DataTable, Input, Static
@@ -59,9 +61,9 @@ CONFIG_FIELDS = (
     ConfigField("auto_pwn_retry_budget_sec", "auto_pwn retry budget sec", "180"),
     ConfigField("auto_pwn_confidence_floor", "auto_pwn confidence floor (0-1)", "0.65"),
     ConfigField("auto_pwn_port_confidence", "auto_pwn port confidence (0-1)", "0.9"),
-    ConfigField("c2_decoy_mode", "C2 decoy mode (off|page|deny)", "page"),
+    ConfigField("c2_decoy_mode", "C2 decoy mode (off|page|deny)", "page", kind="enum"),
     ConfigField("c2_operator_ip_allowlist", "C2 operator IP allowlist", "127.0.0.1"),
-    ConfigField("orchestrator.decoy.mode", "Loop decoy mode (off|page|deny)", "page"),
+    ConfigField("orchestrator.decoy.mode", "Loop decoy mode (off|page|deny)", "page", kind="enum"),
 )
 
 
@@ -86,7 +88,7 @@ PACING_FIELDS = (
 )
 
 
-def _coerce(raw) -> object:
+def _coerce(raw) -> int | float | bool | str:
     """Coerce a form string into bool/int when it clearly is one."""
     text = str(raw).strip().lower()
     if text in ("true", "yes", "on"):
@@ -219,6 +221,14 @@ def _widget_id(key: str) -> str:
 
 class OrchestratorAssetsMixin:
     """Tab controllers for Playbooks, Gyms, Chains and Profiles tabs."""
+
+    _playbooks_dir_override: Path | None
+    _bofs_dir_override: Path | None
+    _payload_path: Path | None
+    _selected_row: Callable[[str], str]
+    notify: Callable[..., None]
+    query_one: Callable[..., Any]
+    push_screen: Callable[..., Any]
 
     def _playbooks_dir(self) -> Path:
         """Playbook file root (overrideable for sandboxed tests)."""
@@ -1157,10 +1167,13 @@ class OrchestratorAssetsMixin:
         from core.config import save_payload
 
         payload = self._load_payload()
+        specs = {spec.key: spec for spec in CONFIG_FIELDS}
         for key, raw in values.items():
             if raw == "":
                 continue
-            _payload_assign(payload, key, _coerce(raw))
+            spec = specs.get(key)
+            value = str(raw) if spec is not None and spec.kind == "enum" else _coerce(raw)
+            _payload_assign(payload, key, value)
         if self._payload_path:
             save_payload(payload, self._payload_path)
         else:

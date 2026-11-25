@@ -64,6 +64,7 @@ from modules.loop_guardrails import (
     TargetLimiter,
     listing_forbidden,
 )
+from modules.loop_triggers import TRIGGER_KINDS, TriggerStore  # noqa: F401
 
 
 def _record_deviation(scope: str, planned: str, actual: str, reason: str, source: str) -> None:
@@ -80,6 +81,7 @@ def _record_deviation(scope: str, planned: str, actual: str, reason: str, source
         DeviationLedger().record(scope, planned=planned, actual=actual, reason=reason, source=source)
     except Exception:
         pass
+
 
 _LOG = logging.getLogger("modules.lazy_loop")
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -111,7 +113,6 @@ FINDING_STATUSES = (
     "duplicate",
     "risk_accepted",
 )
-from modules.loop_triggers import TRIGGER_KINDS  # noqa: F401  (re-export consumed by loop_triggers)
 
 GUARD_ACTIONS = ("allow", "ask", "deny")
 TRAFFIC_KINDS = ("bash", "http", "note")
@@ -313,21 +314,104 @@ NMAP_LONG_FLAGS = frozenset(
 
 SQLMAP_LONG_FLAGS = frozenset(
     {
-        "--url", "--data", "--cookie", "--headers", "--header", "--user-agent", "--random-agent",
-        "--referer", "--host", "--method", "--proxy", "--proxy-cred", "--tor", "--tor-type",
-        "--check-tor", "--delay", "--timeout", "--retries", "--randomize", "--safe-url",
-        "--safe-freq", "--skip-urlencode", "--csrf-token", "--csrf-url", "--force-ssl",
-        "--batch", "--level", "--risk", "--technique", "--dbms", "--os", "--prefix", "--suffix",
-        "--tamper", "--threads", "--string", "--not-string", "--regexp", "--code", "--text-only",
-        "--titles", "--dbs", "--tables", "--columns", "--schema", "--count", "--dump", "--dump-all",
-        "--search", "--current-user", "--current-db", "--hostname", "--is-dba", "--users",
-        "--passwords", "--privileges", "--roles", "--db", "--tbl", "--col", "--exclude",
-        "--where", "--start", "--stop", "--first", "--last", "--sql-query", "--sql-shell",
-        "--os-shell", "--os-cmd", "--os-pwn", "--file-read", "--file-write", "--file-dest",
-        "--reg-read", "--reg-add", "--reg-del", "--wizard", "--flush-session", "--fresh-queries",
-        "--forms", "--crawl", "--crawl-exclude", "--data-string", "--param-del", "--skip",
-        "--skip-static", "--param-exclude", "--dbms-cred", "--identify-waf", "--skip-waf",
-        "--mobile", "--chunked", "--hex", "--output-dir", "--answers", "--keep-alive", "--verbose",
+        "--url",
+        "--data",
+        "--cookie",
+        "--headers",
+        "--header",
+        "--user-agent",
+        "--random-agent",
+        "--referer",
+        "--host",
+        "--method",
+        "--proxy",
+        "--proxy-cred",
+        "--tor",
+        "--tor-type",
+        "--check-tor",
+        "--delay",
+        "--timeout",
+        "--retries",
+        "--randomize",
+        "--safe-url",
+        "--safe-freq",
+        "--skip-urlencode",
+        "--csrf-token",
+        "--csrf-url",
+        "--force-ssl",
+        "--batch",
+        "--level",
+        "--risk",
+        "--technique",
+        "--dbms",
+        "--os",
+        "--prefix",
+        "--suffix",
+        "--tamper",
+        "--threads",
+        "--string",
+        "--not-string",
+        "--regexp",
+        "--code",
+        "--text-only",
+        "--titles",
+        "--dbs",
+        "--tables",
+        "--columns",
+        "--schema",
+        "--count",
+        "--dump",
+        "--dump-all",
+        "--search",
+        "--current-user",
+        "--current-db",
+        "--hostname",
+        "--is-dba",
+        "--users",
+        "--passwords",
+        "--privileges",
+        "--roles",
+        "--db",
+        "--tbl",
+        "--col",
+        "--exclude",
+        "--where",
+        "--start",
+        "--stop",
+        "--first",
+        "--last",
+        "--sql-query",
+        "--sql-shell",
+        "--os-shell",
+        "--os-cmd",
+        "--os-pwn",
+        "--file-read",
+        "--file-write",
+        "--file-dest",
+        "--reg-read",
+        "--reg-add",
+        "--reg-del",
+        "--wizard",
+        "--flush-session",
+        "--fresh-queries",
+        "--forms",
+        "--crawl",
+        "--crawl-exclude",
+        "--data-string",
+        "--param-del",
+        "--skip",
+        "--skip-static",
+        "--param-exclude",
+        "--dbms-cred",
+        "--identify-waf",
+        "--skip-waf",
+        "--mobile",
+        "--chunked",
+        "--hex",
+        "--output-dir",
+        "--answers",
+        "--keep-alive",
+        "--verbose",
     }
 )
 
@@ -475,13 +559,14 @@ def _netcat_idle_timeout(command: str) -> tuple[str, str]:
     match = _NETCAT_HEAD_RE.search(command or "")
     if match is None:
         return command, ""
-    tail = command[match.start():]
+    tail = command[match.start() :]
     if _NETCAT_TIMED_RE.search(" " + tail):
         return command, ""
     repaired = command[: match.start()] + _NETCAT_HEAD_RE.sub(
-        lambda m: f"{m.group(0)} -w 5", command[match.start():], count=1
+        lambda m: f"{m.group(0)} -w 5", command[match.start() :], count=1
     )
     return repaired, "injected netcat idle timeout"
+
 
 NMAP_VALUE_FLAGS = frozenset(
     {
@@ -1148,13 +1233,22 @@ def _now() -> float:
 
 
 def _store_path(name: str) -> Path:
-    """Return JSON store path, ensuring the directory exists."""
+    """Return JSON store path, ensuring the directory exists.
+
+    The store name is resolved against the store directory with a
+    realpath containment guard so a task-supplied identifier can never
+    point outside ``STORE_DIR``.
+    """
     STORE_DIR.mkdir(parents=True, exist_ok=True)
     try:
         os.chmod(STORE_DIR, 0o700)
     except OSError:
         pass
-    path = STORE_DIR / name
+    base_real = os.path.realpath(str(STORE_DIR))
+    candidate = os.path.realpath(os.path.join(base_real, str(name)))
+    if not candidate.startswith(base_real + os.sep):
+        raise ValueError(f"store path escapes the store directory: {name!r}")
+    path = Path(candidate)
     if path.exists():
         _restrict_file(path)
     return path
@@ -1222,19 +1316,21 @@ def record_worker_traces(
     for command, output in transcripts:
         if not (output or "").strip():
             continue
-        rows.append({
-            "ts": _now(),
-            "task_id": str(task_id),
-            "worker": str(worker),
-            "intent_id": int(intent_id or 0),
-            "cmd": str(command)[:300],
-            "via": str(worker),
-            "evidence": hashlib.sha256((output or "").encode()).hexdigest(),
-            "traffic": TrafficLog.digest_of(command or "", output or ""),
-            "state": state,
-            "goals": [],
-            "blocked": state if state == "blocked" else "",
-        })
+        rows.append(
+            {
+                "ts": _now(),
+                "task_id": str(task_id),
+                "worker": str(worker),
+                "intent_id": int(intent_id or 0),
+                "cmd": str(command)[:300],
+                "via": str(worker),
+                "evidence": hashlib.sha256((output or "").encode()).hexdigest(),
+                "traffic": TrafficLog.digest_of(command or "", output or ""),
+                "state": state,
+                "goals": [],
+                "blocked": state if state == "blocked" else "",
+            }
+        )
     if not rows:
         return 0
     try:
@@ -4235,13 +4331,8 @@ def _ledger_side_hits(task_id: str, scoped_ips: list[str] | set[str], primary: s
         if not_before and _row_epoch(row.get("recorded_at", 0)) < not_before:
             continue
         evidence = row.get("evidence") if isinstance(row.get("evidence"), dict) else {}
-        blob = " ".join(
-            str(row.get(field, "") or "")
-            for field in ("title", "target", "description")
-        )
-        blob += " " + " ".join(
-            str(evidence.get(field, "") or "") for field in ("command", "output")
-        )
+        blob = " ".join(str(row.get(field, "") or "") for field in ("title", "target", "description"))
+        blob += " " + " ".join(str(evidence.get(field, "") or "") for field in ("command", "output"))
         for ip in scoped_ips:
             if ip and ip != primary and ip in blob:
                 ActivityLog(task_id).emit(
@@ -4668,7 +4759,10 @@ class Planner:
             if sig and sig in seen:
                 self.graph.set_state(node.node_id, "exhausted")
                 self.activity.emit(
-                    "planner", "refine", f"dupe of #{seen[sig].node_id} -> exhausted: {node.text[:120]}", intent_id=node.node_id
+                    "planner",
+                    "refine",
+                    f"dupe of #{seen[sig].node_id} -> exhausted: {node.text[:120]}",
+                    intent_id=node.node_id,
                 )
                 summary["dupe"] += 1
                 continue
@@ -4678,13 +4772,18 @@ class Planner:
         terminal_asset_sets = []
         for node in self.graph.list("intent"):
             if node.state in EXPLORATION_TERMINAL_STATES:
-                terminal_asset_sets.append((node.node_id, set(self.graph.anchors_for(node.node_id)), _signature(node.text)))
+                terminal_asset_sets.append(
+                    (node.node_id, set(self.graph.anchors_for(node.node_id)), _signature(node.text))
+                )
         for node in pending:
             denied = self._denied(node.text)
             if denied:
                 self.graph.set_state(node.node_id, "blocked")
                 self.activity.emit(
-                    "planner", "refine", f"deny constraint '{denied}' -> blocked: {node.text[:120]}", intent_id=node.node_id
+                    "planner",
+                    "refine",
+                    f"deny constraint '{denied}' -> blocked: {node.text[:120]}",
+                    intent_id=node.node_id,
                 )
                 summary["denied"] += 1
                 continue
@@ -4693,7 +4792,11 @@ class Planner:
                 continue
             sig = _signature(node.text)
             for terminal_id, terminal_anchors, terminal_sig in terminal_asset_sets:
-                if terminal_anchors and terminal_anchors <= anchors and (not sig or terminal_sig == sig or not terminal_sig):
+                if (
+                    terminal_anchors
+                    and terminal_anchors <= anchors
+                    and (not sig or terminal_sig == sig or not terminal_sig)
+                ):
                     self.graph.set_state(node.node_id, "exhausted")
                     self.activity.emit(
                         "planner",
@@ -4711,7 +4814,10 @@ class Planner:
         for node in overflow:
             self.graph.set_state(node.node_id, "exhausted")
             self.activity.emit(
-                "planner", "refine", f"pending overflow (cap {REFINE_MAX_PENDING}) -> exhausted: {node.text[:120]}", intent_id=node.node_id
+                "planner",
+                "refine",
+                f"pending overflow (cap {REFINE_MAX_PENDING}) -> exhausted: {node.text[:120]}",
+                intent_id=node.node_id,
             )
             summary["capped"] += 1
         return summary
@@ -4809,9 +4915,9 @@ class Planner:
             return []
         marker = self._ACTION_MARKER
         taken = {
-            node.text[len(marker):].strip()
+            node.text[len(marker) :].strip()
             for node in self.graph.list("intent")
-            if node.text.startswith(marker) and node.text[len(marker):].strip()
+            if node.text.startswith(marker) and node.text[len(marker) :].strip()
         }
         goal = str((self.store.get(self.task_id) or {}).get("goal", "") or "")
         ctx = SelectionContext(
@@ -4892,11 +4998,7 @@ class Planner:
         target = (resolve_target(self.task_id, self.store, self.graph) or "").strip()
         if not target:
             return []
-        already = {
-            node.text
-            for node in self.graph.list("intent")
-            if node.text.startswith(self._CONTINUATION_MARKER)
-        }
+        already = {node.text for node in self.graph.list("intent") if node.text.startswith(self._CONTINUATION_MARKER)}
         anchors = [asset.asset_id for asset in self.assets.list() if (asset.value or "").strip() == target][:1]
         out: list[tuple[str, list[int], list[int], int]] = []
         for summary, _reason in lazy_continuation.recall_candidates(target, limit=3):
@@ -5014,11 +5116,7 @@ class Planner:
             raw = read_state_dict(SESSIONS_DIR / "world_model.json") or {}
         except Exception:
             return []
-        hosts = {
-            ip: value
-            for ip, value in (raw.get("hosts", {}) or {}).items()
-            if str(ip).strip() != target
-        }
+        hosts = {ip: value for ip, value in (raw.get("hosts", {}) or {}).items() if str(ip).strip() != target}
         if not hosts:
             return []
         credentials = list(raw.get("credentials", []) or [])
@@ -5027,18 +5125,16 @@ class Planner:
 
             payload = load_payload() or {}
             payload_user = str(payload.get("start_user", "") or "").strip()
-            payload_secret = str(
-                payload.get("start_pass", "") or payload.get("hash", "") or ""
-            ).strip()
+            payload_secret = str(payload.get("start_pass", "") or payload.get("hash", "") or "").strip()
             if payload_user and payload_secret:
                 credentials.append({"value": f"{payload_user}:{payload_secret}", "host": "", "service": ""})
         except Exception:
             pass
         marker = self._ACTION_MARKER
         taken = {
-            node.text[len(marker):].strip()
+            node.text[len(marker) :].strip()
             for node in self.graph.list("intent")
-            if node.text.startswith(marker) and node.text[len(marker):].strip()
+            if node.text.startswith(marker) and node.text[len(marker) :].strip()
         }
         proposals = plan_lateral(
             hosts,
@@ -5402,9 +5498,7 @@ class Planner:
             pass
         return self._rl_rank(out)
 
-    def _rl_rank(
-        self, out: list[tuple[str, list[int], list[int], int]]
-    ) -> list[tuple[str, list[int], list[int], int]]:
+    def _rl_rank(self, out: list[tuple[str, list[int], list[int], int]]) -> list[tuple[str, list[int], list[int], int]]:
         """Re-weight candidate priorities by learned decision-quality yield.
 
         Closes the decision-quality reward loop: each candidate's tool
@@ -5516,6 +5610,19 @@ class Planner:
             context = build_prompt_context(
                 self.task_id, self.graph, self.assets, self.store, budget=pool.context_budget()
             )
+            try:
+                from modules.lazy_hebb import last_recall
+
+                stats = last_recall()
+                if stats.get("count"):
+                    self.activity.emit(
+                        "planner",
+                        "hebb",
+                        f"hebb intel: {stats['count']} memories"
+                        f" ({stats['hops']} propagated) recalled in {stats['ms']}ms",
+                    )
+            except Exception:
+                pass
             prompt = (
                 f"Goal: {(record.get('goal', ''))[:300]}\n{context}\n"
                 f"Constraints: {constraint_block(record.get('constraints', []), scope='planner')[:400]}\n"
@@ -5828,21 +5935,22 @@ class Worker(WorkerLazymodeMixin, WorkerAgenticMixin, WorkerExecutionMixin, Work
                     pool = LlmPool()
                     chain = task_llm_chain(self.store, self.task_id)
                     if pool.members() or chain:
-                        advice = pool.complete(
-                            _sage_prompt(
-                                "sage",
-                                f"intent: {intent.text[:200]}",
-                                f"repeated {trailing + 1}x with no progress: {command[:200]}",
+                        advice = (
+                            pool.complete(
+                                _sage_prompt(
+                                    "sage",
+                                    f"intent: {intent.text[:200]}",
+                                    f"repeated {trailing + 1}x with no progress: {command[:200]}",
+                                )
+                                + " Reply with one alternative approach.",
+                                max_tokens=120,
+                                members=chain or None,
+                                task_id=self.task_id,
                             )
-                            + " Reply with one alternative approach.",
-                            max_tokens=120,
-                            members=chain or None,
-                            task_id=self.task_id,
-                        ) or ""
+                            or ""
+                        )
                         if advice.strip():
-                            self.activity.emit(
-                                self.name, "mentor", advice.strip()[:500], intent_id=intent.node_id
-                            )
+                            self.activity.emit(self.name, "mentor", advice.strip()[:500], intent_id=intent.node_id)
                 except Exception:
                     pass
                 self._settle_partial(intent, transcripts, reason="repetition")
@@ -5960,7 +6068,9 @@ class Worker(WorkerLazymodeMixin, WorkerAgenticMixin, WorkerExecutionMixin, Work
                     "pausing for operator review",
                     intent_id=intent.node_id,
                 )
-                self.activity.emit(self.name, "settle", settlement_prompt("worker", "stalled"), intent_id=intent.node_id)
+                self.activity.emit(
+                    self.name, "settle", settlement_prompt("worker", "stalled"), intent_id=intent.node_id
+                )
                 self._settle_partial(intent, transcripts, reason="stalled")
                 outcome["state"] = "exhausted"
                 break
@@ -5972,7 +6082,9 @@ class Worker(WorkerLazymodeMixin, WorkerAgenticMixin, WorkerExecutionMixin, Work
                     f"({len(output.splitlines())} line(s), no intel); pausing for operator review",
                     intent_id=intent.node_id,
                 )
-                self.activity.emit(self.name, "settle", settlement_prompt("worker", "stalled"), intent_id=intent.node_id)
+                self.activity.emit(
+                    self.name, "settle", settlement_prompt("worker", "stalled"), intent_id=intent.node_id
+                )
                 self._settle_partial(intent, transcripts, reason="stalled")
                 outcome["state"] = "exhausted"
                 break
@@ -6687,7 +6799,7 @@ class Worker(WorkerLazymodeMixin, WorkerAgenticMixin, WorkerExecutionMixin, Work
             return [f"echo no-target: cannot probe without scope; register scope first: {intent.text[:120]}"]
         action_marker = "run action: "
         if intent.text.startswith(action_marker):
-            command = intent.text[len(action_marker):].strip()
+            command = intent.text[len(action_marker) :].strip()
             if command.startswith("lazynmap ") and len(command.split()) >= 2:
                 host = command.split()[1]
                 return [command, f"auto_populate {host}".strip()]
@@ -6716,8 +6828,8 @@ class Worker(WorkerLazymodeMixin, WorkerAgenticMixin, WorkerExecutionMixin, Work
         else:
             scan_first = [f"nmap -sV --top-ports 100{host_flag}".strip()]
         if "baseline recon" in text or "enumerate" in text:
-            return ping_first + scan_first + (
-                [] if use_lazynmap else [f"curl -sSI --max-time 15 http://{target}".strip()]
+            return (
+                ping_first + scan_first + ([] if use_lazynmap else [f"curl -sSI --max-time 15 http://{target}".strip()])
             )
         if "extend finding" in text:
             if use_lazynmap:
@@ -6729,9 +6841,13 @@ class Worker(WorkerLazymodeMixin, WorkerAgenticMixin, WorkerExecutionMixin, Work
         if "re-drive" in text or "serial chain" in text:
             if use_lazynmap:
                 return ping_first + scan_first
-            return ping_first + scan_first + [
-                f"curl -sS -m 20 -I http://{target}".strip(),
-            ]
+            return (
+                ping_first
+                + scan_first
+                + [
+                    f"curl -sS -m 20 -I http://{target}".strip(),
+                ]
+            )
         chain_step = re.search(r"chain ([a-z0-9_-]+) step ([a-z0-9_-]+)", intent.text)
         if chain_step is not None:
             return [f"chain {chain_step.group(1)} step {chain_step.group(2)}"]
@@ -6748,14 +6864,22 @@ class Worker(WorkerLazymodeMixin, WorkerAgenticMixin, WorkerExecutionMixin, Work
             cover = " --all" if _auto_pwn_cover_all() else ""
             return ping_first + scan_first + [f"auto_pwn {target}{cover}".strip()]
         if use_lazynmap:
-            return ping_first + scan_first + [
+            return (
+                ping_first
+                + scan_first
+                + [
+                    f"curl -sS -m 20 -I http://{target}".strip(),
+                    f"dig +short {target}".strip(),
+                ]
+            )
+        return (
+            ping_first
+            + scan_first
+            + [
                 f"curl -sS -m 20 -I http://{target}".strip(),
                 f"dig +short {target}".strip(),
             ]
-        return ping_first + scan_first + [
-            f"curl -sS -m 20 -I http://{target}".strip(),
-            f"dig +short {target}".strip(),
-        ]
+        )
 
     def _writeback(
         self, intent: ExplorationNode, transcripts: list[tuple[str, str]], allow_finding: bool = True
@@ -6887,7 +7011,9 @@ class Worker(WorkerLazymodeMixin, WorkerAgenticMixin, WorkerExecutionMixin, Work
             try:
                 for record in self.traffic.read(3):
                     digest = str(record.get("digest", ""))
-                    if digest and not listing_noise.observe(str(record.get("command", "")), str(record.get("output", ""))):
+                    if digest and not listing_noise.observe(
+                        str(record.get("command", "")), str(record.get("output", ""))
+                    ):
                         self.traffic.bind(finding.node_id, digest, self.graph, role="supporting", note="auto-bound")
             except Exception:
                 pass
@@ -7080,10 +7206,7 @@ class Retester:
                         break
         if verdict == "reproduced" and any(mark in evidence.lower() for mark in blocked_marks):
             verdict = "inconclusive"
-            evidence = (
-                "[blocked] replay evidence carries a connection failure; "
-                "no positive proof\n" + evidence[:600]
-            )
+            evidence = "[blocked] replay evidence carries a connection failure; no positive proof\n" + evidence[:600]
             attempts = max(attempts, 1)
         finding.meta["retest"] = {
             "verdict": verdict,
@@ -7094,9 +7217,7 @@ class Retester:
         if verdict == "reproduced":
             finding.state = "done"
             finding.meta["vstate"] = "confirmed"
-            finding.meta["level"] = (
-                "critical" if str(finding.meta.get("severity", "")) == "critical" else "confirmed"
-            )
+            finding.meta["level"] = "critical" if str(finding.meta.get("severity", "")) == "critical" else "confirmed"
             finding.meta["severity_verified"] = True
         elif verdict == "fixed":
             finding.state = "done"
@@ -7234,7 +7355,6 @@ class Retester:
             ``(verdict, evidence, attempts)`` or None.
         """
         try:
-
             quote = str(finding.meta.get("quote", "") or "") or extract_quote(
                 f"{finding.text} {finding.meta.get('poc', '')}"
             )
@@ -8029,9 +8149,7 @@ LAZY_TERMINAL_HINTS: dict[str, str] = {
         "intent re-queued: the operator paused the task. The intent returns to pending "
         "and resumes when the task is unpaused."
     ),
-    "kill": (
-        "intent terminated: the operator killed this intent. No further steps run on it."
-    ),
+    "kill": ("intent terminated: the operator killed this intent. No further steps run on it."),
 }
 
 
@@ -8150,6 +8268,14 @@ def build_prompt_context(
     except Exception:
         pass
     try:
+        from modules.lazy_hebb import hebb_prompt_context
+
+        hebb_text = hebb_prompt_context(f"{record.get('goal', '')} {' '.join(n.text[:60] for n in facts[-top:])}")
+        if hebb_text:
+            parts.append(fence("hebb_intel", hebb_text) if boundary_on else hebb_text)
+    except Exception:
+        pass
+    try:
         from modules.lazy_cli_bridge import catalog_cli_for_phase
 
         allowed = catalog_cli_for_phase()
@@ -8188,7 +8314,7 @@ def finding_severity(text: str, evidence: str = "") -> str:
         return "critical" if any(m in blob for m in ("rce", "cve-", "ms17")) else "high"
     if any(m in blob for m in ("sqli", "ssrf", "lfi", "idor", "privesc", "exploit")):
         return "high"
-    if any(m in blob for m in ("xss", "open tcp", "login:", "password:", "unauthorized")):
+    if any(m in blob for m in ("xss", "open tcp", "login:", "password", "unauthorized")):
         return "medium"
     if any(m in blob for m in ("vulnerable", "exposed", "header")):
         return "low"
@@ -8240,9 +8366,7 @@ def _derive_finding_class(blob: str) -> tuple[str, str]:
         from modules.loop.finding_class import TECHNIQUE_CLASSES
 
         technique = f"T{technique_match.group(1)}"
-        outcome_class = TECHNIQUE_CLASSES.get(technique) or TECHNIQUE_CLASSES.get(
-            technique.split(".", 1)[0]
-        )
+        outcome_class = TECHNIQUE_CLASSES.get(technique) or TECHNIQUE_CLASSES.get(technique.split(".", 1)[0])
         if outcome_class:
             from modules.loop.finding_class import VULNCLASS_CLASSES
 
@@ -8863,9 +8987,6 @@ class Notifier:
             except Exception:
                 continue
         return delivered
-
-
-from modules.loop_triggers import TriggerStore
 
 
 class LlmPool:
@@ -9891,9 +10012,7 @@ class LazyLoopEngine(
         try:
             from core.config import load_payload as _load_payload_blindspot
 
-            self.blindspot_enabled = bool(
-                (_load_payload_blindspot() or {}).get("loop_blindspot_enabled", False)
-            )
+            self.blindspot_enabled = bool((_load_payload_blindspot() or {}).get("loop_blindspot_enabled", False))
         except Exception:
             self.blindspot_enabled = False
         self._blindspot_last_round: dict[str, int] = {}
@@ -9936,9 +10055,7 @@ class LazyLoopEngine(
         )
         self.retest_limit = max(0, int(resolved.get("retest_limit", 3) or 0))
         self.enrich_limit = max(0, int(resolved.get("enrich_limit", 2) or 2))
-        self.enrich_cooldown_sec = max(
-            0.0, float(resolved.get("enrich_cooldown_sec", 300) or 300)
-        )
+        self.enrich_cooldown_sec = max(0.0, float(resolved.get("enrich_cooldown_sec", 300) or 300))
         self.worker_cap = max(1, int(resolved.get("worker_parallel_cap", 5) or 5))
         try:
             from modules.loop_guardrails import _TARGET_LIMITER as _limiter
@@ -10122,19 +10239,6 @@ class LazyLoopEngine(
         result["chain"] = list(self.ORCHESTRATOR_CHAIN)
         return result
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     def blindspot_review(self, task_id: str) -> dict:
         """Run one blindspot review over the task and apply findings as hints.
 
@@ -10195,17 +10299,6 @@ class LazyLoopEngine(
             "summary": summary,
         }
 
-
-
-
-
-
-
-
-
-
-
-
     def _sync_intel(self, task_id: str, activity: ActivityLog, force: bool = False) -> dict:
         """Fuse loop artefacts into world model, findings and objectives.
 
@@ -10222,9 +10315,7 @@ class LazyLoopEngine(
         try:
             from modules.lazy_bridge import sync_all
 
-            summary = sync_all(
-                progress=lambda text: activity.emit("intel", "sync-progress", text, intent_id=0)
-            )
+            summary = sync_all(progress=lambda text: activity.emit("intel", "sync-progress", text, intent_id=0))
         except Exception as exc:
             activity.emit("intel", "sync-fail", str(exc)[:200], intent_id=0)
             return {}
@@ -11023,7 +11114,6 @@ class LazyLoopEngine(
         except Exception:
             return ""
 
-
     def run(
         self,
         task_id: str,
@@ -11273,9 +11363,7 @@ class LazyLoopEngine(
                 try:
                     from modules.reaction_bridge import load_reaction_triggers as _backlog
 
-                    reactions_for_digest = [
-                        str(reaction.get("text", "")) for reaction in _backlog(task_id)
-                    ]
+                    reactions_for_digest = [str(reaction.get("text", "")) for reaction in _backlog(task_id)]
                 except Exception:
                     reactions_for_digest = []
                 digest_path = _digest_write(
@@ -11337,21 +11425,6 @@ class LazyLoopEngine(
                 result["drained"] = [item.get("task_id", "") for item in drained]
         return result
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     def _maybe_import_inbox(self) -> int:
         """Import traffic archives dropped in the recorder inbox.
 
@@ -11391,16 +11464,6 @@ class LazyLoopEngine(
             info = {"ok": False, "error": str(exc)[:200]}
         _save_json(path, {"last_check": now, "last_result": info})
         return info
-
-
-
-
-
-
-
-
-
-
 
 
 __all__ = [

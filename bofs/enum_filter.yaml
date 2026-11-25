@@ -7,7 +7,7 @@ source_file: SA/enum_filter/entry.c
 client: beacon
 platform: windows
 category: enumeration
-client_artifact: 
+client_artifact:
 required_args: ['domain', 'filter']
 optional_args: ['server']
 mitre_technique: T1087

@@ -271,8 +271,7 @@ def _build_runner(
         worker.activity.emit(
             worker.name,
             "chain_step",
-            f"{chain.name}/{outcome.id} [{outcome.status}] {outcome.run[:100]} "
-            f"({outcome.duration_ms:.0f}ms)",
+            f"{chain.name}/{outcome.id} [{outcome.status}] {outcome.run[:100]} ({outcome.duration_ms:.0f}ms)",
             intent_id=intent.node_id,
         )
 

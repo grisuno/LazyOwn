@@ -7,7 +7,7 @@ source_file: SA/schedtask_delete/entry.c
 client: beacon
 platform: windows
 category: persistence
-client_artifact: 
+client_artifact:
 required_args: ['taskname']
 optional_args: ['server']
 mitre_technique: T1053

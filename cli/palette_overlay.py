@@ -237,6 +237,11 @@ def _build_app(state: PaletteOverlayState, theme: Theme) -> Any | None:
 
     cfg = state.config
 
+    class _CommandListItem(ListItem):
+        """List row carrying the shell command it selects."""
+
+        command_name: str
+
     class _PaletteOverlayApp(App):
         TITLE = cfg.title
         SUB_TITLE = cfg.subtitle
@@ -307,7 +312,7 @@ def _build_app(state: PaletteOverlayState, theme: Theme) -> Any | None:
                 return
             status.update(f"{len(rows)} command(s)")
             for row in rows:
-                item = ListItem(Static(self._format_row(row)))
+                item = _CommandListItem(Static(self._format_row(row)))
                 item.command_name = row.name
                 list_view.append(item)
 

@@ -2889,6 +2889,18 @@ verbs:
     risk: safe
     description: Search for a CVE using the CIRCL API.
     source: cli
+  cve_search:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Instant offline CVE search over the local snapshot.
+    source: cli
+  cve_sync:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Refresh the local NVD/Exploit-DB snapshot for instant searches.
+    source: cli
   d3monizedshell:
     enabled: false
     phase: postexp
@@ -3091,6 +3103,12 @@ verbs:
     phase: uncategorized
     risk: safe
     description: Generate commands to detect EDR/AV on the target.
+    source: cli
+  detect_rule:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Synthesize the matching Sigma/YARA rule for an offensive action.
     source: cli
   dig:
     enabled: true
@@ -4901,6 +4919,18 @@ verbs:
     risk: safe
     description: Generate a target-aware candidate wordlist.
     source: cli
+  lazypayload_donut:
+    enabled: false
+    phase: misc
+    risk: exploit
+    description: Generate shellcode from an executable with donut.
+    source: cli
+  lazypayload_garble:
+    enabled: false
+    phase: misc
+    risk: exploit
+    description: Build an obfuscated Go binary with garble.
+    source: cli
   lazypwn:
     enabled: false
     phase: exploit
@@ -5108,6 +5138,12 @@ verbs:
     risk: safe
     description: Audit what an autonomous loop actually did.
     source: cli
+  loop_trace:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Standalone interactive HTML trace of one autonomous run.
+    source: cli
   loot:
     enabled: false
     phase: misc
@@ -5214,6 +5250,12 @@ verbs:
     phase: postexp
     risk: safe
     description: Run Mimikatz over Python (impacket style).
+    source: cli
+  mitre_coverage:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: Report the ATT&CK tactics/techniques LazyOwn covers and executed.
     source: cli
   mitre_test:
     enabled: false
@@ -6000,6 +6042,12 @@ verbs:
     phase: uncategorized
     risk: safe
     description: Show current engagement detection score.
+    source: cli
+  purple_sync:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Stream offensive actions to a local Elastic/Splunk SIEM.
     source: cli
   purple_test:
     enabled: false

@@ -13,9 +13,7 @@ import ast
 import re
 from pathlib import Path
 
-SRC = (Path(__file__).resolve().parent.parent / "skills" / "lazyown_mcp.py").read_text(
-    encoding="utf-8"
-)
+SRC = (Path(__file__).resolve().parent.parent / "skills" / "lazyown_mcp.py").read_text(encoding="utf-8")
 
 import sys  # noqa: E402
 
@@ -52,9 +50,7 @@ def _fallback_branches() -> set[str]:
     for node in ast.walk(tree):
         if isinstance(node, ast.AsyncFunctionDef) and node.name == "call_tool":
             segment = ast.get_source_segment(SRC, node)
-            return set(
-                re.findall(r"(?:if|elif) name == [\"']([^\"']+)[\"']", segment)
-            )
+            return set(re.findall(r"(?:if|elif) name == [\"']([^\"']+)[\"']", segment))
     raise AssertionError("call_tool not found")
 
 
@@ -84,9 +80,9 @@ def test_set_config_refuses_null_values():
     handler now lives in the one-file-per-tool package, so the contract is
     asserted against that module.
     """
-    set_config_src = (
-        Path(__file__).resolve().parent.parent / "skills" / "mcp_tools" / "set_config.py"
-    ).read_text(encoding="utf-8")
+    set_config_src = (Path(__file__).resolve().parent.parent / "skills" / "mcp_tools" / "set_config.py").read_text(
+        encoding="utf-8"
+    )
     tree = ast.parse(set_config_src)
     for node in ast.walk(tree):
         if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)) and node.name == "handle":
@@ -105,9 +101,7 @@ def test_new_chain_shell_tools_have_defs_and_handlers():
 
 def test_opencode_bridge_curates_loop_and_chain():
     """Local-model bridge must expose loop + apt_chain under short names."""
-    bridge = (Path(__file__).resolve().parent.parent / "skills" / "lazyown_mcp_opencode.py").read_text(
-        encoding="utf-8"
-    )
+    bridge = (Path(__file__).resolve().parent.parent / "skills" / "lazyown_mcp_opencode.py").read_text(encoding="utf-8")
     for short, full in [
         ("auto_loop", "lazyown_auto_loop"),
         ("apt_chain", "lazyown_apt_chain"),
@@ -125,8 +119,8 @@ def test_mcp_never_offers_interactive_repl():
     security contract (interactive=False, never interactive=True) is
     asserted against that module.
     """
-    atomic_shell_src = (
-        Path(__file__).resolve().parent.parent / "skills" / "mcp_tools" / "atomic_shell.py"
-    ).read_text(encoding="utf-8")
+    atomic_shell_src = (Path(__file__).resolve().parent.parent / "skills" / "mcp_tools" / "atomic_shell.py").read_text(
+        encoding="utf-8"
+    )
     assert "interactive=False" in atomic_shell_src
     assert "interactive=True" not in atomic_shell_src

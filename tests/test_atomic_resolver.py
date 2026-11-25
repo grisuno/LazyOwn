@@ -131,3 +131,13 @@ def test_variables_and_render() -> None:
     assert variables["#{ip_address}"] == "10.0.0.5"
     assert variables["#{password}"] == "pw"
     assert render_command("run #{password} #{custom}", variables) == "run pw "
+
+
+def test_parquet_fallback_without_external_checkout(tmp_path: Path) -> None:
+    """A clean checkout still resolves tests from the shipped parquet catalogue."""
+    resolver = AtomicResolver(tmp_path / "missing-atomics")
+    assert resolver.available is False
+    tests = resolver.list_for_technique("T1003", platform="windows")
+    assert tests, "parquet fallback must feed the resolver"
+    assert tests[0].guid and tests[0].platforms
+    assert resolver.get_by_guid(tests[0].guid) is not None

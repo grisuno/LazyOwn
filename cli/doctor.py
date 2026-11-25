@@ -83,7 +83,7 @@ _REQUIRED_PACKAGES: tuple[PackageSpec, ...] = (
     PackageSpec("pyarrow", "pyarrow", "Parquet knowledge bases", True),
     PackageSpec("bs4", "beautifulsoup4", "HTML scraping for exploit search", True),
     PackageSpec("networkx", "networkx", "Surface and world-model graphs", True),
-    PackageSpec("Crypto", "pycryptodome", "XOR and crypto helpers", True),
+    PackageSpec("Crypto", "pycryptodome", "Legacy crypto helpers (the framework itself uses cryptography)", False),
     PackageSpec("libnmap", "python-libnmap", "Nmap XML parsing", True),
     PackageSpec("scapy", "scapy", "ARP and packet helpers", False),
     PackageSpec("groq", "groq", "Groq LLM backend", False),

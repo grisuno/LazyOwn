@@ -9,8 +9,6 @@ of record is reproducible by construction.
 
 from __future__ import annotations
 
-from pathlib import Path
-
 from modules import lazy_findings
 from modules.outcome_bus import SESSIONS_DIR, OutcomeEvent
 

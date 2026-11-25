@@ -32,7 +32,13 @@ def test_validate_hunting_fields() -> None:
         "name": "ev",
         "version": 2,
         "steps": [
-            {"run": "a", "id": "one", "required_fields": ["user"], "benign_alternatives": ["cron"], "evidence": ["sessions/out.jsonl"]},
+            {
+                "run": "a",
+                "id": "one",
+                "required_fields": ["user"],
+                "benign_alternatives": ["cron"],
+                "evidence": ["sessions/out.jsonl"],
+            },
             {"run": "b", "id": "two", "depends_on": ["one"], "budget": {"attempts": 2, "seconds": 60}},
             {"run": "c", "id": "three", "evidence_sha256": {"sessions/out.jsonl": "a" * 64}},
         ],

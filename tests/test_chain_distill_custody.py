@@ -12,7 +12,7 @@ from __future__ import annotations
 import hashlib
 from pathlib import Path
 
-from modules.chain_distill import _artifact_pins, build_chain_data
+from modules.chain_distill import _artifact_pins
 from modules.chain_registry import Chain, ChainStep
 from modules.chain_runner import ChainRunner
 
@@ -86,9 +86,7 @@ def test_build_chain_data_attaches_evidence_pins(tmp_path, monkeypatch):
     data, _decisions = distill.build_chain_data("t0001", [row], graph)
     steps = data["steps"]
     assert steps[0]["evidence"] == ["sessions/scan_10.0.0.9.nmap.xml"]
-    assert steps[0]["evidence_sha256"] == {
-        "sessions/scan_10.0.0.9.nmap.xml": hashlib.sha256(b"<nmaprun/>").hexdigest()
-    }
+    assert steps[0]["evidence_sha256"] == {"sessions/scan_10.0.0.9.nmap.xml": hashlib.sha256(b"<nmaprun/>").hexdigest()}
     assert distill.validate_chain(data, filename=data["name"]) == []
 
 

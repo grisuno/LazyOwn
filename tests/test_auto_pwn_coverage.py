@@ -29,7 +29,10 @@ def _profile() -> TargetProfile:
 
 
 def _candidates(n: int) -> list[ExploitCandidate]:
-    return [ExploitCandidate(service=f"svc{i}", product="", version="", strategy=f"ms2_{i}", confidence=0.9) for i in range(n)]
+    return [
+        ExploitCandidate(service=f"svc{i}", product="", version="", strategy=f"ms2_{i}", confidence=0.9)
+        for i in range(n)
+    ]
 
 
 def _engine(monkeypatch, candidates, shell_at):
@@ -42,7 +45,12 @@ def _engine(monkeypatch, candidates, shell_at):
     def fake_exec(candidate, profile):
         executed.append(candidate.strategy)
         got_shell = candidate.strategy in shell_at
-        return ExploitResult(candidate=candidate, success=True, shell_obtained=got_shell, session_id=candidate.strategy if got_shell else "")
+        return ExploitResult(
+            candidate=candidate,
+            success=True,
+            shell_obtained=got_shell,
+            session_id=candidate.strategy if got_shell else "",
+        )
 
     monkeypatch.setattr(eng, "execute_candidate", fake_exec)
     return eng, executed
@@ -141,10 +149,18 @@ def test_full_auto_pwn_breaker_skips_family(monkeypatch, tmp_path):
         eng,
         "rank_exploits",
         lambda profile: [
-            ExploitCandidate(service="http", product="tomcat", version="", strategy="tomcat_0", confidence=0.9, family="tomcat"),
-            ExploitCandidate(service="http", product="tomcat", version="", strategy="tomcat_1", confidence=0.9, family="tomcat"),
-            ExploitCandidate(service="http", product="tomcat", version="", strategy="tomcat_2", confidence=0.9, family="tomcat"),
-            ExploitCandidate(service="ftp", product="vsftpd", version="", strategy="vsftpd_0", confidence=0.9, family="vsftpd"),
+            ExploitCandidate(
+                service="http", product="tomcat", version="", strategy="tomcat_0", confidence=0.9, family="tomcat"
+            ),
+            ExploitCandidate(
+                service="http", product="tomcat", version="", strategy="tomcat_1", confidence=0.9, family="tomcat"
+            ),
+            ExploitCandidate(
+                service="http", product="tomcat", version="", strategy="tomcat_2", confidence=0.9, family="tomcat"
+            ),
+            ExploitCandidate(
+                service="ftp", product="vsftpd", version="", strategy="vsftpd_0", confidence=0.9, family="vsftpd"
+            ),
         ],
     )
     monkeypatch.setattr(eng, "_apply_stealth_delay", lambda: None)

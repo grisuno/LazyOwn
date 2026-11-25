@@ -145,7 +145,6 @@ def extract_seeds_from_world_model(world_model_path: Path | None = None) -> list
 
     Returns list of (type, value) tuples suitable for estorides discover.
     """
-    import json as _json
 
     if world_model_path is None:
         world_model_path = Path("sessions") / "world_model.json"
@@ -661,23 +660,29 @@ class LanBundleReader:
                 etype = "ipv6" if ":" in str(ip) else "ipv4"
                 entities.append(
                     EstoridesEntity(
-                        entity_type=etype, value=str(ip),
-                        source=source, sources=sources,
+                        entity_type=etype,
+                        value=str(ip),
+                        source=source,
+                        sources=sources,
                     )
                 )
             mac = dev.get("mac")
             if mac:
                 entities.append(
                     EstoridesEntity(
-                        entity_type="mac", value=str(mac),
-                        source=source, sources=sources,
+                        entity_type="mac",
+                        value=str(mac),
+                        source=source,
+                        sources=sources,
                     )
                 )
             for host in dev.get("hostnames", []) or []:
                 entities.append(
                     EstoridesEntity(
-                        entity_type="domain", value=str(host),
-                        source=source, sources=sources,
+                        entity_type="domain",
+                        value=str(host),
+                        source=source,
+                        sources=sources,
                     )
                 )
         return entities

@@ -1066,7 +1066,7 @@ def _normalize_dvwa() -> None:
             continue
         for command in item["commands"]:
             if command["run"].startswith(DVWA_LOGIN_PREFIX):
-                command["run"] = command["run"][len(DVWA_LOGIN_PREFIX):]
+                command["run"] = command["run"][len(DVWA_LOGIN_PREFIX) :]
         login = DVWA_CSRF_LOGIN if item["id"] == "ms2_dvwa_csrf" else DVWA_LOGIN
         item["commands"].insert(0, {"run": login, "timeout": 30})
 

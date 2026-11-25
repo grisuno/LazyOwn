@@ -38,7 +38,7 @@ The top-level integration layer wires MoE + RL + Detection Oracle + Hive Memory:
 - `swan_run`: single-expert execution with RL-guided routing and post-execution Q-update
 - `swan_ensemble`: N experts in parallel via ThreadPoolExecutor, synthesised by `WeightedTextAggregator`
 - `OutcomeEvaluator`: reward = 0 when detection probability ≥ 70% (detection-aware reward shaping)
-- Every result stored in Hive Memory (ChromaDB) for cross-session learning
+- Every result stored in Hive Memory (LazyHebb) for cross-session learning
 
 ### Detection Oracle (Blue Team Mirror) — `modules/detection_oracle.py`
 
@@ -97,7 +97,7 @@ Automated red-vs-blue measurement loop that executes offensive actions, queries 
 Multi-agent queen+drone architecture with shared memory:
 - **QueenBrain** (Claude): high-level orchestration + ConsensusProtocol for high-risk actions
 - **DronePool** (Groq/Ollama): parallel execution of recon/exploit/cred/lateral/privesc tasks
-- **HiveMemory**: ChromaDB semantic + SQLite episodic + Parquet long-term storage
+- **HiveMemory**: LazyHebb zero-inference semantic + SQLite episodic + Parquet long-term storage
 - **EpisodeReflectionEngine**: post-campaign lesson extraction stored as `sessions/campaign_lessons.jsonl`
 
 ### Autonomous Campaign Intelligence (ACI) — `skills/aci_planner.py`

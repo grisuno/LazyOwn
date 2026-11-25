@@ -13,7 +13,7 @@ quick triage, or operators who never touch the AI features.
 | Session reports (`pandas`), parquet KBs (`pyarrow`), graphs (`networkx`), STIX | `analytics` extra | no |
 | Cloud LLM backends (`groq`, `anthropic`) | `ai` extra | no |
 | Cloud recon/exfil (`boto3`) | `cloud` extra | no |
-| RAG vector store (`chromadb`; keyword fallback in base) | `rag` extra | no |
+| Keyword RAG index (in base; no vector store) | — | no |
 | ML stack (`--with-ml`: torch, sklearn, seaborn) | opt-in | opt-in |
 
 ## Dependency tiering
@@ -27,7 +27,7 @@ in a named extra:
 | `analytics` | pandas, pyarrow, numpy, networkx, stix2 | reports, parquet KBs, graphs |
 | `ai` | groq, anthropic | cloud LLM providers |
 | `cloud` | boto3 | cloud-provider recon and exfiltration |
-| `rag` | chromadb | retrieval-augmented generation vector store |
+| `rag` | — | retired: the vector store was removed; keyword index is built-in |
 | `ml` | torch, torchvision, torchaudio, scikit-learn, seaborn, joblib | heavy ML stack |
 
 The three lock files are regenerated from `pyproject.toml` by resolving it in a

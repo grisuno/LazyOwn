@@ -64,8 +64,7 @@ def test_ca_and_leaf_verify(tmp_path):
     context = authority.context_for("example.test")
     assert context is not None
     assert authority.context_for("example.test") is context
-    leaf = x509.load_pem_x509_certificate(
-        (authority.leaf_dir / "example.test.pem").read_bytes())
+    leaf = x509.load_pem_x509_certificate((authority.leaf_dir / "example.test.pem").read_bytes())
     assert leaf.issuer == authority._ca_cert.subject
     san = leaf.extensions.get_extension_for_class(x509.SubjectAlternativeName).value
     assert "example.test" in san.get_values_for_type(x509.DNSName)
@@ -117,9 +116,7 @@ def test_https_mitm_capture(tmp_path, monkeypatch):
         except (AttributeError, ValueError):
             pass
         raw = socket.create_connection(("127.0.0.1", status["port"]), timeout=5)
-        raw.sendall(
-            f"CONNECT localhost:{up_port} HTTP/1.1\r\n"
-            f"Host: localhost:{up_port}\r\n\r\n".encode())
+        raw.sendall(f"CONNECT localhost:{up_port} HTTP/1.1\r\nHost: localhost:{up_port}\r\n\r\n".encode())
         assert b"200" in _read_until(raw, b"\r\n\r\n")
         tls = client_ctx.wrap_socket(raw, server_hostname="localhost")
         tls.sendall(b"GET /secure HTTP/1.1\r\nHost: localhost\r\nConnection: close\r\n\r\n")
@@ -157,11 +154,20 @@ def test_engine_ingests_recorder_rows(tmp_path, monkeypatch):
     monkeypatch.setattr(proxy_module, "_CONTROLLER", controller)
     controller.start(port=0, traffic_dir=tmp_path / "traffic")
     try:
-        controller.recorder().record("GET", "http://10.0.0.9/admin", 200,
-                                     b"", b"panel", "text/html",
-                                     {"Host": "10.0.0.9"}, {"Content-Type": "text/html"},
-                                     host="10.0.0.9", port=80, scheme="http",
-                                     task=task_id)
+        controller.recorder().record(
+            "GET",
+            "http://10.0.0.9/admin",
+            200,
+            b"",
+            b"panel",
+            "text/html",
+            {"Host": "10.0.0.9"},
+            {"Content-Type": "text/html"},
+            host="10.0.0.9",
+            port=80,
+            scheme="http",
+            task=task_id,
+        )
         assert engine.ingest_proxy_traffic(task_id) == 1
         assert engine.ingest_proxy_traffic(task_id) == 0
         traffic = loop.TrafficLog(task_id)
@@ -184,11 +190,10 @@ def test_writeback_auto_binds_recent_traffic(tmp_path, monkeypatch):
     traffic = loop.TrafficLog(task_id)
     traffic.record("http", "GET http://127.0.0.1/admin", "HTTP 200")
     intent = graph.add_node("intent", "probe admin panel")
-    worker = loop.Worker("worker-1", task_id, engine.assets, graph,
-                         loop.ActivityLog(task_id), traffic,
-                         loop.Guard(task_id), engine.store)
-    wrote = worker._writeback(intent, [("curl http://127.0.0.1/admin",
-                                        "vulnerable cve-2021-1234 panel")])
+    worker = loop.Worker(
+        "worker-1", task_id, engine.assets, graph, loop.ActivityLog(task_id), traffic, loop.Guard(task_id), engine.store
+    )
+    wrote = worker._writeback(intent, [("curl http://127.0.0.1/admin", "vulnerable cve-2021-1234 panel")])
     assert wrote["findings"] == 1
     finding = graph.list("finding")[-1]
     refs = traffic.evidence(finding.node_id, graph)
@@ -257,10 +262,8 @@ def test_recorder_body_search_and_archive_roundtrip(tmp_path):
     from modules.traffic_recorder import TrafficRecorder
 
     recorder = TrafficRecorder(tmp_path / "traffic")
-    recorder.record("GET", "http://t.example/admin", 200,
-                    b"", b"welcome to the admin panel", "text/html")
-    recorder.record("POST", "http://t.example/login", 302,
-                    b"user=admin&pass=hunter2", b"redirect")
+    recorder.record("GET", "http://t.example/admin", 200, b"", b"welcome to the admin panel", "text/html")
+    recorder.record("POST", "http://t.example/login", 302, b"user=admin&pass=hunter2", b"redirect")
     hits = recorder.search_body("hunter2")
     assert len(hits) == 1
     assert hits[0]["url"] == "http://t.example/login"
@@ -335,7 +338,7 @@ def test_engine_exports_task_traffic_and_gc_runs_once(tmp_path, monkeypatch):
         assert Path(exported["path"]).exists()
         assert engine.export_task_traffic("t9999")["exported"] == 0
         engine.proxy_gc_days = 30
-        engine.proxy_gc_interval_sec = 10 ** 9
+        engine.proxy_gc_interval_sec = 10**9
         assert engine._maybe_proxy_gc() == 1
         assert engine._maybe_proxy_gc() == 0
     finally:
@@ -354,8 +357,7 @@ def test_recorder_inbox_auto_import(tmp_path, monkeypatch):
     controller.start(port=0, traffic_dir=tmp_path / "traffic")
     try:
         source = TrafficRecorder(tmp_path / "source")
-        source.record("GET", "http://inbox.example/a", 200, b"", b"inbox body",
-                      task="t9990")
+        source.record("GET", "http://inbox.example/a", 200, b"", b"inbox body", task="t9990")
         archive = tmp_path / "export.zip"
         source.export_archive(archive)
         inbox = tmp_path / "traffic" / "inbox"
@@ -377,9 +379,7 @@ def test_install_ca_nss_with_fake_profiles(tmp_path, monkeypatch):
 
     ca_path = tmp_path / "ca.pem"
     ca_path.write_bytes(b"-----BEGIN CERTIFICATE-----\nNSS\n-----END CERTIFICATE-----\n")
-    monkeypatch.setattr(
-        proxy_module.shutil, "which",
-        lambda name: "/usr/bin/certutil" if name == "certutil" else None)
+    monkeypatch.setattr(proxy_module.shutil, "which", lambda name: "/usr/bin/certutil" if name == "certutil" else None)
     profiles = [str(tmp_path / "p1"), str(tmp_path / "p2")]
     for profile in profiles:
         Path(profile).mkdir()
@@ -404,8 +404,7 @@ def test_install_ca_nss_with_fake_profiles(tmp_path, monkeypatch):
     empty = proxy_module.install_ca_nss(ca_path, runner=runner, profiles=[])
     assert empty["reason"] == "no NSS profiles"
     monkeypatch.setattr(proxy_module.shutil, "which", lambda name: None)
-    no_certutil = proxy_module.install_ca_nss(ca_path, runner=runner,
-                                              profiles=profiles)
+    no_certutil = proxy_module.install_ca_nss(ca_path, runner=runner, profiles=profiles)
     assert no_certutil["reason"] == "certutil not installed"
 
 
@@ -414,8 +413,7 @@ def test_body_ranged_reads(tmp_path):
     from modules.traffic_recorder import TrafficRecorder
 
     recorder = TrafficRecorder(tmp_path / "traffic")
-    recorder.record("GET", "http://t.example/big", 200,
-                    b"", b"0123456789abcdef", "text/plain")
+    recorder.record("GET", "http://t.example/big", 200, b"", b"0123456789abcdef", "text/plain")
     row = recorder.query(host="t.example")[0]
     first = recorder.read_body(row["id"], part="resp", offset=0, length=6)
     assert first["data"] == "012345"
@@ -439,8 +437,7 @@ def test_upstream_chaining_captures_in_both(tmp_path):
     chained_upstream = ProxyController()
     upstream_status = chained_upstream.start(port=0, traffic_dir=tmp_path / "a")
     front = ProxyController()
-    front_status = front.start(port=0, traffic_dir=tmp_path / "b",
-                               upstream=f"127.0.0.1:{upstream_status['port']}")
+    front_status = front.start(port=0, traffic_dir=tmp_path / "b", upstream=f"127.0.0.1:{upstream_status['port']}")
     try:
         conn = http.client.HTTPConnection("127.0.0.1", front_status["port"], timeout=5)
         conn.request("GET", f"http://127.0.0.1:{up_port}/chained")
@@ -475,8 +472,7 @@ def test_websocket_passthrough_recorded(tmp_path):
             if not chunk:
                 return
             data += chunk
-        conn.sendall(b"HTTP/1.1 101 Switching Protocols\r\n"
-                     b"Upgrade: websocket\r\nConnection: Upgrade\r\n\r\n")
+        conn.sendall(b"HTTP/1.1 101 Switching Protocols\r\nUpgrade: websocket\r\nConnection: Upgrade\r\n\r\n")
         while True:
             chunk = conn.recv(4096)
             if not chunk:
@@ -492,7 +488,8 @@ def test_websocket_passthrough_recorded(tmp_path):
         raw.sendall(
             f"GET http://127.0.0.1:{ws_port}/ws HTTP/1.1\r\n"
             f"Host: 127.0.0.1:{ws_port}\r\n"
-            "Upgrade: websocket\r\nConnection: Upgrade\r\n\r\n".encode())
+            "Upgrade: websocket\r\nConnection: Upgrade\r\n\r\n".encode()
+        )
         assert b"101" in _read_until(raw, b"\r\n\r\n")
         raw.sendall(b"ping-echo")
         assert b"ping-echo" in _read_until(raw, b"ping-echo")
@@ -518,17 +515,22 @@ def test_writeback_auto_binds_body_hits(tmp_path, monkeypatch):
     monkeypatch.setattr(proxy_module, "_CONTROLLER", controller)
     controller.start(port=0, traffic_dir=tmp_path / "traffic")
     try:
-        controller.recorder().record("GET", "http://127.0.0.1/login", 200,
-                                     b"", b"JWT token=swordfish-42", task=task_id)
+        controller.recorder().record("GET", "http://127.0.0.1/login", 200, b"", b"JWT token=swordfish-42", task=task_id)
         assert engine.ingest_proxy_traffic(task_id) == 1
         graph = loop.ExplorationGraph(task_id)
         traffic = loop.TrafficLog(task_id)
         intent = graph.add_node("intent", "probe admin panel")
-        worker = loop.Worker("worker-1", task_id, engine.assets, graph,
-                             loop.ActivityLog(task_id), traffic,
-                             loop.Guard(task_id), engine.store)
-        wrote = worker._writeback(intent, [("probe panel",
-                                            "vulnerable swordfish-42 exposed")])
+        worker = loop.Worker(
+            "worker-1",
+            task_id,
+            engine.assets,
+            graph,
+            loop.ActivityLog(task_id),
+            traffic,
+            loop.Guard(task_id),
+            engine.store,
+        )
+        wrote = worker._writeback(intent, [("probe panel", "vulnerable swordfish-42 exposed")])
         assert wrote["findings"] == 1
         finding = graph.list("finding")[-1]
         refs = traffic.evidence(finding.node_id, graph)

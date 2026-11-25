@@ -71,9 +71,7 @@ def pending_fires(target: str) -> list[dict]:
     if not report:
         return []
     fires = [
-        row
-        for row in report.get("matches") or []
-        if row.get("tier") == "hot" and row.get("evidence") == "in_range"
+        row for row in report.get("matches") or [] if row.get("tier") == "hot" and row.get("evidence") == "in_range"
     ]
     if not fires:
         return []

@@ -152,9 +152,7 @@ def test_yaml_chain_with_ampersand_defaults_validates_with_raw_vars():
     """Given the entra-id chain YAML with an ampersand default, When validating, Then it passes."""
     import yaml
 
-    data = yaml.safe_load(
-        (chain_file("apt_entra_id_connect___federation_attacks")).read_text(encoding="utf-8")
-    )
+    data = yaml.safe_load((chain_file("apt_entra_id_connect___federation_attacks")).read_text(encoding="utf-8"))
     assert validate_chain(data, filename=data["name"], chains_dir="chains") == []
 
 

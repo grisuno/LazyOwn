@@ -73,9 +73,7 @@ def _world_snapshot() -> dict[str, Any]:
         hosts = dict(get_world_model().get_hosts_summary())
         model = get_world_model()
         world = {
-            "hosts": [
-                {"ip": ip, "state": str(getattr(state, "value", state))} for ip, state in hosts.items()
-            ],
+            "hosts": [{"ip": ip, "state": str(getattr(state, "value", state))} for ip, state in hosts.items()],
             "phase": str(getattr(model.get_phase(), "value", model.get_phase())),
             "vault_path": str(world_model_module._DEFAULT_PATH),
         }

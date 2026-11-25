@@ -26,8 +26,10 @@ def test_playbook_fires_when_goal_names_actor(monkeypatch):
     import modules.chain_registry as cr
 
     monkeypatch.setattr(
-        pb.AptPlaybookEngine, "list_playbooks",
-        lambda self: [{"apt_name": "apt28", "aliases": ["fancybear"]}], raising=False,
+        pb.AptPlaybookEngine,
+        "list_playbooks",
+        lambda self: [{"apt_name": "apt28", "aliases": ["fancybear"]}],
+        raising=False,
     )
     monkeypatch.setattr(cr, "get", lambda name, *a, **k: object() if name == "apt_apt28" else None)
     decision = PlaybookSelector().propose(_ctx("emulate apt28 against the host"))
@@ -41,8 +43,10 @@ def test_playbook_abstains_without_actor(monkeypatch):
     import modules.apt_playbooks as pb
 
     monkeypatch.setattr(
-        pb.AptPlaybookEngine, "list_playbooks",
-        lambda self: [{"apt_name": "apt28", "aliases": []}], raising=False,
+        pb.AptPlaybookEngine,
+        "list_playbooks",
+        lambda self: [{"apt_name": "apt28", "aliases": []}],
+        raising=False,
     )
     assert PlaybookSelector().propose(_ctx("gain initial access")) is None
 

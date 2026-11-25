@@ -152,7 +152,9 @@ class LoopAudit:
         self._append(event)
         return event
 
-    def run_start(self, goal: str = "", target: str = "", rounds: int = 0, workers: int = 0, mode: str = "", profile: str = "") -> dict | None:
+    def run_start(
+        self, goal: str = "", target: str = "", rounds: int = 0, workers: int = 0, mode: str = "", profile: str = ""
+    ) -> dict | None:
         """Record the loop lifecycle start."""
         self._start = time.time()
         return self.record(
@@ -213,7 +215,9 @@ class LoopAudit:
             error=_clean(error, 300),
         )
 
-    def record_command(self, command: str, output: str, duration: float, ok: bool | None = None, task_id: str = "") -> dict | None:
+    def record_command(
+        self, command: str, output: str, duration: float, ok: bool | None = None, task_id: str = ""
+    ) -> dict | None:
         """Record one executed command with its trigger context.
 
         Called by the loop executor for every command it dispatches. The
@@ -488,7 +492,9 @@ def _render_event(event: dict) -> str:
         ]
         context = []
         if row.get("judge_action"):
-            context.append(f"judge={row['judge_action']}" + (f"/{row['judge_source']}" if row.get("judge_source") else ""))
+            context.append(
+                f"judge={row['judge_action']}" + (f"/{row['judge_source']}" if row.get("judge_source") else "")
+            )
         if row.get("opsec_gate"):
             context.append(f"opsec={row['opsec_gate']}")
         if row.get("detection_prob") not in (None, ""):

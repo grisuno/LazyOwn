@@ -15,17 +15,14 @@ import json
 import re
 from pathlib import Path
 
-
 ANSI_RE = re.compile(r"\x1b\[[0-9;?]*[a-zA-Z]")
 OPEN_PORT_RE = re.compile(r"(\d+)\s*/\s*([A-Za-z0-9_?.-]+)")
 TTL_RE = re.compile(r"TTL\s*[:=]\s*(\d+)", re.IGNORECASE)
 CHANGED_RE = re.compile(r"^\s*\+\s*(\S+)", re.MULTILINE)
 SERVICES_RE = re.compile(r"Services\s*:\s*(.+)", re.IGNORECASE)
 EDB_RE = re.compile(r"(Exploit-DB|EDB-ID|CVE-\d{4}-\d+)[^\n]{0,100}", re.IGNORECASE)
-PAYLOAD_RE = re.compile(r"(windows|linux)/[a-z0-9_/]+|[\w\-./]+\.(exe|elf|dll|ps1|sh)\b",
-                        re.IGNORECASE)
-SAVED_RE = re.compile(r"(Saved|Written|staged|output)\s+(to|at|:)?\s*([^\n]{1,120})",
-                      re.IGNORECASE)
+PAYLOAD_RE = re.compile(r"(windows|linux)/[a-z0-9_/]+|[\w\-./]+\.(exe|elf|dll|ps1|sh)\b", re.IGNORECASE)
+SAVED_RE = re.compile(r"(Saved|Written|staged|output)\s+(to|at|:)?\s*([^\n]{1,120})", re.IGNORECASE)
 
 MAX_MARKER_LINES = 12
 MAX_PORTS_SHOWN = 15
@@ -54,8 +51,8 @@ def full_output(step: dict, sessions_dir: str | Path) -> str:
     if evidence:
         try:
             from modules.evidence import EvidenceStore as _Vault
-            return _Vault(Path(str(sessions_dir)) / "evidence").get(evidence).decode(
-                "utf-8", "replace")
+
+            return _Vault(Path(str(sessions_dir)) / "evidence").get(evidence).decode("utf-8", "replace")
         except Exception:
             pass
     return str(step.get("output_tail", "") or "")
@@ -95,15 +92,13 @@ def held_scan_ports(target: str, sessions_dir: str | Path) -> tuple[list[str], l
     return seen, sources
 
 
-def detail_for(tool: str, text: str, target: str = "",
-               sessions_dir: str | Path = "sessions") -> list[str]:
+def detail_for(tool: str, text: str, target: str = "", sessions_dir: str | Path = "sessions") -> list[str]:
     """Extract the key facts from one step output for the summary."""
     lines = marker_lines(text)
     blob = "\n".join(lines)
     normalized = str(tool or "").lower()
     if normalized == "ping":
-        out = [line for line in lines
-               if "TTL" in line or "alive" in line or "os_id" in line]
+        out = [line for line in lines if "TTL" in line or "alive" in line or "os_id" in line]
         return out or lines[:3]
     if normalized in ("lazynmap", "nmap", "rustscan", "masscan"):
         found = OPEN_PORT_RE.findall(blob)
@@ -147,8 +142,7 @@ def detail_for(tool: str, text: str, target: str = "",
     return lines[:6]
 
 
-def next_actions(target: str, sessions_dir: str | Path = "sessions",
-                 limit: int = MAX_NEXT) -> list[dict]:
+def next_actions(target: str, sessions_dir: str | Path = "sessions", limit: int = MAX_NEXT) -> list[dict]:
     """Rank next actions via the unified recommendation engine.
 
     Degrades to [] when the engine is unavailable — callers always work.
@@ -162,18 +156,20 @@ def next_actions(target: str, sessions_dir: str | Path = "sessions",
         payload = {}
     try:
         from cli.recommendation_signals import build_context, build_default_engine
+
         engine = build_default_engine(payload=dict(payload))
-        ctx = build_context(dict(payload), sessions_dir=str(sessions_dir),
-                            target=target, limit=limit)
-        return [{"action": r.action, "command": r.command_preview or "",
-                 "reasons": list(r.reasons or [])[:2]}
-                for r in engine.recommend(ctx)[:limit]]
+        ctx = build_context(dict(payload), sessions_dir=str(sessions_dir), target=target, limit=limit)
+        return [
+            {"action": r.action, "command": r.command_preview or "", "reasons": list(r.reasons or [])[:2]}
+            for r in engine.recommend(ctx)[:limit]
+        ]
     except Exception:
         return []
 
 
-def render_text(engagement_id: str, target: str, shell: bool,
-                steps: list[dict], sessions_dir: str | Path = "sessions") -> str:
+def render_text(
+    engagement_id: str, target: str, shell: bool, steps: list[dict], sessions_dir: str | Path = "sessions"
+) -> str:
     """Render the console summary with per-step detail lines."""
     lines = [f"daemon engaged {target}: {engagement_id}"]
     for idx, step in enumerate(steps, 1):
@@ -190,14 +186,12 @@ def render_text(engagement_id: str, target: str, shell: bool,
                     detail = f" held ports: {', '.join(ports[:MAX_PORTS_SHOWN])}"
                     if sources:
                         detail += f" ({sources[0]})"
-            lines.append(f"  {idx}. [SKIP] {phase} {title} {command} "
-                         f"({skipped}{detail})".rstrip())
+            lines.append(f"  {idx}. [SKIP] {phase} {title} {command} ({skipped}{detail})".rstrip())
             continue
         mark = "ok" if step.get("success") else "FAIL"
         lines.append(f"  {idx}. [{mark}] {phase} {title} {command}".rstrip())
         text = full_output(step, sessions_dir)
-        for fact in detail_for((command or "").split()[0] if command else "",
-                               text, target, sessions_dir):
+        for fact in detail_for((command or "").split()[0] if command else "", text, target, sessions_dir):
             lines.append(f"       - {fact[:220]}")
         if mark == "FAIL":
             tail = str(step.get("output_tail", "") or "")[-120:].strip()
@@ -207,19 +201,32 @@ def render_text(engagement_id: str, target: str, shell: bool,
     return "\n".join(lines)
 
 
-def render_markdown(engagement_id: str, target: str, shell: bool,
-                    steps: list[dict], next_list: list[dict],
-                    sessions_dir: str | Path = "sessions") -> str:
+def render_markdown(
+    engagement_id: str,
+    target: str,
+    shell: bool,
+    steps: list[dict],
+    next_list: list[dict],
+    sessions_dir: str | Path = "sessions",
+) -> str:
     """Render the persisted per-engagement report."""
-    out = [f"# Engagement {engagement_id}", "", f"Target: {target}",
-           f"Shell: {'YES' if shell else 'no'}", f"Steps: {len(steps)}", "",
-           "## Steps", ""]
+    out = [
+        f"# Engagement {engagement_id}",
+        "",
+        f"Target: {target}",
+        f"Shell: {'YES' if shell else 'no'}",
+        f"Steps: {len(steps)}",
+        "",
+        "## Steps",
+        "",
+    ]
     for idx, step in enumerate(steps, 1):
-        status = ("SKIP " + step.get("skipped_reason", "")
-                  if step.get("skipped_reason")
-                  else ("ok" if step.get("success") else "FAIL"))
-        out.append(f"### {idx}. [{status}] {step.get('phase', '?')} — "
-                   f"{step.get('label', step.get('command', ''))}")
+        status = (
+            "SKIP " + step.get("skipped_reason", "")
+            if step.get("skipped_reason")
+            else ("ok" if step.get("success") else "FAIL")
+        )
+        out.append(f"### {idx}. [{status}] {step.get('phase', '?')} — {step.get('label', step.get('command', ''))}")
         out.append(f"Command: `{step.get('command', '')}`")
         if step.get("switched_from"):
             out.append(f"Switched from: `{step['switched_from']}`")
@@ -227,8 +234,7 @@ def render_markdown(engagement_id: str, target: str, shell: bool,
             out.append(f"Evidence: `{str(step['evidence'])[:12]}`")
         if not step.get("skipped_reason"):
             text = full_output(step, sessions_dir)
-            for fact in detail_for((step.get("command", "") or "").split()[0],
-                                   text, target, sessions_dir):
+            for fact in detail_for((step.get("command", "") or "").split()[0], text, target, sessions_dir):
                 out.append(f"- {fact[:220]}")
         out.append("")
     out.append("## Next actions")
@@ -244,22 +250,27 @@ def render_markdown(engagement_id: str, target: str, shell: bool,
     return "\n".join(out) + "\n"
 
 
-def write_report(engagement_id: str, target: str, shell: bool,
-                 steps: list[dict],
-                 sessions_dir: str | Path = "sessions") -> str:
+def write_report(
+    engagement_id: str, target: str, shell: bool, steps: list[dict], sessions_dir: str | Path = "sessions"
+) -> str:
     """Persist the engagement report; return its relative path."""
     base = Path(str(sessions_dir))
     directory = base / "engagements"
     directory.mkdir(parents=True, exist_ok=True)
     upcoming = next_actions(target, sessions_dir)
-    text = render_markdown(engagement_id, target, shell, steps, upcoming,
-                           sessions_dir)
+    text = render_markdown(engagement_id, target, shell, steps, upcoming, sessions_dir)
     path = directory / f"engage_{engagement_id}.md"
     path.write_text(text, encoding="utf-8")
     return str(path)
 
 
 __all__ = [
-    "marker_lines", "full_output", "held_scan_ports", "detail_for",
-    "next_actions", "render_text", "render_markdown", "write_report",
+    "marker_lines",
+    "full_output",
+    "held_scan_ports",
+    "detail_for",
+    "next_actions",
+    "render_text",
+    "render_markdown",
+    "write_report",
 ]

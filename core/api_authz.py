@@ -2,8 +2,10 @@
 
 Provides API-key generation, storage, validation, and route-decorator
 enforcement that requires both a valid key AND tenant membership.
-Keys are hashed at rest with ``hashlib.sha256``; only the plaintext
-is returned once at creation time.
+Keys are hashed at rest with PBKDF2-HMAC-SHA256 (salted, per-key
+random salt); only the plaintext is returned once at creation time.
+Legacy unsalted SHA-256 records are rejected and pruned on load:
+operators must rotate keys generated before the PBKDF2 migration.
 
 This module is self-contained and has zero dependencies beyond the
 Python standard library. It integrates with Flask via decorators and
@@ -38,6 +40,7 @@ from __future__ import annotations
 import hashlib
 import hmac
 import json
+import logging
 import secrets
 import time
 from collections.abc import Callable
@@ -133,15 +136,76 @@ class ApiKey:
 
 # ── Hashing helpers ──────────────────────────────────────────────────────────
 
+_PBKDF2_HASH_NAME = "pbkdf2_sha256"
+_PBKDF2_ITERATIONS = 240_000
+_PBKDF2_SALT_BYTES = 16
+_PBKDF2_SEGMENTS = 4
+
+
+_LEGACY_RECORD_WARNED = False
+
+
+def _warn_legacy_pruned() -> None:
+    """Log a single rotation warning for legacy unsalted records."""
+    global _LEGACY_RECORD_WARNED
+    if not _LEGACY_RECORD_WARNED:
+        _LEGACY_RECORD_WARNED = True
+        logging.getLogger(__name__).warning(
+            "api_keys store contains legacy unsalted SHA-256 records; "
+            "they are rejected. Rotate those keys with rotate_key/create_api_token."
+        )
+
 
 def _hash_secret(secret: str) -> str:
-    """Return the SHA-256 hex digest of *secret*."""
-    return hashlib.sha256(secret.encode("utf-8")).hexdigest()
+    """Return the PBKDF2-HMAC-SHA256 record for *secret*.
+
+    The record embeds the algorithm, iteration count and per-secret
+    random salt so verification parameters travel with the hash.
+
+    Args:
+        secret: The plaintext secret.
+
+    Returns:
+        A ``pbkdf2_sha256$<iters>$<salt>$<hash>`` string.
+    """
+    salt = secrets.token_hex(_PBKDF2_SALT_BYTES)
+    digest = hashlib.pbkdf2_hmac(
+        "sha256",
+        secret.encode("utf-8"),
+        bytes.fromhex(salt),
+        _PBKDF2_ITERATIONS,
+    )
+    return f"{_PBKDF2_HASH_NAME}${_PBKDF2_ITERATIONS}${salt}${digest.hex()}"
 
 
 def _verify_secret(secret: str, stored_hash: str) -> bool:
-    """Constant-time comparison of *secret* against *stored_hash*."""
-    return hmac.compare_digest(_hash_secret(secret), stored_hash)
+    """Constant-time verification of *secret* against a PBKDF2 record.
+
+    The record embeds its own iteration count and salt. Records in any
+    other format (including legacy bare SHA-256 hex) are rejected.
+
+    Args:
+        secret: The plaintext secret to check.
+        stored_hash: The stored hash record.
+
+    Returns:
+        True when the secret matches the stored PBKDF2 record.
+    """
+    if not stored_hash.startswith(f"{_PBKDF2_HASH_NAME}$"):
+        return False
+    segments = stored_hash.split("$")
+    if len(segments) != _PBKDF2_SEGMENTS:
+        return False
+    _, iterations_text, salt_hex, expected = segments
+    try:
+        iterations = int(iterations_text)
+        salt = bytes.fromhex(salt_hex)
+    except (TypeError, ValueError):
+        return False
+    if iterations < 1:
+        return False
+    digest = hashlib.pbkdf2_hmac("sha256", secret.encode("utf-8"), salt, iterations)
+    return hmac.compare_digest(digest.hex(), expected)
 
 
 def _generate_token_bytes(nbytes: int = 32) -> str:
@@ -161,10 +225,11 @@ def _generate_token_bytes(nbytes: int = 32) -> str:
 class ApiKeyStore:
     """Persistent store for tenant-scoped API keys.
 
-    Keys are hashed with SHA-256 before storage. Atomic writes use
-    ``.tmp`` + ``os.replace`` to prevent corruption. Rotated keys are
-    retired (not deleted) so they stay valid during the configured
-    grace window, then pruned lazily.
+    Keys are hashed with salted PBKDF2-HMAC-SHA256 before storage;
+    legacy-format records are rejected and pruned on load. Atomic
+    writes use ``.tmp`` + ``os.replace`` to prevent corruption.
+    Rotated keys are retired (not deleted) so they stay valid during
+    the configured grace window, then pruned lazily.
     """
 
     def __init__(self, config: ApiAuthzConfig | None = None):
@@ -186,7 +251,11 @@ class ApiKeyStore:
             return []
         if not isinstance(data, list):
             return []
-        return [record for record in data if isinstance(record, dict) and "key_hash" in record]
+        records = [record for record in data if isinstance(record, dict) and "key_hash" in record]
+        kept = [record for record in records if str(record.get("key_hash", "")).startswith(f"{_PBKDF2_HASH_NAME}$")]
+        if len(kept) != len(records):
+            _warn_legacy_pruned()
+        return kept
 
     def _write(self, data: list[dict[str, Any]]) -> None:
         self._path.parent.mkdir(parents=True, exist_ok=True)
@@ -227,7 +296,7 @@ class ApiKeyStore:
         return keys
 
     def find_by_hash(self, key_hash: str) -> ApiKey | None:
-        """Look up a key record by its SHA-256 hash."""
+        """Look up a key record by its stored hash."""
         with self._lock:
             records = self._read()
         for record in records:
@@ -287,14 +356,25 @@ class ApiKeyStore:
     def validate_key(self, plaintext: str) -> ApiKey | None:
         """Validate a plaintext API key and return the ApiKey record.
 
-        Returns ``None`` if the key is invalid, expired, retired past its
-        grace window, or not found. On successful validation the
-        ``last_used_at`` timestamp is updated in the store.
+        Keys are salted at rest, so the store is scanned and each
+        record's hash is verified in constant time; the first match
+        wins. Returns ``None`` if the key is invalid, expired, retired
+        past its grace window, or not found. On successful validation
+        the ``last_used_at`` timestamp is updated in the store.
         """
         if not plaintext:
             return None
-        key_hash = _hash_secret(plaintext)
-        api_key = self.find_by_hash(key_hash)
+        with self._lock:
+            records = self._read()
+        api_key: ApiKey | None = None
+        key_hash = ""
+        for record in records:
+            record_hash = record.get("key_hash", "")
+            if not _verify_secret(plaintext, record_hash):
+                continue
+            api_key = ApiKey.from_dict(record)
+            key_hash = record_hash
+            break
         if api_key is None:
             return None
         if api_key.is_expired():

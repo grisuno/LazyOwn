@@ -62,7 +62,7 @@ def _redirect_world_model_env(payload: Mapping[str, Any]) -> None:
         return
     from modules import world_model as world_model_module
 
-    world_model_module._DEFAULT_PATH = str(_Path(override) / "world_model.json")
+    world_model_module._DEFAULT_PATH = _Path(override) / "world_model.json"
 
 
 def _world_line(payload: Mapping[str, Any]) -> str:

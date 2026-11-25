@@ -79,7 +79,6 @@ class SessionResumer:
                 "ai_model",
                 "bofs",
                 "cve_cache",
-                "chromadb",
                 "delivery",
                 "detection_cache",
                 "default_engagement",

@@ -115,10 +115,7 @@ def consume(
         return summary
     cracked = [result for result in results if getattr(result, "cracked", False)]
     summary["cracked"] = len(cracked)
-    summary["users"] = [
-        result.hash_value.split(":", 1)[0] if ":" in result.hash_value else ""
-        for result in cracked
-    ]
+    summary["users"] = [result.hash_value.split(":", 1)[0] if ":" in result.hash_value else "" for result in cracked]
     try:
         summary["db_imported"] = int(cracker.import_to_db(cracked, rhost=host) or 0)
     except Exception as exc:

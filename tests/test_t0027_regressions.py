@@ -62,8 +62,7 @@ def test_failed_ssh_replay_is_inconclusive_not_reproduced(tmp_path, monkeypatch)
         meta={"poc": "ssh root@172.17.0.4 -p 22", "severity": "critical"},
     )
     failed = (
-        "Unable to negotiate with 172.17.0.4 port 22: no matching host key type found. "
-        "Their offer: ssh-rsa,ssh-dss"
+        "Unable to negotiate with 172.17.0.4 port 22: no matching host key type found. Their offer: ssh-rsa,ssh-dss"
     )
     result = retester.retest(node.node_id, executor=lambda _cmd: failed)
     assert result["verdict"] == "inconclusive"
@@ -145,9 +144,7 @@ def test_writeback_refuses_finding_from_failure_output(tmp_path, monkeypatch):
     )
     intent = graph.add_node("intent", "brief dig on 172.17.0.2", state="running")
     node = graph.get(intent.node_id)
-    wrote = worker._writeback(
-        node, [("dig +short 172.17.0.2", "dig: couldn't get address for '+short': not found")]
-    )
+    wrote = worker._writeback(node, [("dig +short 172.17.0.2", "dig: couldn't get address for '+short': not found")])
     assert wrote["findings"] == 0
     assert graph.list("finding") == []
 
@@ -218,9 +215,13 @@ def test_lazymode_skips_tiny_model_chain(tmp_path, monkeypatch):
     import sdk.lazymode as lazymode
 
     fired = {"n": 0}
-    monkeypatch.setattr(lazymode, "run", lambda script, **k: fired.__setitem__("n", 1) or SimpleNamespace(
-        ok=True, result={}, stdout="", error="", duration_s=0.1
-    ))
+    monkeypatch.setattr(
+        lazymode,
+        "run",
+        lambda script, **k: (
+            fired.__setitem__("n", 1) or SimpleNamespace(ok=True, result={}, stdout="", error="", duration_s=0.1)
+        ),
+    )
     intent = graph.add_node("intent", "brief service: ssh on 172.17.0.2:22", state="open")
     node = graph.get(intent.node_id)
     outcome = {"facts": 0, "assets": 0, "findings": 0, "state": "done"}
@@ -263,7 +264,6 @@ def test_mark_goals_achieved_credits_pending_goals(tmp_path, monkeypatch):
     coverage=100.0%`` because goal nodes only advance on the round-time
     checker and deliberately stay pending to keep the planner alive.
     """
-    from modules.lazy_engine import LazyEngine
 
     _sandbox(tmp_path, monkeypatch)
     engine = loop.LazyLoopEngine()
@@ -286,7 +286,7 @@ def test_dig_option_lines_pass_through_raw():
     source = (Path(__file__).resolve().parent.parent / "cli" / "commands" / "recon.py").read_text()
     assert 'token.startswith(("+", "@"))' in source
     assert 'self.cmd(f"dig {line}")' in source
-    assert "self.cmd(f\"dig version.bind CHAOS TXT @{line}\")" not in source.split('self.cmd(f"dig {line}")')[0]
+    assert 'self.cmd(f"dig version.bind CHAOS TXT @{line}")' not in source.split('self.cmd(f"dig {line}")')[0]
 
 
 def test_attribution_scrubs_ambient_rate_limit_noise(monkeypatch):
@@ -301,9 +301,7 @@ def test_attribution_scrubs_ambient_rate_limit_noise(monkeypatch):
     import modules.outcome_attribution as oa
 
     noise = (
-        "[result] auto_pwn ran\n"
-        "loop:agent-error: Error code: 429 - Rate limit reached for model\n"
-        "uid=1000(msfadmin)\n"
+        "[result] auto_pwn ran\nloop:agent-error: Error code: 429 - Rate limit reached for model\nuid=1000(msfadmin)\n"
     )
     seen: dict = {}
 

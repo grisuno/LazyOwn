@@ -26,12 +26,8 @@ def test_technique_steps_are_headless():
     """The resolved command is a non-interactive atomic_tests line."""
     from modules.lazy_loop import _technique_steps
 
-    assert _technique_steps("Review T1105: Apache WebDAV PUT") == [
-        "atomic_tests T1105 --non-interactive"
-    ]
-    assert _technique_steps("Review T1059.004: cmd injection") == [
-        "atomic_tests T1059.004 --non-interactive"
-    ]
+    assert _technique_steps("Review T1105: Apache WebDAV PUT") == ["atomic_tests T1105 --non-interactive"]
+    assert _technique_steps("Review T1059.004: cmd injection") == ["atomic_tests T1059.004 --non-interactive"]
     assert _technique_steps("no technique here") == []
 
 

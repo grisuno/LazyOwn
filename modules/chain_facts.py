@@ -42,7 +42,9 @@ def spool_chain_outputs(
     outputs = [step for step in result.steps if step.output and step.output.strip()]
     if not outputs:
         return 0
-    run_dir = base / FACTS_SPOOL_DIRNAME / (result.run_id or datetime.datetime.now(datetime.UTC).strftime("%Y%m%d%H%M%S"))
+    run_dir = (
+        base / FACTS_SPOOL_DIRNAME / (result.run_id or datetime.datetime.now(datetime.UTC).strftime("%Y%m%d%H%M%S"))
+    )
     run_dir.mkdir(parents=True, exist_ok=True)
     target_hint = result.target or result.variables.get("target", "") or ""
     ingested_total = 0

@@ -1808,7 +1808,7 @@ Manually, you'd look up "OpenSSH 8.2p1" or "Apache httpd 2.4.41" to find known v
 LazyOwn's AI Integration can automate this analysis.
 
 1.  **Scan Output Saved:** The `nmap` command saves its output, likely in XML or text format, into the `sessions/` directory (as mentioned in [Chapter 5: Documentation & Reporting](05_documentation___reporting_.md)).
-2.  **AI Monitors/Processes:** LazyOwn's AI component (specifically, parts related to vulnerability analysis, like `lazygptvulns.py`, or the background `LazySentinel`) detects or is told to analyze this new scan file.
+2.  **AI Monitors/Processes:** LazyOwn's AI component (specifically, parts related to vulnerability analysis, like `lazygptvulns.py`, or the background watcher) detects or is told to analyze this new scan file.
 3.  **AI Analyzes:** The AI reads the Nmap output. It identifies the services and their versions. It then uses its training data (or potentially a local vulnerability database) to match these services/versions to known CVEs.
 4.  **AI Suggests:** The AI provides you with:
     *   A summary of the findings (e.g., "Found OpenSSH 8.2p1 and Apache 2.4.41").
@@ -1827,7 +1827,7 @@ LazyOwn employs several modules and mechanisms for AI integration:
     LazyOwn sends text (prompts, file content, questions) to these LLMs and receives text responses back.
 
     ```python
-    # Simplified concept from various modules (lazygptvulns.py, lazygptcli5.py, lazy_sentinel4.py)
+    # Simplified concept from various modules (lazygptvulns.py, lazygptcli5.py)
     import requests # For local Ollama API
     from groq import Groq # For Groq API
 
@@ -1890,7 +1890,7 @@ LazyOwn employs several modules and mechanisms for AI integration:
 3.  **AI Response Parsing:** The AI responds with text. This text might contain the summary, suggested commands, vulnerability IDs, etc. LazyOwn needs to read and understand this structured text response. Sometimes, the AI is asked to format the response in a specific way (e.g., JSON or with clear headings) to make parsing easier.
 
     ```python
-    # Simplified concept from lazy_sentinel4.py's parse_deepseek_response
+    # Simplified concept from the LLM response parser (parse_deepseek_response)
     import re
 
     def parse_deepseek_response(response_text: str) -> dict:
@@ -1925,36 +1925,26 @@ LazyOwn employs several modules and mechanisms for AI integration:
     ```
     *Explanation:* LazyOwn uses pattern matching (like regular expressions `re`) to extract specific pieces of information (summary, command list) from the AI's text response, even if it's just plain text with headings.
 
-4.  **Retrieval Augmented Generation (RAG):** The `lazy_sentinel4.py` script implements a RAG system. This is an advanced technique where, instead of the AI relying *only* on its general training data, it first searches a dedicated knowledge base (your collected session files stored in a **vector database** like ChromaDB) for information relevant to your query or the file it's analyzing. It then includes this *specific, relevant* information in the prompt it sends to the LLM. This ensures the AI's response is highly relevant to your current task and collected data, not just general advice.
+4.  **Retrieval Augmented Generation (RAG):** LazyOwn implements a RAG system with **LazyHebb** (`modules/lazy_hebb.py`), a zero-inference memory engine over SQLite FTS5. Instead of the AI relying *only* on its general training data, it first searches a dedicated knowledge base (your collected session files plus every loop outcome, auto-seeded with `| sem:` semantic tags) for information relevant to your query. No embeddings, no vector database, no LLM calls for recall: retrieval is deterministic BM25 ranking plus one-hop hebbian spreading activation over co-activation edges, typically under 10 ms.
 
     ```python
-    # Simplified RAG flow concept from lazy_sentinel4.py's RAGManager
-    from langchain_chroma import Chroma # Vector database
-    from langchain_ollama import OllamaEmbeddings # For creating vector representations
-    from langchain_text_splitters import RecursiveCharacterTextSplitter # To break files into chunks
+    # Simplified LazyHebb flow concept from modules/lazy_hebb.py
+    from modules.lazy_hebb import LazyHebb
 
     class RAGManager:
-        def __init__(self, model_name, persist_dir):
-            self.embeddings = OllamaEmbeddings(model=model_name)
-            self.vectorstore = Chroma(persist_directory=persist_dir, embedding_function=self.embeddings)
-            self.retriever = self.vectorstore.as_retriever()
+        def __init__(self, db_path):
+            self.memory = LazyHebb(db_path)  # SQLite FTS5 + hebbian edges
 
-        def add_file(self, file_path):
-            # Load file, split into chunks
-            loader = TextLoader(str(file_path)) # Example for text files
-            data = loader.load()
-            chunks = RecursiveCharacterTextSplitter(chunk_size=500).split_documents(data)
-
-            # Add chunks to the vector database
-            self.vectorstore.add_documents(documents=chunks)
-            self.vectorstore.persist() # Save to disk
+        def add_file(self, file_path, text):
+            # Write-time semantic seeding: "| sem:" suffix or keyword auto-seeding
+            self.memory.store(text, agent_id="sentinel", phase="rag")
 
         def query_rag(self, question):
-            # 1. Retrieve relevant chunks from vector DB based on question
-            retrieved_docs = self.retriever.invoke(question)
+            # 1. Deterministic recall: BM25 + one-hop spreading activation (no model)
+            winners = self.memory.spark(question, top_k=5)
 
-            # 2. Combine retrieved chunks into context
-            context = "\n\n".join(doc.page_content for doc in retrieved_docs)
+            # 2. Combine recalled memories into context
+            context = "\n\n".join(w["content"] for w in winners)
 
             # 3. Format prompt with context and question
             prompt = f"Question: {question}\n\nContext: {context}\n\nAnswer:"
@@ -1964,18 +1954,18 @@ LazyOwn employs several modules and mechanisms for AI integration:
 
             return llm_response
     ```
-    *Explanation:* The RAGManager class handles taking file content, breaking it into pieces (`chunks`), converting those pieces into numerical representations (`embeddings`) using the LLM's embedding model, and storing them in a special database (`Chroma`). When a question comes in, it converts the question into an embedding, finds the closest matching chunk embeddings in the database (`retriever.invoke`), retrieves the original text of those chunks, and includes that text as `Context` in the final prompt sent to the LLM.
+    *Explanation:* LazyHebb stores each memory with semantic tags seeded at write time (`| sem: lateral, smb, exec`), finds matches with full-text search (BM25 ranking over SQLite FTS5), strengthens co-recalled memories with hebbian edges, and walks those edges to surface related memories one hop away. A private-flag firewall keeps sensitive rows out of shared recall and out of bridge pathfinding. Import/export to plain Markdown with the `| sem:` suffix is the durable, versionable source of truth.
 
-5.  **Background Monitoring (`LazySentinel`):** The `lazy_sentinel4.py` script (`LazySentinel`) is designed to run in the background and automatically watch directories (like `sessions/`) for new or modified files (`watchdog.observers`). When it detects a relevant file change, it can automatically trigger the RAG process (`rag_manager.process_file_to_rag`) to add the new data to the knowledge base and/or analyze the file content using the LLM and trigger a popup notification in the main CLI.
+5.  **Background Monitoring:** background watchers observe directories (like `sessions/`) for new or modified files (`watchdog.observers`). When a relevant file change is detected, the change can automatically feed the LazyHebb knowledge base (`lazyhebb add ...`) and/or analyze the file content using the LLM and trigger a popup notification in the main CLI.
 
     ```python
-    # Simplified concept from lazy_sentinel4.py
+    # Simplified concept from the background watcher
     import time
     from watchdog.observers import Observer
     from watchdog.events import FileSystemEventHandler
     from pathlib import Path
 
-    class LazySentinelHandler(FileSystemEventHandler):
+    class WatchdogHandler(FileSystemEventHandler):
         def __init__(self, sentinel_instance):
             self.sentinel = sentinel_instance
 
@@ -1990,13 +1980,13 @@ LazyOwn employs several modules and mechanisms for AI integration:
              # Similar logic as on_created to process modified files
              pass
 
-    # In the LazySentinel class __init__:
+    # In the watcher class __init__:
     # self.observer = Observer()
     # self.handler = LazySentinelHandler(self)
     # self.observer.schedule(self.handler, str(self.watch_dir), recursive=False) # Watch sessions/ directory
     # self.observer.start() # Start the monitoring in a separate thread
     ```
-    *Explanation:* Using the `watchdog` library, LazySentinel sets up an observer to watch the filesystem. When the observer detects a file being created or modified in the watched directory, it triggers the `on_created` or `on_modified` methods in the handler. These methods then tell the `LazySentinel` instance to process the specific file, which involves adding it to the RAG knowledge base and potentially analyzing it with the LLM.
+    *Explanation:* Using the `watchdog` library, LazySentinel sets up an observer to watch the filesystem. When the observer detects a file being created or modified in the watched directory, it triggers the `on_created` or `on_modified` methods in the handler. These methods then tell the watcher instance to process the specific file, which involves adding it to the RAG knowledge base and potentially analyzing it with the LLM.
 
 This combination of components allows LazyOwn to continuously learn from the data you collect and provide intelligent assistance.
 
@@ -2004,7 +1994,7 @@ This combination of components allows LazyOwn to continuously learn from the dat
 
 LazyOwn provides several ways to interact with its AI capabilities:
 
-1.  **Background Monitoring (LazySentinel):** As described above, LazySentinel runs automatically when started (possibly in a separate tmux pane by `fast_run_as_r00t.sh` or `entrypoint.sh`). It monitors `sessions/` and will pop up alerts with analysis and command suggestions when new relevant files (like scan outputs or logs) are saved. You can manage its behavior using commands like `rag_toggle` in the `LazySentinel`'s own CLI pane.
+1.  **Background Monitoring:** As described above, the background watcher runs automatically when started (possibly in a separate tmux pane by `fast_run_as_r00t.sh` or `entrypoint.sh`). It monitors `sessions/` and will pop up alerts with analysis and command suggestions when new relevant files (like scan outputs or logs) are saved. Every new artefact can feed LazyHebb with `lazyhebb add`.
 2.  **Direct AI Commands (e.g., `vulns`, `rag_query`):** You can directly invoke AI analysis or query the RAG knowledge base from the main LazyOwn CLI (or possibly a dedicated AI pane).
     *   The `vulns` command (seen in [Chapter 5: Documentation & Reporting](05_documentation___reporting_.md) and backed by `lazygptvulns.py`) is a prime example. You might run it with a file path:
 
@@ -2014,30 +2004,26 @@ LazyOwn provides several ways to interact with its AI capabilities:
         ```
         *Explanation:* This command tells LazyOwn to take the specified Nmap output file, feed it to the `lazygptvulns.py` script (which formats the prompt and calls the LLM), and display the AI's analysis, suggested vulnerabilities, and action plan directly in your CLI.
 
-    *   From the `LazySentinel`'s own CLI (which might be running in a separate pane), you have specific RAG commands (as seen in `lazy_sentinel4.py`'s `App` class which uses `cmd2`):
+    *   From the operator shell you have specific memory/RAG commands (the `lazyhebb` command set uses `cmd2`):
 
         ```bash
-        LazySentinel> rag_status
+        lazyhebb stats
         ```
         *Expected Output:*
         ```
-        LazySentinel> rag_status
-        RAG Knowledge Base Status:
-          status: Active
-          document_count: 50
-          persist_dir: ./persistent_chroma_db
-          embedding_cache_size: 100
-          query_cache_size: 50
-        Auto-RAG enabled: True
+        lazyhebb stats
+        db: sessions/lazy/hebb.sqlite
+        memories: 50 (private: 3)
+        edges: 12
         ```
-        *Explanation:* This command shows you information about the RAG system: if the knowledge base is built, how many document chunks it contains, where it's stored, cache sizes, and if automatic monitoring (`Auto-RAG`) is active.
+        *Explanation:* This command shows you information about the LazyHebb memory: where the store lives, how many memories and hebbian edges it has, and how many are private (firewalled).
 
         ```bash
-        LazySentinel> rag_query "What services did the scan on 192.168.1.10 find and are there any common vulnerabilities?"
+        lazyhebb spark "services scan 192.168.1.10 vulnerabilities"
         ```
         *Expected Output (example):*
         ```
-        LazySentinel> rag_query "What services did the scan on 192.168.1.10 find and are there any common vulnerabilities?"
+        lazyhebb spark "services scan 192.168.1.10 vulnerabilities"
         Querying RAG knowledge base...
 
         RAG Response:

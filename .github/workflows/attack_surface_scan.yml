@@ -29,7 +29,7 @@ jobs:
 
     steps:
       - name: Checkout LazyOwn
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           repository: grisuno/LazyOwn
           path: LazyOwn
@@ -122,7 +122,7 @@ jobs:
             --run-chain "$CHAIN" 2>&1 | tee /tmp/scan_output.jsonl
 
       - name: Upload scan results
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: attack-surface-results
@@ -133,7 +133,7 @@ jobs:
           compression-level: 6
 
       - name: Upload report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: engagement-report

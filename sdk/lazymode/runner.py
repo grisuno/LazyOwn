@@ -62,6 +62,7 @@ def _bounded(text: str) -> str:
     dropped = len(text) - _MAX_STDOUT_CHARS
     return f"{text[:_MAX_STDOUT_CHARS]}\n... [{dropped} chars truncated]"
 
+
 LuaRuntime = optional_attr("lupa", "LuaRuntime")
 
 
@@ -172,7 +173,7 @@ def _parse_envelope(stdout: str) -> dict[str, Any] | None:
     if index == -1:
         return None
     try:
-        return json.loads(stdout[index + len(marker):])
+        return json.loads(stdout[index + len(marker) :])
     except (ValueError, TypeError):
         return None
 
@@ -200,15 +201,11 @@ def run_python(
     started = time.monotonic()
     import tempfile
 
-    with tempfile.NamedTemporaryFile(
-        "w", suffix=".py", delete=False, encoding="utf-8"
-    ) as handle:
+    with tempfile.NamedTemporaryFile("w", suffix=".py", delete=False, encoding="utf-8") as handle:
         handle.write(script)
         script_path = handle.name
     env = os.environ.copy()
-    env["PYTHONPATH"] = os.pathsep.join(
-        [str(_REPO_ROOT), str(_REPO_ROOT / "modules"), env.get("PYTHONPATH", "")]
-    )
+    env["PYTHONPATH"] = os.pathsep.join([str(_REPO_ROOT), str(_REPO_ROOT / "modules"), env.get("PYTHONPATH", "")])
     try:
         completed = subprocess.run(
             [sys.executable, str(_BOOTSTRAP_PATH), script_path, payload_path, sessions_dir],
@@ -220,9 +217,7 @@ def run_python(
             preexec_fn=lambda: _set_limits(_cpu_seconds_for(timeout)),
         )
     except subprocess.TimeoutExpired:
-        return LazymodeResult(
-            "python", False, None, "", f"timeout after {timeout}s", time.monotonic() - started
-        )
+        return LazymodeResult("python", False, None, "", f"timeout after {timeout}s", time.monotonic() - started)
     finally:
         try:
             os.unlink(script_path)
@@ -288,9 +283,7 @@ def run_lua(
     runtime.globals()[_LUA_LOG_GLOBAL] = lambda message: logs.append(str(message))
     try:
         value = runtime.execute(script)
-        return LazymodeResult(
-            "lua", True, value, _bounded("\n".join(logs)), "", time.monotonic() - started
-        )
+        return LazymodeResult("lua", True, value, _bounded("\n".join(logs)), "", time.monotonic() - started)
     except BaseException as exc:
         return LazymodeResult(
             "lua", False, None, _bounded("\n".join(logs)), f"{type(exc).__name__}: {exc}", time.monotonic() - started

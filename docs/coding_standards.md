@@ -23,7 +23,7 @@
    - **O**: extend via new addon/MCP tool/selector — don't edit hot paths.
    - **L**: new selector honours `BaseSelector.suggest()` contract.
    - **I**: small role-specific protocols (recon/exploit/cred/lateral/privesc).
-   - **D**: orchestration depends on `LLMBackend`/`MemoryStore`/`Selector` abstractions, not Groq/ChromaDB directly.
+   - **D**: orchestration depends on `LLMBackend`/`MemoryStore`/`Selector` abstractions, not Groq/LazyHebb directly.
 8. **Consistency beats novelty** — when two patterns fit, pick the one already used.
 9. **No partial implementations** — end-to-end (CLI ↔ payload.json ↔ MCP ↔ `sessions/` artefact) or not merged.
 10. **No backwards-compat shims** for unshipped code — just change it.

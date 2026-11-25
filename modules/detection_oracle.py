@@ -34,8 +34,9 @@ from __future__ import annotations
 import logging
 import re
 from abc import ABC, abstractmethod
+from collections.abc import Sequence
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Sequence
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from modules.detection_feed import DetectionFeed
@@ -322,13 +323,12 @@ def _benign_alternative_matches(command: str, args: str, benign_alternatives: Se
     haystack = set(re.findall(r"[a-z0-9]+", f"{command} {args}".lower()))
     for alternative in benign_alternatives:
         needle = {
-            token
-            for token in re.findall(r"[a-z0-9]+", str(alternative).lower())
-            if len(token) >= _BENIGN_MIN_TOKEN_LEN
+            token for token in re.findall(r"[a-z0-9]+", str(alternative).lower()) if len(token) >= _BENIGN_MIN_TOKEN_LEN
         }
         if needle and needle & haystack:
             return True
     return False
+
 
 # ---------------------------------------------------------------------------
 # Mitigation advice per risk tier

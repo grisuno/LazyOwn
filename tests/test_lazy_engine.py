@@ -10,8 +10,9 @@ from modules.lazy_loop import ExplorationGraph
 
 def _stub_executor(command: str) -> str:
     if command.startswith("nmap"):
-        return ("Nmap scan report for localhost (127.0.0.1)\n"
-                "PORT   STATE  SERVICE\n22/tcp closed ssh\n80/tcp closed http\n")
+        return (
+            "Nmap scan report for localhost (127.0.0.1)\nPORT   STATE  SERVICE\n22/tcp closed ssh\n80/tcp closed http\n"
+        )
     if command.startswith("curl"):
         return "curl: (7) Failed to connect to 127.0.0.1:80"
     if command.startswith("dig"):
@@ -35,8 +36,7 @@ def engine(tmp_path, monkeypatch):
     import modules.lazy_loop as shim
 
     monkeypatch.setattr(loop, "STORE_DIR", tmp_path)
-    monkeypatch.setattr(loop, "_store_path",
-                        lambda name: (tmp_path.mkdir(exist_ok=True) if False else tmp_path) / name)
+    monkeypatch.setattr(loop, "_store_path", lambda name: (tmp_path.mkdir(exist_ok=True) if False else tmp_path) / name)
     monkeypatch.setattr(shim, "STORE_DIR", tmp_path, raising=False)
     eng = LazyEngine()
     return eng
@@ -64,8 +64,7 @@ def test_no_premature_done_goals_pending(engine):
     out = engine.run(summary["task_id"], max_rounds=2, workers=1, executor=_stub_executor)
     assert out["status"] in ("running", "exhausted", "paused", "timeout")
     if out["overview"].get("facts", 0) > 0:
-        assert out["status"] != "done" or all(
-            g["state"] == "done" for g in out["overview"].get("goals", []))
+        assert out["status"] != "done" or all(g["state"] == "done" for g in out["overview"].get("goals", []))
 
 
 def test_worker_aggregates_single_fact(engine):
@@ -109,8 +108,16 @@ def test_lazy_alias_surface():
 
     assert hasattr(lazyops, "LazyCommandSet")
     commands = [n for n in dir(lazyops.LazyCommandSet) if n.startswith("do_lazy_")]
-    for expected in ("do_lazy_task", "do_lazy_scope", "do_lazy_asset", "do_lazy_loop",
-                     "do_lazy_planner", "do_lazy_worker", "do_lazy_goal", "do_lazy_report"):
+    for expected in (
+        "do_lazy_task",
+        "do_lazy_scope",
+        "do_lazy_asset",
+        "do_lazy_loop",
+        "do_lazy_planner",
+        "do_lazy_worker",
+        "do_lazy_goal",
+        "do_lazy_report",
+    ):
         assert expected in commands
 
 

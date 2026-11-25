@@ -14,11 +14,11 @@ import threading
 import time
 import uuid
 from dataclasses import dataclass, field
-from enum import Enum
+from enum import StrEnum
 from typing import Any
 
 
-class InterceptAction(str, Enum):
+class InterceptAction(StrEnum):
     """Possible outcomes of rule evaluation."""
 
     ALLOW = "allow"
@@ -101,27 +101,50 @@ class InterceptVerdict:
 def builtin_rules() -> list[InterceptRule]:
     """Return the default destructive and exfiltration guard rules."""
     return [
-        InterceptRule(pattern=r"rm\s+-rf\s+/", action="ask", priority=100,
-                      message="Destructive filesystem wipe requires approval.",
-                      is_regex=True, builtin=True),
-        InterceptRule(pattern=r"mkfs|dd\s+if=.*of=/dev/", action="ask", priority=100,
-                      message="Disk destructive operation requires approval.",
-                      is_regex=True, builtin=True),
-        InterceptRule(pattern=r"shutdown|reboot|halt|poweroff|fork.{0,8}bomb|: ?\(\ ?\) ?\{",
-                      action="ask", priority=100,
-                      message="Host-destructive operation requires approval.",
-                      is_regex=True, builtin=True),
-        InterceptRule(pattern=r">\s*/dev/sd[a-z]|>\s*/dev/nvme|of=/dev/",
-                      action="ask", priority=100,
-                      message="Raw-disk write requires approval.",
-                      is_regex=True, builtin=True),
-        InterceptRule(pattern=r"curl|wget.*\|.*sh|bash\s+-c.*curl", action="ask",
-                      priority=90, message="Remote pipe-to-shell requires approval.",
-                      is_regex=True, builtin=True),
-        InterceptRule(pattern="mimikatz", action="ask", priority=80,
-                      message="Credential dumping requires approval."),
-        InterceptRule(pattern="secretsdump", action="ask", priority=80,
-                      message="Credential dumping requires approval."),
+        InterceptRule(
+            pattern=r"rm\s+-rf\s+/",
+            action="ask",
+            priority=100,
+            message="Destructive filesystem wipe requires approval.",
+            is_regex=True,
+            builtin=True,
+        ),
+        InterceptRule(
+            pattern=r"mkfs|dd\s+if=.*of=/dev/",
+            action="ask",
+            priority=100,
+            message="Disk destructive operation requires approval.",
+            is_regex=True,
+            builtin=True,
+        ),
+        InterceptRule(
+            pattern=r"shutdown|reboot|halt|poweroff|fork.{0,8}bomb|: ?\(\ ?\) ?\{",
+            action="ask",
+            priority=100,
+            message="Host-destructive operation requires approval.",
+            is_regex=True,
+            builtin=True,
+        ),
+        InterceptRule(
+            pattern=r">\s*/dev/sd[a-z]|>\s*/dev/nvme|of=/dev/",
+            action="ask",
+            priority=100,
+            message="Raw-disk write requires approval.",
+            is_regex=True,
+            builtin=True,
+        ),
+        InterceptRule(
+            pattern=r"curl|wget.*\|.*sh|bash\s+-c.*curl",
+            action="ask",
+            priority=90,
+            message="Remote pipe-to-shell requires approval.",
+            is_regex=True,
+            builtin=True,
+        ),
+        InterceptRule(pattern="mimikatz", action="ask", priority=80, message="Credential dumping requires approval."),
+        InterceptRule(
+            pattern="secretsdump", action="ask", priority=80, message="Credential dumping requires approval."
+        ),
     ]
 
 
@@ -154,16 +177,19 @@ def observe_post_tool(output: str) -> str:
 class Interceptor:
     """Evaluate tool calls against prioritized user rules."""
 
-    def __init__(self, rules: list[InterceptRule] | None = None,
-                 ask_timeout_sec: float = DEFAULT_ASK_TIMEOUT_SEC,
-                 timeout_action: str = "deny") -> None:
+    def __init__(
+        self,
+        rules: list[InterceptRule] | None = None,
+        ask_timeout_sec: float = DEFAULT_ASK_TIMEOUT_SEC,
+        timeout_action: str = "deny",
+    ) -> None:
         """Initialize with rules sorted by descending priority."""
         if str(timeout_action or "").lower() not in ("deny", "allow"):
             raise ValueError("timeout_action must be deny or allow.")
         self._lock = threading.Lock()
         self._rules: list[InterceptRule] = sorted(
-            list(rules) if rules else builtin_rules(),
-            key=lambda r: r.priority, reverse=True)
+            list(rules) if rules else builtin_rules(), key=lambda r: r.priority, reverse=True
+        )
         self._pending: dict[str, PendingApproval] = {}
         self._ask_timeout_sec = float(ask_timeout_sec)
         self._timeout_action = str(timeout_action).lower()
@@ -200,21 +226,23 @@ class Interceptor:
                         return InterceptVerdict(action="allow", rule_pattern=rule.pattern)
                     if rule.action == InterceptAction.DENY.value:
                         return InterceptVerdict(
-                            action="deny",
-                            message=rule.message or DEFAULT_DENY_MESSAGE,
-                            rule_pattern=rule.pattern)
+                            action="deny", message=rule.message or DEFAULT_DENY_MESSAGE, rule_pattern=rule.pattern
+                        )
                     approval = PendingApproval(
                         approval_id=uuid.uuid4().hex[:12],
-                        tool=safe_tool, command=safe_command,
+                        tool=safe_tool,
+                        command=safe_command,
                         rule_pattern=rule.pattern,
                         created_at=time.time(),
-                        timeout_sec=self._ask_timeout_sec)
+                        timeout_sec=self._ask_timeout_sec,
+                    )
                     self._pending[approval.approval_id] = approval
                     return InterceptVerdict(
                         action="ask",
                         message=rule.message or DEFAULT_ASK_MESSAGE,
                         approval_id=approval.approval_id,
-                        rule_pattern=rule.pattern)
+                        rule_pattern=rule.pattern,
+                    )
             return InterceptVerdict(action="allow")
 
     def decide(self, approval_id: str, decision: str) -> bool:
@@ -270,10 +298,14 @@ class Guard:
     def check(self, tool: str, command: str = "") -> InterceptVerdict:
         """Audit the call then evaluate intercept rules (trace id kept)."""
         verdict = self._interceptor.evaluate(tool, command)
-        entry = {"ts": time.time(), "tool": str(tool),
-                 "command": str(command or "")[:2000],
-                 "action": verdict.action, "rule": verdict.rule_pattern,
-                 "trace_id": verdict.approval_id or uuid.uuid4().hex[:12]}
+        entry = {
+            "ts": time.time(),
+            "tool": str(tool),
+            "command": str(command or "")[:2000],
+            "action": verdict.action,
+            "rule": verdict.rule_pattern,
+            "trace_id": verdict.approval_id or uuid.uuid4().hex[:12],
+        }
         with self._lock:
             self._audit.append(entry)
             self._audit = self._audit[-2000:]
@@ -296,7 +328,7 @@ class Guard:
     def audit_log(self, limit: int = 200) -> list[dict[str, Any]]:
         """Return the most recent audit entries."""
         with self._lock:
-            return list(self._audit[-max(1, int(limit)):])
+            return list(self._audit[-max(1, int(limit)) :])
 
     def attribution(self) -> dict[str, int]:
         """Return failure attribution counters."""

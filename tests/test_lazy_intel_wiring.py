@@ -69,8 +69,8 @@ class TestMcpTools:
         source = MCP_PATH.read_text(encoding="utf-8") + "".join(
             p.read_text(encoding="utf-8") for p in tools_dir.glob("*.py")
         )
-        assert "name=\"lazyown_lazy_intel\"" in source, story
-        assert "name=\"lazyown_lazysearch\"" in source, story
+        assert 'name="lazyown_lazy_intel"' in source, story
+        assert 'name="lazyown_lazysearch"' in source, story
 
     def test_lazy_tools_dispatched(self):
         story = "both lazy tools are served by the one-file-per-tool package"

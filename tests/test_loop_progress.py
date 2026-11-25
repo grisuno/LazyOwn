@@ -19,8 +19,17 @@ from modules.loop_progress import (  # noqa: E402
 
 def _overview(**over) -> dict:
     """Minimal overview dict as ExplorationGraph.overview returns it."""
-    base = {"goals": [], "intents": [], "pending": [], "facts": 0,
-            "findings": 0, "hints": [], "nodes": 0, "edges": 0, "anchors": 0}
+    base = {
+        "goals": [],
+        "intents": [],
+        "pending": [],
+        "facts": 0,
+        "findings": 0,
+        "hints": [],
+        "nodes": 0,
+        "edges": 0,
+        "anchors": 0,
+    }
     base.update(over)
     return base
 
@@ -44,13 +53,21 @@ def test_fresh_task_shows_first_stage_current() -> None:
 def test_progress_advances_with_evidence() -> None:
     """Facts flip enrich/worker/guard/traffic; findings flip the finding leg."""
     snap = snapshot_from_overview(
-        _overview(facts=2, findings=1, anchors=1,
-                  intents=[{"id": 1, "state": "done", "text": "x", "priority": 5}]),
-        {"status": "running", "scope": [{"kind": "ip", "value": "10.0.0.1"}]})
+        _overview(facts=2, findings=1, anchors=1, intents=[{"id": 1, "state": "done", "text": "x", "priority": 5}]),
+        {"status": "running", "scope": [{"kind": "ip", "value": "10.0.0.1"}]},
+    )
     states = snap_to_states(snap)
-    for stage in ("lazy_scope", "lazy_asset", "lazy_enrich", "lazy_planner",
-                  "lazy_worker", "lazy_guard", "lazy_traffic", "lazy_finding",
-                  "lazy_trace"):
+    for stage in (
+        "lazy_scope",
+        "lazy_asset",
+        "lazy_enrich",
+        "lazy_planner",
+        "lazy_worker",
+        "lazy_guard",
+        "lazy_traffic",
+        "lazy_finding",
+        "lazy_trace",
+    ):
         assert states[stage] == "done", stage
     assert states["lazy_report"] == "pending"
 
@@ -58,21 +75,32 @@ def test_progress_advances_with_evidence() -> None:
 def test_finished_task_all_green() -> None:
     """Done status closes compact and report too."""
     snap = snapshot_from_overview(
-        _overview(facts=1, findings=1, anchors=1,
-                  intents=[{"id": 1, "state": "done", "text": "x", "priority": 5}],
-                  goals=[{"id": 1, "state": "done", "text": "g"}]),
-        {"status": "done", "scope": [{"kind": "ip", "value": "10.0.0.1"}]})
+        _overview(
+            facts=1,
+            findings=1,
+            anchors=1,
+            intents=[{"id": 1, "state": "done", "text": "x", "priority": 5}],
+            goals=[{"id": 1, "state": "done", "text": "g"}],
+        ),
+        {"status": "done", "scope": [{"kind": "ip", "value": "10.0.0.1"}]},
+    )
     states = snap_to_states(snap)
     assert all(v == "done" for v in states.values())
 
 
 def test_snapshot_counts_intent_states() -> None:
     """Intent buckets split pending/open/done for the footer."""
-    snap = snapshot_from_overview(_overview(intents=[
-        {"id": 1, "state": "pending", "text": "a", "priority": 5},
-        {"id": 2, "state": "open", "text": "b", "priority": 5},
-        {"id": 3, "state": "running", "text": "c", "priority": 5},
-        {"id": 4, "state": "done", "text": "d", "priority": 5}]), {})
+    snap = snapshot_from_overview(
+        _overview(
+            intents=[
+                {"id": 1, "state": "pending", "text": "a", "priority": 5},
+                {"id": 2, "state": "open", "text": "b", "priority": 5},
+                {"id": 3, "state": "running", "text": "c", "priority": 5},
+                {"id": 4, "state": "done", "text": "d", "priority": 5},
+            ]
+        ),
+        {},
+    )
     assert (snap.intents_pending, snap.intents_open, snap.intents_done) == (1, 2, 1)
 
 

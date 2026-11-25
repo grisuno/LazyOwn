@@ -21,8 +21,8 @@ MUTATIONS = {
     "dry_run_executes": {
         "file": "modules/emulation_runner.py",
         "description": "Execute commands even when dry_run is set",
-        "old": "        if dry_run:\n            result.status = \"dry-run\"\n            return result",
-        "new": "        if False:\n            result.status = \"dry-run\"\n            return result",
+        "old": '        if dry_run:\n            result.status = "dry-run"\n            return result',
+        "new": '        if False:\n            result.status = "dry-run"\n            return result',
         "expected": "test_runner_dry_run_never_calls_executor must fail",
     },
     "step_error_not_normalized": {

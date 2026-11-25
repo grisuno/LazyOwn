@@ -83,6 +83,7 @@ class ReactiveSelector(ICommandSelector):
             return dec
         return None
 
+
 class LLMSelector(ICommandSelector):
     """
     Queries Groq/Ollama for a command suggestion.
@@ -98,7 +99,14 @@ class LLMSelector(ICommandSelector):
 
     def _llm_candidate(self, target: str, phase: str, context: dict) -> CommandDecision | None:
         _d = _daemon()
-        SESSIONS_DIR, _emit, _get_phase_command_catalog, _load_payload, _read_recent_csv_commands, log = _d.SESSIONS_DIR, _d._emit, _d._get_phase_command_catalog, _d._load_payload, _d._read_recent_csv_commands, _d.log
+        SESSIONS_DIR, _emit, _get_phase_command_catalog, _load_payload, _read_recent_csv_commands, log = (
+            _d.SESSIONS_DIR,
+            _d._emit,
+            _d._get_phase_command_catalog,
+            _d._load_payload,
+            _d._read_recent_csv_commands,
+            _d.log,
+        )
         try:
             from lazyown_llm import LLMBridge
 
@@ -155,23 +163,24 @@ class LLMSelector(ICommandSelector):
                 from modules.llm_pool import shared_registry as _shared_registry
 
                 def _ask_via(_backend: str, _goal: str = goal, _key: str = api_key) -> str:
-                    return LLMBridge(backend=_backend, api_key=_key).ask(
-                        goal=_goal, max_iterations=1)
+                    return LLMBridge(backend=_backend, api_key=_key).ask(goal=_goal, max_iterations=1)
 
-                _pool = _LLMPool([
-                    _PoolMember("groq", "groq", "groq", rank=10,
-                                complete=lambda p: _ask_via("groq")),
-                    _PoolMember("ollama", "ollama", "ollama", rank=1,
-                                complete=lambda p: _ask_via("ollama")),
-                ], health=_shared_registry())
+                _pool = _LLMPool(
+                    [
+                        _PoolMember("groq", "groq", "groq", rank=10, complete=lambda p: _ask_via("groq")),
+                        _PoolMember("ollama", "ollama", "ollama", rank=1, complete=lambda p: _ask_via("ollama")),
+                    ],
+                    health=_shared_registry(),
+                )
                 answer = _pool.complete(goal)
             except Exception as _pool_exc:
                 if _pool_exhausted_cls is not None and isinstance(_pool_exc, _pool_exhausted_cls):
-                    _emit("LLM_POOL_EXHAUSTED", {"target": target, "phase": phase,
-                                                 "detail": str(_pool_exc)[:200]},
-                          severity="warning")
-                answer = LLMBridge(backend="groq", api_key=api_key).ask(
-                    goal=goal, max_iterations=1)
+                    _emit(
+                        "LLM_POOL_EXHAUSTED",
+                        {"target": target, "phase": phase, "detail": str(_pool_exc)[:200]},
+                        severity="warning",
+                    )
+                answer = LLMBridge(backend="groq", api_key=api_key).ask(goal=goal, max_iterations=1)
             cmd = answer.strip().split()[0] if answer and answer.strip() else None
             if cmd and len(cmd) < 50:
                 return CommandDecision(
@@ -183,6 +192,7 @@ class LLMSelector(ICommandSelector):
         except Exception as exc:
             log.debug("LLM candidate error: %s", exc)
         return None
+
 
 class SWANSelector(ICommandSelector):
     """
@@ -255,6 +265,7 @@ class SWANSelector(ICommandSelector):
             log.debug("SWANSelector error: %s", exc)
         return None
 
+
 class FallbackSelector(ICommandSelector):
     """
     Static map fallback — always returns a CommandDecision, never None.
@@ -265,7 +276,12 @@ class FallbackSelector(ICommandSelector):
     def select(self, target: str, phase: str, context: dict) -> CommandDecision | None:
         """Return the static fallback command for this phase. Never returns None."""
         _d = _daemon()
-        _FALLBACK_MAP, _FALLBACK_MAP_LINUX, _FALLBACK_MAP_WINDOWS, _PHASE_CATEGORIES = _d._FALLBACK_MAP, _d._FALLBACK_MAP_LINUX, _d._FALLBACK_MAP_WINDOWS, _d._PHASE_CATEGORIES
+        _FALLBACK_MAP, _FALLBACK_MAP_LINUX, _FALLBACK_MAP_WINDOWS, _PHASE_CATEGORIES = (
+            _d._FALLBACK_MAP,
+            _d._FALLBACK_MAP_LINUX,
+            _d._FALLBACK_MAP_WINDOWS,
+            _d._PHASE_CATEGORIES,
+        )
         categories = _PHASE_CATEGORIES.get(phase, ["other"])
         category = categories[0]
         os_hint = context.get("os_hint", "unknown")
@@ -278,6 +294,7 @@ class FallbackSelector(ICommandSelector):
             source="fallback",
             reason=f"static map for {category} (os={os_hint})",
         )
+
 
 class MetricsAwareSelector(ICommandSelector):
     """Decorator that demotes commands with a poor recent track record.
@@ -486,6 +503,7 @@ class MetricsAwareSelector(ICommandSelector):
             log.debug("MetricsAwareSelector emit failed: %s", exc)
         return None
 
+
 class UnifiedBrainSelector(ICommandSelector):
     """Daemon adapter over the one shared selector cascade.
 
@@ -542,4 +560,3 @@ class UnifiedBrainSelector(ICommandSelector):
             reason=decision.reason,
             priority=decision.priority,
         )
-

@@ -27,19 +27,19 @@ import io
 import json
 import os
 import re
+import threading
 import time
 import urllib.request
 from pathlib import Path
 
 from modules.lazy_heat import (
     COLD,
-    HOT,
     HEAT_RANK,
+    HOT,
     SEVERITY_FROM_HEAT,
     WARM,
     classify_heat,
     cvss3_base_score,
-    match_heat,
     parse_version,
     product_token,
     token_matches,
@@ -52,6 +52,7 @@ CACHE_DIR = SESSIONS_DIR / "cve_feed"
 
 USER_AGENT = "LazyOwn intel feed (self-hosted red-team framework)"
 HTTP_TIMEOUT_SEC = 20
+DNS_GRACE_SEC = 5.0
 MAX_DOWNLOAD_BYTES = 64 * 1024 * 1024
 
 KEV_TTL_SEC = 24 * 3600
@@ -109,11 +110,41 @@ def _cache_fresh(path: Path, ttl_sec: int) -> bool:
         return False
 
 
+def _bounded(call, timeout_sec: float):
+    """Run ``call`` under a hard wall-clock deadline.
+
+    ``urlopen(timeout=...)`` bounds socket operations but not DNS
+    resolution (``getaddrinfo``), which can hang for minutes on hosts
+    with dead VPN/IPv6 resolvers. A daemon worker thread frees the
+    caller at the deadline; the worker dies silently at process exit.
+
+    Args:
+        call: Zero-argument callable to run.
+        timeout_sec: Hard deadline in seconds.
+
+    Returns:
+        The callable result, or None on timeout or error. Never raises.
+    """
+    result: dict = {}
+
+    def _runner() -> None:
+        try:
+            result["value"] = call()
+        except Exception:
+            result["value"] = None
+
+    worker = threading.Thread(target=_runner, daemon=True, name="lazy-cve-feed")
+    worker.start()
+    worker.join(max(0.1, float(timeout_sec)))
+    return result.get("value")
+
+
 def _fetch(url: str) -> bytes | None:
-    """Download a feed with a byte cap; None on any failure."""
+    """Download a feed with a byte cap; None on any failure or deadline."""
     if not _env_flag("LAZYOWN_CVE_FEEDS"):
         return None
-    try:
+
+    def _download() -> bytes | None:
         request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
         chunks: list[bytes] = []
         total = 0
@@ -127,8 +158,8 @@ def _fetch(url: str) -> bytes | None:
                     return None
                 chunks.append(chunk)
         return b"".join(chunks)
-    except Exception:
-        return None
+
+    return _bounded(_download, HTTP_TIMEOUT_SEC + DNS_GRACE_SEC)
 
 
 def _store_bytes(name: str, payload: bytes) -> None:
@@ -328,10 +359,11 @@ def fetch_product_advisories(product: str, force: bool = False) -> list[dict]:
     vulns: list[dict] = []
     for name in names[:3]:
         for ecosystem in OSV_ECOSYSTEMS:
-            try:
-                pkg: dict = {"name": name}
-                if ecosystem:
-                    pkg["ecosystem"] = ecosystem
+            pkg: dict = {"name": name}
+            if ecosystem:
+                pkg["ecosystem"] = ecosystem
+
+            def _query_osv(pkg: dict = pkg) -> dict | None:
                 payload = json.dumps({"package": pkg}).encode("utf-8")
                 request = urllib.request.Request(
                     OSV_QUERY_URL,
@@ -339,8 +371,10 @@ def fetch_product_advisories(product: str, force: bool = False) -> list[dict]:
                     headers={"User-Agent": USER_AGENT, "Content-Type": "application/json"},
                 )
                 with urllib.request.urlopen(request, timeout=HTTP_TIMEOUT_SEC) as resp:
-                    doc = json.loads(resp.read().decode("utf-8", "replace"))
-            except Exception:
+                    return json.loads(resp.read().decode("utf-8", "replace"))
+
+            doc = _bounded(_query_osv, HTTP_TIMEOUT_SEC + DNS_GRACE_SEC)
+            if not isinstance(doc, dict):
                 continue
             for advisory in doc.get("vulns") or []:
                 if not isinstance(advisory, dict):
@@ -370,21 +404,37 @@ def cve_intel(cve_id: str, feeds: dict | None = None, allow_network: bool = True
     """
     cve = str(cve_id or "").upper().strip()
     feeds = feeds or {}
-    kev_rows = feeds.get("kev") if feeds.get("kev") is not None else (
-        load_kev() if allow_network else (load_kev() if _cache_fresh(_cache_path("kev.json"), KEV_TTL_SEC) else {})
+    kev_rows = (
+        feeds.get("kev")
+        if feeds.get("kev") is not None
+        else (
+            load_kev() if allow_network else (load_kev() if _cache_fresh(_cache_path("kev.json"), KEV_TTL_SEC) else {})
+        )
     )
-    epss_rows = feeds.get("epss") if feeds.get("epss") is not None else (
-        load_epss()
-        if allow_network or _cache_fresh(_cache_path("epss.json"), EPSS_TTL_SEC) or _cache_fresh(_cache_path("epss.csv.gz"), EPSS_TTL_SEC)
-        else {}
+    epss_rows = (
+        feeds.get("epss")
+        if feeds.get("epss") is not None
+        else (
+            load_epss()
+            if allow_network
+            or _cache_fresh(_cache_path("epss.json"), EPSS_TTL_SEC)
+            or _cache_fresh(_cache_path("epss.csv.gz"), EPSS_TTL_SEC)
+            else {}
+        )
     )
-    exploit_ids = feeds.get("exploit") if feeds.get("exploit") is not None else (
-        load_exploit_cves()
-        if allow_network or _cache_fresh(_cache_path("exploitdb.json"), EXPLOIT_TTL_SEC)
-        else set()
+    exploit_ids = (
+        feeds.get("exploit")
+        if feeds.get("exploit") is not None
+        else (
+            load_exploit_cves()
+            if allow_network or _cache_fresh(_cache_path("exploitdb.json"), EXPLOIT_TTL_SEC)
+            else set()
+        )
     )
-    msf_ids = feeds.get("msf") if feeds.get("msf") is not None else (
-        load_msf_cves() if allow_network or _cache_fresh(_cache_path("msf.json"), MSF_TTL_SEC) else set()
+    msf_ids = (
+        feeds.get("msf")
+        if feeds.get("msf") is not None
+        else (load_msf_cves() if allow_network or _cache_fresh(_cache_path("msf.json"), MSF_TTL_SEC) else set())
     )
     kev = cve in kev_rows
     epss = epss_rows.get(cve)
@@ -459,10 +509,34 @@ def correlate(product: str, version: str = "", allow_network: bool = True) -> li
     banner_words = [product_token(w) for w in re.findall(r"[A-Za-z][A-Za-z0-9_.-]*", str(product or ""))]
     banner_words = [w for w in banner_words if w] or [token]
     feeds = {
-        "kev": load_kev() if allow_network else ({k: v for k, v in (_load_json("kev.json") or {}).items()} if _cache_fresh(_cache_path("kev.json"), KEV_TTL_SEC) else {}),
-        "epss": load_epss() if allow_network else ({k: float(v) for k, v in (_load_json("epss.json") or {}).items()} if _cache_fresh(_cache_path("epss.json"), EPSS_TTL_SEC) else {}),
-        "exploit": load_exploit_cves() if allow_network else ({str(k) for k in (_load_json("exploitdb.json") or {}).get("ids", [])} if _cache_fresh(_cache_path("exploitdb.json"), EXPLOIT_TTL_SEC) else set()),
-        "msf": load_msf_cves() if allow_network else ({str(k) for k in (_load_json("msf.json") or {}).get("ids", [])} if _cache_fresh(_cache_path("msf.json"), MSF_TTL_SEC) else set()),
+        "kev": load_kev()
+        if allow_network
+        else (
+            {k: v for k, v in (_load_json("kev.json") or {}).items()}
+            if _cache_fresh(_cache_path("kev.json"), KEV_TTL_SEC)
+            else {}
+        ),
+        "epss": load_epss()
+        if allow_network
+        else (
+            {k: float(v) for k, v in (_load_json("epss.json") or {}).items()}
+            if _cache_fresh(_cache_path("epss.json"), EPSS_TTL_SEC)
+            else {}
+        ),
+        "exploit": load_exploit_cves()
+        if allow_network
+        else (
+            {str(k) for k in (_load_json("exploitdb.json") or {}).get("ids", [])}
+            if _cache_fresh(_cache_path("exploitdb.json"), EXPLOIT_TTL_SEC)
+            else set()
+        ),
+        "msf": load_msf_cves()
+        if allow_network
+        else (
+            {str(k) for k in (_load_json("msf.json") or {}).get("ids", [])}
+            if _cache_fresh(_cache_path("msf.json"), MSF_TTL_SEC)
+            else set()
+        ),
     }
     ver = parse_version(version) if version else None
     out: dict[str, dict] = {}
@@ -487,7 +561,9 @@ def correlate(product: str, version: str = "", allow_network: bool = True) -> li
         intel = cve_intel(cve, feeds=feeds, allow_network=False)
         cvss = _advisory_cvss(advisory) or intel["cvss"]
         if cvss:
-            intel["heat"] = classify_heat(kev=intel["kev"], epss=intel["epss"], exploit=intel["exploit"] or intel["msf"], cvss=cvss)
+            intel["heat"] = classify_heat(
+                kev=intel["kev"], epss=intel["epss"], exploit=intel["exploit"] or intel["msf"], cvss=cvss
+            )
         confidence = {True: 0.9, False: 0.0, None: 0.5}[in_range] if ver is not None else 0.5
         if intel["heat"] == COLD and in_range is False:
             continue
@@ -505,7 +581,9 @@ def correlate(product: str, version: str = "", allow_network: bool = True) -> li
     for cve, meta in load_kev_matches(token, feeds):
         if cve not in out:
             out[cve] = {**meta, "in_range": None, "confidence": 0.6, "cvss": meta.get("cvss", 0.0)}
-    ranked = sorted(out.values(), key=lambda row: (-HEAT_RANK.get(row.get("heat", COLD), 0), -float(row.get("cvss", 0.0))))
+    ranked = sorted(
+        out.values(), key=lambda row: (-HEAT_RANK.get(row.get("heat", COLD), 0), -float(row.get("cvss", 0.0)))
+    )
     return ranked[:CORRELATE_CAP]
 
 
@@ -622,8 +700,12 @@ def load_kev_matches(product: str, feeds: dict | None = None) -> list[tuple[str,
         kev_token = product_token(name) or product_token(meta.get("vendor", ""))
         if not kev_token:
             continue
-        if any(token_matches(kev_token, candidate) or token_matches(candidate, kev_token) for candidate in banner_words):
-            intel = cve_intel(cve, feeds={"kev": kev_rows, "epss": None, "exploit": None, "msf": None}, allow_network=False)
+        if any(
+            token_matches(kev_token, candidate) or token_matches(candidate, kev_token) for candidate in banner_words
+        ):
+            intel = cve_intel(
+                cve, feeds={"kev": kev_rows, "epss": None, "exploit": None, "msf": None}, allow_network=False
+            )
             intel["kev"] = True
             intel["heat"] = HOT
             intel["severity"] = SEVERITY_FROM_HEAT[HOT]

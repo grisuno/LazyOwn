@@ -561,6 +561,7 @@ def _build_test_app(tmp_path: Path) -> Flask:
         "attack3d_view",
         "attack_bundle_view",
         "lazybox.lazybox_page",
+        "campaign.campaign_page",
         "login",
         "logout",
         "register",

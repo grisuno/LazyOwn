@@ -48,6 +48,28 @@ def test_orchestrator_config_saves_to_payload(sandbox):
     assert data["rhost"] == "127.0.0.1"
 
 
+def test_orchestrator_enum_fields_stay_strings(sandbox):
+    """Enum-mode fields such as the decoy mode are stored verbatim, not coerced."""
+    import asyncio
+
+    from cli.lazy_orchestrator import LazyOrchestratorApp
+
+    payload_path = sandbox / "payload.json"
+    payload_path.write_text('{"rhost": "127.0.0.1"}')
+
+    async def _drive() -> LazyOrchestratorApp:
+        app = LazyOrchestratorApp(payload_path=payload_path)
+        async with app.run_test() as pilot:
+            await pilot.pause(0.4)
+            app.save_config({"c2_decoy_mode": "off", "orchestrator.decoy.mode": "off"})
+        return app
+
+    asyncio.run(_drive())
+    data = json.loads(payload_path.read_text(encoding="utf-8"))
+    assert data["c2_decoy_mode"] == "off"
+    assert data["orchestrator"]["decoy"]["mode"] == "off"
+
+
 def test_orchestrator_models_and_guard_actions(sandbox):
     """Add/remove helpers round-trip through the real stores."""
     from cli.lazy_orchestrator import LazyOrchestratorApp

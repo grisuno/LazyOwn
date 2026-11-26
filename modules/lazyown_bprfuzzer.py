@@ -143,7 +143,7 @@ class ProxyHandler(BaseHTTPRequestHandler):
         except Exception:
             pass
         try:
-            response = requests.request(method, url, headers=headers, data=body)
+            response = requests.request(method, url, headers=headers, data=body, timeout=10)
             self.send_response(response.status_code)
             for key, value in response.headers.items():
                 if key.lower() in _HOP_BY_HOP:
@@ -199,7 +199,7 @@ def send_request(url, method="GET", headers=None, params=None, data=None, json_d
         data = body_bytes
     try:
         response = requests.request(
-            method, url, headers=headers, params=params, data=data, json=json_data, proxies=proxies
+            method, url, headers=headers, params=params, data=data, json=json_data, proxies=proxies, timeout=30
         )
 
         if hide_code and response.status_code == hide_code:

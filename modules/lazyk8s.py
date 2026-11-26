@@ -126,7 +126,10 @@ class DockerEnumerator:
                     timeout=10,
                 )
                 if result.returncode == 0:
-                    return json.loads(result.stdout)[0]
+                    try:
+                        return json.loads(result.stdout)[0]
+                    except (ValueError, IndexError):
+                        return None
             except (FileNotFoundError, subprocess.TimeoutExpired):
                 pass
             return None
@@ -142,7 +145,7 @@ class DockerEnumerator:
             cid = container.get("Id", container.get("ID", ""))
             details = self.inspect_container(cid)
             if details:
-                host_config = details.get("HostConfig", {})
+                host_config = details.get("HostConfig") or {}
                 if host_config.get("Privileged", False):
                     privileged.append(
                         {
@@ -180,7 +183,7 @@ class DockerEnumerator:
             cid = container.get("Id", container.get("ID", ""))
             details = self.inspect_container(cid)
             if details:
-                for mount in details.get("Mounts", []):
+                for mount in details.get("Mounts") or []:
                     if any(mount.get("Source", "").startswith(sp) for sp in sensitive_paths):
                         findings.append(
                             {
@@ -201,7 +204,7 @@ class DockerEnumerator:
             cid = container.get("Id", container.get("ID", ""))
             details = self.inspect_container(cid)
             if details:
-                for mount in details.get("Mounts", []):
+                for mount in details.get("Mounts") or []:
                     if "docker.sock" in mount.get("Source", ""):
                         findings.append(
                             {
@@ -235,7 +238,7 @@ class DockerEnumerator:
             cid = container.get("Id", container.get("ID", ""))
             details = self.inspect_container(cid)
             if details:
-                caps = set(details.get("HostConfig", {}).get("CapAdd", []))
+                caps = set((details.get("HostConfig") or {}).get("CapAdd") or [])
                 dangerous = caps & dangerous_caps
                 if dangerous:
                     findings.append(
@@ -311,7 +314,10 @@ class K8sEnumerator:
                     timeout=10,
                 )
                 if result.returncode == 0:
-                    return json.loads(result.stdout)
+                    try:
+                        return json.loads(result.stdout)
+                    except ValueError:
+                        return None
             except (FileNotFoundError, subprocess.TimeoutExpired):
                 pass
             return None
@@ -375,7 +381,10 @@ class K8sEnumerator:
                 timeout=10,
             )
             if result.returncode == 0:
-                data = json.loads(result.stdout)
+                try:
+                    data = json.loads(result.stdout)
+                except ValueError:
+                    return []
                 return data.get("items", [])
         except (FileNotFoundError, subprocess.TimeoutExpired):
             pass
@@ -397,7 +406,10 @@ class K8sEnumerator:
                 timeout=10,
             )
             if result.returncode == 0:
-                data = json.loads(result.stdout)
+                try:
+                    data = json.loads(result.stdout)
+                except ValueError:
+                    return []
                 return [ns["metadata"]["name"] for ns in data.get("items", [])]
         except (FileNotFoundError, subprocess.TimeoutExpired):
             pass
@@ -419,7 +431,10 @@ class K8sEnumerator:
                 timeout=10,
             )
             if result.returncode == 0:
-                data = json.loads(result.stdout)
+                try:
+                    data = json.loads(result.stdout)
+                except ValueError:
+                    return []
                 secrets: list[dict[str, Any]] = []
                 for secret in data.get("items", []):
                     decoded = {}
@@ -471,7 +486,10 @@ class K8sEnumerator:
                 timeout=10,
             )
             if result.returncode == 0:
-                data = json.loads(result.stdout)
+                try:
+                    data = json.loads(result.stdout)
+                except ValueError:
+                    return []
                 return [
                     {
                         "name": sa["metadata"]["name"],

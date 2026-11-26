@@ -5,8 +5,12 @@ Each blueprint owns a domain area of the C2 web interface. The
 boot paths (the ``lazyc2.py`` monolith and
 :func:`lazyc2.app_factory.create_app`) mount the same surface and the
 monolith keeps no registration boilerplate.
+
+Registration fails closed: a blueprint that cannot mount aborts the boot
+so the C2 never serves a surface silently missing its auth layer.
 """
 
+import logging
 from typing import Any
 
 from flask import Flask
@@ -22,6 +26,8 @@ from lazyc2.blueprints.loops import init_loops_bp, loops_bp
 from lazyc2.blueprints.operations import operations_bp
 from lazyc2.blueprints.phishing import redirect_bp
 from lazyc2.listeners import listeners_bp
+
+_logger = logging.getLogger(__name__)
 
 _BLUEPRINTS = (
     operations_bp,
@@ -53,6 +59,10 @@ def register_blueprints(
 
     Returns:
         The list of successfully registered blueprint names.
+
+    Raises:
+        Exception: re-raised from the first blueprint that fails to
+            mount, so a missing auth surface can never pass unnoticed.
     """
     init_loops_bp(limiter, guard=loops_guard)
     registered: list[str] = []
@@ -61,7 +71,8 @@ def register_blueprints(
             app.register_blueprint(blueprint)
             registered.append(blueprint.name)
         except Exception:
-            continue
+            _logger.exception("[c2] blueprint %s failed to register; aborting boot", blueprint.name)
+            raise
     return registered
 
 

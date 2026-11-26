@@ -20,14 +20,28 @@ Description: This file contains the definition of the logic in the LazyOwnShell 
 """
 
 import contextlib
+import csv
+import curses
+import glob
+import io
+import json
 import logging
+import os
+import re
+import shlex
+import subprocess
 import sys
+import time
+from datetime import datetime
 from typing import Any
 
 import cmd2
+import requests
+import yaml
 from cmd2 import with_category
 from cmd2.plugin import PostcommandData as _PostcommandData
 
+import utils
 from cli.aliases import REQUIRED_PLACEHOLDERS as _REQUIRED_ALIAS_PLACEHOLDERS
 from cli.aliases import alias_with_trailing_args as _alias_with_trailing_args
 from cli.aliases import empty_placeholders as _empty_alias_placeholders
@@ -103,42 +117,37 @@ from utils import (  # noqa: E402
     RequestException,
     activate_virtualenv,
     command_and_control_category,
-    csv,
-    curses,
-    datetime,
     ensure_blocking_stdio,
     exfiltration_category,
     getprompt,
-    glob,
-    io,
     is_binary_present,
-    json,
     lateral_movement_category,
     load_payload,
     load_user_aliases,
     miscellaneous_category,
-    os,
     post_exploitation_category,
     print_error,
     print_msg,
     print_warn,
-    re,
     recon_category,
     redact_secrets,
     replace_placeholders,
     reporting_category,
-    requests,
     scanning_category,
-    shlex,
     startup_ns,
     strip_ansi,
-    subprocess,
-    time,
     url_download,
     version,
     write_stdout,
-    yaml,
 )
+
+utils.initialize_startup()
+
+
+HEADLESS = utils.HEADLESS  # noqa: F811
+NOBANNER = utils.NOBANNER  # noqa: F811
+NOLOGS = utils.NOLOGS  # noqa: F811
+BANNER = utils.BANNER  # noqa: F811
 
 _PALETTE_RENDER_CONFIG = _PaletteRenderConfig()
 _PALETTE_COMPLETER = _PaletteCompleter(_PALETTE_RENDER_CONFIG)
@@ -281,47 +290,6 @@ class LazyOwnShell(
                     custom prompt.
     """
 
-    prompt = getprompt()
-
-    if NOBANNER:
-        intro = ""
-    else:
-        intro = f"""    {YELLOW}[*] Welcome to the LazyOwn Framework [;,;] {BRIGHT_BLUE}{version}
-    {WHITE}[*] interactive s{BRIGHT_RED}H{WHITE}ell! Type ? to list commands{BLUE}
-    {RED}[!] Please do not use in military or secret service organizations,
-    {RED}[!] or for illegal purposes (this is non-binding,
-    {RED}[!] these *** ignore laws and ethics anyway){BLUE}
-    {GREEN}[+] Github: {BRIGHT_BLUE}{UNDERLINE}https://github.com/grisuno/LazyOwn{RESET}
-    {GREEN}[+] Discord: {BRIGHT_BLUE}{UNDERLINE}https://discord.gg/V3usU8yH{RESET}
-    {GREEN}[+] Web: {BRIGHT_BLUE}{UNDERLINE}https://grisuno.github.io/LazyOwn/{RESET}
-    {GREEN}[+] Reddit: {BRIGHT_BLUE}{UNDERLINE}https://www.reddit.com/r/LazyOwn/{RESET}
-    {GREEN}[+] Facebook: {BRIGHT_BLUE}{UNDERLINE}https://web.facebook.com/profile.php?id=61560596232150{RESET}
-    {GREEN}[+] HackTheBox: {BRIGHT_BLUE}{UNDERLINE}https://app.hackthebox.com/teams/overview/6429 {RESET}
-    {GREEN}[+] Grisun0: {BRIGHT_BLUE}{UNDERLINE}https://app.hackthebox.com/users/1998024{RESET}
-    {GREEN}[+] Patreon: {BRIGHT_BLUE}{UNDERLINE}https://patreon.com/LazyOwn {RESET}
-    {GREEN}[↙] Download: {BRIGHT_BLUE}{UNDERLINE}https://github.com/grisuno/LazyOwn/archive/refs/tags/{version}.tar.gz {RESET}
-        """
-    activate_virtualenv("env")
-
-    config = Config(load_payload())
-
-    _rhost_for_hint = config.rhost
-    if not NOBANNER and not _rhost_for_hint:
-        intro += (
-            f"\n    {YELLOW}[!] rhost is not set — run {GREEN}wizard{YELLOW} for guided setup"
-            f" or {GREEN}assign rhost <IP>{YELLOW} to start.{RESET}\n"
-        )
-
-    rhost = config.rhost
-    lhost = config.lhost
-    lport = config.lport
-    c2_port = config.c2_port
-    device = config.device
-    api_key = config.api_key
-    domain = config.domain
-    scope = config.scope if config.scope is not None else []
-    scope_enforcement = config.scope_enforcement or "warn"
-
     aliases: dict = {}
     """Populated at runtime in __init__ from cli/aliases.yaml."""
 
@@ -338,8 +306,46 @@ class LazyOwnShell(
             scripts (list): A list of script names included in the toolkit.
             output (str): An empty string to store output or results.
         """
+        shell_config = Config(load_payload())
+        self.config = shell_config
+        self.prompt = getprompt()
+        if NOBANNER:
+            self.intro = ""
+        else:
+            self.intro = f"""    {YELLOW}[*] Welcome to the LazyOwn Framework [;,;] {BRIGHT_BLUE}{version}
+    {WHITE}[*] interactive s{BRIGHT_RED}H{WHITE}ell! Type ? to list commands{BLUE}
+    {RED}[!] Please do not use in military or secret service organizations,
+    {RED}[!] or for illegal purposes (this is non-binding,
+    {RED}[!] these *** ignore laws and ethics anyway){BLUE}
+    {GREEN}[+] Github: {BRIGHT_BLUE}{UNDERLINE}https://github.com/grisuno/LazyOwn{RESET}
+    {GREEN}[+] Discord: {BRIGHT_BLUE}{UNDERLINE}https://discord.gg/V3usU8yH{RESET}
+    {GREEN}[+] Web: {BRIGHT_BLUE}{UNDERLINE}https://grisuno.github.io/LazyOwn/{RESET}
+    {GREEN}[+] Reddit: {BRIGHT_BLUE}{UNDERLINE}https://www.reddit.com/r/LazyOwn/{RESET}
+    {GREEN}[+] Facebook: {BRIGHT_BLUE}{UNDERLINE}https://web.facebook.com/profile.php?id=61560596232150{RESET}
+    {GREEN}[+] HackTheBox: {BRIGHT_BLUE}{UNDERLINE}https://app.hackthebox.com/teams/overview/6429 {RESET}
+    {GREEN}[+] Grisun0: {BRIGHT_BLUE}{UNDERLINE}https://app.hackthebox.com/users/1998024{RESET}
+    {GREEN}[+] Patreon: {BRIGHT_BLUE}{UNDERLINE}https://patreon.com/LazyOwn {RESET}
+    {GREEN}[↙] Download: {BRIGHT_BLUE}{UNDERLINE}https://github.com/grisuno/LazyOwn/archive/refs/tags/{version}.tar.gz {RESET}
+        """
+        activate_virtualenv("env")
+
+        if not NOBANNER and not shell_config.rhost:
+            self.intro += (
+                f"\n    {YELLOW}[!] rhost is not set — run {GREEN}wizard{YELLOW} for guided setup"
+                f" or {GREEN}assign rhost <IP>{YELLOW} to start.{RESET}\n"
+            )
+
+        self.rhost = shell_config.rhost
+        self.lhost = shell_config.lhost
+        self.lport = shell_config.lport
+        self.c2_port = shell_config.c2_port
+        self.device = shell_config.device
+        self.api_key = shell_config.api_key
+        self.domain = shell_config.domain
+        self.scope = shell_config.scope if shell_config.scope is not None else []
+        self.scope_enforcement = shell_config.scope_enforcement or "warn"
+
         use_ai = False
-        # super().__init__(self)
         super().__init__(
             multiline_commands=["echo"],
             persistent_history_file="LazyOwn_history.dat",
@@ -365,7 +371,6 @@ class LazyOwnShell(
         except Exception as exc:
             print_warn(f"failed to register CommandSets: {exc}")
         self.ip2asn = IP2ASN()
-        # self.persistent_history_file = os.path.join(os.getcwd(), '/LazyOwn_history.txt')
         self.plugins_dir = "plugins"
         self.lazyaddons_dir = "lazyaddons"
         self.lua = LuaRuntime(unpack_returned_tuples=True)
@@ -399,7 +404,7 @@ class LazyOwnShell(
             self._auto_crypto = _AutoCryptoEngine(
                 config=_AutoCryptoConfig(
                     sessions_dir="sessions",
-                    auto_enabled=True,
+                    auto_enabled=os.environ.get("LAZYOWN_AUTO_CRYPTO", "1") != "0",
                     password_provider=_build_crypto_password_provider(),
                     legacy_password_provider=_build_legacy_crypto_password_provider(),
                 )
@@ -3055,7 +3060,7 @@ class LazyOwnShell(
         with open(file_path, "rb") as f:
             files = {"file": f}
             response = requests.post(
-                f"{self.c2_url}/download_file", auth=self.c2_auth, files=files, data=data, verify=self.c2_tls_verify
+                f"{self.c2_url}/download_file", auth=self.c2_auth, files=files, data=data, verify=self.c2_tls_verify, timeout=30
             )
             if response.status_code == 200:
                 return f"File {file_path} uploaded successfully."
@@ -3114,7 +3119,7 @@ class LazyOwnShell(
         output = f"{sessions}/{file_name}"
         command = f"upload:{file_name}"
         data = {"client_id": clientid, "command": command}
-        response = requests.post(f"{self.c2_url}/issue_command", auth=self.c2_auth, data=data, verify=self.c2_tls_verify)
+        response = requests.post(f"{self.c2_url}/issue_command", auth=self.c2_auth, data=data, verify=self.c2_tls_verify, timeout=10)
 
         if response.status_code == 200:
             with open(output, "wb") as f:
@@ -3184,7 +3189,7 @@ class LazyOwnShell(
 
         try:
             response = requests.post(
-                f"{self.c2_url}/issue_command", auth=self.c2_auth, data=data, verify=self.c2_tls_verify
+                f"{self.c2_url}/issue_command", auth=self.c2_auth, data=data, verify=self.c2_tls_verify, timeout=30
             )
             response.raise_for_status()  # Raise an exception if the status code is not 200
             print_msg(f"Command '{command}' issued successfully.")
@@ -3553,7 +3558,7 @@ class LazyOwnShell(
         elif len(args) == 1:
             return args[0], None
         else:
-            return input("Enter ID: "), None
+            return "", None
 
     def _patch_template_if_needed(self, adversary, path, replacements):
         template_path = os.path.join(path, adversary["output_path"], adversary["name"])

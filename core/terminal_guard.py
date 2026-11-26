@@ -11,9 +11,12 @@ the modes a crashed child may have enabled.
 from __future__ import annotations
 
 import atexit
+import logging
 import subprocess
 import sys
 from typing import Any
+
+_log = logging.getLogger(__name__)
 
 RESTORE_SEQUENCE = (
     b"\x1b[0m"  # reset attributes
@@ -55,8 +58,8 @@ def emit_restore_sequences() -> None:
         if sys.stdout is not None and sys.stdout.isatty():
             sys.stdout.write(RESTORE_SEQUENCE.decode("ascii"))
             sys.stdout.flush()
-    except Exception:
-        pass
+    except Exception as exc:
+        _log.debug("stdout restore sequences skipped: %s", exc)
 
 
 def apply_stty_sane() -> None:
@@ -66,8 +69,8 @@ def apply_stty_sane() -> None:
             subprocess.run(
                 ["stty", "sane"], stdin=tty_in, check=False, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
             )
-    except Exception:
-        pass
+    except Exception as exc:
+        _log.debug("stty sane fallback skipped: %s", exc)
 
 
 class TerminalGuard:
@@ -112,8 +115,8 @@ class TerminalGuard:
         self._restored = True
         try:
             atexit.unregister(self.restore)
-        except Exception:
-            pass
+        except Exception as exc:
+            _log.debug("atexit unregister skipped: %s", exc)
         restored = False
         if self._saved is not None and self._fd is not None:
             try:

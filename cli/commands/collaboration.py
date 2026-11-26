@@ -71,15 +71,15 @@ class CollaborationCommandSet(LazyOwnCommandSet):
         operator = getattr(self._resolve_shell(), "operator_name", None) or "cli-operator"
 
         if lock_mgr.acquire(target, operator):
-            locks = lock_mgr.status()
             print_msg(f"Locked: {target}  (operator: {operator})")
-            if target in locks:
-                remaining = locks[target].get("remaining_secs", "?")
+            lock = lock_mgr.status(target)
+            if lock is not None:
+                remaining = getattr(lock, "remaining_secs", "?")
                 print_msg(f"  TTL: {remaining}s (renew with: lock_target {target})")
         else:
-            locks = lock_mgr.status()
-            if target in locks:
-                holder = locks[target].get("operator", "unknown")
+            lock = lock_mgr.status(target)
+            if lock is not None:
+                holder = getattr(lock, "operator", "unknown")
                 print_warn(f"Target {target} is already locked by: {holder}")
                 print_msg("Wait for them to finish, or ask them to: unlock_target")
             else:

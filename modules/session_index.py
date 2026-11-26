@@ -38,6 +38,8 @@ from skills.lazyown_mcp_helpers import DEFAULT_FRESHNESS_THRESHOLD_SECONDS, is_l
 READ_CAP_BYTES = 2 * 1024 * 1024
 SEARCH_MAX_FILE_BYTES = 5 * 1024 * 1024
 SEARCH_MAX_LINE_CHARS = 240
+SEARCH_MAX_PATTERN_CHARS = 256
+MAX_REGEX_REPEAT_BOUND = 1000
 DEFAULT_MAX_MATCHES = 200
 ARTIFACTS_CACHE_TTL_SECONDS = 2.0
 BEACON_ACTIVE_SECONDS = 600
@@ -78,6 +80,54 @@ KIND_RULES: tuple[tuple[re.Pattern[str], str], ...] = tuple(
 )
 
 _HOST_IN_PATH_RE = re.compile(r"(?<![\d.])(\d{1,3}(?:\.\d{1,3}){3})(?![\d.])")
+
+_SAFE_REL_SEGMENT_RE = re.compile(r"^[A-Za-z0-9._\-+=@:,()\[\] ]+$")
+
+_SEARCH_PATTERN_CHARS_RE = re.compile(r"^[\w\s.^$*+?{}\[\]()|\\/@#%&=!:,~\"'<>_-]*$", re.ASCII)
+_SEARCH_NESTED_QUANTIFIER_RE = re.compile(r"\((?:[^()\\]|\\.)*(?:[+*]|\{\d+,\})\)(?:[*+]|\{\d+,\})")
+_SEARCH_BOUNDED_REPEAT_RE = re.compile(r"\{(\d+)(?:,(\d*))?\}")
+
+
+def _validate_relative_segments(clean: str, original: str) -> None:
+    """Reject sessions-relative paths with unsafe segments or characters.
+
+    Args:
+        clean: Normalised relative path (forward slashes, no NULs).
+        original: The caller-supplied value, used in error messages.
+
+    Raises:
+        PermissionError: On empty, dot, dot-dot or non-allowlist segments.
+    """
+    for segment in clean.split("/"):
+        if segment in ("", ".", ".."):
+            raise PermissionError(f"unsafe path segment in sessions path: {original}")
+        if not _SAFE_REL_SEGMENT_RE.fullmatch(segment):
+            raise PermissionError(f"unsafe characters in sessions path: {original}")
+
+
+def _validate_search_pattern(pattern: str) -> str | None:
+    """Check a user-supplied regex for length, charset and ReDoS hazards.
+
+    Args:
+        pattern: Candidate regular expression.
+
+    Returns:
+        ``None`` when the pattern is safe, else a short reason string.
+    """
+    if not pattern or len(pattern) > SEARCH_MAX_PATTERN_CHARS:
+        return f"pattern too long (max {SEARCH_MAX_PATTERN_CHARS} chars)"
+    if "\x00" in pattern:
+        return "pattern contains null byte"
+    if not _SEARCH_PATTERN_CHARS_RE.fullmatch(pattern):
+        return "pattern contains disallowed characters"
+    if _SEARCH_NESTED_QUANTIFIER_RE.search(pattern):
+        return "pattern contains nested unbounded quantifier"
+    for repeat in _SEARCH_BOUNDED_REPEAT_RE.finditer(pattern):
+        low = int(repeat.group(1))
+        high = int(repeat.group(2)) if repeat.group(2) else low
+        if low > MAX_REGEX_REPEAT_BOUND or high > MAX_REGEX_REPEAT_BOUND:
+            return f"pattern repeat bound exceeds {MAX_REGEX_REPEAT_BOUND}"
+    return None
 
 
 @dataclass(frozen=True)
@@ -135,6 +185,10 @@ class SessionIndex:
     def resolve_safe(self, rel: str) -> Path:
         """Resolve a sessions-relative path, refusing escapes.
 
+        Every path segment is validated against a strict allowlist before
+        any path expression is built, then the joined path is resolved
+        canonically and containment-checked against the root.
+
         Args:
             rel: Relative path (POSIX separators) under the sessions root.
 
@@ -143,7 +197,7 @@ class SessionIndex:
 
         Raises:
             PermissionError: When the path escapes the root via ``..``,
-                an absolute form or a symlink.
+                an absolute form, a symlink or disallowed characters.
             ValueError: When the path is empty.
         """
         clean = str(rel or "").replace("\\", "/").replace("\x00", "").strip()
@@ -151,6 +205,7 @@ class SessionIndex:
             raise ValueError("empty path")
         if PurePosixPath(clean).is_absolute() or clean.startswith("~"):
             raise PermissionError(f"path outside sessions root: {rel}")
+        _validate_relative_segments(clean, str(rel))
         candidate = (self.root / clean).resolve()
         if not candidate.is_relative_to(self.root.resolve()):
             raise PermissionError(f"path outside sessions root: {rel}")
@@ -256,6 +311,10 @@ class SessionIndex:
     ) -> dict[str, Any]:
         """Regex-search the indexed artefacts line by line.
 
+        The pattern is validated (length cap, charset allowlist, no
+        nested unbounded quantifiers, bounded repeats) before compilation
+        to bound catastrophic-backtracking exposure.
+
         Args:
             pattern: Python regex to match per line.
             kinds: Optional restriction to artifact kinds.
@@ -266,8 +325,20 @@ class SessionIndex:
         Returns:
             A dict with ``pattern``, ``scanned``, ``match_count``,
             ``truncated`` and ``matches`` of ``{path, line_no, line}``,
-            mirroring ``evidence_grep`` semantics.
+            mirroring ``evidence_grep`` semantics. An ``error`` key with
+            an ``unsafe_pattern`` or ``invalid_regex`` prefix replaces the
+            other fields when the pattern is rejected.
         """
+        pattern = str(pattern or "")
+        unsafe_reason = _validate_search_pattern(pattern)
+        if unsafe_reason:
+            return {
+                "pattern": pattern,
+                "error": f"unsafe_pattern: {unsafe_reason}",
+                "matches": [],
+                "scanned": 0,
+                "truncated": False,
+            }
         flags = re.IGNORECASE if case_insensitive else 0
         try:
             rx = re.compile(pattern, flags)

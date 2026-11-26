@@ -985,7 +985,7 @@ def main():
     for base_url in base_urls:
         for vector in lfi_vectors:
             lfi_url = base_url + urllib.parse.quote(vector)
-            lfi_r = requests.get(lfi_url)
+            lfi_r = requests.get(lfi_url, timeout=10)
             cabeceras = dict(lfi_r.headers)
             for x in cabeceras:
                 print("[h] " + x + " : " +cabeceras[x])
@@ -1001,7 +1001,7 @@ def main():
         for vector in rfi_vectors:
             rfi_url = base_url + urllib.parse.quote(vector)
             print(rfi_url)
-            rfi_r = requests.get(rfi_url)
+            rfi_r = requests.get(rfi_url, timeout=10)
             cabeceras = dict(rfi_r.headers)
             for x in cabeceras:
                 print("[h] "+ x + " : " +cabeceras[x])

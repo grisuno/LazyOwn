@@ -44,7 +44,7 @@ def count_mcp_tools() -> int:
     """Count the generated MCP tool catalogue (the execute_verb surface)."""
     import importlib.util
 
-    spec = importlib.util.spec_from_file_location("mcp_generated_tools", ROOT / "skills" / "mcp_generated_tools.py")
+    spec = importlib.util.spec_from_file_location("mcp_generated_tools", ROOT / "generated" / "mcp_generated_tools.py")
     module = importlib.util.module_from_spec(spec)
     if spec.loader is None:
         return 0

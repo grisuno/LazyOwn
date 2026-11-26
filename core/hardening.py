@@ -4,6 +4,14 @@ Contract: provides safe alternatives to dangerous patterns found across
 the codebase. Every function is a single-responsibility security control
 that replaces ad-hoc, vulnerable patterns with a tested, auditable path.
 
+The module is a facade over four single-concern siblings; import them
+directly for new code:
+
+- :mod:`core.paths` — filesystem containment for untrusted paths.
+- :mod:`core.tls` — client TLS contexts and the gated lab fallback.
+- :mod:`core.secrets` — owner-only secret storage, sealing, key requirements.
+- :mod:`core.text` — HTML escaping, emoji detection, secret redaction.
+
 Invariants:
 
 1. ``safe_subprocess_run`` never invokes a shell unless explicitly allowed
@@ -20,74 +28,72 @@ Invariants:
 
 from __future__ import annotations
 
-import html
 import logging
 import os
 import re
-import ssl
 import subprocess
+import warnings
 from collections.abc import Mapping, Sequence
 from pathlib import Path
 from typing import Any
 
+from core.errors import SecurityViolation
 from core.host_policy import is_valid_host as _is_valid_host_policy
+from core.paths import (
+    DIR_PATH_MAX_LENGTH,
+    PATH_SEGMENT_MAX_LENGTH,
+    UPSTREAM_PATH_MAX_LENGTH,
+    YAML_NAME_MAX_LENGTH,
+    is_safe_dir_path,
+    is_safe_path_segment,
+    is_safe_yaml_name,
+    realpath_contained,
+    realpath_within_base,
+    safe_join_under,
+    safe_open_under,
+    safe_path_join,
+    sanitize_filename,
+    validate_upstream_path,
+)
+from core.safe_exec import safe_run_argv
+from core.secrets import (
+    MAX_SSH_COMMAND_LENGTH,
+    SEALED_SECRET_PREFIX,
+    SECRET_DIR_MODE,
+    SECRET_FILE_MODE,
+    build_sshpass_command,
+    require_encryption_key,
+    seal_secret,
+    set_sshpass_env,
+    store_secret_owner_only,
+    unseal_secret,
+)
+from core.text import (
+    contains_emoji,
+    escape_html_content,
+    escape_powershell_single_quoted,
+    iter_emoji_spans,
+    redact_text,
+)
+from core.tls import (
+    TLS_MINIMUM_VERSION,
+    tls_lab_fallback_context,
+    tls_lab_unverified_allowed,
+    tls_secure_context,
+)
 
 log = logging.getLogger("core.hardening")
 
-MAX_SSH_COMMAND_LENGTH = 4096
 MAX_CLIPBOARD_CONTENT_LENGTH = 65536
 SHELL_OPERATOR_CHARS = frozenset([";", "|", "&", "$", "`", "\n", "\r"])
 PROGRAM_NAME_PATTERN = re.compile(r"^[a-zA-Z0-9._/\-][a-zA-Z0-9._/\- ]*$")
 
-TLS_MINIMUM_VERSION = ssl.TLSVersion.TLSv1_2
-UPSTREAM_PATH_MAX_LENGTH = 8192
-DIR_PATH_MAX_LENGTH = 256
-PATH_SEGMENT_MAX_LENGTH = 64
-YAML_NAME_MAX_LENGTH = 128
-YAML_SUFFIX = ".yaml"
-SECRET_FILE_MODE = 0o600
-SECRET_DIR_MODE = 0o700
-ENV_ALLOW_SELF_SIGNED_LAB = "LAZY_PROXY_ALLOW_SELF_SIGNED_LAB"
-ENV_ALLOW_PRIVATE = "LAZY_PROXY_ALLOW_PRIVATE"
-ENV_INSECURE_TLS = "LAZY_PROXY_INSECURE_TLS"
-ENV_TRUST_CA = "LAZY_PROXY_TRUST_CA"
-
-_SAFE_SEGMENT_CHARS = frozenset("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789._-")
-
-_EMOJI_RANGES: tuple[tuple[int, int], ...] = (
-    (0x1F600, 0x1F64F),
-    (0x1F300, 0x1F5FF),
-    (0x1F680, 0x1F6FF),
-    (0x1F700, 0x1F77F),
-    (0x1F780, 0x1F7FF),
-    (0x1F800, 0x1F8FF),
-    (0x1F900, 0x1F9FF),
-    (0x1FA70, 0x1FAFF),
-    (0x2600, 0x26FF),
-    (0x2700, 0x27BF),
-    (0x2B00, 0x2BFF),
-    (0xFE00, 0xFE0F),
-    (0x200D, 0x200D),
+_NETWORK_CIDR_PATTERN = re.compile(
+    r"^(?:(?:25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}"
+    r"(?:25[0-5]|2[0-4]\d|[01]?\d\d?)"
+    r"(?:/(?:3[0-2]|[12]?\d))?$"
 )
-
-_REDACT_PATTERNS: tuple[re.Pattern[str], ...] = (
-    re.compile(r"(?i)(smbpass\s+)([^\s;]{1,128})"),
-    re.compile(r"(?i)(password\s*[=:]\s*['\"]?)([^'\"\s;]{1,128})"),
-    re.compile(r"(?i)(passwd\s*[=:]\s*['\"]?)([^'\"\s;]{1,128})"),
-    re.compile(r"(?i)(pwd\s*[=:]\s*['\"]?)([^'\"\s;]{1,128})"),
-    re.compile(r"(?i)(api[_-]?key\s*[=:]\s*['\"]?)([\w\-.]{8,})(['\"]?)"),
-    re.compile(r"(?i)((?:GROQ|OPENAI|DEEPSEEK|ANTHROPIC)[_A-Z]*KEY\s*=\s*['\"]?)([^'\"\s]{8,})"),
-    re.compile(r"glpat-[A-Za-z0-9\-_]{8,}"),
-    re.compile(r"AKIA[0-9A-Z]{16}"),
-    re.compile(r"xox[bpa]-[A-Za-z0-9\-]{8,}"),
-    re.compile(r"gsk_[A-Za-z0-9]+"),
-    re.compile(r"sk-[A-Za-z0-9\-_]{8,}"),
-    re.compile(r"ghp_[A-Za-z0-9]{8,}"),
-    re.compile(r"gho_[A-Za-z0-9]{8,}"),
-    re.compile(r"(?i)(bearer\s+)([A-Za-z0-9\-._~+/]{8,})"),
-    re.compile(r"https?://[^/\s]*:[^@/\s]+@[^\s]+"),
-    re.compile(r"-----BEGIN [A-Z ]*PRIVATE KEY-----"),
-)
+_PORT_PATTERN = re.compile(r"^(?:\d{1,5}(?:,\d{1,5})*(?:-\d{1,5})?)$")
 
 
 def reject_option_injection(argv: Sequence[str], *, allow_options: bool = True) -> None:
@@ -109,31 +115,6 @@ def reject_option_injection(argv: Sequence[str], *, allow_options: bool = True) 
             raise SecurityViolation("Leading-dash argument rejected")
 
 
-def escape_powershell_single_quoted(value: str) -> str:
-    """Escape a value for embedding in a PowerShell single-quoted string.
-
-    Args:
-        value: Raw value that may contain quotes or metacharacters.
-
-    Returns:
-        Value safe to embed between single quotes in PowerShell.
-    """
-    return str(value).replace("'", "''")
-
-
-_SAFE_PATH_PATTERN = re.compile(r"^[a-zA-Z0-9._/\-]+$")
-_NETWORK_CIDR_PATTERN = re.compile(
-    r"^(?:(?:25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}"
-    r"(?:25[0-5]|2[0-4]\d|[01]?\d\d?)"
-    r"(?:/(?:3[0-2]|[12]?\d))?$"
-)
-_PORT_PATTERN = re.compile(r"^(?:\d{1,5}(?:,\d{1,5})*(?:-\d{1,5})?)$")
-
-
-class SecurityViolation(PermissionError):
-    """Raised when a security invariant is violated."""
-
-
 def terminal_env(base: Mapping[str, str] | None = None) -> dict[str, str]:
     """Return a child environment that keeps ANSI colors on a pipe.
 
@@ -145,6 +126,7 @@ def terminal_env(base: Mapping[str, str] | None = None) -> dict[str, str]:
 
     Args:
         base: Base environment. Defaults to ``os.environ``.
+
     Returns:
         A new mapping safe to pass as the ``env`` argument of subprocess.
     """
@@ -179,6 +161,12 @@ def safe_subprocess_run(
     Raises:
         SecurityViolation: If argv is empty or contains shell metacharacters.
         ValueError: If argv is empty.
+
+    Deprecated:
+        Use :func:`core.safe_exec.safe_run_argv` (the single execution
+        primitive). This wrapper keeps its stricter validation contract
+        and delegates execution; it will be removed after its callers
+        migrate.
     """
     if not argv:
         raise ValueError("argv must contain at least the program name")
@@ -193,18 +181,16 @@ def safe_subprocess_run(
         if "\n" in arg or "\r" in arg:
             raise SecurityViolation("Control character in argument rejected")
     log.debug("safe_subprocess_run: %s reason=%s", argv[0], reason)
-    env: dict[str, str] | None = None
-    if extra_env:
-        env = dict(os.environ)
-        env.update({str(key): str(value) for key, value in extra_env.items()})
-    return subprocess.run(
+    warnings.warn(
+        "core.hardening.safe_subprocess_run is deprecated; use core.safe_exec.safe_run_argv",
+        DeprecationWarning,
+        stacklevel=2,
+    )
+    return safe_run_argv(
         list(argv),
-        shell=False,
-        capture_output=capture_output,
-        text=True,
         timeout=timeout,
-        check=False,
-        env=env,
+        capture_output=capture_output,
+        extra_env=extra_env,
     )
 
 
@@ -214,7 +200,7 @@ def safe_clipboard_copy(content: str) -> bool:
     Uses subprocess list-form with xclip or xsel. Never uses os.system.
 
     Args:
-        content: Text to copy to clipboard.
+        content: Text to copy to system clipboard.
 
     Returns:
         True if copy succeeded, False otherwise.
@@ -238,145 +224,10 @@ def safe_clipboard_copy(content: str) -> bool:
             )
             if proc.returncode == 0:
                 return True
-        except FileNotFoundError:
+        except (subprocess.SubprocessError, OSError):
             continue
-        except subprocess.TimeoutExpired:
-            log.warning("Clipboard tool %s timed out", tool)
-            continue
-    log.error("No clipboard tool available (xclip/xsel)")
+    log.debug("clipboard copy failed: no X11 clipboard tool available")
     return False
-
-
-def build_sshpass_command(
-    password: str,
-    ssh_args: list[str],
-    *,
-    max_password_length: int = 256,
-) -> list[str]:
-    """Build an sshpass command using SSHPASS env var (sshpass -e).
-
-    Never uses sshpass -p which exposes passwords in process listings.
-
-    Args:
-        password: The SSH password to use.
-        ssh_args: Arguments to pass to ssh/scp after sshpass.
-        max_password_length: Maximum allowed password length.
-
-    Returns:
-        List of command arguments suitable for subprocess.run.
-
-    Raises:
-        SecurityViolation: If password exceeds max_password_length or
-            contains characters that could break the env var.
-    """
-    if len(password) > max_password_length:
-        raise SecurityViolation("Password exceeds maximum allowed length")
-    if "\0" in password:
-        raise SecurityViolation("Null byte in password rejected")
-    return ["sshpass", "-e", *ssh_args]
-
-
-def set_sshpass_env(password: str) -> dict[str, str]:
-    """Create an environment dict with SSHPASS set for sshpass -e.
-
-    Args:
-        password: The SSH password.
-
-    Returns:
-        Copy of os.environ with SSHPASS set.
-
-    Raises:
-        SecurityViolation: If password contains null bytes.
-    """
-    if "\0" in password:
-        raise SecurityViolation("Null byte in password rejected")
-    env = os.environ.copy()
-    env["SSHPASS"] = password
-    return env
-
-
-def escape_html_content(value: str) -> str:
-    """Escape HTML special characters to prevent XSS.
-
-    Args:
-        value: Raw string that may contain HTML.
-
-    Returns:
-        HTML-escaped string safe for insertion into HTML context.
-    """
-    return html.escape(str(value), quote=True)
-
-
-def realpath_within_base(base_dir: str, user_path: str) -> str:
-    """Resolve ``user_path`` against ``base_dir`` and enforce containment.
-
-    Both sides go through ``os.path.realpath`` (normalisation) and the
-    result must pass a ``startswith`` guard against the base plus a
-    separator, which is the containment shape static analysers
-    recognise as a safe access check. Symlink escapes are rejected
-    because the final realpath of the candidate must still live under
-    the realpath of the base.
-
-    Args:
-        base_dir: The allowed root directory.
-        user_path: Untrusted relative path joined under ``base_dir``.
-
-    Returns:
-        Resolved absolute path strictly inside ``base_dir``.
-
-    Raises:
-        SecurityViolation: If the resolved path escapes ``base_dir``.
-    """
-    allowed = os.path.realpath(base_dir)
-    candidate = os.path.realpath(os.path.join(allowed, user_path))
-    if not candidate.startswith(allowed + os.sep):
-        raise SecurityViolation(f"Path traversal blocked: {user_path!r} resolves outside {base_dir}")
-    return candidate
-
-
-def realpath_contained(user_path: str, base_dir: str) -> str:
-    """Return ``user_path`` realpath-verified to stay inside ``base_dir``.
-
-    Unlike :func:`realpath_within_base` the untrusted value may already
-    be an absolute path (or CWD-relative); it is canonicalised on its
-    own and then containment-checked against the base.
-
-    Args:
-        user_path: Untrusted path (absolute or relative to the CWD).
-        base_dir: The allowed root directory.
-
-    Returns:
-        Resolved absolute path strictly inside ``base_dir``.
-
-    Raises:
-        SecurityViolation: If the resolved path escapes ``base_dir``.
-    """
-    allowed = os.path.realpath(base_dir)
-    candidate = os.path.realpath(user_path)
-    if not candidate.startswith(allowed + os.sep):
-        raise SecurityViolation(f"Path traversal blocked: {user_path!r} resolves outside {base_dir}")
-    return candidate
-
-
-def safe_path_join(base_dir: str, user_path: str) -> str:
-    """Join base_dir and user_path safely, preventing path traversal.
-
-    Delegates to :func:`realpath_within_base`.
-
-    Args:
-        base_dir: The allowed root directory.
-        user_path: User-controlled path component.
-
-    Returns:
-        Resolved absolute path within base_dir.
-
-    Raises:
-        SecurityViolation: If the resolved path escapes base_dir.
-        ValueError: If user_path is empty or contains only separators.
-    """
-    if not user_path or not user_path.strip():
-        raise ValueError("user_path must not be empty")
-    return realpath_within_base(base_dir, user_path)
 
 
 def validate_network_cidr(cidr: str) -> bool:
@@ -427,34 +278,6 @@ def validate_host(host: str) -> bool:
     return _is_valid_host_policy(host)
 
 
-def require_encryption_key(
-    env_key: str = "LAZYOWN_SECRET_KEY",
-    secret_file: Path | None = None,
-) -> str:
-    """Require a proper encryption key; never fall back to a static default.
-
-    Args:
-        env_key: Environment variable name for the secret key.
-        secret_file: Optional path to a file containing the key.
-
-    Returns:
-        The encryption key string.
-
-    Raises:
-        SecurityViolation: If no key is configured.
-    """
-    secret = os.environ.get(env_key, "")
-    if not secret and secret_file and secret_file.exists():
-        secret = secret_file.read_text().strip()
-    if not secret:
-        raise SecurityViolation(
-            f"Encryption key required. Set {env_key} env var or create "
-            f"{secret_file or '.secret_key'} file. "
-            "Static fallback keys are not allowed in production."
-        )
-    return secret
-
-
 def defused_xml_parse(source: str | Path) -> Any:
     """Parse XML safely using defusedxml.
 
@@ -475,423 +298,6 @@ def defused_xml_parse(source: str | Path) -> Any:
     if isinstance(source, (str, Path)) and os.path.isfile(source):
         return ET.parse(source)
     return ET.fromstring(str(source))
-
-
-def sanitize_filename(filename: str, max_length: int = 255) -> str:
-    """Sanitize a filename by removing dangerous characters.
-
-    Args:
-        filename: Raw filename from user input.
-        max_length: Maximum filename length.
-
-    Returns:
-        Sanitized filename with only safe characters.
-    """
-    safe = re.sub(r"[^\w.\-]", "_", filename)
-    safe = re.sub(r"_+", "_", safe).strip("_.")
-    if not safe:
-        safe = "unnamed"
-    if len(safe) > max_length:
-        name, ext = os.path.splitext(safe)
-        safe = name[: max_length - len(ext)] + ext
-    return safe
-
-
-def tls_secure_context(extra_ca: str = "") -> ssl.SSLContext:
-    """Build a verifying client TLS context with a TLS 1.2 floor.
-
-    Args:
-        extra_ca: Optional extra CA bundle path loaded for verification.
-
-    Returns:
-        Verifying SSLContext with hostname checking enabled.
-    """
-    context = ssl.create_default_context()
-    context.check_hostname = True
-    context.verify_mode = ssl.CERT_REQUIRED
-    context.minimum_version = TLS_MINIMUM_VERSION
-    bundle = (extra_ca or os.environ.get(ENV_TRUST_CA, "") or "").strip()
-    if bundle:
-        try:
-            context.load_verify_locations(cafile=bundle)
-        except OSError as exc:
-            log.warning("trust bundle unreadable %r: %s", bundle, exc)
-    return context
-
-
-def tls_lab_unverified_allowed(host: str) -> bool:
-    """Return True only when unverified lab TLS is explicitly opted in.
-
-    Both conditions must hold: the host is a loopback/private literal (or
-    localhost) and the operator set ``LAZY_PROXY_ALLOW_SELF_SIGNED_LAB=1``.
-    Request data can never enable it alone.
-
-    Args:
-        host: Target hostname or IP literal.
-
-    Returns:
-        True when the operator opt-in covers this lab host.
-    """
-    import ipaddress as _ipaddress
-
-    if os.environ.get(ENV_ALLOW_SELF_SIGNED_LAB, "") != "1":
-        return False
-    name = (host or "").strip().strip("[]").lower()
-    if name == "localhost":
-        return True
-    try:
-        addr = _ipaddress.ip_address(name)
-    except ValueError:
-        return False
-    return bool(addr.is_loopback or addr.is_private or addr.is_link_local)
-
-
-def tls_lab_fallback_context() -> ssl.SSLContext:
-    """Build the gated unverified context for lab self-signed hosts.
-
-    This is the single audited location allowed to disable verification.
-    Callers must check :func:`tls_lab_unverified_allowed` first; the TLS
-    1.2 floor still applies so only verification (not protocol version)
-    is relaxed.
-
-    Returns:
-        Unverified SSLContext with TLS 1.2 floor.
-    """
-    log.warning("unverified TLS fallback engaged for lab target (self-signed)")
-    fallback = ssl.create_default_context()
-    fallback.check_hostname = False
-    fallback.verify_mode = ssl.CERT_NONE
-    fallback.minimum_version = TLS_MINIMUM_VERSION
-    return fallback
-
-
-def validate_upstream_path(path: str) -> bool:
-    """Validate an origin-form upstream path without regular expressions.
-
-    Only ``/absolute-path[?query]`` is accepted: absolute URLs, control
-    characters, NUL/CR/LF and overlong values are rejected in linear time.
-
-    Args:
-        path: Upstream path or target string.
-
-    Returns:
-        True when the path is safe to send upstream.
-    """
-    text = path or ""
-    if not text or len(text) > UPSTREAM_PATH_MAX_LENGTH:
-        return False
-    if not text.startswith("/"):
-        return False
-    lowered = text.lower()
-    if "://" in lowered:
-        return False
-    for char in text:
-        code = ord(char)
-        if code < 32 or code == 127:
-            return False
-    if "\x00" in text:
-        return False
-    return True
-
-
-def is_safe_path_segment(segment: str) -> bool:
-    """Validate one path segment with a linear charset scan (no regex).
-
-    Args:
-        segment: Single directory or filename stem segment.
-
-    Returns:
-        True when the segment uses only safe characters.
-    """
-    if not segment or len(segment) > PATH_SEGMENT_MAX_LENGTH:
-        return False
-    if segment in (".", ".."):
-        return False
-    if segment.startswith("."):
-        return False
-    for char in segment:
-        if char not in _SAFE_SEGMENT_CHARS:
-            return False
-    return True
-
-
-def is_safe_dir_path(raw: str) -> bool:
-    """Validate a relative directory path with linear scans (no regex).
-
-    Args:
-        raw: Untrusted relative directory path.
-
-    Returns:
-        True when every segment is safe and no traversal is present.
-    """
-    if not raw or len(raw) > DIR_PATH_MAX_LENGTH:
-        return False
-    if "\x00" in raw or "\\" in raw:
-        return False
-    if raw.startswith("/") or raw.endswith("/"):
-        return False
-    parts = raw.split("/")
-    if len(parts) > 8:
-        return False
-    if not parts:
-        return False
-    for part in parts:
-        if not is_safe_path_segment(part):
-            return False
-    return True
-
-
-def is_safe_yaml_name(name: str) -> bool:
-    """Validate a YAML filename with linear scans (no regex).
-
-    Args:
-        name: Untrusted filename.
-
-    Returns:
-        True when the name is a safe ``*.yaml`` file.
-    """
-    if not name or len(name) > YAML_NAME_MAX_LENGTH:
-        return False
-    if "\x00" in name or "/" in name or "\\" in name:
-        return False
-    if not name.endswith(YAML_SUFFIX):
-        return False
-    stem = name[: -len(YAML_SUFFIX)]
-    return is_safe_path_segment(stem)
-
-
-def safe_join_under(base_dir: str, user_path: str) -> str:
-    """Join and resolve ``user_path`` under ``base_dir`` (symlink-safe).
-
-    Delegates to :func:`realpath_within_base` so ``..`` segments and
-    symlink escapes are rejected with the recognised containment guard.
-
-    Args:
-        base_dir: Allowed root directory.
-        user_path: Untrusted relative path.
-
-    Returns:
-        Resolved absolute path within ``base_dir``.
-
-    Raises:
-        SecurityViolation: If the resolved path escapes ``base_dir``.
-        ValueError: If ``user_path`` is empty.
-    """
-    if not user_path or not user_path.strip():
-        raise ValueError("user_path must not be empty")
-    return realpath_within_base(base_dir, user_path)
-
-
-def safe_open_under(base_dir: str, user_path: str, mode: str = "r", **kwargs: Any) -> Any:
-    """Open a file under ``base_dir`` after traversal validation.
-
-    Args:
-        base_dir: Allowed root directory.
-        user_path: Untrusted relative path.
-        mode: Open mode (binary-safe modes rejected for writes of text secrets).
-
-    Returns:
-        Open file handle. Caller must close it.
-    """
-    resolved = safe_join_under(base_dir, user_path)
-    flags = os.O_RDONLY | os.O_NOFOLLOW
-    if "w" in mode or "a" in mode or "+" in mode:
-        flags = os.O_WRONLY | os.O_CREAT | os.O_NOFOLLOW
-        if "a" in mode:
-            flags |= os.O_APPEND
-        else:
-            flags |= os.O_TRUNC
-    fd = os.open(resolved, flags, SECRET_FILE_MODE)
-    try:
-        os.chmod(resolved, SECRET_FILE_MODE)
-    except OSError:
-        pass
-    return os.fdopen(fd, mode, **kwargs)
-
-
-def store_secret_owner_only(path: str | Path, text: str) -> str:
-    """Atomically store a secret owner-only (0600, dir 0700).
-
-    Args:
-        path: Destination file path.
-        text: Secret text to persist.
-
-    Returns:
-        Resolved absolute path as string.
-    """
-    target = Path(path)
-    parent = target.parent
-    parent.mkdir(parents=True, exist_ok=True)
-    try:
-        os.chmod(parent, SECRET_DIR_MODE)
-    except OSError:
-        pass
-    flags = os.O_WRONLY | os.O_CREAT | os.O_TRUNC | os.O_NOFOLLOW
-    fd = os.open(str(target), flags, SECRET_FILE_MODE)
-    try:
-        payload = str(text or "").encode("utf-8")
-        view = memoryview(payload)
-        while view:
-            written = os.write(fd, view)
-            view = view[written:]
-        os.fsync(fd)
-    finally:
-        os.close(fd)
-    try:
-        os.chmod(target, SECRET_FILE_MODE)
-    except OSError:
-        pass
-    return str(target)
-
-
-def _is_emoji_codepoint(code: int) -> bool:
-    """Return True when ``code`` falls in a known emoji interval."""
-    for start, end in _EMOJI_RANGES:
-        if start <= code <= end:
-            return True
-    return False
-
-
-def contains_emoji(text: str) -> bool:
-    """Return True when ``text`` carries any emoji codepoint.
-
-    Args:
-        text: Text to inspect.
-
-    Returns:
-        True on first emoji hit; linear scan, no regex.
-    """
-    for char in text or "":
-        if _is_emoji_codepoint(ord(char)):
-            return True
-    return False
-
-
-def iter_emoji_spans(text: str) -> list[tuple[int, str]]:
-    """Return ``(offset, char)`` for every emoji char in ``text``.
-
-    Args:
-        text: Text to inspect.
-
-    Returns:
-        List of offset/character pairs in encounter order.
-    """
-    spans: list[tuple[int, str]] = []
-    for offset, char in enumerate(text or ""):
-        if _is_emoji_codepoint(ord(char)):
-            spans.append((offset, char))
-    return spans
-
-
-SEALED_SECRET_PREFIX = "enc:v2:"
-
-
-def _seal_key(sessions_dir: str | Path = "sessions") -> bytes:
-    """Resolve the 32-byte sealing key via the shared AES resolver.
-
-    Args:
-        sessions_dir: Directory holding the ``key.aes`` key file.
-
-    Returns:
-        Raw 32-byte key material.
-    """
-    from core.config import resolve_aes_key
-
-    return resolve_aes_key({}, sessions_dir=sessions_dir)
-
-
-def seal_secret(plaintext: str, *, sessions_dir: str | Path = "sessions") -> str:
-    """Seal a secret with Fernet (AES-128-CBC + HMAC) for storage.
-
-    The key comes from the shared ``key.aes`` resolver so sealed values
-    round-trip across restarts without new configuration. Failures fall
-    back to plaintext so loot/operator flows never break; callers keep
-    owner-only file modes regardless.
-
-    Args:
-        plaintext: Secret to protect.
-        sessions_dir: Key directory override (tests).
-
-    Returns:
-        ``enc:v2:`` sealed value, or plaintext when sealing is unavailable.
-    """
-    text = str(plaintext or "")
-    if not text or text.startswith(SEALED_SECRET_PREFIX):
-        return text
-    try:
-        import base64 as _b64
-
-        from cryptography.fernet import Fernet
-
-        raw = _seal_key(sessions_dir)
-        token = Fernet(_b64.urlsafe_b64encode(raw)).encrypt(text.encode("utf-8"))
-        return SEALED_SECRET_PREFIX + token.decode("ascii")
-    except Exception as exc:
-        log.warning("secret sealing unavailable, storing with file modes only: %s", type(exc).__name__)
-        return text
-
-
-def unseal_secret(stored: str, *, sessions_dir: str | Path = "sessions") -> str:
-    """Reveal a secret stored by :func:`seal_secret` (legacy-compatible).
-
-    Legacy ``enc:v1:`` vault values and plaintext fall back to the
-    credential vault / passthrough so existing stores keep working.
-
-    Args:
-        stored: Sealed or plaintext value.
-        sessions_dir: Key directory override (tests).
-
-    Returns:
-        Plaintext secret, or empty string when undecryptable.
-    """
-    text = str(stored or "")
-    if not text:
-        return ""
-    if text.startswith(SEALED_SECRET_PREFIX):
-        try:
-            import base64 as _b64
-
-            from cryptography.fernet import Fernet
-
-            raw = _seal_key(sessions_dir)
-            return (
-                Fernet(_b64.urlsafe_b64encode(raw))
-                .decrypt(text[len(SEALED_SECRET_PREFIX) :].encode("ascii"))
-                .decode("utf-8")
-            )
-        except Exception:
-            return ""
-    try:
-        from core.credential_vault import unseal_value as _vault_unseal
-
-        revealed = _vault_unseal(text)
-        if revealed:
-            return str(revealed)
-    except Exception:
-        pass
-    return text
-
-
-def redact_text(text: str) -> str:
-    """Mask credential-like patterns before persistence or display.
-
-    Args:
-        text: Raw text that may embed secrets.
-
-    Returns:
-        Text with secrets replaced by ``***`` markers.
-    """
-    cleaned = str(text or "")
-
-    def _mask(match: re.Match) -> str:
-        groups = match.groups()
-        if len(groups) >= 2 and groups[0] and groups[-1] is not None:
-            return f"{groups[0]}***{groups[-1] if len(groups) > 2 else ''}"
-        return "***"
-
-    for pattern in _REDACT_PATTERNS:
-        cleaned = pattern.sub("***" if pattern.groups == 0 else _mask, cleaned)
-    return cleaned
 
 
 __all__ = [

@@ -165,7 +165,7 @@ ignore = [
     "E501",
     # Security rules we accept for a pentest framework (many intentional)
     "S101", "S105", "S106", "S107", "S108",
-    "S110", "S112", "S113",
+    "S112", "S113",
     "S301", "S310", "S311", "S324",
     "S404", "S602", "S603", "S605", "S607",
     "B008", "B904",
@@ -199,6 +199,65 @@ ignore = [
 "lazyown.py" = ["S", "B", "UP", "F841"]
 "lazyc2.py" = ["S", "B", "UP", "F841"]
 "utils.py" = ["S", "B", "UP", "F841"]
+
+# S110 (try-except-pass) decay allowlist — entries are removed as each site
+# gets structured logging or fail-closed handling. Target: empty list.
+"cli/apt_chain_support.py" = ["S110"]
+"cli/assign.py" = ["S110"]
+"cli/autosuggest.py" = ["S110"]
+"cli/banner_config.py" = ["S110"]
+"cli/chain_prompt.py" = ["S110"]
+"cli/commands/anti_forensics.py" = ["S110"]
+"cli/commands/c2_session.py" = ["S110"]
+"cli/commands/cli_auth.py" = ["S110"]
+"cli/commands/collaboration.py" = ["S110"]
+"cli/commands/command_and_control.py" = ["S110"]
+"cli/commands/crystal_ball.py" = ["S110"]
+"cli/commands/dpapi.py" = ["S110"]
+"cli/commands/exfiltration.py" = ["S110"]
+"cli/commands/help_ui.py" = ["S110"]
+"cli/commands/lazyops.py" = ["S110"]
+"cli/commands/marketplace.py" = ["S110"]
+"cli/commands/mcp_bridge.py" = ["S110"]
+"cli/commands/misc.py" = ["S110"]
+"cli/commands/mobile_macos.py" = ["S110"]
+"cli/commands/orchestration.py" = ["S110"]
+"cli/commands/privilege_escalation.py" = ["S110"]
+"cli/commands/pwn.py" = ["S110"]
+"cli/commands/recon.py" = ["S110"]
+"cli/commands/report_enhanced.py" = ["S110"]
+"cli/commands/reporting.py" = ["S110"]
+"cli/commands/session_ops.py" = ["S110"]
+"cli/commands/supply_chain.py" = ["S110"]
+"cli/commands/ux.py" = ["S110"]
+"cli/dashboard_tui.py" = ["S110"]
+"cli/engagement_hooks.py" = ["S110"]
+"cli/fuzzy_picker.py" = ["S110"]
+"cli/lazy_monitor.py" = ["S110"]
+"cli/lazy_orchestrator.py" = ["S110"]
+"cli/lazynmap_post.py" = ["S110"]
+"cli/marketplace_config.py" = ["S110"]
+"cli/orchestrator_assets_tabs.py" = ["S110"]
+"cli/purple_tui.py" = ["S110"]
+"cli/reactive_hints.py" = ["S110"]
+"cli/status_bar.py" = ["S110"]
+"cli/tips_engine.py" = ["S110"]
+"cli/toast_bus.py" = ["S110"]
+"cli/tui_forms.py" = ["S110"]
+"cli/wizard.py" = ["S110"]
+"lazyc2/addon_creator.py" = ["S110"]
+"lazyc2/beacons/service.py" = ["S110"]
+"lazyc2/blueprints/api.py" = ["S110"]
+"lazyc2/blueprints/auth.py" = ["S110"]
+"lazygui/app.py" = ["S110"]
+"lazygui/panels/cve_panel.py" = ["S110"]
+"lazygui/panels/history_panel.py" = ["S110"]
+"lazygui/panels/marketplace_panel.py" = ["S110"]
+"lazygui/services/backend.py" = ["S110"]
+"lazygui/services/teamserver_backend.py" = ["S110"]
+"lazygui/widgets/beacon_command_modal.py" = ["S110"]
+"lazygui/windows/main_window.py" = ["S110"]
+"poc_tui/app.py" = ["S110"]
 
 [tool.pytest.ini_options]
 minversion = "7.0"

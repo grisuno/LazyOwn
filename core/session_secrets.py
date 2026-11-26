@@ -58,15 +58,57 @@ def rotate_session_secrets(
     session_magic = secrets.token_hex(_SESSION_MAGIC_BYTES).lower()
     key_path = Path(sessions_dir) / _KEY_FILENAME
     key_path.parent.mkdir(parents=True, exist_ok=True)
+    old_key = key_path.read_bytes() if key_path.exists() else None
     key_path.write_bytes(aes_bytes)
     os.chmod(key_path, _KEY_FILE_MODE)
     payload = load_payload()
+    _rekey_sealed_credentials(payload, old_key, aes_bytes)
     payload["rat_key"] = rat_key
     payload["session_magic"] = session_magic
     save_payload(payload)
     _mirror(config_obj, aes_hex=aes_hex, rat_key=rat_key, session_magic=session_magic)
     logger.info("Rotated session secrets (aes_key, rat_key, session_magic)")
     return {"aes_hex": aes_hex, "rat_key": rat_key, "session_magic": session_magic}
+
+
+def _rekey_sealed_credentials(payload: dict[str, Any], old_key: bytes | None, new_key: bytes) -> None:
+    """Re-seal vault credentials from the old AES key to the new one.
+
+    A credential that fails to unseal under the old key is preserved
+    verbatim: the value is already unreadable and re-sealing garbage
+    would make it permanently unrecoverable.
+
+    Args:
+        payload: Loaded payload dict, mutated in place.
+        old_key: The AES key bytes that sealed the current values.
+        new_key: The fresh AES key bytes to seal under.
+    """
+    try:
+        from core.credential_vault import SENSITIVE_KEYS
+
+        marker = "TEFaWU9XTl9WQVVMVF9WMTo="
+        for key in SENSITIVE_KEYS:
+            value = payload.get(key)
+            if not isinstance(value, str) or not value:
+                continue
+            if not value.startswith(marker):
+                continue
+            try:
+                from base64 import b64decode, b64encode
+
+                from core.crypto import AESdecrypt, AESencrypt
+
+                ciphertext = b64decode(value[len(marker) :])
+                plaintext = AESdecrypt(ciphertext, old_key)
+                blob, _ = AESencrypt(plaintext, new_key)
+                payload[key] = marker + b64encode(blob).decode("ascii")
+            except Exception:
+                logger.warning(
+                    "credential %s sealed under a previous AES key cannot be decrypted; kept as-is",
+                    key,
+                )
+    except Exception as exc:
+        logger.warning("vault re-seal skipped: %s", type(exc).__name__)
 
 
 def ensure_session_secrets(

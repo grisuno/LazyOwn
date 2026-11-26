@@ -7,12 +7,14 @@ decryption when an authenticated user opens it.
 
 Scope of protection:
     - ``sessions/credentials_*.txt`` — captured credentials
-    - ``sessions/*.key`` — cryptographic key material
-    - ``sessions/*.pem`` — TLS certificates and keys
+    - ``sessions/*.pem`` — TLS certificates
     - ``sessions/world_model.json`` — operational state
     - ``sessions/hash*.txt`` — captured hashes
-    - ``sessions/.secret_key`` — Flask secret
-    - ``sessions/key.aes`` — C2 beacon key
+
+Key material (``key.aes``, ``*.key``, ``.secret_key``) is deliberately
+NOT encrypted at rest: sealing a boot-time key with another boot-time
+key created a rotation loop that invalidated live beacons and lost
+vault credentials. Key files stay owner-only (0600) instead.
 
 The module uses the same PBKDF2HMAC + Fernet cryptography as
 ``lazyenc.py``. The key is derived from the operator's login password
@@ -38,6 +40,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 _log = logging.getLogger(__name__)
+_UNREADABLE_WARNED: set[str] = set()
 
 SALT_FILE: str = ".auto_crypto_salt"
 ENCRYPTED_SUFFIX: str = ".encrypted"
@@ -63,10 +66,7 @@ class AutoCryptoConfig:
             "credentials_*.txt",
             "hash*.txt",
             "world_model.json",
-            "*.key",
             "*.pem",
-            ".secret_key",
-            "key.aes",
         ]
     )
     password_provider: Callable[[], str | None] | None = None
@@ -221,7 +221,9 @@ class AutoCryptoEngine:
                 except InvalidToken:
                     decrypted_data = self._decrypt_legacy(legacy_cipher, encrypted_data, path)
                     if decrypted_data is None:
-                        _log.warning("auto_crypto: wrong password or corrupt file %s", path)
+                        if str(path) not in _UNREADABLE_WARNED:
+                            _UNREADABLE_WARNED.add(str(path))
+                            _log.warning("auto_crypto: wrong password or corrupt file %s", path)
                         continue
                 if path.name.endswith(ENCRYPTED_SUFFIX):
                     original_name = path.name[: -len(ENCRYPTED_SUFFIX)]

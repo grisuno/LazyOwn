@@ -258,11 +258,16 @@ def _validate_interface(value: Any) -> str | None:
     return None
 
 
+def _value_preview(value: Any, limit: int = 16) -> str:
+    rendered = repr(value)
+    return rendered if len(rendered) <= limit else f"{rendered[:limit]}..."
+
+
 def _validate_hex(value: Any) -> str | None:
     if not isinstance(value, str) or not value:
-        return f"expected hex string, got {value!r}"
+        return f"expected hex string, got {_value_preview(value)}"
     if not HEX_REGEX.match(value):
-        return f"{value!r} is not a hex string"
+        return f"{_value_preview(value)} is not a hex string ({len(value)} chars)"
     return None
 
 
@@ -1009,6 +1014,26 @@ SCHEMA: dict[str, FieldSpec] = {
                 "explicitly sets c2_require_beacon_hmac=false."
             ),
             example="True",
+            category="c2",
+        ),
+        _spec(
+            "c2_token_auth_enabled",
+            FieldKind.BOOL,
+            "False",
+            "Require the backend-issued session token on operator API requests (estorides-style gate).",
+            long_help=(
+                "Second factor on top of Basic auth: the C2 mints a random "
+                "session token at boot (memory-only, rotated every "
+                "restart, TTL 12h), operators exchange credentials for it "
+                "once via POST /api/auth/token or the c2token command, "
+                "and gated requests must present it as "
+                "Authorization: Bearer, X-LazyOwn-Token or the "
+                "lazyown_c2_session cookie. Beacon transports (HMAC "
+                "signed), the login flow and static assets stay exempt, "
+                "so a leaked .c2_credentials.txt alone cannot reach the "
+                "API without a fresh exchange."
+            ),
+            example="False",
             category="c2",
         ),
         _spec(

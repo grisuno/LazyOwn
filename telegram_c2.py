@@ -272,7 +272,7 @@ async def download_c2(update: Update, context: CallbackContext) -> None:
 
 async def send_connected_clients(update: Update, context: CallbackContext):
     try:
-        response = requests.get(FLASK_API_URL, verify=C2_TLS_VERIFY)
+        response = requests.get(FLASK_API_URL, verify=C2_TLS_VERIFY, timeout=10)
         if response.status_code == 200:
             data = response.json()
             connected_clients_list = data.get("connected_clients", [])

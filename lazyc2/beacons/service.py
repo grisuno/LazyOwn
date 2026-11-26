@@ -741,7 +741,13 @@ def receive_result(rt: BeaconRuntime, client_id: str) -> Any:
             # BlackSandBeacon protocol: HKDF-derived key + replay envelope.
             from modules.bsb_compat import decrypt_bsb_report
 
-            data, bsb_counter, _bsb_ts = decrypt_bsb_report(encrypted_data, rt.current_aes_key())
+            try:
+                data, bsb_counter, _bsb_ts = decrypt_bsb_report(encrypted_data, rt.current_aes_key())
+            except ValueError as exc:
+                logging.warning(f"BSB report from {client_id} rejected: {type(exc).__name__}: {str(exc)[:120]}")
+                return jsonify(
+                    {"status": "error", "message": "Report could not be decrypted; re-register the beacon"}
+                ), 400
             rt.bsb_clients.add(str(client_id))
             logging.info(f"BSB report from {client_id} (counter={bsb_counter})")
         if client_id not in rt.connected_clients:

@@ -190,6 +190,46 @@ def test_search_semantics(tmp_path):
     assert "invalid_regex" in bad.get("error", "")
 
 
+def test_resolve_safe_rejects_unsafe_segments(tmp_path):
+    index = _index(tmp_path)
+    for bad in (
+        "loot/../../payload.json",
+        "loot/..",
+        "loot//notes.txt",
+        "loot/",
+        "loot/<script>",
+        "loot/na$(id).txt",
+        "loot/no\u00e9te.txt",
+        "loot/na;me.txt",
+        "loot/back*slash.txt",
+    ):
+        with pytest.raises((PermissionError, ValueError)):
+            index.resolve_safe(bad)
+    assert index.resolve_safe("loot/notes.txt").is_file()
+
+
+def test_read_rejects_malformed_rel(tmp_path):
+    index = _index(tmp_path)
+    for bad in ("loot/../../payload.json", "loot/na$(id).txt", "loot/\u00e9.txt"):
+        data = index.read(bad)
+        assert not data["exists"]
+        assert "error" in data
+
+
+def test_search_rejects_dangerous_patterns(tmp_path):
+    index = _index(tmp_path)
+    catastrophic = "(" + "a+" * 40 + ")+"
+    nested_bounded = "(a{2,})+"
+    for bad in (catastrophic, nested_bounded, "a{99999}", "x" * 300, "pa\x00ss"):
+        result = index.search(bad)
+        assert "unsafe_pattern" in result.get("error", "")
+        assert result["matches"] == []
+    ok = index.search("CVE-\\d{1,5}")
+    assert "error" not in ok
+    assert ok["scanned"] >= 1
+    assert index.search("smb")["match_count"] >= 1
+
+
 def test_host_cards_aggregate(tmp_path):
     index = _index(tmp_path)
     cards = {c["ip"]: c for c in index.host_cards()}

@@ -278,8 +278,8 @@ class TaskScheduler:
         try:
             while not self._backend.empty():
                 self._backend.run(blocking=False)
-        except Exception:
-            pass
+        except Exception as exc:
+            log.debug("scheduler drain aborted: %s", exc)
 
 
 def get_scheduler() -> TaskScheduler:

@@ -38,7 +38,7 @@ output_csv = "csv/bin_data_relevant.csv"
 
 # Función para obtener la información relevante de una URL
 def obtener_informacion(url):
-    response = requests.get(url)
+    response = requests.get(url, timeout=10)
     if response.status_code != 200:
         print(f"Error al obtener la URL: {url}")
         return []

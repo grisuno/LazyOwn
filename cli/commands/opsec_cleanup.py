@@ -361,7 +361,7 @@ class OpsecCleanupCommandSet(LazyOwnCommandSet):
         from modules.network_opsec import NetworkOpsecConfig, NetworkOpsecEngine
 
         if not line.strip():
-            self._cmd.output("\n[ Network OPSEC Methods ]")
+            self._cmd.poutput("\n[ Network OPSEC Methods ]")
             for m in ["proxy_chain", "doh", "port_rand", "jitter", "canary_check", "traffic"]:
                 self._cmd.poutput(f"    {m}")
             self._cmd.poutput("\nUsage: network_opsec <method> [options]")

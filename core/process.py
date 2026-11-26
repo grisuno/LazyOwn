@@ -7,6 +7,7 @@ sudo escalation, virtualenv activation.
 from __future__ import annotations
 
 import importlib.util
+import logging
 import os
 import shlex
 import shutil
@@ -27,7 +28,6 @@ from core.console import (
 )
 from core.hardening import terminal_env
 from core.safe_exec import needs_shell
-from core.safe_subprocess import SafeRunner
 from core.validators import check_rhost
 
 
@@ -105,41 +105,6 @@ def check_sudo() -> None:
         os.execvpe("sudo", args, os.environ)  # noqa: S606
 
 
-def run(command: str) -> str:
-    """Execute a shell command via ``SafeRunner``.
-
-    Args:
-        command: Shell command string.
-
-    Returns:
-        Stripped stdout on success, error message on failure.
-    """
-    try:
-        print_msg(f"Attempting to execute: {command}")
-        result = SafeRunner().run_shell(
-            command,
-            allow=True,
-            reason="legacy utils.run call site; requires opt-in at every invocation",
-        )
-        if result.returncode != 0:
-            print_error(f"Command failed with exit code {result.returncode}: {command}")
-            return result.stderr or f"exit={result.returncode}"
-        print_msg(result.stdout)
-        return result.stdout.strip()
-    except FileNotFoundError as fnf_error:
-        print_error(f"Command not found: {command}")
-        return str(fnf_error)
-    except subprocess.CalledProcessError as cpe_error:
-        print_error(f"Command failed with exit code {cpe_error.returncode}: {command}")
-        return str(cpe_error)
-    except subprocess.TimeoutExpired as te_error:
-        print_error(f"Command timed out: {command}")
-        return str(te_error)
-    except Exception as e:
-        print_error(f"An unexpected error occurred: {str(e)}")
-        return str(e)
-
-
 def is_package_installed(package_name: str) -> bool:
     """Check whether a Python package is importable.
 
@@ -176,8 +141,8 @@ def _print_run_command_status(command: str, elapsed: float, exit_code: int | Non
         color = BRIGHT_BLACK if exit_code in (0, None) else YELLOW
         sys.stdout.write(f"{color}[done] {label}  {code}  {elapsed:.1f}s{RESET}\n")
         sys.stdout.flush()
-    except Exception:
-        pass
+    except Exception as exc:
+        logging.getLogger(__name__).debug("run-command status line skipped: %s", exc)
 
 
 def run_command(command: str, timeout: float | None = None) -> str:
@@ -196,6 +161,13 @@ def run_command(command: str, timeout: float | None = None) -> str:
 
     Returns:
         Combined stdout + stderr output.
+
+    Deprecated:
+        Prefer :class:`modules.command_executor.CommandExecutor` (the
+        policy/tee layer) for new streaming call sites and
+        :func:`core.safe_exec.safe_run_argv` when output should be
+        captured silently. This runner stays because it backs the
+        ``utils.run_command`` shell helper consumed across the CLI.
     """
     output = ""
     command_tokens = ["bash", "-c", command] if needs_shell(command) else shlex.split(command)
@@ -265,8 +237,8 @@ def _purple_sync_capture(command: str, exit_code: int | None) -> None:
         from modules import purple_sync
 
         purple_sync.hook_command(command, exit_code)
-    except Exception:
-        pass
+    except Exception as exc:
+        logging.getLogger(__name__).debug("purple-sync hook skipped: %s", exc)
 
 
 def ensure_tmux_session(session_name: str) -> None:
@@ -305,7 +277,6 @@ __all__ = [
     "is_binary_present",
     "handle_multiple_rhosts",
     "check_sudo",
-    "run",
     "is_package_installed",
     "run_command",
     "ensure_tmux_session",

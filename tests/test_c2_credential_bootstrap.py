@@ -11,6 +11,7 @@ import os
 from pathlib import Path
 
 from lazyc2.security.cli_credentials import (
+    prune_generated_cli_users,
     register_cli_user,
     resolve_boot_credentials,
     write_credentials_file,
@@ -22,6 +23,7 @@ class _FakeUser:
         self.username = username
         self.password_hash = password_hash
         self.role = role
+        self.id = 0
 
 
 class _FakeStore:
@@ -47,6 +49,18 @@ class _FakeStore:
         self.created.append(created)
         self._users.append(created)
         return created
+
+    def load_all(self):
+        if self._unreadable:
+            raise RuntimeError("unreadable")
+        return list(self._users)
+
+    def delete_user(self, user_id):
+        for user in self._users:
+            if user.id == user_id:
+                self._users.remove(user)
+                return True
+        return False
 
 
 def test_credentials_file_written_owner_only(tmp_path: Path) -> None:
@@ -139,7 +153,36 @@ def test_boot_block_writes_file_and_registers_cli_user() -> None:
     block = LAZYC2_SRC[start : start + 4000]
     assert "_write_c2_credentials_file(USERNAME, PASSWORD)" in block
     assert "_register_cli_user(" in block
+    assert "_prune_generated_cli_users(store, USERNAME)" in block
     assert "skipping creation" not in block
+
+
+def test_prune_removes_stale_generated_operators() -> None:
+    stale_a = _FakeUser("operator_aaaa1111", "h1", "admin")
+    stale_b = _FakeUser("operator_bbbb2222", "h2", "admin")
+    current = _FakeUser("operator_cccc3333", "h3", "admin")
+    stale_a.id, stale_b.id, current.id = 1, 2, 3
+    store = _FakeStore(users=[stale_a, stale_b, current])
+    removed = prune_generated_cli_users(store, "operator_cccc3333")
+    assert removed == 2
+    remaining = [u.username for u in store.load_all()]
+    assert remaining == ["operator_cccc3333"]
+
+
+def test_prune_never_touches_human_accounts() -> None:
+    admin = _FakeUser("admin", "h", "admin")
+    human = _FakeUser("grisun0", "h", "admin")
+    weird = _FakeUser("operator_with_long_name", "h", "admin")
+    admin.id, human.id, weird.id = 1, 2, 3
+    store = _FakeStore(users=[admin, human, weird])
+    removed = prune_generated_cli_users(store, "admin")
+    assert removed == 0
+    assert [u.username for u in store.load_all()] == ["admin", "grisun0", "operator_with_long_name"]
+
+
+def test_prune_skips_unreadable_store() -> None:
+    store = _FakeStore(unreadable=True)
+    assert prune_generated_cli_users(store, "admin") == 0
 
 
 def test_boot_starts_revshell_listener_thread() -> None:

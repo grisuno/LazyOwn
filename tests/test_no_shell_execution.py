@@ -32,14 +32,14 @@ class ScanConfig:
         "lazyown.py",
         "lazyc2.py",
         "utils.py",
-        "pwntomate.py",
+        "scripts/pwntomate.py",
         "slack_c2_bot.py",
         "discord_c2.py",
         "telegram_c2.py",
         "telegram_hermes.py",
     )
     skip_dirs: frozenset[str] = field(default_factory=lambda: frozenset({"__pycache__", "runs"}))
-    skip_files: frozenset[str] = field(default_factory=lambda: frozenset({"skills/mcp_generated_tools.py"}))
+    skip_files: frozenset[str] = field(default_factory=lambda: frozenset({"generated/mcp_generated_tools.py"}))
 
     def iter_files(self) -> list[Path]:
         """Yield the production Python files covered by the contract."""

@@ -2124,7 +2124,7 @@ Run socat for port forwarding.
 
 **Phase:** lateral | **Source:** `cli/commands/lateral.py`
 
-SSH to a remote host (custom port).
+SSH to a remote host (custom port, legacy algorithm negotiation).
 
 ### `sshd`
 

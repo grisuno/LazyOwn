@@ -138,7 +138,7 @@ class RTSPScanner:
             self.cameras[cam][0] = self.cameras[cam][0].replace(".",self.whitespace).replace(" ","_")
             apiURL = f'{self.apitransport}://{self.apiaddress}:{self.apiport}/v1/config/paths/remove/{self.cameras[cam][0]}'
             outputString = f"Deleting {self.cameras[cam][0]} - {self.cameras[cam][1]} | "
-            response = requests.post(apiURL)
+            response = requests.post(apiURL, timeout=10)
             outputCode = f"{response.status_code} : "
             if response.status_code == 200:
                 outputResult = "SUCCESS"
@@ -184,7 +184,7 @@ class RTSPScanner:
             apiURL = f'{apiHost}/v1/config/paths/add/{cameraName}'
             if self.mode == "add":
                 try:
-                    response = requests.post(apiURL,json=jsonPostData)
+                    response = requests.post(apiURL,json=jsonPostData, timeout=10)
                 except requests.ConnectionError as e:
                     print()
                     if self.verbose:

@@ -31,6 +31,8 @@ extension point for features that are too large or too specialised to live in
 | `ai_model.py` | LLM client abstraction. Dispatches to Groq, Ollama, or local DeepSeek depending on `payload.json` flags. |
 | `apt_playbooks.py` | APT playbook engine: list, validate, run, and report on YAML-defined adversary simulations backed by `playbooks/*.yaml`. |
 | `atomic_enricher.py` | Enriches Atomic Red Team tests with MITRE ATT&CK context from the parquet knowledge bases. |
+| `advisory_feeds.py` | Advisory feed scrapers and CVE searchers extracted from `utils` (`exploitalert`, `packetstormsecurity`, `nvddb`, `find_ss`/`find_ea`/`find_ps`, `scrape_news`). |
+| `llm_yaml_repair.py` | LLM response to playbook pipeline extracted from `utils` (`query_ollama`, YAML pre-process/repair, manual extraction, synthetic playbook, `save_playbook`). |
 | `bot.py` | Flask chatbot endpoint logic. Used by the AI bots routes in `lazyc2.py`. |
 | `c2_builder.py` | Generates malleable C2 profile variants and beacon configuration files. |
 | `categories.py` | Maps CLI commands to MITRE ATT&CK tactics. Used by the bridge catalog and the kill-chain phase guide. |

@@ -134,7 +134,7 @@ def unseal_value(sealed: str, key: bytes | None = None) -> str:
         plaintext = AESdecrypt(ct, k)
         return plaintext.decode("utf-8")
     except Exception as exc:
-        log.warning("Failed to unseal credential: %s", exc)
+        log.debug("unseal failed (%s chars): %s", len(sealed), type(exc).__name__)
         return sealed
 
 

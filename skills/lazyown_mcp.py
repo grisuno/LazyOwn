@@ -515,65 +515,185 @@ def _c2_creds():
     return host, port, user, passwd
 
 
+_C2_TOKEN_FILE = os.path.join("sessions", ".c2_token")
+
+
+def _c2_token_path():
+    """Resolve the session-token cache path.
+
+    Returns:
+        Absolute path of ``sessions/.c2_token``.
+    """
+    if os.path.isabs(_C2_TOKEN_FILE):
+        return _C2_TOKEN_FILE
+    return os.path.join(os.getcwd(), _C2_TOKEN_FILE)
+
+
+def _load_c2_token() -> str:
+    """Read the cached session token when fresh.
+
+    Returns:
+        The cached hex token, or ``""`` when absent or expired.
+    """
+    if os.environ.get("LAZYOWN_C2_TOKEN"):
+        return os.environ["LAZYOWN_C2_TOKEN"].strip()
+    path = _c2_token_path()
+    try:
+        with open(path) as fh:
+            record = json.load(fh)
+        if time.time() < float(record.get("expires_at", 0)):
+            return str(record.get("token", ""))
+    except Exception:
+        pass
+    return ""
+
+
+def _store_c2_token(token: str, expires_at: float) -> None:
+    """Persist the session token owner-only.
+
+    Args:
+        token: Hex token returned by the C2 exchange endpoint.
+        expires_at: Epoch seconds after which the token stops working.
+    """
+    path = _c2_token_path()
+    try:
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600)
+        try:
+            os.write(fd, json.dumps({"token": token, "expires_at": expires_at}).encode())
+        finally:
+            os.close(fd)
+    except Exception:
+        pass
+
+
+def _verified_tls_context() -> "ssl.SSLContext":
+    """Build the strict TLS context for C2 calls.
+
+    Returns:
+        Context requiring valid certificates and TLS 1.2+.
+    """
+    context = ssl.create_default_context()
+    context.check_hostname = True
+    context.verify_mode = ssl.CERT_REQUIRED
+    context.minimum_version = ssl.TLSVersion.TLSv1_2
+    return context
+
+
+def _is_lab_target(name: str) -> bool:
+    """Decide whether TLS verification may degrade for a lab C2.
+
+    Args:
+        name: Host value from the C2 configuration.
+
+    Returns:
+        True for localhost and private/link-local addresses.
+    """
+    value = (name or "").strip().strip("[]").lower()
+    if value in ("localhost",):
+        return True
+    try:
+        import ipaddress as _ip
+
+        addr = _ip.ip_address(value)
+        return bool(addr.is_loopback or addr.is_private or addr.is_link_local)
+    except ValueError:
+        return False
+
+
+def _exchange_c2_token() -> str:
+    """Exchange Basic credentials for the session token.
+
+    Returns:
+        The fresh hex token, or ``""`` when the gate is off or the
+        exchange fails.
+    """
+    host, port, user, passwd = _c2_creds()
+    url = f"https://{host}:{port}/api/auth/token"
+    import base64 as _b64
+
+    basic = _b64.b64encode(f"{user}:{passwd}".encode()).decode()
+    req = urllib.request.Request(
+        url,
+        data=b"{}",
+        headers={"Authorization": f"Basic {basic}", "Content-Type": "application/json"},
+        method="POST",
+    )
+    contexts = [_verified_tls_context()]
+    if _is_lab_target(host) and os.environ.get("LAZYOWN_MCP_INSECURE_TLS", "") != "0":
+        fallback = ssl.create_default_context()
+        fallback.check_hostname = False
+        fallback.verify_mode = ssl.CERT_NONE
+        fallback.minimum_version = ssl.TLSVersion.TLSv1_2
+        contexts.append(fallback)
+    for context in contexts:
+        try:
+            with urllib.request.urlopen(req, context=context, timeout=10) as resp:
+                payload = json.loads(resp.read().decode())
+            token = str(payload.get("token", ""))
+            if token:
+                _store_c2_token(token, float(payload.get("expires_at", 0)))
+            return token
+        except Exception:
+            continue
+    return ""
+
+
 def _c2_request(path: str, method: str = "GET", body: dict | None = None) -> dict:
-    """Make an authenticated HTTP request to the C2 server."""
+    """Make an authenticated HTTP request to the C2 server.
+
+    Prefers the session token (Bearer) when the token gate is enabled;
+    on 401 the credentials are exchanged once for a fresh token and the
+    request is retried. Falls back to HTTP Basic when the gate is off.
+    """
     host, port, user, passwd = _c2_creds()
     url = f"https://{host}:{port}{path}"
 
     import base64
 
-    token = base64.b64encode(f"{user}:{passwd}".encode()).decode()
-    headers = {"Authorization": f"Basic {token}", "Content-Type": "application/json"}
+    basic = base64.b64encode(f"{user}:{passwd}".encode()).decode()
+    bearer = _load_c2_token()
+    headers = {"Content-Type": "application/json"}
+    if bearer:
+        headers["Authorization"] = f"Bearer {bearer}"
+    else:
+        headers["Authorization"] = f"Basic {basic}"
 
-    data = json.dumps(body).encode() if body else None
-    req = urllib.request.Request(url, data=data, headers=headers, method=method)
-
-    def _verified_context() -> "ssl.SSLContext":
-        context = ssl.create_default_context()
-        context.check_hostname = True
-        context.verify_mode = ssl.CERT_REQUIRED
-        context.minimum_version = ssl.TLSVersion.TLSv1_2
-        return context
-
-    def _is_lab_target(name: str) -> bool:
-        value = (name or "").strip().strip("[]").lower()
-        if value in ("localhost",):
-            return True
-        try:
-            import ipaddress as _ip
-
-            addr = _ip.ip_address(value)
-            return bool(addr.is_loopback or addr.is_private or addr.is_link_local)
-        except ValueError:
-            return False
-
-    try:
-        with urllib.request.urlopen(req, context=_verified_context(), timeout=10) as resp:
-            return json.loads(resp.read().decode())
-    except ssl.SSLCertVerificationError:
-        if not _is_lab_target(host) or os.environ.get("LAZYOWN_MCP_INSECURE_TLS", "") == "0":
-            return {"error": "TLS verification failed"}
-        try:
-            import logging as _logging
-
-            _logging.getLogger("lazyown_mcp").warning("unverified TLS fallback for lab C2 %r", host)
-        except Exception:
-            pass
+    contexts = [_verified_tls_context()]
+    if _is_lab_target(host) and os.environ.get("LAZYOWN_MCP_INSECURE_TLS", "") != "0":
         fallback = ssl.create_default_context()
         fallback.check_hostname = False
         fallback.verify_mode = ssl.CERT_NONE
         fallback.minimum_version = ssl.TLSVersion.TLSv1_2
-        try:
-            with urllib.request.urlopen(req, context=fallback, timeout=10) as resp:
-                return json.loads(resp.read().decode())
-        except urllib.error.HTTPError as e:
-            return {"error": f"HTTP {e.code}"}
-        except Exception:
-            return {"error": "C2 request failed"}
-    except urllib.error.HTTPError as e:
-        return {"error": f"HTTP {e.code}"}
-    except Exception:
+        contexts.append(fallback)
+
+    data = json.dumps(body).encode() if body else None
+
+    def _attempt(request_headers: dict) -> dict:
+        req = urllib.request.Request(url, data=data, headers=request_headers, method=method)
+        for context in contexts:
+            try:
+                with urllib.request.urlopen(req, context=context, timeout=10) as resp:
+                    return json.loads(resp.read().decode())
+            except urllib.error.HTTPError as e:
+                return {"error": f"HTTP {e.code}", "_status": e.code}
+            except Exception:
+                if context is contexts[-1]:
+                    return {"error": "C2 request failed"}
+                continue
         return {"error": "C2 request failed"}
+
+    result = _attempt(headers)
+    if result.get("_status") == 401:
+        fresh = _exchange_c2_token()
+        if fresh:
+            retried = _attempt({**headers, "Authorization": f"Bearer {fresh}"})
+            retried.pop("_status", None)
+            if "error" not in retried:
+                return retried
+            return {"error": "C2 request failed after token exchange"}
+    result.pop("_status", None)
+    return result
 
 
 # ── Tool handler dispatch table ────────────────────────────────────────────────
@@ -765,10 +885,10 @@ except Exception as _registry_exc:  # noqa: BLE001
 _GENERATED_TOOL_NAMES: set[str] = set()
 _GENERATED_DYNAMIC_PREFIXES = ("lazyown_addon_", "lazyown_tool_", "lazyown_plugin_")
 try:
-    from skills.mcp_generated_tools import (
+    from generated.mcp_generated_tools import (
         get_generated_tool_definitions as _get_generated_tool_definitions,
     )
-    from skills.mcp_generated_tools import (
+    from generated.mcp_generated_tools import (
         register_all_generated_handlers as _register_all_generated_handlers,
     )
 

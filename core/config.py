@@ -181,8 +181,8 @@ def _calling_frame() -> str:
             module = frame.frame.f_globals.get("__name__", "")
             if module and not module.startswith("core.config"):
                 return f"{module}:{frame.function}"
-    except Exception:
-        pass
+    except Exception as exc:
+        logger.debug("caller-frame inspection failed: %s", exc)
     return "unknown"
 
 
@@ -306,6 +306,48 @@ def resolve_aes_key(
 
 
 _EXAMPLE_FILENAME = "payload.example.json"
+_VAULT_MARKER_B64 = "TEFaWU9XTl9WQVVMVF9WMTo="
+
+
+def _rescue_foreign_owned_payload(target: Path) -> bool:
+    """Best-effort ownership rescue for a root-owned payload file.
+
+    ``fast_run_as_r00t.sh`` runs some panes as root, so ``payload.json``
+    can end up root-owned while the unprivileged operator needs to read
+    it. With passwordless sudo available the file is handed back to the
+    current user; otherwise this is a no-op and the caller surfaces the
+    ``PermissionError`` normally.
+
+    Args:
+        target: The unreadable payload path.
+
+    Returns:
+        True when ownership was restored and the file is readable now.
+    """
+    uid = os.getuid()
+    if uid == 0:
+        return False
+    try:
+        if target.stat().st_uid == uid:
+            return False
+    except OSError:
+        return False
+    import subprocess
+
+    try:
+        subprocess.run(
+            ["sudo", "-n", "chown", f"{uid}:{os.getgid()}", str(target)],
+            capture_output=True,
+            timeout=5,
+            shell=False,
+            check=False,
+        )
+    except (OSError, subprocess.SubprocessError):
+        return False
+    try:
+        return target.stat().st_uid == uid
+    except OSError:
+        return False
 
 
 def _load_raw_payload(path: str | os.PathLike[str] = PAYLOAD_FILENAME) -> dict[str, Any]:
@@ -326,7 +368,13 @@ def _load_raw_payload(path: str | os.PathLike[str] = PAYLOAD_FILENAME) -> dict[s
             import shutil
 
             shutil.copy(str(example), str(target))
-    with open(target, encoding="utf-8") as fh:
+    try:
+        fh = open(target, encoding="utf-8")
+    except PermissionError:
+        if not _rescue_foreign_owned_payload(target):
+            raise
+        fh = open(target, encoding="utf-8")
+    with fh:
         raw = json.load(fh)
     return raw
 
@@ -338,7 +386,10 @@ def load_payload(path: str | os.PathLike[str] = PAYLOAD_FILENAME) -> dict[str, A
     example file is copied to ``path`` automatically so a fresh clone never
     leaves the operator without a starting configuration.
 
-    Environment variable overrides
+    Sensitive keys sealed by the credential vault
+    (``LAZYOWN_VAULT_V1:`` prefix) are decrypted transparently, so every
+    consumer always sees plaintext values in memory while the file stays
+    encrypted at rest. Environment variable overrides
     (``LAZYOWN_<KEY>``) are applied on top of the file contents.
 
     Raises:
@@ -346,6 +397,15 @@ def load_payload(path: str | os.PathLike[str] = PAYLOAD_FILENAME) -> dict[str, A
         json.JSONDecodeError: if the payload is not valid JSON.
     """
     payload = _load_raw_payload(path)
+    try:
+        from core.credential_vault import SENSITIVE_KEYS, unseal_value
+
+        for key in SENSITIVE_KEYS:
+            value = payload.get(key)
+            if isinstance(value, str) and value.startswith(_VAULT_MARKER_B64):
+                payload[key] = unseal_value(value)
+    except Exception as exc:
+        logger.debug("vault unseal skipped on load: %s", type(exc).__name__)
     return _apply_env_overrides(payload)
 
 
@@ -437,6 +497,35 @@ def _payload_write_lock(target: Path) -> Iterator[None]:
             lock_file.close()
 
 
+def _env_only_keys(
+    payload: dict[str, Any],
+    previous: dict[str, Any] | None,
+) -> set[str]:
+    """Keys whose only source is a ``LAZYOWN_*`` environment override.
+
+    Environment overrides are runtime-only: persisting them back to
+    ``payload.json`` would make the override permanent and leak process
+    state (test flags, lab ports) into the operator's config. A key the
+    file already carries wins — explicit configuration is preserved.
+
+    Args:
+        payload: Mapping about to be persisted.
+        previous: Current on-disk snapshot, when present.
+
+    Returns:
+        Names that must not reach the file.
+    """
+    existing = set(previous or {})
+    env_keys: set[str] = set()
+    for env_key in os.environ:
+        if not env_key.startswith(LAZYOWN_ENV_PREFIX):
+            continue
+        candidate = env_key[len(LAZYOWN_ENV_PREFIX) :].lower()
+        if candidate in payload:
+            env_keys.add(candidate)
+    return {key for key in env_keys if key not in existing}
+
+
 def save_payload(payload: dict[str, Any], path: str | os.PathLike[str] = PAYLOAD_FILENAME) -> None:
     """Atomically merge ``payload`` into the JSON file at ``path``.
 
@@ -453,6 +542,13 @@ def save_payload(payload: dict[str, Any], path: str | os.PathLike[str] = PAYLOAD
     Configuration changes are audited to ``sessions/config_changes.jsonl``.
     """
     target = Path(path)
+    previous_owner: tuple[int, int] | None = None
+    if target.exists():
+        try:
+            stat_result = target.stat()
+            previous_owner = (stat_result.st_uid, stat_result.st_gid)
+        except OSError:
+            previous_owner = None
 
     with _payload_write_lock(target):
         previous: dict[str, Any] | None = None
@@ -461,14 +557,43 @@ def save_payload(payload: dict[str, Any], path: str | os.PathLike[str] = PAYLOAD
                 previous = _load_raw_payload(target)
             except (json.JSONDecodeError, OSError) as exc:
                 logger.warning("Could not load existing payload for audit: %s", exc)
+        sealed_payload = {key: value for key, value in payload.items() if key not in _env_only_keys(payload, previous)}
+        try:
+            from core.credential_vault import SENSITIVE_KEYS, seal_value
+
+            marker = _VAULT_MARKER_B64
+            vault_key = None
+            for key in SENSITIVE_KEYS:
+                value = sealed_payload.get(key)
+                if not isinstance(value, str) or not value or value.startswith(marker):
+                    continue
+                if vault_key is None:
+                    vault_key = resolve_aes_key(previous or sealed_payload, sessions_dir=target.parent / "sessions")
+                sealed_payload[key] = seal_value(value, vault_key)
+        except Exception as exc:
+            logger.debug("vault sealing skipped on save: %s", type(exc).__name__)
         if previous is None:
-            disk_payload = payload
+            disk_payload = sealed_payload
         else:
-            disk_payload = {**previous, **payload}
+            disk_payload = {**previous, **sealed_payload}
         if previous is not None:
+            try:
+                from core.credential_vault import SENSITIVE_KEYS, unseal_value
+
+                marker = _VAULT_MARKER_B64
+                plain_previous = dict(previous)
+                for key in SENSITIVE_KEYS:
+                    value = plain_previous.get(key)
+                    if isinstance(value, str) and value.startswith(marker):
+                        try:
+                            plain_previous[key] = unseal_value(value)
+                        except Exception as exc:
+                            logger.debug("audit unseal failed for %s: %s", key, type(exc).__name__)
+            except Exception:
+                plain_previous = previous
             for key, new_val in payload.items():
-                old_val = previous.get(key)
-                if key not in previous or old_val != new_val:
+                old_val = plain_previous.get(key)
+                if key not in plain_previous or old_val != new_val:
                     _log_config_change(key, old_val, new_val)
 
         target.parent.mkdir(parents=True, exist_ok=True)
@@ -482,7 +607,12 @@ def save_payload(payload: dict[str, Any], path: str | os.PathLike[str] = PAYLOAD
                 json.dump(disk_payload, fh, indent=2, ensure_ascii=False)
                 fh.write("\n")
             os.replace(tmp_name, target)
-            os.chmod(target, 0o644)
+            os.chmod(target, 0o600)
+            if previous_owner is not None:
+                try:
+                    os.chown(target, *previous_owner)
+                except OSError as exc:
+                    logger.debug("payload ownership restore skipped: %s", exc)
         except Exception:
             if os.path.exists(tmp_name):
                 try:

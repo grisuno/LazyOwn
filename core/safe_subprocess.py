@@ -27,6 +27,7 @@ import json
 import shlex
 import subprocess
 import time
+import warnings
 from collections.abc import Sequence
 from dataclasses import dataclass
 from datetime import UTC, datetime
@@ -63,11 +64,23 @@ class SafeRunner:
     Args:
         audit_log_path: Optional filesystem path. When provided, every
             ``run_shell`` call is appended as a single JSON line.
+
+    Deprecated:
+        Use :func:`core.safe_exec` (the single execution primitive) or
+        :class:`modules.command_executor.CommandExecutor` (the policy and
+        tee layer). This wrapper will be removed after its callers
+        migrate.
     """
 
     __slots__ = ("_audit_log_path",)
 
     def __init__(self, audit_log_path: str | Path | None = None) -> None:
+        warnings.warn(
+            "core.safe_subprocess.SafeRunner is deprecated; use core.safe_exec or "
+            "modules.command_executor.CommandExecutor",
+            DeprecationWarning,
+            stacklevel=2,
+        )
         self._audit_log_path = Path(audit_log_path) if audit_log_path is not None else None
 
     def run(self, argv: Sequence[str], *, timeout: float | None = None) -> SafeRunResult:

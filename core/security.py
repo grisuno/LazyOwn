@@ -40,8 +40,8 @@ def anti_debug() -> None:
             PR_SET_PTRACER = 0x59616D61
             libc = ctypes.CDLL("libc.so.6")
             libc.prctl(PR_SET_PTRACER, 0, 0, 0, 0)
-        except Exception:
-            pass
+        except Exception as exc:
+            log.debug("prctl ptrace relaxation unavailable: %s", exc)
 
     # ptrace-attempt based anti-debug — if we can ptrace ourselves,
     # no one else is attached. If the call fails, we are being traced.

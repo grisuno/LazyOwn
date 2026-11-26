@@ -9,7 +9,9 @@ from __future__ import annotations
 
 import os
 import secrets
+import socket
 import string
+import struct
 import subprocess
 
 import cmd2
@@ -34,8 +36,6 @@ from utils import (
     print_error,
     print_msg,
     print_warn,
-    socket,
-    struct,
 )
 
 

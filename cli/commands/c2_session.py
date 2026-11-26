@@ -63,6 +63,52 @@ def _fresh_lab_creds() -> tuple[str, str]:
     return user, password
 
 
+def _token_cache_path() -> Path:
+    """Resolve the session-token cache file.
+
+    Returns:
+        Path of ``sessions/.c2_token``.
+    """
+    return _BASE_DIR / "sessions" / ".c2_token"
+
+
+def _exchange_c2_session_token(user: str, password: str, port: int) -> tuple[str, float]:
+    """Exchange C2 credentials for the backend session token.
+
+    Args:
+        user: C2 operator username.
+        password: C2 operator password.
+        port: HTTPS port of the C2 web API.
+
+    Returns:
+        ``(token, expires_at)``; empty token when the gate is off or
+        the C2 is unreachable.
+    """
+    import ssl as _ssl
+    import urllib.request as _urllib
+
+    url = f"https://127.0.0.1:{port}/api/auth/token"
+    import base64 as _b64
+
+    basic = _b64.b64encode(f"{user}:{password}".encode()).decode()
+    req = _urllib.Request(
+        url,
+        data=b"{}",
+        headers={"Authorization": f"Basic {basic}", "Content-Type": "application/json"},
+        method="POST",
+    )
+    context = _ssl.create_default_context()
+    context.check_hostname = False
+    context.verify_mode = _ssl.CERT_NONE
+    context.minimum_version = _ssl.TLSVersion.TLSv1_2
+    try:
+        with _urllib.urlopen(req, context=context, timeout=10) as resp:
+            payload = json.loads(resp.read().decode())
+        return str(payload.get("token", "")), float(payload.get("expires_at", 0))
+    except Exception:
+        return "", 0.0
+
+
 def _server(user: str = "", password: str = "", port: int = 0):
     """Build a C2Server bound to lab auth (generates lab creds when needed)."""
     from modules.c2_agent import C2Server
@@ -361,6 +407,50 @@ class C2SessionCommandSet(LazyOwnCommandSet):
             print_warn(f"No answer from {client_id} within {timeout}s (agent idle or dead).")
             return
         print_msg(f"[{client_id}] {command}\n{row.get('output', '')[:4000]}")
+
+    @cmd2.with_category(CATEGORY)
+    def do_c2token(self, line: str):
+        """Exchange C2 credentials for the backend session token.
+
+        The token authenticates C2 API requests on top of Basic auth
+        (estorides-style gate). Cached owner-only in sessions/.c2_token
+        so MCP and CLI clients reuse it until it expires.
+
+        Usage:
+            c2token [--port <https_port>]
+        """
+        args = (line or "").strip().split()
+        port = 0
+        if "--port" in args:
+            idx = args.index("--port")
+            if idx + 1 < len(args):
+                try:
+                    port = int(args[idx + 1])
+                except ValueError:
+                    print_error(f"Invalid port {args[idx + 1]!r}.")
+                    return
+        _, _, https_port, _ = _lab_auth()
+        port = port or https_port
+        user, password, saved_https, _ = _lab_auth()
+        if not user or not password:
+            print_error("No C2 credentials found (payload.json c2_user/c2_pass or sessions/c2_lab.json).")
+            return
+        token, expires_at = _exchange_c2_session_token(user, password, port or saved_https)
+        if not token:
+            print_warn("Token exchange failed: C2 unreachable or token gate disabled (c2_token_auth_enabled).")
+            return
+        cache = _token_cache_path()
+        try:
+            import os as _os
+
+            fd = _os.open(cache, _os.O_WRONLY | _os.O_CREAT | _os.O_TRUNC, 0o600)
+            try:
+                _os.write(fd, json.dumps({"token": token, "expires_at": expires_at}).encode())
+            finally:
+                _os.close(fd)
+        except OSError as exc:
+            print_warn(f"Could not cache the token: {exc}")
+        print_msg(f"Session token cached in {cache} (expires {expires_at:.0f}).")
 
     @cmd2.with_category(CATEGORY)
     def do_c2_loot(self, line: str):

@@ -8,6 +8,7 @@ and registered via :class:`LazyOwnCommandSet`.
 from __future__ import annotations
 
 import os
+import subprocess
 
 import cmd2
 
@@ -32,7 +33,6 @@ from utils import (
     print_error,
     print_msg,
     print_warn,
-    subprocess,
 )
 
 
@@ -78,8 +78,13 @@ class LateralMovementCommandSet(LazyOwnCommandSet):
             return
         port = line or "9050"
         config = f"strict_chain\nproxy_dns\ntcp_read_time_out 15000\ntcp_connect_time_out 8000\n[ProxyList]\nsocks4 {lhost} {port}\n"
-        with open("/etc/proxychains.conf", "w") as f:
-            f.write(config)
+        try:
+            with open("/etc/proxychains.conf", "w") as f:
+                f.write(config)
+        except PermissionError:
+            print_error("Cannot write /etc/proxychains.conf (needs root). Configure it manually:")
+            print_msg(config.replace("\n", "\n    "))
+            return
         print_msg(f"[+] proxychains configured: {lhost}:{port}")
         print_msg("[+] Usage: proxychains <command>")
 

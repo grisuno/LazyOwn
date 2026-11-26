@@ -7,8 +7,10 @@ Active and registered via :class:`LazyOwnCommandSet`.
 
 from __future__ import annotations
 
+import itertools
 import json
 import os
+import string
 import subprocess
 import time
 
@@ -37,12 +39,10 @@ from utils import (
     handle,
     is_binary_present,
     is_exist,
-    itertools,
     print_error,
     print_msg,
     print_warn,
     product,
-    string,
     transform,
 )
 
@@ -429,6 +429,9 @@ class CredMigratedCommandSet(LazyOwnCommandSet):
         rhost = self.params["rhost"]
         os.getcwd()
         users_txt = get_users_dic()
+        if not users_txt:
+            print_error("No users file selected. Create sessions/users.txt first (cewl).")
+            return
         domain = get_domain(url)
         ca = self.params["domain"].split(".") if self.params["domain"] else []
         base_domain = ca[0].upper() if len(ca) > 0 else ""
@@ -1150,6 +1153,9 @@ class CredMigratedCommandSet(LazyOwnCommandSet):
             None: The function prints the plaintext password directly to the console.
         """
         crypttext = line.strip()
+        if not crypttext:
+            print_error("Usage: crack_cisco_7_password <encrypted_cisco7>")
+            return
         plaintext = crack_password(crypttext)
         if plaintext:
             print_msg(f"[+] Plaintext: {plaintext}")
@@ -1309,6 +1315,9 @@ class CredMigratedCommandSet(LazyOwnCommandSet):
         dump_file = f"{sessions}/dump.txt"
         self.cmd(f"nano {dump_file}")
 
+        if not os.path.exists(dump_file):
+            print_error(f"{dump_file} was not created (nano saved nothing).")
+            return
         usernames_file = f"{sessions}/usernames_{self.params['domain']}.txt"
         with open(dump_file) as dump, open(usernames_file, "w") as users:
             for line in dump:
@@ -1427,6 +1436,9 @@ class CredMigratedCommandSet(LazyOwnCommandSet):
         domain = self.params["domain"]
         url = self.params["url"]
         users_dic = get_users_dic("txt")
+        if not users_dic:
+            print_error("No user list file found in 'sessions/' directory.")
+            return
         path = os.getcwd()
         sessions = f"{path}/sessions"
         output_file = f"{sessions}/adsso_stpray_{self.params['domain']}.txt"

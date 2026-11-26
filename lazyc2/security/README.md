@@ -9,6 +9,7 @@ Security utilities and validators for the LazyOwn C2 server (`lazyc2.py`).
 | `constants.py` | Security-related constants (token lifetimes, rate-limit buckets, header names). |
 | `validators.py` | Input validation helpers for C2 routes (beacon registration, file upload, operator commands). |
 | `services.py` | Business-logic security services (JWT minting/verification, CSRF protection, audit logging). |
+| `token_gate.py` | Estorides-style session-token gate: backend-minted bearer tokens (memory-only, TTL 12h), extraction (Bearer / alt header / cookie / GET query), constant-time check and the `before_request` enforcement hook. |
 
 ## Design
 

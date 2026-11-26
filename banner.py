@@ -18,7 +18,11 @@ de la lógica banners de la aplicaciòn LazyOwn RedTeam Framework
 
 """
 
-from utils import get_terminal_size, os, print_error, random, sys
+import os
+import random
+import sys
+
+from utils import get_terminal_size, print_error
 
 ANSI_COLOR_TEMPLATE = "\033[48;2;{r};{g};{b}m  \033[0m"
 

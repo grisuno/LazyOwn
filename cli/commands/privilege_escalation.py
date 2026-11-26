@@ -321,7 +321,9 @@ class PrivilegeEscalationCommandSet(LazyOwnCommandSet):
             if os.path.isfile(os_json_path):
                 try:
                     with open(os_json_path, encoding="utf-8") as handle:
-                        os_data = json.load(handle)
+                        loaded = json.load(handle)
+                    if isinstance(loaded, dict):
+                        os_data = loaded
                 except (OSError, json.JSONDecodeError):
                     os_data = {}
             for key in OS_KERNEL_KEYS:

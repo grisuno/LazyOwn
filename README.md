@@ -24,19 +24,6 @@ curl -fsSL https://raw.githubusercontent.com/grisuno/LazyOwn/main/bootstrap.sh -
 
 <img width="1505" height="868" alt="image" src="https://github.com/user-attachments/assets/a39570b5-8062-4448-a83e-b1609cc60f82" />
 
-![golden path demo](assets/demo/golden-path.gif)
-![C2 collab demo](assets/demo/c2-collab.gif)
-![MCP AI demo](assets/demo/mcp-ai.gif)
-
-### More demos
-
-| First 7 commands | Recon loop |
-|---|---|
-| ![first steps](assets/demo/first-steps.gif) | ![recon loop](assets/demo/recon-loop.gif) |
-
-| C2 from CLI | Issue commands to beacons |
-|---|---|
-| ![C2 CLI](assets/demo/c2-cli.gif) | ![issue to C2](assets/demo/issue-c2.gif) |
 
 First victory in 5 minutes: [`TUTORIAL_5_MINUTES.md`](TUTORIAL_5_MINUTES.md) · Full walkthrough: [`QUICKSTART.md`](QUICKSTART.md) (5 min) · 80/20 guide: [`ESSENTIALS.md`](ESSENTIALS.md) · HTB end-to-end: [`docs/examples/htb-lame-walkthrough.md`](docs/examples/htb-lame-walkthrough.md) · Honest comparison: [`COMPARISON.md`](COMPARISON.md)
 

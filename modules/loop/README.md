@@ -14,6 +14,8 @@ that bind to the host object through `self` and carry no state of their own.
 |------|------|
 | `__init__.py` | Re-exports the mixins for `from modules.loop import ...`. |
 | `worker_gating.py` | `WorkerGatingMixin`: scope, operating-system and passwordless-sudo gates applied before a command reaches the shell. |
+| `command_sanitize.py` | Worker command sanitizer: plausible-flag validation, prose detection, netcat idle-timeout injection, `repair_worker_command` (path stripping, port specs, retarget). |
+| `channel_secrets.py` | AES-256-GCM sealing of channel passwords (`enc:v1:`) with `LAZYOWN_SECRET_KEY`; plaintext fallback with a one-time warning. |
 | `worker_memory.py` | `WorkerMemoryMixin`: durable failure memory, task-scoped vector memory and reactive absorption of command output. |
 | `worker_execution.py` | `WorkerExecutionMixin`: command dispatch through the executor or registry, tracked background jobs, the persistent bash session, alias resolution and the deny/auto-approve/missing-binary admissibility helpers. |
 | `worker_agentic.py` | `WorkerAgenticMixin`: the guard-enforced tool catalogue, the agent system prompt, the multi-attempt tool-calling session, operator-steer drainage, stop-reason checkpoints and the deterministic LLM step suggestions. |

@@ -7,6 +7,10 @@ structured error reporting and programmatic error handling.
 from enum import IntEnum
 
 
+class SecurityViolation(PermissionError):
+    """Raised when a hardening control rejects a dangerous input."""
+
+
 class ErrorCode(IntEnum):
     """Structured error codes for the LazyOwn framework."""
 

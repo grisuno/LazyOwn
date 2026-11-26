@@ -12,7 +12,7 @@ import hmac
 import logging
 from functools import wraps
 
-from flask import Response, request
+from flask import Response, g, request
 from flask_login import current_user
 
 _log = logging.getLogger(__name__)
@@ -95,6 +95,21 @@ def authenticate():
     )
 
 
+def session_token_authenticated() -> bool:
+    """Whether the token gate already authenticated this request.
+
+    The token gate (estorides parity) runs as a ``before_request`` hook
+    and verifies the backend-issued session token. When it passed, the
+    request is credential-backed: a fresh token can only be minted by
+    a successful credential exchange, so decorators accept it in place
+    of Basic credentials.
+
+    Returns:
+        True when ``g.session_token_authenticated`` was set by the gate.
+    """
+    return bool(getattr(g, "session_token_authenticated", False))
+
+
 def requires_auth_or_session(f):
     """Require Basic auth credentials or a valid Flask-Login session.
 
@@ -105,6 +120,8 @@ def requires_auth_or_session(f):
 
     @wraps(f)
     def decorated(*args, **kwargs):
+        if session_token_authenticated():
+            return f(*args, **kwargs)
         auth = request.authorization
         if auth and check_auth(auth.username, auth.password):
             return f(*args, **kwargs)
@@ -116,10 +133,12 @@ def requires_auth_or_session(f):
 
 
 def requires_auth(f):
-    """Require valid HTTP Basic credentials."""
+    """Require valid HTTP Basic credentials or a gate-issued session token."""
 
     @wraps(f)
     def decorated(*args, **kwargs):
+        if session_token_authenticated():
+            return f(*args, **kwargs)
         auth = request.authorization
         if not auth or not check_auth(auth.username, auth.password):
             return authenticate()
@@ -134,5 +153,6 @@ __all__ = [
     "check_auth",
     "requires_auth",
     "requires_auth_or_session",
+    "session_token_authenticated",
     "set_boot_credentials",
 ]

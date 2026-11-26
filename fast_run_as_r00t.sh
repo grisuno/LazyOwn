@@ -150,11 +150,15 @@ start_chown_watcher() {
     local interval="$CHOWN_INTERVAL"
     nohup setsid bash -c "
         trap 'chown -R ${uid}:${gid} \"${project_root}\" 2>/dev/null; exit 0' TERM INT
-        while tmux has-session -t '${session_name}' 2>/dev/null; do
+        while tmux has-session -t '${session_name}' 2>/dev/null || pgrep -f 'lazyown.py' >/dev/null 2>&1; do
             chown -R ${uid}:${gid} '${project_root}' 2>/dev/null
+            chown ${uid}:${gid} '${project_root}/payload.json' 2>/dev/null
+            chmod 644 '${project_root}/payload.json' 2>/dev/null
             sleep ${interval}
         done
         chown -R ${uid}:${gid} '${project_root}' 2>/dev/null
+        chown ${uid}:${gid} '${project_root}/payload.json' 2>/dev/null
+        chmod 644 '${project_root}/payload.json' 2>/dev/null
     " >/dev/null 2>&1 &
     disown
 }
@@ -197,7 +201,7 @@ check_sudo
 
 kill_stale_c2 "$C2_PORT"
 
-python3 key.py
+python3 scripts/key.py
 log "Start the session."
 
 touch sessions/sessionLazyOwn.json

@@ -3,7 +3,7 @@
 Auto-generate MCP tool handlers from cli/command_index.json.
 
 Reads the full command catalog, compares against existing handlers in
-lazyown_mcp.py, and writes a new skills/mcp_generated_tools.py that can be
+lazyown_mcp.py, and writes a new generated/mcp_generated_tools.py that can be
 imported by lazyown_mcp.py to close the coverage gap.
 
 Usage:
@@ -23,7 +23,7 @@ from typing import Any
 LAZYOWN_ROOT = Path(__file__).parent.parent
 COMMAND_INDEX = LAZYOWN_ROOT / "cli" / "command_index.json"
 MCP_FILE = LAZYOWN_ROOT / "skills" / "lazyown_mcp.py"
-OUTPUT_FILE = LAZYOWN_ROOT / "skills" / "mcp_generated_tools.py"
+OUTPUT_FILE = LAZYOWN_ROOT / "generated" / "mcp_generated_tools.py"
 
 
 def load_command_index() -> dict[str, Any]:
@@ -287,7 +287,7 @@ def main():
     print()
 
     print("Import in lazyown_mcp.py with:")
-    print("    from skills.mcp_generated_tools import (")
+    print("    from generated.mcp_generated_tools import (")
     print("        get_generated_tool_definitions,")
     print("        register_all_generated_handlers,")
     print("    )")

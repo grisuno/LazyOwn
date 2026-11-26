@@ -16,7 +16,7 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 TOOLS_DIR = REPO_ROOT / "tools"
-PWNTOMATE_PATH = REPO_ROOT / "pwntomate.py"
+PWNTOMATE_PATH = REPO_ROOT / "scripts" / "pwntomate.py"
 
 KNOWN_SUBSTITUTION_KEYS = frozenset(
     {

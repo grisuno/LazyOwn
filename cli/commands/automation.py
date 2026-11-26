@@ -44,14 +44,14 @@ class AutomationCommandSet(LazyOwnCommandSet):
             candidates = engine.suggest_from_state_manager(state, limit=limit)
 
             if not candidates:
-                self.print("[*] No credential reuse candidates found.")
-                self.print("[*] Capture creds first (lazydump, crackmapexec, cred gather).")
+                self.poutput("[*] No credential reuse candidates found.")
+                self.poutput("[*] Capture creds first (lazydump, crackmapexec, cred gather).")
                 return
 
-            self.print(engine.get_summary(candidates))
+            self.poutput(engine.get_summary(candidates))
 
         except Exception as exc:
-            self.print(f"[!] cred_reuse failed: {exc}")
+            self.poutput(f"[!] cred_reuse failed: {exc}")
 
     @cmd2.with_category(miscellaneous_category)
     def do_cred_mark_failed(self, line: str):
@@ -62,17 +62,17 @@ class AutomationCommandSet(LazyOwnCommandSet):
         try:
             parts = line.split()
             if len(parts) < 3:
-                self.print("[!] Usage: cred_mark_failed <user> <password> <host>")
+                self.poutput("[!] Usage: cred_mark_failed <user> <password> <host>")
                 return
 
             from modules.credential_reuse import get_credential_reuse_engine
 
             engine = get_credential_reuse_engine()
             engine.mark_failed(parts[0], parts[1], parts[2])
-            self.print(f"[+] Marked {parts[0]}:*** as FAILED against {parts[2]}")
+            self.poutput(f"[+] Marked {parts[0]}:*** as FAILED against {parts[2]}")
 
         except Exception as exc:
-            self.print(f"[!] cred_mark_failed: {exc}")
+            self.poutput(f"[!] cred_mark_failed: {exc}")
 
     @cmd2.with_category(miscellaneous_category)
     def do_hooks_list(self, line: str):
@@ -86,16 +86,16 @@ class AutomationCommandSet(LazyOwnCommandSet):
             engine = get_hook_engine()
             rules = engine.list_rules()
 
-            self.print(f"\nConditional Hooks ({len(rules)} rules)\n{'=' * 50}")
+            self.poutput(f"\nConditional Hooks ({len(rules)} rules)\n{'=' * 50}")
             for r in rules:
                 status = "ON" if r.get("enabled", True) else "OFF"
                 trigger = r["trigger"].get("event", "?")
                 actions = len(r.get("actions", []))
                 cooldown = r.get("cooldown_seconds", 0)
-                self.print(f"  [{status}] {r['name']} | trigger={trigger} | actions={actions} | cooldown={cooldown}s")
+                self.poutput(f"  [{status}] {r['name']} | trigger={trigger} | actions={actions} | cooldown={cooldown}s")
 
         except Exception as exc:
-            self.print(f"[!] hooks_list failed: {exc}")
+            self.poutput(f"[!] hooks_list failed: {exc}")
 
     @cmd2.with_category(miscellaneous_category)
     def do_hooks_enable(self, line: str):
@@ -106,7 +106,7 @@ class AutomationCommandSet(LazyOwnCommandSet):
         try:
             parts = line.split(None, 1)
             if not parts:
-                self.print("[!] Usage: hooks_enable <rule_name> [on|off]")
+                self.poutput("[!] Usage: hooks_enable <rule_name> [on|off]")
                 return
 
             name = parts[0]
@@ -118,12 +118,12 @@ class AutomationCommandSet(LazyOwnCommandSet):
 
             engine = get_hook_engine()
             if engine.enable_rule(name, enabled):
-                self.print(f"[+] Rule '{name}': {'ENABLED' if enabled else 'DISABLED'}")
+                self.poutput(f"[+] Rule '{name}': {'ENABLED' if enabled else 'DISABLED'}")
             else:
-                self.print(f"[!] Rule '{name}' not found")
+                self.poutput(f"[!] Rule '{name}' not found")
 
         except Exception as exc:
-            self.print(f"[!] hooks_enable failed: {exc}")
+            self.poutput(f"[!] hooks_enable failed: {exc}")
 
     @cmd2.with_category(miscellaneous_category)
     def do_hooks_add(self, line: str):
@@ -139,12 +139,12 @@ class AutomationCommandSet(LazyOwnCommandSet):
 
             engine = get_hook_engine()
             rule = engine.add_rule(rule_dict)
-            self.print(f"[+] Rule '{rule.name}' added")
+            self.poutput(f"[+] Rule '{rule.name}' added")
 
         except json.JSONDecodeError as exc:
-            self.print(f"[!] Invalid JSON: {exc}")
+            self.poutput(f"[!] Invalid JSON: {exc}")
         except Exception as exc:
-            self.print(f"[!] hooks_add failed: {exc}")
+            self.poutput(f"[!] hooks_add failed: {exc}")
 
     @cmd2.with_category(miscellaneous_category)
     def do_hooks_remove(self, line: str):
@@ -154,19 +154,19 @@ class AutomationCommandSet(LazyOwnCommandSet):
         """
         try:
             if not line.strip():
-                self.print("[!] Usage: hooks_remove <rule_name>")
+                self.poutput("[!] Usage: hooks_remove <rule_name>")
                 return
 
             from modules.conditional_hooks import get_hook_engine
 
             engine = get_hook_engine()
             if engine.remove_rule(line.strip()):
-                self.print(f"[+] Rule '{line.strip()}' removed")
+                self.poutput(f"[+] Rule '{line.strip()}' removed")
             else:
-                self.print(f"[!] Rule '{line.strip()}' not found")
+                self.poutput(f"[!] Rule '{line.strip()}' not found")
 
         except Exception as exc:
-            self.print(f"[!] hooks_remove failed: {exc}")
+            self.poutput(f"[!] hooks_remove failed: {exc}")
 
     @cmd2.with_category(miscellaneous_category)
     def do_hooks_fire(self, line: str):
@@ -177,7 +177,7 @@ class AutomationCommandSet(LazyOwnCommandSet):
         try:
             parts = line.split()
             if not parts:
-                self.print("[!] Usage: hooks_fire <event_name> [key=value ...]")
+                self.poutput("[!] Usage: hooks_fire <event_name> [key=value ...]")
                 return
 
             event = parts[0]
@@ -191,12 +191,12 @@ class AutomationCommandSet(LazyOwnCommandSet):
 
             engine = get_hook_engine()
             results = engine.fire(event, context)
-            self.print(f"[+] Fired '{event}' -> {len(results)} actions triggered")
+            self.poutput(f"[+] Fired '{event}' -> {len(results)} actions triggered")
             for r in results:
-                self.print(f"    {r['rule']}: {r.get('result', r.get('error', 'ok'))}")
+                self.poutput(f"    {r['rule']}: {r.get('result', r.get('error', 'ok'))}")
 
         except Exception as exc:
-            self.print(f"[!] hooks_fire failed: {exc}")
+            self.poutput(f"[!] hooks_fire failed: {exc}")
 
     @cmd2.with_category(miscellaneous_category)
     def do_operators(self, line: str):
@@ -211,19 +211,19 @@ class AutomationCommandSet(LazyOwnCommandSet):
             profiles = mgr.list_profiles()
 
             if not profiles:
-                self.print("[*] No operator profiles found.")
-                self.print("[*] Use 'operator_create <name>' to create one.")
+                self.poutput("[*] No operator profiles found.")
+                self.poutput("[*] Use 'operator_create <name>' to create one.")
                 return
 
-            self.print(f"\nOperator Profiles ({len(profiles)})\n{'=' * 50}")
+            self.poutput(f"\nOperator Profiles ({len(profiles)})\n{'=' * 50}")
             for p in profiles:
-                self.print(
+                self.poutput(
                     f"  {p.username} | role={p.role} | lhost={p.lhost} | "
                     f"last={p.last_active[:19] if p.last_active else 'never'}"
                 )
 
         except Exception as exc:
-            self.print(f"[!] operators failed: {exc}")
+            self.poutput(f"[!] operators failed: {exc}")
 
     @cmd2.with_category(miscellaneous_category)
     def do_operator_create(self, line: str):
@@ -234,7 +234,7 @@ class AutomationCommandSet(LazyOwnCommandSet):
         try:
             parts = line.split()
             if not parts:
-                self.print("[!] Usage: operator_create <username> [role=operator] [lhost=IP] [lport=PORT]")
+                self.poutput("[!] Usage: operator_create <username> [role=operator] [lhost=IP] [lport=PORT]")
                 return
 
             username = parts[0]
@@ -251,14 +251,14 @@ class AutomationCommandSet(LazyOwnCommandSet):
 
             mgr = get_operator_profile_manager()
             profile = mgr.create_profile(username, display_name=username, **kwargs)
-            self.print(f"[+] Created operator profile: {profile.username}")
-            self.print(f"    Certificate: {profile.cert_file}")
-            self.print(f"    Audit log:   {profile.audit_log}")
+            self.poutput(f"[+] Created operator profile: {profile.username}")
+            self.poutput(f"    Certificate: {profile.cert_file}")
+            self.poutput(f"    Audit log:   {profile.audit_log}")
 
         except ValueError as exc:
-            self.print(f"[!] {exc}")
+            self.poutput(f"[!] {exc}")
         except Exception as exc:
-            self.print(f"[!] operator_create failed: {exc}")
+            self.poutput(f"[!] operator_create failed: {exc}")
 
     @cmd2.with_category(miscellaneous_category)
     def do_operator_load(self, line: str):
@@ -268,7 +268,7 @@ class AutomationCommandSet(LazyOwnCommandSet):
         """
         try:
             if not line.strip():
-                self.print("[!] Usage: operator_load <username>")
+                self.poutput("[!] Usage: operator_load <username>")
                 return
 
             from modules.operator_profiles import get_operator_profile_manager
@@ -277,16 +277,16 @@ class AutomationCommandSet(LazyOwnCommandSet):
             config = mgr.effective_config(line.strip())
 
             if config.get("_operator") is None:
-                self.print(f"[!] Operator '{line.strip()}' not found")
+                self.poutput(f"[!] Operator '{line.strip()}' not found")
                 return
 
-            self.print(f"\nEffective config for {line.strip()}\n{'=' * 50}")
+            self.poutput(f"\nEffective config for {line.strip()}\n{'=' * 50}")
             key_fields = ["lhost", "lport", "c2_port", "c2_malleable_route", "rhost", "domain", "user_agent_lin"]
             for k in key_fields:
-                self.print(f"  {k}: {config.get(k, 'N/A')}")
+                self.poutput(f"  {k}: {config.get(k, 'N/A')}")
 
         except Exception as exc:
-            self.print(f"[!] operator_load failed: {exc}")
+            self.poutput(f"[!] operator_load failed: {exc}")
 
     @cmd2.with_category(miscellaneous_category)
     def do_operator_delete(self, line: str):
@@ -296,19 +296,19 @@ class AutomationCommandSet(LazyOwnCommandSet):
         """
         try:
             if not line.strip():
-                self.print("[!] Usage: operator_delete <username>")
+                self.poutput("[!] Usage: operator_delete <username>")
                 return
 
             from modules.operator_profiles import get_operator_profile_manager
 
             mgr = get_operator_profile_manager()
             if mgr.delete_profile(line.strip()):
-                self.print(f"[+] Deleted operator profile: {line.strip()}")
+                self.poutput(f"[+] Deleted operator profile: {line.strip()}")
             else:
-                self.print(f"[!] Operator '{line.strip()}' not found")
+                self.poutput(f"[!] Operator '{line.strip()}' not found")
 
         except Exception as exc:
-            self.print(f"[!] operator_delete failed: {exc}")
+            self.poutput(f"[!] operator_delete failed: {exc}")
 
     @cmd2.with_category(miscellaneous_category)
     def do_hooks(self, line: str):
@@ -338,5 +338,5 @@ class AutomationCommandSet(LazyOwnCommandSet):
         elif cmd == "fire":
             self.do_hooks_fire(args)
         else:
-            self.print(f"[!] Unknown hooks subcommand: {cmd}")
-            self.print("[*] Available: list, enable, disable, add, remove, fire")
+            self.poutput(f"[!] Unknown hooks subcommand: {cmd}")
+            self.poutput("[*] Available: list, enable, disable, add, remove, fire")

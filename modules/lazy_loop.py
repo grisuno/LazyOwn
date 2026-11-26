@@ -37,6 +37,10 @@ import urllib.request
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 
+from core.atomic_store import append_jsonl as atomic_store_append_jsonl
+from core.atomic_store import load_json as atomic_store_load_json
+from core.atomic_store import read_jsonl as atomic_store_read_jsonl
+from core.atomic_store import save_json as atomic_store_save_json
 from modules.lazy_blindspot import BlindspotFinding, BlindspotReview  # noqa: F401 (BlindspotFinding re-exported)
 from modules.lazy_deviations import DeviationLedger
 from modules.loop import (
@@ -52,6 +56,29 @@ from modules.loop import (
     WorkerMemoryMixin,
 )
 from modules.loop.boundary import code_tail, fence
+from modules.loop.channel_secrets import (  # noqa: F401 (channel sealing re-exported)
+    CHANNEL_SECRET_PREFIX,
+    _channel_encryption_key,
+    _decrypt_channel_secret,
+    _encrypt_channel_secret,
+)
+from modules.loop.command_sanitize import (  # noqa: F401 (sanitizer re-exported)
+    NETWORK_TOOL_HEADS,
+    NMAP_LONG_FLAGS,
+    NMAP_VALUE_FLAGS,
+    SQLMAP_LONG_FLAGS,
+    SUDO_UNAVAILABLE_MARKERS,
+    _host_from_token,
+    _is_file_like_value,
+    _is_host_like_target,
+    _is_ip_literal,
+    _netcat_idle_timeout,
+    _sudo_unavailable,
+    _valid_nmap_port_spec,
+    looks_like_prose,
+    plausible_command,
+    repair_worker_command,
+)
 from modules.loop.evidence import citation_enabled, extract_quote
 from modules.loop.finding_class import class_for_finding, evidence_supports_class
 from modules.loop.leases import LeaseStore
@@ -87,7 +114,6 @@ _LOG = logging.getLogger("modules.lazy_loop")
 BASE_DIR = Path(__file__).resolve().parent.parent
 STORE_DIR = BASE_DIR / "sessions" / "lazy"
 SESSIONS_DIR = BASE_DIR / "sessions"
-STORE_LOCK = threading.RLock()
 
 EXPLORATION_NODE_KINDS = ("goal", "intent", "fact", "finding", "hint", "constraint")
 EXPLORATION_TERMINAL_STATES = ("done", "blocked", "exhausted", "stopped", "deleted")
@@ -254,507 +280,6 @@ DEFAULT_TARGET_CONCURRENCY = 3
 
 _TARGET_LIMITER = TargetLimiter(max_concurrent=DEFAULT_TARGET_CONCURRENCY)
 
-NMAP_LONG_FLAGS = frozenset(
-    {
-        "--top-ports",
-        "--min-rate",
-        "--max-rate",
-        "--script",
-        "--script-args",
-        "--version-all",
-        "--version-light",
-        "--version-intensity",
-        "--open",
-        "--reason",
-        "--stats-every",
-        "--max-retries",
-        "--host-timeout",
-        "--scan-delay",
-        "--max-scan-delay",
-        "--source-port",
-        "--dns-servers",
-        "--exclude-ports",
-        "--exclude",
-        "--excludefile",
-        "--defeat-rst-ratelimit",
-        "--max-os-tries",
-        "--osscan-guess",
-        "--osscan-limit",
-        "--traceroute",
-        "--packet-trace",
-        "--privileged",
-        "--unprivileged",
-        "--no-stylesheet",
-        "--stylesheet",
-        "--system-dns",
-        "--data-length",
-        "--data-string",
-        "--data",
-        "--ttl",
-        "--spoof-mac",
-        "--badsum",
-        "--send-eth",
-        "--send-ip",
-        "--noninteractive",
-        "--append-output",
-        "--resume",
-        "--iflist",
-        "--proxies",
-        "--mtu",
-        "--min-parallelism",
-        "--max-parallelism",
-        "--min-hostgroup",
-        "--max-hostgroup",
-        "--min-rtt-timeout",
-        "--max-rtt-timeout",
-        "--initial-rtt-timeout",
-    }
-)
-
-
-SQLMAP_LONG_FLAGS = frozenset(
-    {
-        "--url",
-        "--data",
-        "--cookie",
-        "--headers",
-        "--header",
-        "--user-agent",
-        "--random-agent",
-        "--referer",
-        "--host",
-        "--method",
-        "--proxy",
-        "--proxy-cred",
-        "--tor",
-        "--tor-type",
-        "--check-tor",
-        "--delay",
-        "--timeout",
-        "--retries",
-        "--randomize",
-        "--safe-url",
-        "--safe-freq",
-        "--skip-urlencode",
-        "--csrf-token",
-        "--csrf-url",
-        "--force-ssl",
-        "--batch",
-        "--level",
-        "--risk",
-        "--technique",
-        "--dbms",
-        "--os",
-        "--prefix",
-        "--suffix",
-        "--tamper",
-        "--threads",
-        "--string",
-        "--not-string",
-        "--regexp",
-        "--code",
-        "--text-only",
-        "--titles",
-        "--dbs",
-        "--tables",
-        "--columns",
-        "--schema",
-        "--count",
-        "--dump",
-        "--dump-all",
-        "--search",
-        "--current-user",
-        "--current-db",
-        "--hostname",
-        "--is-dba",
-        "--users",
-        "--passwords",
-        "--privileges",
-        "--roles",
-        "--db",
-        "--tbl",
-        "--col",
-        "--exclude",
-        "--where",
-        "--start",
-        "--stop",
-        "--first",
-        "--last",
-        "--sql-query",
-        "--sql-shell",
-        "--os-shell",
-        "--os-cmd",
-        "--os-pwn",
-        "--file-read",
-        "--file-write",
-        "--file-dest",
-        "--reg-read",
-        "--reg-add",
-        "--reg-del",
-        "--wizard",
-        "--flush-session",
-        "--fresh-queries",
-        "--forms",
-        "--crawl",
-        "--crawl-exclude",
-        "--data-string",
-        "--param-del",
-        "--skip",
-        "--skip-static",
-        "--param-exclude",
-        "--dbms-cred",
-        "--identify-waf",
-        "--skip-waf",
-        "--mobile",
-        "--chunked",
-        "--hex",
-        "--output-dir",
-        "--answers",
-        "--keep-alive",
-        "--verbose",
-    }
-)
-
-_TOOL_LONG_FLAGS: dict[str, frozenset[str]] = {
-    "nmap": NMAP_LONG_FLAGS,
-    "sqlmap": SQLMAP_LONG_FLAGS,
-}
-
-
-def plausible_command(command: str) -> bool:
-    """Reject obvious hallucinations such as ``nmap --block`` or ``sqlmap --pwn-now``.
-
-    Long flags are validated only for the binaries in :data:`_TOOL_LONG_FLAGS`,
-    the tools the loop uses heavily enough that a model invents flags for them;
-    every other binary passes untouched, so the filter can never block a
-    legitimate operator command for a tool whose flag surface it does not model.
-    New tools opt in by adding their stable long-flag set to that map.
-
-    Args:
-        command: The candidate command line.
-
-    Returns:
-        True when the command is plausible, False when it carries a long flag
-        unknown to a validated tool.
-    """
-    parts = (command or "").strip().split()
-    if not parts:
-        return True
-    allowed = _TOOL_LONG_FLAGS.get(os.path.basename(parts[0]))
-    if allowed is None:
-        return True
-    for token in parts[1:]:
-        if token.startswith("--") and token.split("=", 1)[0] not in allowed:
-            return False
-    return True
-
-
-_COMMAND_HEAD_RE = re.compile(r"^[A-Za-z0-9_./-]+$")
-_ASSIGNMENT_HEAD_RE = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*=")
-
-
-def looks_like_prose(command: str) -> bool:
-    """Return True when a line is natural-language prose, not a shell command.
-
-    A hallucinating model sometimes answers a tool prompt with a sentence
-    ("Let's proceed step by step ..."), which then fails the shell with a
-    quoting error. A real command's first token is a program name or path,
-    an assignment, or a subshell; a sentence opens with a word carrying an
-    apostrophe, comma or other prose punctuation, or trails a colon after
-    several words. Conservative by design: any clean command head passes.
-
-    Args:
-        command: Candidate command line.
-
-    Returns:
-        True when the line should never be executed as a command.
-    """
-    text = (command or "").strip()
-    if not text:
-        return True
-    head = text.split()[0]
-    if head.startswith(("'", '"', "(", "$", "`", "{")) or _ASSIGNMENT_HEAD_RE.match(text):
-        return False
-    if not _COMMAND_HEAD_RE.match(head):
-        return True
-    return text.endswith(":") and len(text.split()) >= 4
-
-
-def _is_host_like_target(value: str) -> bool:
-    """Return True when a target is a routable host worth scope enforcement.
-
-    Scope enforcement applies to hosts, not to local artefacts. Shape and
-    file-exclusion policy are the canonical ones in :mod:`core.host_policy`;
-    single-host scope checks reject CIDR blocks.
-    """
-    from core.host_policy import is_engagement_target
-
-    return is_engagement_target(value, allow_cidr=False)
-
-
-def _is_file_like_value(value: str) -> bool:
-    """Return True when value names a local artefact, not a network asset.
-
-    Tool output mentions file names (``scan_x.nmap.xml``, ``report.pdf``)
-    that match the subdomain grammar; anchoring them as subdomain assets
-    pollutes the asset graph with phantom network entities.
-    """
-    from core.host_policy import is_file_like
-
-    return is_file_like(value)
-
-
-NETWORK_TOOL_HEADS = frozenset(
-    {
-        "nmap",
-        "masscan",
-        "curl",
-        "wget",
-        "dig",
-        "host",
-        "nslookup",
-        "nikto",
-        "gobuster",
-        "ffuf",
-        "feroxbuster",
-        "hydra",
-        "medusa",
-        "ssh",
-        "smbclient",
-        "smbmap",
-        "enum4linux",
-        "enum4linux-ng",
-        "nxc",
-        "netexec",
-        "crackmapexec",
-        "snmpwalk",
-        "snmpcheck",
-        "whatweb",
-        "nc",
-        "ncat",
-        "netcat",
-    }
-)
-
-_NETCAT_HEADS = frozenset({"nc", "ncat", "netcat"})
-_NETCAT_HEAD_RE = re.compile(r"\b(?:nc|ncat|netcat)\b")
-_NETCAT_TIMED_RE = re.compile(r"(?:^|\s)(?:-w\S*|-q\S*|--timeout=\S*)")
-
-
-def _netcat_idle_timeout(command: str) -> tuple[str, str]:
-    """Bound a netcat command's idle reads without re-quoting the line.
-
-    A bare ``nc host port`` (or a piped one-shot banner sender) idles forever
-    on servers that keep the connection open and burns the whole worker
-    timeout; ``-w N`` bounds connect and idle reads. The injection is done on
-    the raw string so piped quoting (``printf 'payload' | nc ...``) survives.
-
-    Args:
-        command: Raw proposed command line.
-
-    Returns:
-        ``(command, reason)`` with ``-w 5`` injected after the first netcat
-        head when the line carries none; ``reason`` empty when unchanged.
-    """
-    match = _NETCAT_HEAD_RE.search(command or "")
-    if match is None:
-        return command, ""
-    tail = command[match.start() :]
-    if _NETCAT_TIMED_RE.search(" " + tail):
-        return command, ""
-    repaired = command[: match.start()] + _NETCAT_HEAD_RE.sub(
-        lambda m: f"{m.group(0)} -w 5", command[match.start() :], count=1
-    )
-    return repaired, "injected netcat idle timeout"
-
-
-NMAP_VALUE_FLAGS = frozenset(
-    {
-        "-p",
-        "-e",
-        "-S",
-        "-g",
-        "-D",
-        "-oN",
-        "-oX",
-        "-oG",
-        "-oA",
-        "-T",
-        "--top-ports",
-        "--script",
-        "--script-args",
-        "--min-rate",
-        "--max-rate",
-        "--mtu",
-        "--ttl",
-        "--data-length",
-        "--source-port",
-        "--max-retries",
-        "--host-timeout",
-        "--scan-delay",
-        "--exclude",
-        "--excludefile",
-        "--dns-servers",
-        "--exclude-ports",
-        "--version-intensity",
-    }
-)
-
-_HOSTNAME_RE = re.compile(r"^(?=.{1,253}$)([A-Za-z0-9_](?:[A-Za-z0-9_-]{0,61}[A-Za-z0-9_])?\.)+[A-Za-z]{2,63}$")
-
-SUDO_UNAVAILABLE_MARKERS = (
-    "passwordless sudo unavailable",
-    "a terminal is required to read the password",
-    "unattended loop has no terminal for the password",
-)
-
-
-def _sudo_unavailable(output: str) -> bool:
-    """Return True when a tool aborted because sudo cannot prompt here."""
-    text = output or ""
-    return any(marker in text for marker in SUDO_UNAVAILABLE_MARKERS)
-
-
-def _is_ip_literal(value: str) -> bool:
-    """Return True when ``value`` parses as an IPv4/IPv6 literal."""
-    try:
-        import ipaddress
-
-        ipaddress.ip_address(value)
-        return True
-    except ValueError:
-        return False
-
-
-_NMAP_PORT_SPEC_RE = re.compile(r"^[0-9A-Za-z_,:\-]+$")
-
-
-def _valid_nmap_port_spec(value: str) -> bool:
-    """Return True when a value is a plausible nmap ``-p`` specification.
-
-    Service names, ranges, comma lists and the ``-`` full-scan shorthand
-    pass. An IP or hostname in the value position is the hallucination
-    that produced ``nmap -sV -p 172.17.0.2`` and must be rejected.
-    """
-    text = str(value or "").strip()
-    if not text:
-        return False
-    if _host_from_token(text):
-        return False
-    return bool(_NMAP_PORT_SPEC_RE.fullmatch(text))
-
-
-def repair_worker_command(command: str, target: str) -> tuple[str, str]:
-    """Normalize one LLM-proposed worker command.
-
-    Repairs three recurring planner mistakes: absolute paths to shell
-    verbs (``/usr/bin/lazynmap``), invalid nmap port arguments that put
-    the target in the ``-p`` slot, and commands that lost their target.
-
-    Args:
-        command: Raw command proposed by the model.
-        target: Authorized intent target.
-
-    Returns:
-        Tuple of the repaired command and a short reason (empty when the
-        command was already valid).
-    """
-    if not (command or "").strip() or not target:
-        return command, ""
-    command, reason = _netcat_idle_timeout(command)
-    original = command
-    try:
-        tokens = shlex.split(command)
-    except ValueError:
-        return command, ""
-    if not tokens:
-        return command, ""
-    original_head = tokens[0]
-    head = os.path.basename(original_head)
-    if head != original_head:
-        parts = command.split(None, 1)
-        command = head + (" " + parts[1] if len(parts) > 1 else "")
-        tokens[0] = head
-        stripped = f"stripped binary path from {original_head}"
-        reason = f"{reason}; {stripped}" if reason else stripped
-    if head not in NETWORK_TOOL_HEADS:
-        return command, reason
-    kept: list[str] = [tokens[0]]
-    drop_next = False
-    skip_next = False
-    for index, token in enumerate(tokens[1:], start=1):
-        if drop_next:
-            drop_next = False
-            continue
-        if skip_next:
-            kept.append(token)
-            skip_next = False
-            continue
-        if token.startswith("-"):
-            if head in ("nmap", "masscan") and token in NMAP_VALUE_FLAGS:
-                value = tokens[index + 1] if index + 1 < len(tokens) else ""
-                if token in ("-p", "--port") and (not value or not _valid_nmap_port_spec(value)):
-                    reason = f"dropped invalid port spec {value!r}"
-                    drop_next = bool(value)
-                    continue
-                kept.append(token)
-                skip_next = True
-                continue
-            if token.startswith("--port="):
-                value = token.split("=", 1)[1]
-                if value and not _valid_nmap_port_spec(value):
-                    reason = f"dropped invalid port spec {value!r}"
-                    continue
-            kept.append(token)
-            continue
-        host = _host_from_token(token)
-        if host and host != target:
-            if _is_ip_literal(host):
-                kept.append(token)
-                continue
-            kept.append(token.replace(host, target))
-            reason = f"retargeted {host} to {target}"
-            continue
-        if host == target:
-            kept.append(token)
-            continue
-        if head in ("nmap", "masscan"):
-            continue
-        kept.append(token)
-    if not any(_host_from_token(token) == target for token in kept[1:]):
-        kept.append(target)
-    return " ".join(kept), reason
-
-
-def _host_from_token(token: str) -> str:
-    """Extract the host part of a command token, or empty when none.
-
-    Handles bare IPv4 addresses, bare hostnames and URLs (``http://h:p/x``)
-    so the worker sanitizer can retarget foreign hosts to the intent target.
-    """
-    value = (token or "").strip().strip("'\"")
-    if not value or value.startswith("-"):
-        return ""
-    if "://" in value:
-        try:
-            host = value.split("://", 1)[1].split("/", 1)[0]
-            host = host.rsplit("@", 1)[-1].split(":", 1)[0]
-            return host
-        except Exception:
-            return ""
-    candidate = value.split("/", 1)[0]
-    bare = candidate.split(":", 1)[0] if ":" in candidate else candidate
-    try:
-        import ipaddress
-
-        ipaddress.ip_address(bare)
-        return bare
-    except ValueError:
-        pass
-    if _HOSTNAME_RE.match(bare):
-        return bare
-    return ""
-
 
 WAKE_SUPPRESSED_KINDS = frozenset(
     {
@@ -893,88 +418,12 @@ def mediation_feedback():
         return None
 
 
-_CHANNEL_SECRET_PREFIX = "enc:v1:"
-_CHANNEL_SECRET_WARNED = False
-
-
 def _restrict_file(path: Path) -> None:
     """Best-effort chmod 600 on a secret-bearing file; never raises."""
     try:
         os.chmod(path, 0o600)
     except OSError:
         pass
-
-
-def _channel_encryption_key() -> bytes | None:
-    """Return the AES key for channel secrets, or None when unconfigured."""
-    try:
-        from core.hardening import require_encryption_key
-    except ImportError:
-        return None
-    try:
-        secret = require_encryption_key(
-            env_key="LAZYOWN_SECRET_KEY",
-            secret_file=BASE_DIR / "sessions" / ".secret_key",
-        )
-    except Exception:
-        return None
-    return hashlib.sha256(secret.encode("utf-8")).digest()
-
-
-def _encrypt_channel_secret(plaintext: str) -> str:
-    """Encrypt a channel password for storage; plaintext fallback when no key.
-
-    When ``LAZYOWN_SECRET_KEY`` (or ``sessions/.secret_key``) is set the
-    value is AES-256-GCM sealed and prefixed ``enc:v1:``. Otherwise the
-    value is stored as-is with 0600 file perms and a one-time warning;
-    callers must still restrict the store file.
-    """
-    global _CHANNEL_SECRET_WARNED
-    text = str(plaintext or "")
-    if not text:
-        return ""
-    if text.startswith(_CHANNEL_SECRET_PREFIX):
-        return text
-    key = _channel_encryption_key()
-    if key is None:
-        if not _CHANNEL_SECRET_WARNED:
-            _CHANNEL_SECRET_WARNED = True
-            try:
-                import logging as _logging
-
-                _logging.getLogger("modules.lazy_loop").warning(
-                    "channel password stored without encryption; set LAZYOWN_SECRET_KEY"
-                )
-            except Exception:
-                pass
-        return text
-    try:
-        import base64 as _b64
-
-        from core.crypto import AESencrypt
-
-        blob, _ = AESencrypt(text.encode("utf-8"), key)
-        return _CHANNEL_SECRET_PREFIX + _b64.b64encode(blob).decode("ascii")
-    except Exception:
-        return text
-
-
-def _decrypt_channel_secret(stored: str) -> str:
-    """Reveal a channel password stored by :func:`_encrypt_channel_secret`."""
-    text = str(stored or "")
-    if not text.startswith(_CHANNEL_SECRET_PREFIX):
-        return text
-    key = _channel_encryption_key()
-    if key is None:
-        return ""
-    try:
-        import base64 as _b64
-
-        from core.crypto import AESdecrypt
-
-        return AESdecrypt(_b64.b64decode(text[len(_CHANNEL_SECRET_PREFIX) :]), key).decode("utf-8")
-    except Exception:
-        return ""
 
 
 def wake_task(task_id: str) -> None:
@@ -1351,6 +800,9 @@ def record_worker_traces(
 def _append_jsonl(path: Path, rows: list[dict]) -> int:
     """Append rows as JSON lines, creating the parent directory.
 
+    Delegates to :func:`core.atomic_store.append_jsonl`, the single JSONL
+    store implementation.
+
     Args:
         path: Target ``.jsonl`` file.
         rows: Row mappings to append.
@@ -1358,24 +810,13 @@ def _append_jsonl(path: Path, rows: list[dict]) -> int:
     Returns:
         Number of appended rows, or 0 when the write failed.
     """
-    if not rows:
-        return 0
-    try:
-        try:
-            path.parent.mkdir(parents=True, exist_ok=True)
-            os.chmod(path.parent, 0o700)
-        except OSError:
-            pass
-        with path.open("a", encoding="utf-8") as handle:
-            for row in rows:
-                handle.write(json.dumps(row, ensure_ascii=False) + "\n")
-        return len(rows)
-    except OSError:
-        return 0
+    return atomic_store_append_jsonl(path, rows)
 
 
 def _read_jsonl(path: Path, limit: int = 0) -> list[dict]:
     """Read JSON lines from path, newest order preserved, errors skipped.
+
+    Delegates to :func:`core.atomic_store.read_jsonl`.
 
     Args:
         path: Source ``.jsonl`` file.
@@ -1384,55 +825,28 @@ def _read_jsonl(path: Path, limit: int = 0) -> list[dict]:
     Returns:
         Parsed row mappings; unreadable lines are skipped silently.
     """
-    try:
-        lines = path.read_text(encoding="utf-8", errors="replace").splitlines()
-    except OSError:
-        return []
-    rows: list[dict] = []
-    for line in lines:
-        line = line.strip()
-        if not line:
-            continue
-        try:
-            row = json.loads(line)
-        except json.JSONDecodeError:
-            continue
-        if isinstance(row, dict):
-            rows.append(row)
-    if limit and len(rows) > limit:
-        rows = rows[-limit:]
-    return rows
+    return atomic_store_read_jsonl(path, limit)
 
 
 def _load_json(path: Path, default: dict) -> dict:
     """Load JSON mapping from path or return default copy.
 
-    A corrupt or unreadable file falls back to the default instead of
-    raising, but the failure is logged at debug so hidden state corruption
-    is observable rather than silent.
+    Delegates to :func:`core.atomic_store.load_json` (fail-soft with a
+    debug log so hidden state corruption is observable).
     """
-    try:
-        if path.exists():
-            return json.loads(path.read_text())
-    except Exception as exc:
-        _LOG.debug("corrupt or unreadable JSON store %s, using default: %s", path, exc)
-    return json.loads(json.dumps(default))
+    return atomic_store_load_json(path, default)
 
 
 def _save_json(path: Path, payload: dict) -> None:
     """Atomically persist payload to path.
 
-    Each write uses its own process/thread-scoped temp file and an atomic
-    replace, so a reader never sees a torn file. This guarantees atomicity,
-    not isolation: a read-modify-write that must not lose a concurrent writer's
-    update belongs inside a cross-process lock (see ``ExplorationGraph._commit``).
+    Delegates to :func:`core.atomic_store.save_json`: each write uses its
+    own process/thread-scoped temp file and an atomic replace, so a reader
+    never sees a torn file. This guarantees atomicity, not isolation: a
+    read-modify-write that must not lose a concurrent writer's update
+    belongs inside a cross-process lock (see ``ExplorationGraph._commit``).
     """
-    tmp = path.with_name(f".{path.name}.{os.getpid()}.{threading.get_ident()}.tmp")
-    with STORE_LOCK:
-        tmp.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
-        _restrict_file(tmp)
-        tmp.replace(path)
-        _restrict_file(path)
+    atomic_store_save_json(path, payload)
 
 
 def _slug(value: str) -> str:

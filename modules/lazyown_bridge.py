@@ -1897,16 +1897,6 @@ class CommandCatalog:
         )
         add(
             CatalogEntry(
-                "unicode_WAFbypass",
-                "exploit",
-                "T1059",
-                services=["http", "https"],
-                description="Unicode-based WAF bypass for web exploits",
-                priority=4,
-            )
-        )
-        add(
-            CatalogEntry(
                 "sharpshooter",
                 "exploit",
                 "T1587",
@@ -3039,7 +3029,7 @@ class CommandCatalog:
         # ====================================================================
         add(
             CatalogEntry(
-                "evil_winrm",
+                "evilwinrm",
                 "lateral",
                 "T1021",
                 services=["winrm", "5985", "5986"],
@@ -3791,26 +3781,6 @@ class CommandCatalog:
                 description="AI exploit recommendation engine — matches services to CVEs",
                 priority=1,
                 tags=["ai", "exploit", "cve"],
-            )
-        )
-        add(
-            CatalogEntry(
-                "evasion_generate",
-                "c2",
-                "T1573",
-                description="Generate C2 malleable evasion profile",
-                priority=2,
-                tags=["evasion", "c2", "profile"],
-            )
-        )
-        add(
-            CatalogEntry(
-                "evasion_rotate",
-                "c2",
-                "T1573",
-                description="Rotate to a new evasion profile",
-                priority=3,
-                tags=["evasion", "c2"],
             )
         )
         add(

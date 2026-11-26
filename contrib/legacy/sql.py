@@ -26,7 +26,7 @@ def makeRequest(sqli_modified):
     }
     post_data = '{{"name":"{}"}}'.format(sqli_modified)
 
-    requests.post(main_url, headers=headers, data=post_data)
+    requests.post(main_url, headers=headers, data=post_data, timeout=10)
 
 
 if __name__ == "__main__":

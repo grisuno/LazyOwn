@@ -27,7 +27,6 @@ from functools import wraps
 from io import StringIO
 from math import ceil
 from pathlib import Path
-from threading import Thread
 from urllib.parse import urlparse
 
 import markdown
@@ -45,6 +44,7 @@ from flask import (
     flash,
     g,
     jsonify,
+    make_response,
     redirect,
     render_template,
     render_template_string,
@@ -93,11 +93,13 @@ from lazyc2.security.auth import (
     requires_auth_or_session,
     set_boot_credentials,
 )
+from lazyc2.security.cli_credentials import prune_generated_cli_users as _prune_generated_cli_users
 from lazyc2.security.cli_credentials import register_cli_user as _register_cli_user
 from lazyc2.security.cli_credentials import resolve_boot_credentials as _resolve_boot_credentials
 from lazyc2.security.cli_credentials import write_credentials_file as _write_c2_credentials_file
 from lazyc2.security.command_allowlist import CommandAllowlist
 from lazyc2.security.constants import AES_KEY_SIZE_BYTES as _AES_KEY_SIZE_BYTES
+from lazyc2.security.constants import CONTENT_SECURITY_POLICY
 from lazyc2.security.cors import CorsPolicy
 from lazyc2.security.csrf import CSRFPolicy
 from lazyc2.security.csrf_flow import SESSION_KEY as _CSRF_SESSION_KEY
@@ -158,7 +160,7 @@ from modules.security_sanitizers import (
     build_default_config,
     sanitize_client_id,
 )
-from utils import Config, anti_debug, getprompt, load_payload
+from utils import Config, getprompt, load_payload
 
 _YAML_VIEW_MAX_FILES = 500
 _YAML_VIEW_MAX_BYTES = 1_000_000
@@ -169,7 +171,6 @@ _YAML_VIEW_DIR_MAX_LENGTH = 256
 _LAZYOWN_SECRET_KEY_ENV = "LAZYOWN_SECRET_KEY"
 
 
-anti_debug()
 logger = logging.getLogger(__name__)
 
 try:
@@ -821,13 +822,15 @@ def _atomic_directories():
 
 
 def run_shell():
-    while True:
-        try:
-            shell.cmdloop()
-        except Exception:
-            if config.enable_c2_debug:
-                logger.info("[ERROR] Shell loop crashed:")
-            break
+    """Run the C2 operator shell until EOF or exit.
+
+    Must be called from the main thread: ``cmd2`` rejects ``cmdloop``
+    elsewhere with ``RuntimeError``.
+
+    Raises:
+        SystemExit: When the operator quits the shell.
+    """
+    shell.cmdloop()
 
 
 def load_banners():
@@ -1532,6 +1535,7 @@ def aicmd_deepseek(cmd):
     response = requests.post(
         "http://localhost:11434/api/generate",
         json={"model": "deepseek-r1:1.5b", "prompt": json.dumps(messages), "stream": False},
+        timeout=30,
     )
 
     if response.status_code == 200:
@@ -1564,6 +1568,7 @@ def aicmd_deepseek(cmd):
             second_response = requests.post(
                 "http://localhost:11434/api/generate",
                 json={"model": "deepseek-r1:1.5b", "prompt": json.dumps(messages), "stream": False},
+                timeout=30,
             )
 
             if second_response.status_code == 200:
@@ -2336,6 +2341,138 @@ limiter = Limiter(
 )
 
 
+# ── Session-token gate (estorides parity) ─────────────────────────────────────
+# Opt-in second factor: the backend mints a random session token at boot
+# (memory-only, rotated every restart), operators exchange credentials for
+# it via POST /api/auth/token, and gated requests must present it. Beacon
+# transports, the login flow and static assets stay exempt.
+from lazyc2.security.token_gate import (  # noqa: E402
+    AUTH_COOKIE as _TOKEN_COOKIE,
+)
+from lazyc2.security.token_gate import (  # noqa: E402
+    SessionTokenGate as _SessionTokenGate,
+)
+from lazyc2.security.token_gate import (  # noqa: E402
+    install_token_gate as _install_token_gate,
+)
+
+_token_gate: _SessionTokenGate | None = None
+if bool(_payload_snapshot.get("c2_token_auth_enabled", False)):
+    _token_gate = _SessionTokenGate()
+    _token_gate.rotate()
+
+_BEACON_EXEMPT_PATH_PREFIXES = (
+    "/command/",
+    "/api/poll/",
+    "/report/",
+    "/stage/",
+    "/bof/",
+    "/download",
+    "/upload",
+    "/issue_command",
+    "/log/",
+    "/lazyos/",
+    "/webserver-report",
+    "/track/",
+    "/socket.io/",
+    "/metrics",
+    "/favicon.ico",
+    "/s/",
+    "/mkendpoint",
+    "/create_short_url",
+)
+
+_TOKEN_EXEMPT_ENDPOINTS = {
+    "login",
+    "logout",
+    "mfa_verify",
+    "mfa_setup",
+    "change_password",
+    "issue_session_token",
+    "static",
+    "health",
+}
+
+
+def _token_gate_exempt() -> bool:
+    """Whether the current request bypasses the session-token gate.
+
+    Returns:
+        True for anything that is not an operator API call: beacon
+        transports, browser pages (login, dashboard, static assets),
+        the token-exchange endpoint, and requests already carrying
+        valid Basic credentials or an authenticated session. Only
+        ``/api/*`` surface without any credential gets gated.
+    """
+    if _token_gate is None:
+        return True
+    if current_user.is_authenticated and session.get("mfa_verified", True):
+        return True
+    auth = request.authorization
+    if auth and check_auth(auth.username, auth.password):
+        return True
+    path = request.path
+    if not path.startswith("/api/"):
+        return True
+    prefixes = [prefix for prefix in _BEACON_EXEMPT_PATH_PREFIXES if prefix]
+    malleable = str(getattr(config, "c2_malleable_route", "") or "")
+    if malleable:
+        prefixes.append(malleable)
+    if any(path.startswith(prefix) for prefix in prefixes):
+        return True
+    return request.endpoint in _TOKEN_EXEMPT_ENDPOINTS
+
+
+if _token_gate is not None:
+    _install_token_gate(app, _token_gate, _token_gate_exempt)
+
+
+def _set_session_token_cookie(response):
+    """Install the session-token cookie on an authenticated response.
+
+    Args:
+        response: Flask response to decorate.
+
+    Returns:
+        The same response with the token cookie set.
+    """
+    if _token_gate is not None and _token_gate.enabled:
+        response.set_cookie(_TOKEN_COOKIE, _token_gate.token or "", **_token_gate.issue_session_cookie_kwargs())
+    return response
+
+
+@app.route("/api/auth/token", methods=["POST"])
+@limiter.limit("10 per minute")
+def issue_session_token():
+    """Exchange valid credentials for the session token.
+
+    Accepts HTTP Basic credentials or an authenticated (MFA-complete)
+    Flask session. Rate limited: a leaked credentials file cannot flood
+    the exchange.
+
+    Returns:
+        JSON with the token and its epoch expiry, 401 on bad credentials.
+    """
+    if _token_gate is None:
+        return jsonify({"error": "token gate disabled"}), 404
+    authenticated = False
+    auth = request.authorization
+    if auth and check_auth(auth.username, auth.password):
+        authenticated = True
+    elif current_user.is_authenticated and session.get("mfa_verified", True):
+        authenticated = True
+    if not authenticated:
+        response = jsonify({"error": "invalid credentials"})
+        response.status_code = 401
+        response.headers["WWW-Authenticate"] = 'Basic realm="lazyown-c2"'
+        return response
+    payload = {"token": _token_gate.token or "", "token_type": "Bearer", "expires_at": _token_gate.expires_at_epoch()}
+    if request.is_json:
+        return jsonify(payload)
+    response = jsonify(payload)
+    return _set_session_token_cookie(response)
+
+
 @app.before_request
 def _metrics_before_request():
     if request.endpoint and not request.path.startswith("/metrics"):
@@ -2458,15 +2595,7 @@ def _add_security_headers(response):
     response.headers["X-Frame-Options"] = "SAMEORIGIN"
     response.headers["X-XSS-Protection"] = "1; mode=block"
     response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
-    response.headers["Content-Security-Policy"] = (
-        "default-src 'self'; img-src 'self' data: https://upload.wikimedia.org; "
-        "style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; "
-        "script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com "
-        "https://unpkg.com https://cdn.jsdelivr.net; "
-        "script-src-elem 'self' 'unsafe-inline' https://cdnjs.cloudflare.com "
-        "https://unpkg.com https://cdn.jsdelivr.net; "
-        "connect-src 'self'"
-    )
+    response.headers["Content-Security-Policy"] = CONTENT_SECURITY_POLICY
     return response
 
 
@@ -2778,33 +2907,39 @@ if _RBAC_AVAILABLE:
     _tenant_mgr.ensure_default_tenant()
 
 _BOOTSTRAP_MFA_WARNING = (
-    "[mfa] ADMIN account '%s' has MFA DISABLED. The second factor is "
-    "decorative until enrollment: run `mfa_setup` in the dashboard and "
-    "complete the TOTP enrollment for every user with role ADMIN."
+    "[mfa] %d ADMIN account(s) lack MFA enrollment: run `mfa_setup` "
+    "in the dashboard and complete the TOTP enrollment for every user "
+    "with role ADMIN."
 )
 
 
 def _warn_admins_without_mfa():
-    """Log a loud warning for every ADMIN-role user lacking MFA enrollment.
+    """Log one aggregated warning for ADMIN-role users lacking MFA.
 
     MFA is opt-in per user, so a bootstrapped admin works password-only
     and ``@require_mfa_socket`` adds nothing on top of
-    ``@login_required``. This never blocks boot or login; it makes the
-    gap impossible to miss in logs.
+    ``@login_required``. The per-account detail stays at debug level so
+    repeated boots keep the log readable.
     """
     try:
         if _RBAC_AVAILABLE:
-            for user in _rbac_store.load_all():
-                if user.get_role() == Role.ADMIN and not user.mfa_enabled:
-                    logger.critical(_BOOTSTRAP_MFA_WARNING, user.username)
-                    print(_BOOTSTRAP_MFA_WARNING % user.username)
-            return
-        from lazyc2.extensions.users import load_users
+            unenrolled = [
+                user.username
+                for user in _rbac_store.load_all()
+                if user.get_role() == Role.ADMIN and not user.mfa_enabled
+            ]
+        else:
+            from lazyc2.extensions.users import load_users
 
-        for user in load_users():
-            if user.get("role") == "admin" and not user.get("mfa_enabled"):
-                logger.critical(_BOOTSTRAP_MFA_WARNING, user.get("username", "?"))
-                print(_BOOTSTRAP_MFA_WARNING % user.get("username", "?"))
+            users = load_users()
+            unenrolled = [
+                user.get("username", "?")
+                for user in users
+                if user.get("role") == "admin" and not user.get("mfa_enabled")
+            ]
+        if unenrolled:
+            logger.warning(_BOOTSTRAP_MFA_WARNING, len(unenrolled))
+            logger.debug("[mfa] ADMIN accounts without MFA: %s", ", ".join(unenrolled))
     except Exception as exc:
         logger.debug("[mfa] admin MFA audit skipped: %s", exc)
 
@@ -2938,6 +3073,7 @@ if _RUN_MAIN and len(sys.argv) > 3:
             print(f"[rbac] CLI user '{USERNAME}' registered in RBAC store as admin")
         else:
             print("[rbac] users store unreadable; boot credentials were NOT registered")
+        _prune_generated_cli_users(store, USERNAME)
 
     if config.enable_c2_debug:
         logger.info(f"    [!] Launch C2 at: {local_ips}")
@@ -5558,7 +5694,7 @@ def login():
                     flash("You must change your one-time password before continuing.", "warning")
                     return redirect(url_for("change_password"))
                 flash("Welcome to LazyOwn.", "success")
-                return redirect(url_for("profile"))
+                return _set_session_token_cookie(redirect(url_for("profile")))
             else:
                 flash("Invalid login credentials.", "error")
                 return render_template("login.html")
@@ -5573,7 +5709,7 @@ def login():
                 flash("You must change your one-time password before continuing.", "warning")
                 return redirect(url_for("change_password"))
             flash("Welcome to LazyOwn.", "success")
-            return redirect(url_for("profile"))
+            return _set_session_token_cookie(redirect(url_for("profile")))
         else:
             flash("Invalid login credentials.", "error")
 
@@ -5703,7 +5839,7 @@ def mfa_verify():
         session["mfa_verified"] = True
         session.pop("mfa_pending_user_id", None)
         session.pop("mfa_user_id", None)
-        return session.pop("mfa_pending_route", url_for("profile"))
+        return _set_session_token_cookie(make_response(session.pop("mfa_pending_route", url_for("profile"))))
 
     if request.method == "POST":
         code = request.form.get("mfa_code", "").strip()
@@ -7639,9 +7775,6 @@ try:
 except Exception as _obp_err:
     print(f"[c2] Blueprint not loaded: {_obp_err}")
 
-thread = Thread(target=run_shell)
-thread.daemon = False
-thread.start()
 
 if __name__ == "__main__":
     path = os.getcwd().replace("modules", "sessions")
@@ -7759,12 +7892,35 @@ if __name__ == "__main__":
     except Exception:
         pass
 
-    # Keep the main thread alive so daemon threads (DNS, watchers, listeners)
-    # continue running.  Using a simple Event so the process can be interrupted
-    # cleanly with Ctrl-C.
+
+def run_operator_shell():
+    """Wait headlessly, or serve the interactive shell only when opted in.
+
+    The C2 process is a server: ``fast_run_as_r00t.sh`` launches it in a
+    dedicated pane and the operator CLI lives in other panes
+    (``lazyown.py``). The embedded shell is for the dashboard web
+    terminal (socketio glue), never for the server pane — so the
+    interactive branch requires the explicit ``LAZYOWN_C2_SHELL=1``
+    opt-in and plain TTYs keep serving headlessly.
+    """
+    if os.environ.get("LAZYOWN_C2_SHELL") == "1" and sys.stdin is not None and sys.stdin.isatty():
+        try:
+            run_shell()
+        except (EOFError, KeyboardInterrupt):
+            pass
+        except SystemExit:
+            listener_manager.stop_all()
+            raise
+        print("\n[listener] Shutting down all listeners...")
+        listener_manager.stop_all()
+        return
     try:
         _main_halt = threading.Event()
         _main_halt.wait()
     except KeyboardInterrupt:
         print("\n[listener] Shutting down all listeners...")
         listener_manager.stop_all()
+
+
+if __name__ == "__main__":
+    run_operator_shell()

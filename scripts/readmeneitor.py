@@ -28,7 +28,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-PROJECT_ROOT = Path(__file__).resolve().parent
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
 COMMANDS_DIR = PROJECT_ROOT / "cli" / "commands"
 COMMAND_INDEX_PATH = PROJECT_ROOT / "cli" / "command_index.json"
 DOCS_DIR = PROJECT_ROOT / "docs"

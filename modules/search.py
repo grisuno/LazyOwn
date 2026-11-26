@@ -27,7 +27,7 @@ from bs4 import BeautifulSoup
 url = "https://gtfobins.github.io/index.html"
 
 # Hacer una solicitud GET al servidor
-response = requests.get(url)
+response = requests.get(url, timeout=10)
 
 # Verificar si la solicitud fue exitosa
 if response.status_code == 200:

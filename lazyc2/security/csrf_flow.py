@@ -24,6 +24,7 @@ wiring lives here.
 
 from __future__ import annotations
 
+import logging
 import secrets
 from collections.abc import Callable
 from functools import wraps
@@ -139,8 +140,8 @@ def register_csrf_flow(
         try:
             if secure_fn is not None and secure_fn():
                 return True
-        except Exception:
-            pass
+        except Exception as exc:
+            logging.getLogger(__name__).debug("secure_fn probe failed, falling back to request.is_secure: %s", exc)
         return bool(request.is_secure)
 
     @app.before_request

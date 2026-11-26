@@ -167,4 +167,3 @@ class TestMitigationConfigInvariants:
         """Every handler module referenced by the suite is present on disk."""
         for relative in mitigation_config.handler_module_paths.values():
             assert (mitigation_config.repo_root / relative).exists(), f"missing module: {relative}"
-

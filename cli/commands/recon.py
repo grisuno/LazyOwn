@@ -1044,8 +1044,8 @@ class ReconMigratedCommandSet(LazyOwnCommandSet):
             # Persist the detected OS into the live shell params so every
             # subsequent command in this session uses the correct platform.
             # The autonomous loop and tool selectors read os_id from params.
-            if os_json:
-                detected_os_id = os_json[0].get("id", "4")
+            if os_json and os_json[0].get("id") in ("1", "2"):
+                detected_os_id = os_json[0].get("id")
                 detected_os_name = os_json[0].get("os", "Unknown")
                 _apply_assign(self.params, "os_id", detected_os_id, save=_save_payload)
                 try:
@@ -1373,7 +1373,7 @@ class ReconMigratedCommandSet(LazyOwnCommandSet):
         self.cmd("clear")
 
         try:
-            r = requests.get(wayback_url, headers=headers)
+            r = requests.get(wayback_url, headers=headers, timeout=10)
             r.raise_for_status()
             results = r.text
 
@@ -1765,7 +1765,7 @@ class ReconMigratedCommandSet(LazyOwnCommandSet):
         url = f"https://cve.circl.lu/api/cve/{line}"
 
         try:
-            response = requests.get(url)
+            response = requests.get(url, timeout=10)
 
             if response.status_code != 200:
                 print_error(f"Failed to retrieve data: HTTP {response.status_code}")
@@ -1820,7 +1820,11 @@ class ReconMigratedCommandSet(LazyOwnCommandSet):
         rpcTransport = transport.DCERPCTransportFactory(target)
         portmap = rpcTransport.get_dce_rpc()
         portmap.set_auth_level(RPC_C_AUTHN_LEVEL_NONE)
-        portmap.connect()
+        try:
+            portmap.connect()
+        except Exception as exc:
+            print_error(f"Cannot reach {self.params['rhost']} over RPC: {exc}")
+            return
 
         obj = IObjectExporter(portmap)
         bindings = obj.ServerAlive2()

@@ -54,15 +54,15 @@ END_COMMIT=$(git -C . rev-parse HEAD)
 
 #TEST ME NEITOR
 if [[ "${1:-}" != "--no-test" ]]; then
-    python3 testmeneitor.py lazyown.py
+    python3 scripts/testmeneitor.py lazyown.py
 fi
 
 # Ejecuta el comando para eliminar archivos que comiencen con d2 (ignora error si no hay coincidencias)
 rm -f d2* || true
 
 # Actualiza la documentación (readmeneitor.py = ancestro: COMMANDS.md + UTILS.md)
-python3 readmeneitor.py lazyown.py
-python3 readmeneitor.py utils.py
+python3 scripts/readmeneitor.py lazyown.py
+python3 scripts/readmeneitor.py utils.py
 
 # Documentación autogenerada con readmenator (sucesor de readmeneitor.py).
 # Cada versión sale con la KB actualizada: ejecuta justo después de readmeneitor.py.

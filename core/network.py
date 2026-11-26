@@ -7,6 +7,7 @@ detection, and network parsing utilities.
 from __future__ import annotations
 
 import binascii
+import logging
 import re
 import socket
 import struct
@@ -173,8 +174,8 @@ def get_network_info() -> dict[str, Any]:
                     ip = a.get("addr")
                     if ip and ip not in info["ips"]:
                         info["ips"].append(ip)
-    except Exception:
-        pass
+    except Exception as exc:
+        logging.getLogger(__name__).debug("interface enumeration failed: %s", exc)
     return info
 
 

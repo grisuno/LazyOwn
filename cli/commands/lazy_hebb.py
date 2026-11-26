@@ -14,6 +14,7 @@ class LazyHebbCommandSet(LazyOwnCommandSet):
     """Expose the LazyHebb memory store to the operator."""
 
     category = miscellaneous_category
+    phase = "recon"
 
     @cmd2.with_category(miscellaneous_category)
     def do_lazyhebb(self, line):

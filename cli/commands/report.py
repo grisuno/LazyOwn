@@ -6,6 +6,8 @@ machine JSON generation, vulnerability tracking, and evidence gathering.
 
 from __future__ import annotations
 
+import csv
+import curses
 import glob
 import json
 import os
@@ -27,8 +29,6 @@ from utils import (
     WHITE,
     YELLOW,
     check_rhost,
-    csv,
-    curses,
     get_banner,
     get_domain,
     get_hash,

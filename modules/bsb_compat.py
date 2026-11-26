@@ -136,6 +136,11 @@ def decrypt_bsb_report(
     if counter <= 0:
         raise ValueError(f"BSB counter invalid: {counter}")
     if timestamp > now + TIMESTAMP_FUTURE_SLACK_S:
+        if timestamp > (now + TIMESTAMP_FUTURE_SLACK_S) * 64:
+            raise ValueError(
+                "BSB envelope decrypted to garbage — the beacon was built with a "
+                "different key (key rotated); rebuild or re-register the beacon"
+            )
         raise ValueError(f"BSB timestamp in future: {timestamp} > {now + TIMESTAMP_FUTURE_SLACK_S}")
     if timestamp < now - replay_window_seconds:
         raise ValueError(f"BSB timestamp too old: {timestamp} < {now - replay_window_seconds}")

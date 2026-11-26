@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import itertools
 import json
+import logging
 import os
 import threading
 from collections.abc import Callable
@@ -155,4 +156,120 @@ def update_json(path: Path, mutate: Callable[[dict], Any], default: dict | None 
         return data
 
 
-__all__ = ["file_lock", "update_json", "write_bytes_atomic", "write_text_atomic"]
+_JSON_LOCK = threading.RLock()
+
+
+def _restrict_file(path: Path) -> None:
+    """Best-effort chmod 600 on a secret-bearing file; never raises."""
+    try:
+        os.chmod(path, 0o600)
+    except OSError:
+        pass
+
+
+def save_json(path: Path, payload: dict) -> None:
+    """Atomically persist a JSON mapping to ``path`` with 0600 permissions.
+
+    Each write uses its own process/thread-scoped temp file and an atomic
+    replace under a process-wide lock, so a reader never sees a torn file
+    and concurrent in-process writers never collide. This guarantees
+    atomicity, not isolation: a read-modify-write that must not lose a
+    concurrent writer's update belongs in :func:`update_json`.
+
+    Args:
+        path: Destination ``.json`` file.
+        payload: Mapping to persist.
+    """
+    tmp = _unique_tmp(path)
+    with _JSON_LOCK:
+        tmp.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
+        _restrict_file(tmp)
+        tmp.replace(path)
+        _restrict_file(path)
+
+
+def load_json(path: Path, default: dict) -> dict:
+    """Load a JSON mapping from ``path`` or return a deep copy of ``default``.
+
+    A corrupt or unreadable file falls back to the default instead of
+    raising, with the failure logged at debug so hidden state corruption
+    is observable rather than silent.
+
+    Args:
+        path: Source ``.json`` file.
+        default: Fallback document returned when the file is absent or
+            unreadable.
+
+    Returns:
+        The loaded mapping, or a fresh copy of ``default``.
+    """
+    try:
+        if path.exists():
+            return json.loads(path.read_text())
+    except Exception as exc:
+        logging.getLogger(__name__).debug("corrupt or unreadable JSON store %s, using default: %s", path, exc)
+    return json.loads(json.dumps(default))
+
+
+def append_jsonl(path: Path, rows: list[dict]) -> int:
+    """Append rows as JSON lines to ``path``, creating a 0700 parent.
+
+    Args:
+        path: Target ``.jsonl`` file.
+        rows: Row mappings to append.
+
+    Returns:
+        Number of appended rows, or 0 when the write failed.
+    """
+    if not rows:
+        return 0
+    try:
+        _ensure_parent(path)
+        with path.open("a", encoding="utf-8") as handle:
+            for row in rows:
+                handle.write(json.dumps(row, ensure_ascii=False) + "\n")
+        return len(rows)
+    except OSError:
+        return 0
+
+
+def read_jsonl(path: Path, limit: int = 0) -> list[dict]:
+    """Read JSON lines from ``path``, preserving order, skipping bad rows.
+
+    Args:
+        path: Source ``.jsonl`` file.
+        limit: Maximum rows returned (0 keeps every readable row).
+
+    Returns:
+        Parsed row mappings; unreadable lines are skipped.
+    """
+    try:
+        lines = path.read_text(encoding="utf-8", errors="replace").splitlines()
+    except OSError:
+        return []
+    rows: list[dict] = []
+    for line in lines:
+        line = line.strip()
+        if not line:
+            continue
+        try:
+            row = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        if isinstance(row, dict):
+            rows.append(row)
+    if limit and len(rows) > limit:
+        rows = rows[-limit:]
+    return rows
+
+
+__all__ = [
+    "append_jsonl",
+    "file_lock",
+    "load_json",
+    "read_jsonl",
+    "save_json",
+    "update_json",
+    "write_bytes_atomic",
+    "write_text_atomic",
+]

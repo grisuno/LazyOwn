@@ -200,6 +200,7 @@ def transform_knowledge_base(prompt_builder) -> None:
                 OLLAMA_URL,
                 json={"model": MODEL, "prompt": complex_prompt, "stream": True},
                 stream=True,
+                timeout=60,
             )
             if resp.status_code == 200:
                 for line in resp.iter_lines():

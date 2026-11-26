@@ -12,11 +12,12 @@ import io
 import logging
 import sqlite3
 import threading
-import xml.etree.ElementTree as ET
 from collections.abc import Iterator
 from contextlib import contextmanager
 from pathlib import Path
 from typing import Any
+
+from core.hardening import defused_xml_parse
 
 logger = logging.getLogger(__name__)
 
@@ -668,7 +669,7 @@ class LazyOwnDB:
         fingerprints.
         """
         counts: dict[str, int] = {"hosts": 0, "services": 0, "os": 0}
-        root = ET.parse(xml_path).getroot()
+        root = defused_xml_parse(xml_path)
 
         service_rows: list[tuple[int, int, str, str, str, str, str]] = []
 

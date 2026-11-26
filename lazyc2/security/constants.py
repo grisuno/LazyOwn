@@ -17,6 +17,16 @@ MAX_UPLOAD_SIZE_BYTES = 10 * 1024 * 1024
 AES_KEY_SIZE_BYTES = 32
 MINIMUM_PASSWORD_LENGTH = 12
 
+CONTENT_SECURITY_POLICY = (
+    "default-src 'self'; img-src 'self' data: https://upload.wikimedia.org; "
+    "style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; "
+    "script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com "
+    "https://unpkg.com https://cdn.jsdelivr.net; "
+    "script-src-elem 'self' 'unsafe-inline' https://cdnjs.cloudflare.com "
+    "https://unpkg.com https://cdn.jsdelivr.net; "
+    "connect-src 'self'"
+)
+
 ALLOWED_HTML_TAGS = (
     "p",
     "br",

@@ -26,6 +26,7 @@ import hmac
 import json
 import logging
 import os
+import re
 import secrets
 import time
 from collections.abc import Callable
@@ -48,6 +49,9 @@ MFA_ISSUER = "LazyOwn"
 
 RECOVERY_CODES_COUNT = 8
 RECOVERY_CODE_LENGTH = 10
+
+_TENANT_ID_PATTERN = re.compile(r"^[a-z0-9_]{1,64}$")
+TENANT_ID_MAX_CHARS = 64
 
 ROLE_DEFAULT = "operator"
 
@@ -455,7 +459,7 @@ class TenantManager:
         return self._default_payload
 
     def create_tenant(self, name: str, base_payload: str | None = None) -> TenantConfig:
-        tenant_id = _slugify(name)
+        tenant_id = _validate_tenant_id(_slugify(name))
         if tenant_id in self._tenants:
             raise ValueError(f"Tenant '{tenant_id}' already exists")
 
@@ -520,16 +524,38 @@ class TenantManager:
 
 
 def _slugify(name: str) -> str:
-    import re
-
-    slug = name.lower().strip()
+    slug = str(name or "").lower().strip()
     slug = re.sub(r"[^a-z0-9]+", "_", slug)
     slug = re.sub(r"_+", "_", slug)
-    return slug.strip("_") or "default"
+    return slug.strip("_")[:TENANT_ID_MAX_CHARS] or "default"
+
+
+def _validate_tenant_id(tenant_id: str) -> str:
+    """Validate one tenant id against the strict allowlist.
+
+    Args:
+        tenant_id: Candidate tenant id (already slugified by callers).
+
+    Returns:
+        The validated id, unchanged.
+
+    Raises:
+        ValueError: If the id is not lowercase alphanumeric/underscore
+            or exceeds ``TENANT_ID_MAX_CHARS``.
+    """
+    identifier = str(tenant_id or "")
+    if not _TENANT_ID_PATTERN.fullmatch(identifier):
+        raise ValueError(f"Invalid tenant id: '{tenant_id}'")
+    return identifier
 
 
 def _tenant_sessions_dir(tenant_id: str) -> str:
     """Return the sessions directory for one tenant, containment-checked.
+
+    The tenant id must pass the strict allowlist
+    (:func:`_validate_tenant_id`) before it is joined into any path, and
+    the joined candidate is realpath-resolved and prefix-checked against
+    the sessions base.
 
     Args:
         tenant_id: Slugified tenant id.
@@ -538,13 +564,15 @@ def _tenant_sessions_dir(tenant_id: str) -> str:
         The ``sessions/<tenant_id>`` path string.
 
     Raises:
-        ValueError: If the resolved path escapes the sessions directory.
+        ValueError: If the id fails the allowlist or the resolved path
+            escapes the sessions directory.
     """
+    identifier = _validate_tenant_id(tenant_id)
     sessions_base = os.path.realpath(DEFAULT_SESSIONS_DIR)
-    candidate = os.path.realpath(os.path.join(sessions_base, tenant_id))
+    candidate = os.path.realpath(os.path.join(sessions_base, identifier))
     if not candidate.startswith(sessions_base + os.sep):
         raise ValueError(f"Invalid tenant id: '{tenant_id}'")
-    return os.path.join(DEFAULT_SESSIONS_DIR, tenant_id)
+    return os.path.join(DEFAULT_SESSIONS_DIR, identifier)
 
 
 def init_rbac_store(users_path: str = DEFAULT_USERS_PATH) -> RBACStore:

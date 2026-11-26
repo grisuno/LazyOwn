@@ -59,6 +59,8 @@ WORLD_MODEL_PATH = _DEFAULT_PATH
 ENCRYPTED_SUFFIX: str = ".encrypted"
 _FERNET_TOKEN_PREFIX: str = "gAAAAA"
 _MAX_TOKEN_WRAP_DEPTH: int = 3
+_DECRYPT_WARNED: set[str] = set()
+_UNREADABLE_WARNED: set[str] = set()
 _SALT_RELATIVE: str = ".auto_crypto_salt"
 _RESTRICTED_FILE_MODE: int = 0o600
 
@@ -204,7 +206,8 @@ def _decrypt_payload_text(text: str, password: str, salt: bytes) -> dict:
 
     Nested tokens are unwrapped up to ``_MAX_TOKEN_WRAP_DEPTH`` levels so
     documents re-encrypted in place by an external engine (auto-crypto)
-    remain transparently readable.
+    remain transparently readable. Decryption failures are warned once
+    per process so repeated reads cannot flood the log.
 
     Args:
         text: Fernet token string.
@@ -222,7 +225,14 @@ def _decrypt_payload_text(text: str, password: str, salt: bytes) -> dict:
             cipher = Fernet(_derive_crypto_key(password, salt))
             decrypted = cipher.decrypt(current.encode("ascii"))
         except Exception as exc:
-            log.warning("world_model: failed to decrypt state: %s", exc)
+            if current not in _DECRYPT_WARNED:
+                _DECRYPT_WARNED.add(current)
+                log.warning(
+                    "world_model: state sealed under a different secret (%s) — starting empty",
+                    type(exc).__name__,
+                )
+            else:
+                log.debug("world_model: failed to decrypt state (%s)", type(exc).__name__)
             return {}
         try:
             parsed = json.loads(decrypted.decode("utf-8"))
@@ -311,7 +321,9 @@ def read_state_dict(path: str | Path) -> dict:
             document = _read_encrypted_dict(plain)
             if document:
                 return document
-            log.warning("world_model.read_state_dict: unreadable state %s", plain)
+            if str(plain) not in _UNREADABLE_WARNED:
+                _UNREADABLE_WARNED.add(str(plain))
+                log.warning("world_model.read_state_dict: unreadable state %s", plain)
             return {}
     encrypted = Path(str(plain) + ENCRYPTED_SUFFIX)
     if encrypted.is_file():

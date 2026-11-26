@@ -803,9 +803,9 @@ class WorkerAgenticMixin:
             LlmPool,
             build_prompt_context,
             constraint_block,
-            plausible_command,
             task_llm_chain,
         )
+        from modules.loop.command_sanitize import plausible_command
 
         try:
             pool = LlmPool()

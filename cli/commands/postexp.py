@@ -7,13 +7,17 @@ creation. Active and registered via :class:`LazyOwnCommandSet`.
 
 from __future__ import annotations
 
+import argparse
+import base64
 import glob
 import json
 import os
 import shlex
+import shutil
 import subprocess
 import sys
 import time
+from datetime import datetime
 
 import cmd2
 import requests
@@ -26,13 +30,10 @@ from utils import (
     RESET,
     YELLOW,
     AESencrypt,
-    argparse,
-    base64,
     check_lhost,
     clean_html,
     copy2clip,
     create_synthetic_yaml,
-    datetime,
     dropFile,
     extract,
     generate_index,
@@ -52,7 +53,6 @@ from utils import (
     salida_strace,
     save_playbook,
     shellcode_to_sylk,
-    shutil,
     teclado_usuario,
     timedelta,
     timezone,
@@ -826,7 +826,7 @@ class PostexpMigratedCommandSet(LazyOwnCommandSet):
         url = f"http://shell-storm.org/api/?s={keywords}"
 
         try:
-            response = requests.get(url).text.splitlines()
+            response = requests.get(url, timeout=10).text.splitlines()
             if response:
                 print_msg(f"[*] {len(response)} results found")
                 for shellcode in response:
@@ -836,7 +836,7 @@ class PostexpMigratedCommandSet(LazyOwnCommandSet):
                 shellcode_id = input("[*] Select shellcode id: ")
                 subprocess.call(["clear"])
                 shellcode_url = f"http://shell-storm.org/shellcode/files/shellcode-{shellcode_id}.html"
-                shellcode_response = requests.get(shellcode_url).text
+                shellcode_response = requests.get(shellcode_url, timeout=10).text
                 shellcode_response = shellcode_response.replace("&quot;", '"')
                 shellcode = extract(shellcode_response, False)
                 shellcode = clean_html(shellcode)
@@ -1491,6 +1491,9 @@ class PostexpMigratedCommandSet(LazyOwnCommandSet):
             input_exe = line.strip()
         else:
             input_exe = get_users_dic("exe")
+        if not input_exe:
+            print_error("No .exe files found in 'sessions/' directory.")
+            return
         path = os.getcwd()
         output_bin = f"{path}/sessions/shellcode.bin"
         try:
@@ -1518,6 +1521,9 @@ class PostexpMigratedCommandSet(LazyOwnCommandSet):
             input_exe = line.strip()
         else:
             input_exe = get_users_dic("exe")
+        if not input_exe:
+            print_error("No .exe files found in 'sessions/' directory.")
+            return
         try:
             from modules.payload_native import PayloadNativeError, build_donut_shellcode
 
@@ -1880,6 +1886,9 @@ class PostexpMigratedCommandSet(LazyOwnCommandSet):
 
         path = os.getcwd()
         shellcode = get_users_dic("c")
+        if not shellcode:
+            print_error("No .c files found in 'sessions/c' directory.")
+            return
         name_shell = "shell.c"
         name_shell_inf = "infect.c"
         sessions = f"{path}/sessions/c"
@@ -2059,6 +2068,9 @@ class PostexpMigratedCommandSet(LazyOwnCommandSet):
         """
         if not line:
             line = get_users_dic("sh")
+        if not line:
+            print_error("No .sh files found in 'sessions/' directory.")
+            return
 
         with open(line) as f:
             content = f.read().strip()
@@ -2122,7 +2134,6 @@ class PostexpMigratedCommandSet(LazyOwnCommandSet):
         with open(f"{path}/sessions/key.aes", "rb") as f:
             AES_KEY = f.read()
 
-        AES_KEY_hex = AES_KEY.hex()
         if not line:
             print("Available adversaries:")
             for adv in adversaries:
@@ -2137,8 +2148,12 @@ class PostexpMigratedCommandSet(LazyOwnCommandSet):
             elif len(line) == 1:
                 confirm = None
                 id_adversary = line.strip()
+        if not (id_adversary or "").isdigit():
+            print_error("Usage: adversary <id> <l|r|n>  (or no args to list)")
+            return
 
         adversary = next((adv for adv in adversaries if adv.id == int(id_adversary)), None)
+        AES_KEY_hex = AES_KEY.hex()
 
         if adversary:
             replacements = {
@@ -2510,7 +2525,11 @@ class PostexpMigratedCommandSet(LazyOwnCommandSet):
         Return: Converts the Python REMCOMSVC byte string from remcomsvc.py to Golang byte slice format, prints a sample, and saves it to sessions/remcomsvc.go.
         """
         sys.path.append("./env/lib/python3.12/site-packages/impacket/examples")
-        import remcomsvc
+        try:
+            import remcomsvc
+        except ImportError:
+            print_error("remcomsvc module not found (impacket examples not installed in ./env).")
+            return
 
         remcomsvc_python_bytes = remcomsvc.REMCOMSVC
 
@@ -2550,6 +2569,9 @@ class PostexpMigratedCommandSet(LazyOwnCommandSet):
             AES_KEY_hex = f.read().hex()
 
         id_adversary, confirm = self._parse_adversary_args(line)
+        if not (id_adversary or "").isdigit():
+            print_error("Usage: adversary_yaml <id> <l|r|n>")
+            return
         adversary = next((adv for adv in adversaries if adv["id"] == int(id_adversary)), None)
 
         if not adversary:
@@ -2696,6 +2718,9 @@ class PostexpMigratedCommandSet(LazyOwnCommandSet):
             exe = get_users_dic("exe")
         except Exception as exc:
             self.display_toastr(f"Failed getting file: {exc}", type="error")
+            return
+        if not exe:
+            print_error("No .exe files found in 'sessions/' directory.")
             return
 
         file = open(exe, "rb")

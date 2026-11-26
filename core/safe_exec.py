@@ -25,7 +25,7 @@ import subprocess
 import sys
 import time
 import urllib.parse
-from collections.abc import Sequence
+from collections.abc import Mapping, Sequence
 from pathlib import Path
 
 log = logging.getLogger("core.safe_exec")
@@ -246,6 +246,7 @@ def safe_run_argv(
     capture_output: bool = True,
     check: bool = False,
     input_data: str | None = None,
+    extra_env: Mapping[str, str] | None = None,
 ) -> subprocess.CompletedProcess[str]:
     """Execute a command via subprocess without shell interpretation.
 
@@ -259,6 +260,8 @@ def safe_run_argv(
         capture_output: Whether to capture stdout and stderr.
         check: Whether to raise on non-zero exit.
         input_data: Optional stdin content.
+        extra_env: Optional environment additions merged over the parent
+            environment (values are verbatim overrides, never trimmed).
 
     Returns:
         CompletedProcess result.
@@ -272,6 +275,10 @@ def safe_run_argv(
         if "\0" in arg:
             raise CommandInjectionError("Null byte in argument rejected")
     log.debug("safe_run_argv: %s", argv[0])
+    env: dict[str, str] | None = None
+    if extra_env:
+        env = dict(os.environ)
+        env.update({str(key): str(value) for key, value in extra_env.items()})
     group = _new_session_enabled()
     process = subprocess.Popen(
         list(argv),
@@ -281,6 +288,7 @@ def safe_run_argv(
         stdin=subprocess.PIPE if input_data is not None else None,
         text=True,
         start_new_session=group,
+        env=env,
     )
     try:
         stdout, stderr = _communicate_group_managed(process, timeout, input_data, group)

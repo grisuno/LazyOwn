@@ -13,7 +13,7 @@ import sys
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-TARGET = BASE_DIR / "pwntomate.py"
+TARGET = BASE_DIR / "scripts" / "pwntomate.py"
 TEST_FILE = "tests/test_no_shell_execution.py"
 
 MUTATIONS = {

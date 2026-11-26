@@ -34,8 +34,8 @@ python -m http.server 8080 --directory docs/
 To force a docs-only rebuild without creating a release commit:
 
 ```bash
-python readmeneitor.py lazyown.py
-python readmeneitor.py utils.py
+python scripts/readmeneitor.py lazyown.py
+python scripts/readmeneitor.py utils.py
 bash scripts/update_index.sh
 ```
 

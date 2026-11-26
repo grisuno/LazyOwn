@@ -52,11 +52,13 @@ class TestSafeSubprocessRun:
 
         from core.hardening import safe_subprocess_run
 
-        with mock.patch("core.hardening.subprocess.run") as m:
+        with mock.patch("core.hardening.safe_run_argv") as m:
             m.return_value = mock.Mock(returncode=0, stdout="", stderr="")
             safe_subprocess_run(["echo", "test"], reason="unit test")
-            call_kwargs = m.call_args[1]
-            assert call_kwargs.get("shell") is False
+            m.assert_called_once()
+            call_argv = m.call_args[0][0]
+            assert call_argv == ["echo", "test"]
+            assert m.call_args[1].get("extra_env") is None
 
     def test_returns_completed_process_fields(self):
         from core.hardening import safe_subprocess_run
@@ -72,44 +74,43 @@ class TestSafeSubprocessRun:
 
         from core.hardening import safe_subprocess_run
 
-        with mock.patch("core.hardening.subprocess.run") as m:
+        with mock.patch("core.hardening.safe_run_argv") as m:
             m.return_value = mock.Mock(returncode=0, stdout="", stderr="")
             safe_subprocess_run(["echo", "x"], timeout=42)
-            call_kwargs = m.call_args[1]
-            assert call_kwargs["timeout"] == 42
+            assert m.call_args[1]["timeout"] == 42
 
     def test_capture_output_default_true(self):
         import unittest.mock as mock
 
         from core.hardening import safe_subprocess_run
 
-        with mock.patch("core.hardening.subprocess.run") as m:
+        with mock.patch("core.hardening.safe_run_argv") as m:
             m.return_value = mock.Mock(returncode=0, stdout="", stderr="")
             safe_subprocess_run(["echo", "x"])
-            call_kwargs = m.call_args[1]
-            assert call_kwargs["capture_output"] is True
+            assert m.call_args[1]["capture_output"] is True
 
     def test_check_false(self):
-        import unittest.mock as mock
-
         from core.hardening import safe_subprocess_run
 
-        with mock.patch("core.hardening.subprocess.run") as m:
-            m.return_value = mock.Mock(returncode=0, stdout="", stderr="")
-            safe_subprocess_run(["echo", "x"])
-            call_kwargs = m.call_args[1]
-            assert call_kwargs["check"] is False
+        result = safe_subprocess_run(["ls", "/nonexistent_path_xyz"])
+        assert result.returncode != 0
 
     def test_text_mode_enabled(self):
+        from core.hardening import safe_subprocess_run
+
+        result = safe_subprocess_run(["echo", "x"])
+        assert isinstance(result.stdout, str)
+        assert result.returncode == 0
+
+    def test_extra_env_forwarded(self):
         import unittest.mock as mock
 
         from core.hardening import safe_subprocess_run
 
-        with mock.patch("core.hardening.subprocess.run") as m:
+        with mock.patch("core.hardening.safe_run_argv") as m:
             m.return_value = mock.Mock(returncode=0, stdout="", stderr="")
-            safe_subprocess_run(["echo", "x"])
-            call_kwargs = m.call_args[1]
-            assert call_kwargs["text"] is True
+            safe_subprocess_run(["echo", "x"], extra_env={"LAZY_TEST": "1"})
+            assert m.call_args[1]["extra_env"] == {"LAZY_TEST": "1"}
 
 
 class TestSafeClipboardCopy:

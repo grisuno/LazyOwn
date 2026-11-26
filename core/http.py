@@ -64,6 +64,7 @@ def lab_tolerant_request(method: str, url: str, **kwargs: Any) -> requests.Respo
             fails without operator opt-in.
     """
     session = requests.Session()
+    kwargs.setdefault("timeout", 10)
     try:
         return session.request(method, url, **kwargs)
     except SSLError:

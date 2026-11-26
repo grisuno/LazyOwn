@@ -149,7 +149,9 @@ class EvasionEngine:
         proto = "t13"
         sni = "d"
         alpn = "h2" if random.random() > 0.3 else "h1"
-        selected_ciphers = random.sample(self._TLS_CIPHER_SUITES, k=random.randint(6, 10))
+        selected_ciphers = random.sample(
+            self._TLS_CIPHER_SUITES, k=min(random.randint(6, 10), len(self._TLS_CIPHER_SUITES))
+        )
         cipher_count = len(selected_ciphers)
         extensions = sorted(
             random.sample(

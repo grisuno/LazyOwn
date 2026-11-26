@@ -51,14 +51,14 @@ def test_regenerates_command_index(workflow_steps: list[str]) -> None:
 
 
 def test_regenerates_commands_reference(workflow_steps: list[str]) -> None:
-    assert any(_runs_command(step, "python3 readmeneitor.py lazyown.py") for step in workflow_steps), (
-        "workflow must regenerate COMMANDS.md via readmeneitor.py lazyown.py"
+    assert any(_runs_command(step, "python3 scripts/readmeneitor.py lazyown.py") for step in workflow_steps), (
+        "workflow must regenerate COMMANDS.md via scripts/readmeneitor.py lazyown.py"
     )
 
 
 def test_regenerates_utils_reference(workflow_steps: list[str]) -> None:
-    assert any(_runs_command(step, "python3 readmeneitor.py utils.py") for step in workflow_steps), (
-        "workflow must regenerate UTILS.md via readmeneitor.py utils.py"
+    assert any(_runs_command(step, "python3 scripts/readmeneitor.py utils.py") for step in workflow_steps), (
+        "workflow must regenerate UTILS.md via scripts/readmeneitor.py utils.py"
     )
 
 

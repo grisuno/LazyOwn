@@ -55,7 +55,7 @@ def results(file):
         urls.append(url['url'])
     return urls
 def crawl(url):
-    r = requests.get(url)
+    r = requests.get(url, timeout=10)
     soup = BeautifulSoup(r.text,'lxml')
     links = soup.findAll('a',href=True)
     for link in links:

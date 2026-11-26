@@ -17,15 +17,17 @@ jobs:
         with: { python-version: "3.11" }
       - name: Rebuild command index
         run: python3 scripts/build_command_index.py
+      - name: Freeze gate (surface must not grow)
+        run: python3 scripts/check_freeze.py
       - name: Regenerate commands reference
-        run: python3 readmeneitor.py lazyown.py
+        run: python3 scripts/readmeneitor.py lazyown.py
       - name: Regenerate utils reference
-        run: python3 readmeneitor.py utils.py
+        run: python3 scripts/readmeneitor.py utils.py
       - name: Fail on command index drift
         run: git diff --exit-code -- cli/command_index.json || (echo "cli/command_index.json drifted. Run python3 scripts/build_command_index.py" && exit 1)
       - name: Fail on commands reference drift
-        run: git diff --exit-code -- COMMANDS.md docs/COMMANDS.html || (echo "COMMANDS.md drifted. Run python3 readmeneitor.py lazyown.py" && exit 1)
+        run: git diff --exit-code -- COMMANDS.md docs/COMMANDS.html || (echo "COMMANDS.md drifted. Run python3 scripts/readmeneitor.py lazyown.py" && exit 1)
       - name: Fail on utils reference drift
-        run: git diff --exit-code -- UTILS.md || (echo "UTILS.md drifted. Run python3 readmeneitor.py utils.py" && exit 1)
+        run: git diff --exit-code -- UTILS.md || (echo "UTILS.md drifted. Run python3 scripts/readmeneitor.py utils.py" && exit 1)
       - name: Check onboarding smoke
         run: bash scripts/smoke_onboarding.sh

@@ -21,6 +21,7 @@ class at startup, so no wiring change is needed as commands are added.
 
 from __future__ import annotations
 
+import base64
 import glob
 import json
 import os
@@ -44,7 +45,6 @@ from utils import (
     YELLOW,
     Filter,
     MemoryStore,
-    base64,
     check_lhost,
     check_lport,
     check_rhost,

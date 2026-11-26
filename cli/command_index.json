@@ -56,6 +56,7 @@
     "cli/commands/lazy_adaptive.py",
     "cli/commands/lazy_creds.py",
     "cli/commands/lazy_dorks.py",
+    "cli/commands/lazy_hebb.py",
     "cli/commands/lazy_oob.py",
     "cli/commands/lazy_passgen.py",
     "cli/commands/lazy_poc.py",
@@ -104,18 +105,18 @@
     "cli/commands/winbox_gym.py"
   ],
   "source_sha256": {
-    "lazyown.py": "5b7086de429e5b46647bc68d03e1af5e6571b9a53b75371cf484bb7dc7ae28fd",
+    "lazyown.py": "d42cca4be205a5f171c0db93ff3b678db5ef469b7f27888fb2714a2bd7f8fdf2",
     "cli/commands/active_directory.py": "192e0142d72873886f4999c8f43c0bc847fc521431ffd370fd7168343fe7aeea",
     "cli/commands/ai.py": "f37d1b498788a83aed906f77ffc707885bdc118f3c39e7756b7eb5e40ee668d2",
     "cli/commands/anti_forensics.py": "8aa4e0ceaa3c58c24f884dc828edd4557288108825331c600f1143074591b791",
     "cli/commands/applocker_bypass.py": "b8338d5a39be0d9424409d9e5e2dc83f966a1ec4bf829bdf380c471fcea7ec40",
     "cli/commands/audit.py": "14c827d8cedb5d8993f7c02f2dc85fb62161a511bfdc926e15a5ab500f79b0aa",
-    "cli/commands/automation.py": "0d4ee2afb478faa2a2f8978ca362b35d995250b9913fded4f29f9679fb4a8b7c",
+    "cli/commands/automation.py": "5b973734c0da676a6b21ac6d5367816dc1c2a19aa7da4275f121d543cde89988",
     "cli/commands/bitm.py": "254d77ee1ff099769a0639f90c25e2e9329b74624341cb52849c64fde65880cc",
     "cli/commands/bof_registry.py": "98894201b78df3e1c1c30ecc6764f23aaa14ca524fd1efc8d6ea47f69c308227",
     "cli/commands/browser_sync.py": "a59cff19b90903bc764edc1dff1d97c6c700170b2f573169f2e580e87b0e9cd2",
     "cli/commands/c2_profile.py": "7dabe5e299e81deaf6ceab5930e7c5ca22302f7edfe07906bc9d059c72294b07",
-    "cli/commands/c2_session.py": "150606e0122cb0c8050152349e1d0226b5165fcb4ff38adb78e114f53c24cacc",
+    "cli/commands/c2_session.py": "75d45ba39309e37edf4a1192b615ed62550d54655eadb848426c4d022f683f19",
     "cli/commands/caldera.py": "a3e4c78b02bcc84d14f42a7f688401565a3b8246b81239fc4f65d8c6711951ce",
     "cli/commands/campaign.py": "b32d1b40fecc46d1b324e4be400ab1f2dadb4f4215074cf5ce5fca96d0e4cf05",
     "cli/commands/catalog.py": "4ceddffc526e753495dfa1fc25e3bb858cb2579121630c6ef6c6bde5f7571ce6",
@@ -123,10 +124,10 @@
     "cli/commands/cli_auth.py": "96a824c854dbda87367397e555431f1b19afcb34eb2e54d73064b73a3453e519",
     "cli/commands/cloud.py": "cca5669e3b89df2ced0dc4f933c87bcfa734008af6414b9cafb8a287308d9df6",
     "cli/commands/cloud_attacks.py": "5c3ab1d2b36d1ef3c3ee0f801d67553b03d09f26e965ad9000036b18877271f4",
-    "cli/commands/collaboration.py": "08f90c0114b6e8ebbf29e89bf41b65177cb03f5a60a10f6d85c208dbfae7ff93",
-    "cli/commands/command_and_control.py": "1eaf63cc51f940d62d0c6d3f6615e8f3c3b1bcc25432b120e1fbed1189da0f1d",
+    "cli/commands/collaboration.py": "c6d6290b255cc64d22f5d6b6586567db0babf2ad1d14b359d98675a3a0a2fdb5",
+    "cli/commands/command_and_control.py": "f6fdc97a85a63110a1e3fc65d74c333830a87ad24ef7ecebceb4898d59cc6b10",
     "cli/commands/containers.py": "568632938ed52ae040b94c031bb5d653ddc103f42221e9e3da5023e08765d2b0",
-    "cli/commands/cred.py": "ee12b68e2f88134e23f0fae2448d89c32024eaa93be4874b9ef006eecc731d01",
+    "cli/commands/cred.py": "5b2d4b001f082d38785b6511bb4662c36bff91d6072d7fd3dbaea2caadb43380",
     "cli/commands/crystal_ball.py": "2a8849f7155c42704d1fe3ae777f109b1e4dc1d1fb2fd0d99e459c008231fe35",
     "cli/commands/cve_local.py": "3983c4c912560a0a210fafb98adc820913ef014db5fff34ea08c2677e1964bda",
     "cli/commands/daemon_ctl.py": "3e68c2481faf8ffc0a51b438d77d48810ceaf7d29e3ec9575050a95939f78876",
@@ -141,8 +142,8 @@
     "cli/commands/enum.py": "87d2d1fc4abcfb4483a0e87827ecee632bba9574cfe3306a35d4c863c234760d",
     "cli/commands/estorides.py": "8f34ae1b021447d59b70fd5cf7b730a179cca3b57d752de0653657e32e697c2f",
     "cli/commands/evasive_payload.py": "4baddb2157121733419873d54b4676a649199a50af56578265708b6ce6774498",
-    "cli/commands/exfiltration.py": "e1d15ddc6e64c943c7d549a0fd66bae02d89b8c29f8fb2207414ce56e65b3c7f",
-    "cli/commands/exploit.py": "66b990132438f67674a59265dc69868ffb5710916b8dfc35175aa8b6765dec11",
+    "cli/commands/exfiltration.py": "2511a2562904b0a150509a6cc53d744a0c1e856276e87abb8cf9cc0ee46368b9",
+    "cli/commands/exploit.py": "9800f04cbcafc9e77ed273095d1f2587f8c56631d3ad4b49ec30743b8b2c43c5",
     "cli/commands/exploitdb.py": "407063f813231b43cadcd003464e1a791dc1a660b23ec7df2372c67262a751f0",
     "cli/commands/exploitgym.py": "365c98a1002f589c8d2143f605e0ed8d6d8668417fe14a5b1f8fd475d4398831",
     "cli/commands/exposure_autofire.py": "d3993337a4967326583ba72b19ca34ee50c173bea2135bb6b3378e2eea4c5ad2",
@@ -155,10 +156,11 @@
     "cli/commands/help_ui.py": "eaa10623e6bf82e9c3ba660912b7f8998f7cbf5ef4c7be92087f299b1f3c0c7b",
     "cli/commands/infra.py": "b6b9031230e32ca71e5372c7a9438f99b64889956a54685ea42a00bff7c5c1ef",
     "cli/commands/lab.py": "33dcff322795c822bbc77b6e119b7d797d4050b0725f831ecfc9df475bb6ac81",
-    "cli/commands/lateral.py": "78051c29e72e9bfffffb3a289b33ec6848cc3bc881ed298246f523dadaeb7425",
+    "cli/commands/lateral.py": "a28f5dba54a4c021a6be61cd39185a8f278cef982b369258e50f147af73d40bc",
     "cli/commands/lazy_adaptive.py": "03fc1f467dc0459a0a068ec7b9dbf8b2ed825fb471a4f6c8490c5f07a5e48ff9",
     "cli/commands/lazy_creds.py": "8e5464a585b3e19b4ef9de603f0af46abc6e81916e9f794d1515a335cb170e67",
     "cli/commands/lazy_dorks.py": "60cb2c3701b576300be073a784bd5f5959b82b5bfbf1696358bf45ca4f603016",
+    "cli/commands/lazy_hebb.py": "9c59326c659adc5bc87816f07654451a1775d795f0f9d8d17392455b3b71b65b",
     "cli/commands/lazy_oob.py": "d047fd30056cdab907b887871a441d7a321ec948a352d76431f454012e92dc67",
     "cli/commands/lazy_passgen.py": "b1a66e83f193dbeabda267552a0b79741555d1a4cfeb801a4c8143920c9e2a09",
     "cli/commands/lazy_poc.py": "9035714b0dc3a90e9f7bf7ac238c34d1db5a1c4cf232d67419a49badda317f02",
@@ -168,27 +170,27 @@
     "cli/commands/loop_audit.py": "23573e02ef4c2e8e24ccffd4781bcb856cc79a49b49f2033b1ac8bdd085120b5",
     "cli/commands/marketplace.py": "368573cd71b61825ecbae968f2000bad5e75055ac2f72bcaa611b685ed8b0d51",
     "cli/commands/mcp_bridge.py": "cdbb53af5b1c3036d034ca609b82f59087b170a110f99301ce72ce3dba1b4c89",
-    "cli/commands/misc.py": "0ab7e1634c13e9c6f03b3145dd36b1bfc9f2265f1d8084e63ca60f75ed6ed384",
+    "cli/commands/misc.py": "97cde0a23387a3c94a2d1d4d20e9d96a9b7e561856f6fcbfa9ef2f1c33fa1445",
     "cli/commands/mitre_coverage.py": "aa895e9d06fd37f25360451baa46d37a4bac55baa4fb6f6b7ad3fb0faf91add2",
     "cli/commands/mobile_macos.py": "4a1705515212bed4c8bae93694a2279e4ab20ac3b9dc63589a218180976a7379",
     "cli/commands/module_manager.py": "fa8687f605e6bd4bbf6632366d0a0d5bc0aadfbfb53688d8007b2c999b277e49",
     "cli/commands/netattack.py": "e22782020c095787bbb2b813aa8092704158d7c0c0c29074c4f12a2df643daeb",
     "cli/commands/nethelpers.py": "9f24ddc2565f1a1e6491e7b6ea4ff8a316d5ed5da68986f32d675a0d688e1708",
-    "cli/commands/opsec_cleanup.py": "9e178c8acf8c55a23f8dcd5ce33768f25c02ca04106b4e1d285a9ad78336d878",
+    "cli/commands/opsec_cleanup.py": "ba1728b9f8c6ee6f3aa67a0b00bedf6e7278ff5ce07d5056715e091cf3f4254f",
     "cli/commands/orchestration.py": "e4123e1ea96f137363297ffcfe6d8f6319049ad0980549d45f8503c59d9cb72b",
     "cli/commands/params_ops.py": "9537157228ea5cf191e981c032c5cf49ab92d98f04ad717f6b27284a2e8b767a",
     "cli/commands/payload_arsenal.py": "194cb64b3a2aea266ebc4a5312fc49710a173f174e822940870b914142a7bf92",
     "cli/commands/payload_generation.py": "c80b5770da6ec8d65e27d317b25517f58d0aaca60967c195177250d90dbd6ee4",
-    "cli/commands/persist.py": "95f5a4538ae1366667232b882e88705e83f3d3a4f8cbfc464a547d5d4caf1b1f",
-    "cli/commands/phishing_wizard.py": "e5d2e08608402ab53fa3d99fd3e2513b10fbcd9e2405ec573356c61e2bc83055",
+    "cli/commands/persist.py": "579bde6321b4a32e552634c3b2013bb380cea0bfddf80160e22fda9e89a3cb99",
+    "cli/commands/phishing_wizard.py": "d539316ca741fb88ade8fb1b1bb166ce90d80ec71eb342a1143a62923bdd870b",
     "cli/commands/pivoting.py": "8eb7db6cc59a15cefa055be91cc108c59e4bbd42f8690db729c834b51820a142",
-    "cli/commands/postexp.py": "b2fcf601f39a5aa6b58bd2ab11b9e5bc4d51c808c9efd23d14355931f57fe0f9",
-    "cli/commands/privilege_escalation.py": "cadce76403468e2479cbfab0146e0d60354fa16bbd0712c32012d6f6826e99d4",
+    "cli/commands/postexp.py": "e23da03758405ca7b3a4391c4181678ebd721251971eb06d5ec29fc84314b487",
+    "cli/commands/privilege_escalation.py": "9866aa02a69499c2bacddddd53d359523970c394385f78491088cbe6a728497f",
     "cli/commands/purple_team.py": "1b50ccf334dd6e7afb87a606a80437f14abb9013bd3518a80eb4d05fb4670af1",
     "cli/commands/pwn.py": "fad030c762e6ec2e633335b0493932f6d1845aefda87d14341d82123873a4c1c",
-    "cli/commands/recon.py": "718fe9b7ab59e0fd9790f034283e7479cf1c803589b8ffa6b7935560de63c33e",
+    "cli/commands/recon.py": "b0dd83c409e21ddd257ee3d37e556eeb8aa131b4194e88cad6feef3bfa838746",
     "cli/commands/redteam_gym.py": "7afb467fb4e5bf711b82b89782b00d1cdb69c8e0d776fd63e262464cc352561b",
-    "cli/commands/report.py": "750041ff28d9bfaad4f1ef85c36f44cf885a426e8046ce013911a34973dd234d",
+    "cli/commands/report.py": "cf81012501de31ce11e2e486c0b65d4293e16888a66cedacfb99e4852756eab4",
     "cli/commands/report_enhanced.py": "505f7687faf1a821dcd9a285e240833ed0f22f578dbe46c0aa4578c4df8a48d3",
     "cli/commands/reporting.py": "eff4961ab39d81f96903d172649c91e24a26fc489234abdc16c50935f6c5ec0d",
     "cli/commands/resource_scripting.py": "d5ae946b5a429043c6fe4e781fd6f14eed3b7d3bf8bb650595e8bb1c40a44bba",
@@ -207,8 +209,8 @@
     "cli/commands/winbox_gym.py": "9cf60c6a80526452f5e13880cc8d4b80a59d5be515cabc18f3f1e4e20f455910"
   },
   "totals": {
-    "method_definitions": 887,
-    "unique_commands": 887,
+    "method_definitions": 890,
+    "unique_commands": 890,
     "duplicates": 0,
     "phases": 14,
     "categories": 18
@@ -245,6 +247,7 @@
       "do_c2_rotate",
       "do_c2_server",
       "do_c2_tls",
+      "do_c2token",
       "do_campaign_sitrep",
       "do_cicd_scan",
       "do_cicd_secrets",
@@ -382,6 +385,7 @@
       "do_phish_report",
       "do_phish_serve",
       "do_phish_wizard",
+      "do_phisher",
       "do_pivot_kill",
       "do_pivot_proxy",
       "do_pivot_scan",
@@ -529,6 +533,7 @@
       "do_lazyautofire",
       "do_lazycreds",
       "do_lazydork",
+      "do_lazyhebb",
       "do_lazyintel",
       "do_lazyinventory",
       "do_lazyoob",
@@ -1241,6 +1246,7 @@
       "do_lazyautofire",
       "do_lazycreds",
       "do_lazydork",
+      "do_lazyhebb",
       "do_lazyintel",
       "do_lazyinventory",
       "do_lazyoob",
@@ -2562,7 +2568,7 @@
     },
     {
       "name": "do_c2_server",
-      "line": 135,
+      "line": 181,
       "summary": "Manage the headless C2 server (lab use).",
       "category": null,
       "phase": "uncategorized",
@@ -2573,7 +2579,7 @@
     },
     {
       "name": "do_c2_reboot",
-      "line": 188,
+      "line": 234,
       "summary": "Restart the headless C2 server with ROTATED operator credentials.",
       "category": null,
       "phase": "uncategorized",
@@ -2584,7 +2590,7 @@
     },
     {
       "name": "do_c2_deploy",
-      "line": 269,
+      "line": 315,
       "summary": "Deploy the malleable agent to a lab target (needs root shell primitive).",
       "category": null,
       "phase": "uncategorized",
@@ -2595,7 +2601,7 @@
     },
     {
       "name": "do_c2_exec",
-      "line": 319,
+      "line": 365,
       "summary": "Run one command on a live C2 session and print its answer.",
       "category": null,
       "phase": "uncategorized",
@@ -2605,8 +2611,19 @@
       "duplicate_of": null
     },
     {
+      "name": "do_c2token",
+      "line": 412,
+      "summary": "Exchange C2 credentials for the backend session token.",
+      "category": null,
+      "phase": "uncategorized",
+      "source_file": "cli/commands/c2_session.py",
+      "class_name": "C2SessionCommandSet",
+      "community": null,
+      "duplicate_of": null
+    },
+    {
       "name": "do_c2_loot",
-      "line": 366,
+      "line": 456,
       "summary": "Exfiltrate a remote file through a live C2 session into sessions/loot/.",
       "category": null,
       "phase": "uncategorized",
@@ -3695,7 +3712,7 @@
     },
     {
       "name": "do_generatedic",
-      "line": 471,
+      "line": 474,
       "summary": "Generates a wordlist based on a target name and a list of characters, with various combinations.",
       "category": "07. Credential Access",
       "phase": "cred",
@@ -3706,7 +3723,7 @@
     },
     {
       "name": "do_createmail",
-      "line": 741,
+      "line": 744,
       "summary": "Generate email permutations based on a full name and self.params['domain'], then save them to a file.",
       "category": "07. Credential Access",
       "phase": "cred",
@@ -3717,7 +3734,7 @@
     },
     {
       "name": "do_passwordspray",
-      "line": 789,
+      "line": 792,
       "summary": "Perform password spraying using crackmapexec with the provided parameters.",
       "category": "07. Credential Access",
       "phase": "cred",
@@ -3728,7 +3745,7 @@
     },
     {
       "name": "do_addusers",
-      "line": 821,
+      "line": 824,
       "summary": "Opens or creates the users.txt file in the sessions directory for editing using nano.",
       "category": "07. Credential Access",
       "phase": "cred",
@@ -3739,7 +3756,7 @@
     },
     {
       "name": "do_passtightvnc",
-      "line": 843,
+      "line": 846,
       "summary": "Decrypts TightVNC passwords using Metasploit.",
       "category": "07. Credential Access",
       "phase": "cred",
@@ -3750,7 +3767,7 @@
     },
     {
       "name": "do_transform",
-      "line": 890,
+      "line": 893,
       "summary": "Transforms the input string based on user-defined casing style.",
       "category": "07. Credential Access",
       "phase": "cred",
@@ -3761,7 +3778,7 @@
     },
     {
       "name": "do_username_anarchy",
-      "line": 918,
+      "line": 921,
       "summary": "Generate usernames using the username-anarchy tool based on user input.",
       "category": "07. Credential Access",
       "phase": "cred",
@@ -3772,7 +3789,7 @@
     },
     {
       "name": "do_john2keepas",
-      "line": 1024,
+      "line": 1027,
       "summary": "List all .kdbx files in the 'sessions' directory, let the user select one, and run the",
       "category": "07. Credential Access",
       "phase": "cred",
@@ -3783,7 +3800,7 @@
     },
     {
       "name": "do_keepass",
-      "line": 1073,
+      "line": 1076,
       "summary": "Open a .kdbx file and print the titles and contents of all entries. The password can be provided through",
       "category": "07. Credential Access",
       "phase": "cred",
@@ -3794,7 +3811,7 @@
     },
     {
       "name": "do_crack_cisco_7_password",
-      "line": 1138,
+      "line": 1141,
       "summary": "Crack a Cisco Type 7 password hash and display the plaintext.",
       "category": "07. Credential Access",
       "phase": "cred",
@@ -3805,7 +3822,7 @@
     },
     {
       "name": "do_cubespraying",
-      "line": 1160,
+      "line": 1166,
       "summary": "Command cubespraying: Automates the installation and usage of CubeSpraying for performing credential spraying attacks.",
       "category": "07. Credential Access",
       "phase": "cred",
@@ -3816,7 +3833,7 @@
     },
     {
       "name": "do_john2zip",
-      "line": 1224,
+      "line": 1230,
       "summary": "List all .zip files in the 'sessions' directory, let the user select one, and run the command",
       "category": "07. Credential Access",
       "phase": "cred",
@@ -3827,7 +3844,7 @@
     },
     {
       "name": "do_createusers_and_hashs",
-      "line": 1285,
+      "line": 1291,
       "summary": "Command createusers_and_hashs: Extracts usernames and hashes from a dump file.",
       "category": "07. Credential Access",
       "phase": "cred",
@@ -3838,7 +3855,7 @@
     },
     {
       "name": "do_refill_password",
-      "line": 1328,
+      "line": 1337,
       "summary": "Generate a list of possible passwords by filling each asterisk in the input with user-specified characters.",
       "category": "07. Credential Access",
       "phase": "cred",
@@ -3849,7 +3866,7 @@
     },
     {
       "name": "do_rocky",
-      "line": 1364,
+      "line": 1373,
       "summary": "Reduces a wordlist based on the specified password length.",
       "category": "07. Credential Access",
       "phase": "cred",
@@ -3860,7 +3877,7 @@
     },
     {
       "name": "do_adsso_spray",
-      "line": 1400,
+      "line": 1409,
       "summary": "Performs a password spray attack on Azure Active Directory Seamless Single Sign-On (SSO) using a specified list of users.",
       "category": "07. Credential Access",
       "phase": "cred",
@@ -4828,7 +4845,7 @@
     },
     {
       "name": "do_download_c2",
-      "line": 1164,
+      "line": 1165,
       "summary": "Download a file from the C2 implant via the upload command.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -4839,7 +4856,7 @@
     },
     {
       "name": "do_exfil_s3",
-      "line": 1181,
+      "line": 1182,
       "summary": "Upload a file to an AWS S3 bucket.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -4850,7 +4867,7 @@
     },
     {
       "name": "do_exfil_telegram",
-      "line": 1226,
+      "line": 1227,
       "summary": "Exfiltrate a file via Telegram Bot API.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -4861,7 +4878,7 @@
     },
     {
       "name": "do_exfil_discord",
-      "line": 1271,
+      "line": 1272,
       "summary": "Exfiltrate a file via Discord webhook.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -4872,7 +4889,7 @@
     },
     {
       "name": "do_exfil_gcs",
-      "line": 1314,
+      "line": 1315,
       "summary": "Upload a file to Google Cloud Storage.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -4883,7 +4900,7 @@
     },
     {
       "name": "do_exfil_dns",
-      "line": 1356,
+      "line": 1357,
       "summary": "Exfiltrate data via DNS tunneling.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -4894,7 +4911,7 @@
     },
     {
       "name": "do_exfil_http",
-      "line": 1415,
+      "line": 1416,
       "summary": "Exfiltrate a file via HTTP POST to a controlled server.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -4905,7 +4922,7 @@
     },
     {
       "name": "do_exfil_auto",
-      "line": 1485,
+      "line": 1486,
       "summary": "Auto-detect flags and sensitive files, then exfiltrate.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -4916,7 +4933,7 @@
     },
     {
       "name": "do_stage",
-      "line": 1543,
+      "line": 1544,
       "summary": "Stage data for exfiltration: compress, encrypt, and split.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -5950,7 +5967,7 @@
     },
     {
       "name": "do_ngrok",
-      "line": 87,
+      "line": 92,
       "summary": "Start ngrok tunnel.",
       "category": "08. Lateral Movement",
       "phase": "lateral",
@@ -5961,7 +5978,7 @@
     },
     {
       "name": "do_ligolo",
-      "line": 94,
+      "line": 99,
       "summary": "Run Ligolo-ng for advanced pivoting.",
       "category": "08. Lateral Movement",
       "phase": "lateral",
@@ -5972,7 +5989,7 @@
     },
     {
       "name": "do_nc",
-      "line": 106,
+      "line": 111,
       "summary": "Netcat listener or connect.",
       "category": "08. Lateral Movement",
       "phase": "lateral",
@@ -5983,7 +6000,7 @@
     },
     {
       "name": "do_wmiexec",
-      "line": 121,
+      "line": 126,
       "summary": "Execute commands via WMI.",
       "category": "08. Lateral Movement",
       "phase": "lateral",
@@ -5994,8 +6011,8 @@
     },
     {
       "name": "do_ssh",
-      "line": 129,
-      "summary": "SSH to a remote host (custom port).",
+      "line": 134,
+      "summary": "SSH to a remote host (custom port, legacy algorithm negotiation).",
       "category": "08. Lateral Movement",
       "phase": "lateral",
       "source_file": "cli/commands/lateral.py",
@@ -6005,7 +6022,7 @@
     },
     {
       "name": "do_vpn",
-      "line": 152,
+      "line": 160,
       "summary": "Connect to a VPN by selecting from available .ovpn files.",
       "category": "08. Lateral Movement",
       "phase": "lateral",
@@ -6016,7 +6033,7 @@
     },
     {
       "name": "do_id_rsa",
-      "line": 226,
+      "line": 234,
       "summary": "Create an SSH private key file and connect to a remote host using SSH.",
       "category": "08. Lateral Movement",
       "phase": "lateral",
@@ -6027,7 +6044,7 @@
     },
     {
       "name": "do_sshd",
-      "line": 300,
+      "line": 308,
       "summary": "Starts the SSH service and displays its status.",
       "category": "08. Lateral Movement",
       "phase": "lateral",
@@ -6038,7 +6055,7 @@
     },
     {
       "name": "do_wifipass",
-      "line": 327,
+      "line": 335,
       "summary": "This function generates a PowerShell script that retrieves saved Wi-Fi passwords on a Windows system.",
       "category": "08. Lateral Movement",
       "phase": "lateral",
@@ -6049,7 +6066,7 @@
     },
     {
       "name": "do_bloodyAD",
-      "line": 357,
+      "line": 365,
       "summary": "Execute the bloodyAD.py command for a specific user or all users listed in the users.txt file.",
       "category": "08. Lateral Movement",
       "phase": "lateral",
@@ -6060,7 +6077,7 @@
     },
     {
       "name": "do_getTGT",
-      "line": 451,
+      "line": 459,
       "summary": "Requests a Ticket Granting Ticket (TGT) using the Impacket tool with provided credentials.",
       "category": "08. Lateral Movement",
       "phase": "lateral",
@@ -6071,7 +6088,7 @@
     },
     {
       "name": "do_tord",
-      "line": 499,
+      "line": 507,
       "summary": "Execute the tor.sh script with the specified port or default to port 80 if no port is provided.",
       "category": "08. Lateral Movement",
       "phase": "lateral",
@@ -6082,7 +6099,7 @@
     },
     {
       "name": "do_shadowsocks",
-      "line": 534,
+      "line": 542,
       "summary": "Execute the Shadowsocks tool to create a secure tunnel for network traffic.",
       "category": "08. Lateral Movement",
       "phase": "lateral",
@@ -6093,7 +6110,7 @@
     },
     {
       "name": "do_rnc",
-      "line": 615,
+      "line": 623,
       "summary": "Runs `nc` with rlwrap  the specified port for listening.",
       "category": "08. Lateral Movement",
       "phase": "lateral",
@@ -6104,7 +6121,7 @@
     },
     {
       "name": "do_gospherus",
-      "line": 677,
+      "line": 685,
       "summary": "Command gospherus: Clones and uses the Gopherus tool to generate gopher payloads for various services.",
       "category": "08. Lateral Movement",
       "phase": "lateral",
@@ -6115,7 +6132,7 @@
     },
     {
       "name": "do_mssqlcli",
-      "line": 747,
+      "line": 755,
       "summary": "Attempts to connect to an MSSQL server using the mssqlclient.py tool with Windows authentication.",
       "category": "08. Lateral Movement",
       "phase": "lateral",
@@ -6126,7 +6143,7 @@
     },
     {
       "name": "do_penelope",
-      "line": 800,
+      "line": 808,
       "summary": "Command penelope: Installs and runs Penelope for handling reverse and bind shells.",
       "category": "08. Lateral Movement",
       "phase": "lateral",
@@ -6137,7 +6154,7 @@
     },
     {
       "name": "do_stormbreaker",
-      "line": 917,
+      "line": 925,
       "summary": "Command stormbreaker: Automates the installation and usage of Storm-Breaker for performing various network attacks.",
       "category": "08. Lateral Movement",
       "phase": "lateral",
@@ -6148,7 +6165,7 @@
     },
     {
       "name": "do_regeorg",
-      "line": 963,
+      "line": 971,
       "summary": "Executes the reGeorg tool for HTTP(s) tunneling through a SOCKS proxy.",
       "category": "08. Lateral Movement",
       "phase": "lateral",
@@ -6159,7 +6176,7 @@
     },
     {
       "name": "do_targetedKerberoas",
-      "line": 1011,
+      "line": 1019,
       "summary": "Executes the targetedKerberoast tool for extracting Kerberos service tickets.",
       "category": "08. Lateral Movement",
       "phase": "lateral",
@@ -6170,7 +6187,7 @@
     },
     {
       "name": "do_dcomexec",
-      "line": 1084,
+      "line": 1092,
       "summary": "Executes the Impacket dcomexec tool to run commands on a remote system using DCOM.",
       "category": "08. Lateral Movement",
       "phase": "lateral",
@@ -6181,7 +6198,7 @@
     },
     {
       "name": "do_upload_c2",
-      "line": 1155,
+      "line": 1163,
       "summary": "upload command in the client using the C2 to upload a file",
       "category": "08. Lateral Movement",
       "phase": "lateral",
@@ -6192,7 +6209,7 @@
     },
     {
       "name": "do_wmiexecpro",
-      "line": 1184,
+      "line": 1192,
       "summary": "Executes wmiexec-pro with various options for WMI operations.",
       "category": "08. Lateral Movement",
       "phase": "lateral",
@@ -6203,7 +6220,7 @@
     },
     {
       "name": "do_lateral_mov_lin",
-      "line": 1401,
+      "line": 1409,
       "summary": "Perform lateral movement by downloading and installing LazyOwn on a remote Linux machine.",
       "category": "08. Lateral Movement",
       "phase": "lateral",
@@ -6214,7 +6231,7 @@
     },
     {
       "name": "do_addcli",
-      "line": 1462,
+      "line": 1470,
       "summary": "Add a client to execute c2 commands",
       "category": "08. Lateral Movement",
       "phase": "lateral",
@@ -6225,7 +6242,7 @@
     },
     {
       "name": "do_dominion",
-      "line": 1477,
+      "line": 1485,
       "summary": "Execute a fully automated Active Directory domain takeover.",
       "category": "08. Lateral Movement",
       "phase": "lateral",
@@ -6264,6 +6281,17 @@
       "phase": "misc",
       "source_file": "cli/commands/lazy_dorks.py",
       "class_name": "LazyDorksCommandSet",
+      "community": null,
+      "duplicate_of": null
+    },
+    {
+      "name": "do_lazyhebb",
+      "line": 20,
+      "summary": "Zero-inference synaptic memory (SQLite FTS5 + hebbian edges).",
+      "category": "12. Miscellaneous",
+      "phase": "misc",
+      "source_file": "cli/commands/lazy_hebb.py",
+      "class_name": "LazyHebbCommandSet",
       "community": null,
       "duplicate_of": null
     },
@@ -7556,7 +7584,7 @@
     },
     {
       "name": "do_addalias",
-      "line": 1070,
+      "line": 1072,
       "summary": "Add a new alias with support for placeholders like {rhost}, {lhost}, {lport}, etc.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -7567,7 +7595,7 @@
     },
     {
       "name": "do_listaliases",
-      "line": 1122,
+      "line": 1124,
       "summary": "List all available aliases.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -8413,6 +8441,17 @@
       "duplicate_of": null
     },
     {
+      "name": "do_phisher",
+      "line": 510,
+      "summary": "Launch a phishing campaign against a target domain.",
+      "category": null,
+      "phase": "uncategorized",
+      "source_file": "cli/commands/phishing_wizard.py",
+      "class_name": "PhishingWizardCommandSet",
+      "community": null,
+      "duplicate_of": null
+    },
+    {
       "name": "do_autopivot",
       "line": 44,
       "summary": "Auto-detect internal networks and set up pivot tunnels.",
@@ -8700,7 +8739,7 @@
     },
     {
       "name": "do_exe2donutbin",
-      "line": 1508,
+      "line": 1511,
       "summary": "Trasnform file .exe into donut binary file.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8711,7 +8750,7 @@
     },
     {
       "name": "do_issue_command_to_c2",
-      "line": 1530,
+      "line": 1536,
       "summary": "Exec command in the client using the C2. download: command you must put the file in sessions/temp_upload or use download_c2 command",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8722,7 +8761,7 @@
     },
     {
       "name": "do_d3monizedshell",
-      "line": 1554,
+      "line": 1560,
       "summary": "Executes the D3m0n1z3dShell tool for persistence in Linux.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8733,7 +8772,7 @@
     },
     {
       "name": "do_scp",
-      "line": 1587,
+      "line": 1593,
       "summary": "Copies the local \"sessions\" directory to a remote host using scp, leveraging sshpass for automated authentication.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8744,7 +8783,7 @@
     },
     {
       "name": "do_apt_proxy",
-      "line": 1683,
+      "line": 1689,
       "summary": "Configures the local machine with internet access to act as an APT proxy for a machine without internet access.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8755,7 +8794,7 @@
     },
     {
       "name": "do_pip_proxy",
-      "line": 1737,
+      "line": 1743,
       "summary": "Configures the local machine with internet access to act as a pip proxy for a machine without internet access.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8766,7 +8805,7 @@
     },
     {
       "name": "do_internet_proxy",
-      "line": 1795,
+      "line": 1801,
       "summary": "Configures the local machine with internet access to act as a proxy for a machine without internet access.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8777,7 +8816,7 @@
     },
     {
       "name": "do_shellcode2elf",
-      "line": 1857,
+      "line": 1863,
       "summary": "Convert shellcode into an ELF file and infect it.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8788,7 +8827,7 @@
     },
     {
       "name": "do_ssh_cmd",
-      "line": 1939,
+      "line": 1948,
       "summary": "Perform Remote Execution Command through SSH using configured start_user. See help grisun0 for backdoor user configuration.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8799,7 +8838,7 @@
     },
     {
       "name": "do_service_ssh",
-      "line": 1968,
+      "line": 1977,
       "summary": "Creates a systemd service file for a specified binary and generates a script to enable and start the service.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8810,7 +8849,7 @@
     },
     {
       "name": "do_ofuscatesh",
-      "line": 2042,
+      "line": 2051,
       "summary": "Obfuscates a shell script by encoding it in Base64 and prepares a command to decode and execute it.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8821,7 +8860,7 @@
     },
     {
       "name": "do_ofuscate_payload",
-      "line": 2072,
+      "line": 2084,
       "summary": "Obfuscates a shell script by encoding it in Base64 and prepares a command to decode and execute it.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8832,7 +8871,7 @@
     },
     {
       "name": "do_adversary",
-      "line": 2099,
+      "line": 2111,
       "summary": "LazyOwn RedTeam Adversary Emulator, you can configure your own adversaries in adversary.json",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8843,7 +8882,7 @@
     },
     {
       "name": "do_ofuscate_string",
-      "line": 2247,
+      "line": 2262,
       "summary": "Ofuscate a string into Go code.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8854,7 +8893,7 @@
     },
     {
       "name": "do_path2hex",
-      "line": 2289,
+      "line": 2304,
       "summary": "Convert a binary path to x64 little-endian hex code for shellcode injection.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8865,7 +8904,7 @@
     },
     {
       "name": "do_hex2shellcode",
-      "line": 2336,
+      "line": 2351,
       "summary": "Convert raw hex payload from msfvenom into NASM-compatible shellcode format.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8876,7 +8915,7 @@
     },
     {
       "name": "do_create_synthetic",
-      "line": 2393,
+      "line": 2408,
       "summary": "Create a basic synthetic playbook from Nmap CSV when LLM fails.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8887,7 +8926,7 @@
     },
     {
       "name": "do_extract_yaml",
-      "line": 2445,
+      "line": 2460,
       "summary": "Extract YAML from an existing debug file and try to create a playbook.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8898,7 +8937,7 @@
     },
     {
       "name": "do_convert_remcomsvc_from_file",
-      "line": 2507,
+      "line": 2522,
       "summary": "Converts the Python REMCOMSVC byte string from remcomsvc.py to Golang byte slice format, prints a sample, and saves it to sessions/remcomsvc.go. see lazyaddon …",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8909,7 +8948,7 @@
     },
     {
       "name": "do_adversary_yaml",
-      "line": 2541,
+      "line": 2560,
       "summary": "Execute adversary from YAML in lazyadversaries/*.yaml",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8920,7 +8959,7 @@
     },
     {
       "name": "do_add2find",
-      "line": 2626,
+      "line": 2648,
       "summary": "Add a new custom command to the 'find' system, saved in user_commands.json.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8931,7 +8970,7 @@
     },
     {
       "name": "do_rmfromfind",
-      "line": 2654,
+      "line": 2676,
       "summary": "Remove a custom command by index (as shown in 'find').",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8942,7 +8981,7 @@
     },
     {
       "name": "do_aes_pe",
-      "line": 2683,
+      "line": 2705,
       "summary": "Encrypt with AES and random key to PE EXE file, to usage with loaders.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -8953,7 +8992,7 @@
     },
     {
       "name": "do_yara_scan",
-      "line": 2712,
+      "line": 2737,
       "summary": "Scan files or directories with YARA rules for malware/IOCs.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -9030,7 +9069,7 @@
     },
     {
       "name": "do_suid_check",
-      "line": 344,
+      "line": 346,
       "summary": "Print SUID/SGID enumeration commands ready to paste on the target.",
       "category": "06. Privilege Escalation",
       "phase": "privesc",
@@ -9041,7 +9080,7 @@
     },
     {
       "name": "do_pspy",
-      "line": 363,
+      "line": 365,
       "summary": "Serve the ``pspy`` process monitor over HTTP.",
       "category": "06. Privilege Escalation",
       "phase": "privesc",
@@ -9052,7 +9091,7 @@
     },
     {
       "name": "do_gtfo",
-      "line": 397,
+      "line": 399,
       "summary": "Look up a binary in GTFOBins and LOLBas parquet knowledge bases.",
       "category": "06. Privilege Escalation",
       "phase": "privesc",
@@ -9063,7 +9102,7 @@
     },
     {
       "name": "do_whoami_priv",
-      "line": 444,
+      "line": 446,
       "summary": "Print privilege enumeration commands for the target OS.",
       "category": "06. Privilege Escalation",
       "phase": "privesc",
@@ -9074,7 +9113,7 @@
     },
     {
       "name": "do_sudo_privesc",
-      "line": 506,
+      "line": 508,
       "summary": "Analyse sudo -l output and cross-reference with GTFOBins.",
       "category": "06. Privilege Escalation",
       "phase": "privesc",
@@ -9085,7 +9124,7 @@
     },
     {
       "name": "do_printspoofer",
-      "line": 604,
+      "line": 606,
       "summary": "Serve PrintSpoofer over HTTP for Windows privilege escalation.",
       "category": "06. Privilege Escalation",
       "phase": "privesc",
@@ -9096,7 +9135,7 @@
     },
     {
       "name": "do_juicypotato",
-      "line": 626,
+      "line": 628,
       "summary": "Serve JuicyPotato over HTTP for Windows privilege escalation.",
       "category": "06. Privilege Escalation",
       "phase": "privesc",
@@ -9107,7 +9146,7 @@
     },
     {
       "name": "do_privesc_cmd_by_os",
-      "line": 749,
+      "line": 751,
       "summary": "Prepare and send a linpeas/winpeas command to a C2 client.",
       "category": "06. Privilege Escalation",
       "phase": "privesc",
@@ -9668,7 +9707,7 @@
     },
     {
       "name": "do_binarycheck",
-      "line": 1834,
+      "line": 1838,
       "summary": "Performs various checks on a selected binary to gather information and protections.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -9679,7 +9718,7 @@
     },
     {
       "name": "do_dnstool_py",
-      "line": 1878,
+      "line": 1882,
       "summary": "Executes the dnstool.py tool to modify Active Directory-integrated DNS records.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -9690,7 +9729,7 @@
     },
     {
       "name": "do_metabigor",
-      "line": 1923,
+      "line": 1927,
       "summary": "Executes Metabigor commands for OSINT and scanning tasks with guided input or predefined arguments.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -9701,7 +9740,7 @@
     },
     {
       "name": "do_httprobe",
-      "line": 2002,
+      "line": 2006,
       "summary": "Executes the httprobe tool to probe domains for working HTTP and HTTPS servers.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -9712,7 +9751,7 @@
     },
     {
       "name": "do_recon",
-      "line": 2045,
+      "line": 2049,
       "summary": "Performs reconnaissance on a specified self.params['domain'] using crt.sh (the target must be visible on internet), pup, httprobe, and EyeWitness.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -9723,7 +9762,7 @@
     },
     {
       "name": "do_dnschef",
-      "line": 2105,
+      "line": 2109,
       "summary": "Executes the DNSChef tool to monitor DNS queries and intercept responses.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -9734,7 +9773,7 @@
     },
     {
       "name": "do_ipinfo",
-      "line": 2140,
+      "line": 2144,
       "summary": "Retrieves detailed information about an IP address using the ARIN API.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -11571,7 +11610,7 @@
     },
     {
       "name": "do_set",
-      "line": 796,
+      "line": 801,
       "summary": "Set a parameter — the unified ``set``/``assign`` surface.",
       "category": null,
       "phase": "uncategorized",
@@ -11582,7 +11621,7 @@
     },
     {
       "name": "do_event_log",
-      "line": 3608,
+      "line": 3613,
       "summary": "Show recent EventBus events. Usage: event_log [N] [category]",
       "category": "Event Bus",
       "phase": "uncategorized",
@@ -11593,7 +11632,7 @@
     },
     {
       "name": "do_state_snapshot",
-      "line": 3638,
+      "line": 3643,
       "summary": "Show unified StateManager snapshot (DB + JSON caches).",
       "category": "State Manager",
       "phase": "uncategorized",
@@ -11604,7 +11643,7 @@
     },
     {
       "name": "do_route",
-      "line": 3677,
+      "line": 3682,
       "summary": "Route a natural-language prompt to a LazyOwn tool. Usage: route <prompt>",
       "category": "Unified Bridge",
       "phase": "uncategorized",

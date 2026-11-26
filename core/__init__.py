@@ -114,7 +114,6 @@ from core.process import (
     handle_multiple_rhosts,
     is_binary_present,
     is_package_installed,
-    run,
     run_command,
 )
 from core.validators import check_lhost, check_lport, check_port, check_rhost
@@ -200,7 +199,6 @@ __all__ = [
     "check_go_tool_installed",
     "check_sudo",
     "handle_multiple_rhosts",
-    "run",
     "run_command",
     "ensure_tmux_session",
     "is_package_installed",

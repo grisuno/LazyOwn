@@ -300,3 +300,12 @@ def test_save_playbook_accepts_valid_shape(tmp_path, monkeypatch) -> None:
         "valid_playbook",
     )
     assert str(path) == "playbooks/valid_playbook.yaml"
+
+
+def test_mutation_runner_anchors_present() -> None:
+    """Every mutation anchor matches live code, so the gate cannot drift off."""
+    import tests.run_mutation_hardening_round as runner
+
+    for name, (relative, (old, _new)) in runner.MUTATIONS.items():
+        source = (runner.BASE_DIR / relative).read_text(encoding="utf-8")
+        assert old in source, f"mutation anchor for {name} drifted from {relative}"

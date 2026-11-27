@@ -106,9 +106,11 @@ class TestAutoCryptoEngine:
         encrypted_secret = tmp_sessions / "credentials_test.txt.encrypted"
         assert encrypted_secret.exists()
 
-        assert not key_file.exists()
-        encrypted_key = tmp_sessions / "key.aes.encrypted"
-        assert encrypted_key.exists()
+        # Key material is deliberately NOT encrypted at rest (rotation loop
+        # documented in cli/auto_crypto.py); it must survive untouched.
+        assert key_file.exists()
+        assert key_file.read_bytes()[:4] == b"\x00\x00\x00\x00"
+        assert not (tmp_sessions / "key.aes.encrypted").exists()
 
         decrypted = engine.decrypt_session()
         assert decrypted is True

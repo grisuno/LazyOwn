@@ -45,6 +45,15 @@ _REDACT_PATTERNS: tuple[re.Pattern[str], ...] = (
     re.compile(r"-----BEGIN [A-Z ]*PRIVATE KEY-----"),
 )
 
+_COMMAND_SECRET_PATTERNS: tuple[re.Pattern[str], ...] = (
+    re.compile(r"gsk_[A-Za-z0-9]{10,}"),
+    re.compile(r"sk-[A-Za-z0-9_-]{10,}"),
+    re.compile(r"xox[baprs]-[A-Za-z0-9-]{10,}"),
+    re.compile(r"(?i)\b(api[_-]?key|token|password|passwd|secret)(['\"]?\s*[:=]\s*['\"]?)([^\s'\"]{6,})"),
+)
+
+_CREDENTIAL_BLOB_RE = re.compile(r"([A-Za-z0-9._-]{2,32}):([A-Za-z0-9+/=]{64,})(?=\s|'|$)")
+
 
 def escape_html_content(value: str) -> str:
     """Escape HTML special characters to prevent XSS.
@@ -131,10 +140,32 @@ def redact_text(text: str) -> str:
     return cleaned
 
 
+def redact_secrets(text: str) -> str:
+    """Mask API keys and credentials embedded in a command line.
+
+    Args:
+        text: Command line or log message that may embed secrets.
+
+    Returns:
+        The text with recognized secret values replaced by ``***`` so
+        neither the operator console nor the event log stores them.
+    """
+    value = str(text or "")
+    if not value:
+        return value
+    redacted = value
+    for pattern in _COMMAND_SECRET_PATTERNS[:3]:
+        redacted = pattern.sub("***", redacted)
+    redacted = _COMMAND_SECRET_PATTERNS[3].sub(lambda m: f"{m.group(1)}{m.group(2)}***", redacted)
+    redacted = _CREDENTIAL_BLOB_RE.sub(lambda m: f"{m.group(1)}:***[redacted {len(m.group(2))} chars]", redacted)
+    return redacted
+
+
 __all__ = [
     "contains_emoji",
     "escape_html_content",
     "escape_powershell_single_quoted",
     "iter_emoji_spans",
+    "redact_secrets",
     "redact_text",
 ]

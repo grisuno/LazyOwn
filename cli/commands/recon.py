@@ -19,6 +19,7 @@ from cli.aliases import load_aliases as _load_aliases
 from cli.assign import apply_assign as _apply_assign
 from cli.commands._base import LazyOwnCommandSet
 from core.config import save_payload as _save_payload
+from modules.advisory_feeds import exploitalert, find_ea, find_ps, find_ss, nvddb, packetstormsecurity
 from utils import (
     BLUE,
     CYAN,
@@ -33,11 +34,7 @@ from utils import (
     Path,
     check_rhost,
     copy2clip,
-    exploitalert,
     exploitation_category,
-    find_ea,
-    find_ps,
-    find_ss,
     generate_random_cve_id,
     get_credentials,
     get_domain,
@@ -46,8 +43,6 @@ from utils import (
     get_users_dic,
     is_binary_present,
     list_binaries,
-    nvddb,
-    packetstormsecurity,
     print_error,
     print_msg,
     print_warn,

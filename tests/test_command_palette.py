@@ -514,10 +514,29 @@ class TestGeneratorDeterminism:
         assert first == second
 
     def test_check_mode_passes_on_committed_index(self, index_document: dict[str, Any]) -> None:
-        """A fresh build must equal the committed JSON byte-for-byte."""
-        from scripts.build_command_index import build_index, render_document
+        """A fresh build must equal the committed JSON byte-for-byte.
 
-        fresh = render_document(build_index())
+        The build runs in a clean subprocess: in-process discovery picks
+        up commands that earlier tests registered as side effects, which
+        would make the comparison measure test pollution, not drift.
+        """
+        import subprocess
+        import sys
+
+        code = (
+            "import json;"
+            "from scripts.build_command_index import build_index, render_document;"
+            "print(json.dumps(render_document(build_index())))"
+        )
+        result = subprocess.run(
+            [sys.executable, "-c", code],
+            capture_output=True,
+            text=True,
+            timeout=120,
+            check=False,
+        )
+        assert result.returncode == 0, f"index build failed: {result.stderr[-400:]}"
+        fresh = json.loads(result.stdout)
         assert fresh == index_document, "cli/command_index.json is stale. Re-run scripts/build_command_index.py."
 
 

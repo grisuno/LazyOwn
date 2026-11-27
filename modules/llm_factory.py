@@ -28,6 +28,29 @@ import sys
 from collections.abc import Callable, Mapping
 from typing import Any
 
+from core.payload_schema import (  # noqa: F401 (constants re-exported, canonical home in core)
+    BACKEND_ANTHROPIC,
+    BACKEND_AUTO,
+    BACKEND_DEEPSEEK,
+    BACKEND_GROQ,
+    BACKEND_LLAMACPP,
+    BACKEND_OLLAMA,
+    BACKEND_OPENAI,
+    BACKEND_OPENCODE,
+    DEFAULT_ANTHROPIC_MODEL,
+    DEFAULT_BACKEND,
+    DEFAULT_DEEPSEEK_MODEL,
+    DEFAULT_GROQ_MODEL,
+    DEFAULT_LLAMACPP_HOST,
+    DEFAULT_LLAMACPP_MODEL,
+    DEFAULT_OLLAMA_HOST,
+    DEFAULT_OLLAMA_MODEL,
+    DEFAULT_OPENAI_MODEL,
+    DEFAULT_OPENCODE_BASE_URL,
+    DEFAULT_OPENCODE_MODEL,
+    SUPPORTED_BACKENDS,
+)
+
 _MODULE_DIR = os.path.dirname(os.path.abspath(__file__))
 _PROJECT_ROOT = os.path.abspath(os.path.join(_MODULE_DIR, os.pardir))
 for _entry in (_PROJECT_ROOT, _MODULE_DIR):
@@ -84,26 +107,6 @@ for _backend_class in (
             )
 
 
-BACKEND_GROQ = "groq"
-BACKEND_OLLAMA = "ollama"
-BACKEND_OPENAI = "openai"
-BACKEND_ANTHROPIC = "anthropic"
-BACKEND_DEEPSEEK = "deepseek"
-BACKEND_OPENCODE = "opencode"
-BACKEND_LLAMACPP = "llamacpp"
-BACKEND_AUTO = "auto"
-
-SUPPORTED_BACKENDS = (
-    BACKEND_GROQ,
-    BACKEND_OLLAMA,
-    BACKEND_OPENAI,
-    BACKEND_ANTHROPIC,
-    BACKEND_DEEPSEEK,
-    BACKEND_OPENCODE,
-    BACKEND_LLAMACPP,
-    BACKEND_AUTO,
-)
-
 CONFIG_KEY_BACKEND = "llm_backend"
 CONFIG_KEY_MODEL_GROQ = "llm_model_groq"
 CONFIG_KEY_MODEL_OLLAMA = "llm_model_ollama"
@@ -122,8 +125,6 @@ CONFIG_KEY_ANTHROPIC_API_KEY = "anthropic_api_key"
 CONFIG_KEY_DEEPSEEK_API_KEY = "deepseek_api_key"
 CONFIG_KEY_OPENCODE_API_KEY = "opencode_api_key"
 
-DEFAULT_BACKEND = BACKEND_AUTO
-DEFAULT_GROQ_MODEL = "openai/gpt-oss-120b"
 
 ENV_GROQ_MODEL = "LAZYOWN_GROQ_MODEL"
 
@@ -184,16 +185,6 @@ def groq_model_chain(config: Mapping[str, Any] | None = None) -> tuple[str, ...]
             chain.append(candidate)
     return tuple(chain)
 
-
-DEFAULT_OLLAMA_MODEL = "deepseek-r1:1.5b"
-DEFAULT_OLLAMA_HOST = "http://localhost:11434"
-DEFAULT_OPENAI_MODEL = "gpt-4o"
-DEFAULT_ANTHROPIC_MODEL = "claude-sonnet-4-20250514"
-DEFAULT_DEEPSEEK_MODEL = "deepseek-chat"
-DEFAULT_OPENCODE_MODEL = "grok-code"
-DEFAULT_OPENCODE_BASE_URL = "https://opencode.ai/zen/v1"
-DEFAULT_LLAMACPP_MODEL = "local-model"
-DEFAULT_LLAMACPP_HOST = "http://127.0.0.1:8080"
 
 PI_PROVIDER_ID = "local-qwen"
 PI_DEFAULT_MODEL = "local-model"

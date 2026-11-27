@@ -208,7 +208,7 @@ def _safe_copy(text: str) -> None:
         safe_clipboard_copy(text[:65536])
     except Exception:
         try:
-            from utils import copy2clip  # type: ignore
+            from core.prompt import copy2clip  # type: ignore
 
             copy2clip(text[:65536])
         except Exception as exc:

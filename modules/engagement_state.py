@@ -61,11 +61,11 @@ def read_state_snapshot(sessions_dir: str | Path | None = None) -> dict[str, Any
     base = Path(sessions_dir) if sessions_dir else SESSIONS_DIR
     try:
         raw = json.loads((base / "engagement_state.json").read_text(encoding="utf-8"))
-    except (OSError, ValueError):
+        if not isinstance(raw, dict):
+            return {}
+        elo = int(raw.get("elo", 0) or 0)
+    except (OSError, ValueError, TypeError):
         return {}
-    if not isinstance(raw, dict):
-        return {}
-    elo = int(raw.get("elo", 0) or 0)
     snapshot = dict(raw)
     snapshot["karma_name"] = get_karma_name(elo)
     return snapshot

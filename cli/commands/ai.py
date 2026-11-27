@@ -33,18 +33,20 @@ from modules.llm_prompts import (
     LlmPromptConfig,
     truncate_message,
 )
-from utils import (
-    ai_category,
+from modules.llm_yaml_repair import (
     load_knowledge_base,
     manual_yaml_extraction,
-    parse_nmap_csv,
     parse_yaml_response,
     preprocess_llm_response,
+    query_ollama,
+    save_playbook,
+)
+from utils import (
+    ai_category,
+    parse_nmap_csv,
     print_error,
     print_msg,
     print_warn,
-    query_ollama,
-    save_playbook,
 )
 
 SESSIONS_DIRECTORY_NAME = "sessions"

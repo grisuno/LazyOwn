@@ -72,7 +72,7 @@ def test_create_tenant_slugifies_and_containment(monkeypatch, tmp_path):
 
 
 def test_slugify_caps_length():
-    from modules.lazy_rbac import _slugify, TENANT_ID_MAX_CHARS
+    from modules.lazy_rbac import TENANT_ID_MAX_CHARS, _slugify
 
     slug = _slugify("A" * (TENANT_ID_MAX_CHARS + 10) + "!!!tail")
     assert len(slug) <= TENANT_ID_MAX_CHARS

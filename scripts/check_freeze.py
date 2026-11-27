@@ -28,6 +28,7 @@ _METRIC_SOURCES = {
     "commands": ("index", "totals", "unique_commands"),
     "addons": ("glob", "lazyaddons", "*.yaml"),
     "tools": ("glob", "tools", "*.tool"),
+    "modules": ("rglob_py", "modules", None),
 }
 
 
@@ -41,6 +42,8 @@ def _live_counts() -> dict[str, int]:
             for key in source[1:]:
                 node = node[key]
             counts[metric] = int(node)
+        elif source[0] == "rglob_py":
+            counts[metric] = len(list((ROOT / source[1]).rglob("*.py")))
         else:
             counts[metric] = len(list((ROOT / source[1]).glob(source[2])))
     return counts

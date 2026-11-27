@@ -36,7 +36,8 @@ class TestApiKeyWiredIntoParams:
 
     def test_class_attribute_api_key_reads_payload(self):
         src = LAZYOWN_PATH.read_text(encoding="utf-8")
-        assert "api_key = config.api_key" in src
+        reads_payload = "api_key = config.api_key" in src or 'api_key = config.get("api_key")' in src
+        assert reads_payload, "the api_key class attribute must read from the loaded payload"
 
 
 class TestReplaceCommandPlaceholders:

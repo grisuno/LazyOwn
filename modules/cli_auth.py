@@ -378,7 +378,7 @@ def whoami() -> dict[str, Any]:
     role = session.get("role", "operator")
 
     try:
-        from cli.engagement_hooks import get_karma_name
+        from modules.engagement_state import get_karma_name
 
         karma = get_karma_name(elo)
     except ImportError:

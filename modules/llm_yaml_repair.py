@@ -16,6 +16,7 @@ import requests
 import yaml
 
 from core.console import print_error
+from core.paths import sanitize_filename
 
 
 def query_ollama(prompt, model="deepseek-r1:1.5b"):
@@ -312,11 +313,68 @@ def aggressive_yaml_fix(yaml_content):
     return content
 
 
+_PLAYBOOK_NAME_MAX_LENGTH = 128
+_PLAYBOOK_COMMAND_KEYS = ("command", "cmd", "commands", "run")
+
+
+def validate_playbook_shape(playbook_data) -> None:
+    """Validate the minimal shape an executable playbook must have.
+
+    An LLM can return prose wrapped as YAML or an object where a string
+    belongs; executing that means feeding non-command text to the shell.
+    Args:
+        playbook_data: Candidate document.
+
+    Raises:
+        ValueError: When the document is not a mapping, the name exceeds
+            the length cap, or an executable phase field is not a string.
+    """
+    import re as _re
+
+    if not isinstance(playbook_data, dict):
+        raise ValueError("playbook document must be a mapping")
+    name = str(playbook_data.get("apt_name", ""))
+    if len(name) > _PLAYBOOK_NAME_MAX_LENGTH:
+        raise ValueError("playbook name exceeds maximum length")
+    phases = playbook_data.get("phases", [])
+    if not isinstance(phases, list):
+        raise ValueError("playbook phases must be a list")
+    for phase in phases:
+        if not isinstance(phase, dict):
+            raise ValueError("playbook phases must be mappings")
+        for key in _PLAYBOOK_COMMAND_KEYS:
+            if key in phase and not isinstance(phase[key], str):
+                raise ValueError(f"playbook phase field {key!r} must be a string")
+    name = str(playbook_data.get("apt_name", ""))
+    if name and not _re.fullmatch(r"[A-Za-z0-9_\- .]+", name):
+        raise ValueError("playbook name contains forbidden characters")
+
+
 def save_playbook(playbook_data, playbook_name):
-    """Guarda el playbook generado en disco"""
+    """Guarda el playbook generado en disco (fail-closed sobre la forma).
+
+    The name is sanitized to a single path segment (traversal attempts
+    collapse into underscores) and the document must pass
+    :func:`validate_playbook_shape` before it touches disk.
+
+    Args:
+        playbook_data: Candidate document from the LLM.
+        playbook_name: Desired short name (without extension).
+
+    Returns:
+        The relative path of the persisted playbook.
+
+    Raises:
+        ValueError: When the document shape is not executable or the
+            name is empty after sanitization.
+    """
+    safe_name = sanitize_filename(str(playbook_name or ""))
+    if not safe_name:
+        raise ValueError("playbook name is empty after sanitization")
+    validate_playbook_shape(playbook_data)
     playbook_dir = "playbooks"
     os.makedirs(playbook_dir, exist_ok=True)
-    playbook_path = os.path.join(playbook_dir, f"{playbook_name}.yaml")
+    playbook_path = os.path.join(playbook_dir, f"{safe_name}.yaml")
 
     with open(playbook_path, "w") as f:
         yaml.dump(playbook_data, f, default_flow_style=False)

@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import ipaddress
 import re
+from collections.abc import Sequence
 
 _HOST_RE = re.compile(r"^(?=.{1,253}$)([A-Za-z0-9]([A-Za-z0-9._-]{0,251}[A-Za-z0-9])?)$")
 _SHELL_META_CHARS = frozenset(";&|`$(){}!><*?~#\\'\"\n\r")
@@ -158,3 +159,104 @@ def is_world_host(value: object) -> bool:
         return True
     except ValueError:
         return "." in text and _HOST_RE.match(text) is not None
+
+
+def parse_network(value: str) -> ipaddress._BaseNetwork | None:
+    """Parse a CIDR-or-IP string into a network object, None on failure.
+
+    Args:
+        value: Candidate network in CIDR notation or a bare address.
+
+    Returns:
+        The parsed network (host-strictness relaxed), or ``None``.
+    """
+    try:
+        return ipaddress.ip_network(value, strict=False)
+    except ValueError:
+        return None
+
+
+def hostname_match(target: str, entry: str) -> bool:
+    """Match a hostname target against a scope entry.
+
+    Args:
+        target: Candidate hostname.
+        entry: Scope entry; a leading ``*.`` wildcards one label and any
+            other entry also authorises its subdomains.
+
+    Returns:
+        True when the target is the entry or one of its subdomains.
+    """
+    normalized_target = target.lower().rstrip(".")
+    normalized_entry = entry.lower().rstrip(".")
+    if normalized_entry.startswith("*."):
+        bare = normalized_entry[2:]
+        return normalized_target == bare or normalized_target.endswith("." + bare)
+    return normalized_target == normalized_entry or normalized_target.endswith("." + normalized_entry)
+
+
+def target_in_scope(target: str, entries: Sequence[str]) -> bool:
+    """Return whether ``target`` falls within any of the scope ``entries``.
+
+    IP targets are matched against CIDR networks and bare IP entries;
+    hostname targets are matched against hostname entries (supporting a
+    leading ``*.`` wildcard for subdomains). Cross-kind comparisons (IP
+    target vs hostname entry, or vice versa) never match because
+    resolving them would require DNS, which the guard deliberately
+    avoids.
+
+    Args:
+        target: The active target (IP address or hostname).
+        entries: Authorized scope entries.
+
+    Returns:
+        ``True`` when the target is authorized by at least one entry.
+    """
+    target = (target or "").strip()
+    if not target:
+        return False
+    try:
+        parsed_target: ipaddress._BaseAddress | None = ipaddress.ip_address(target)
+    except ValueError:
+        parsed_target = None
+    for raw in entries:
+        entry = raw.strip()
+        if not entry:
+            continue
+        if entry == target:
+            return True
+        network = parse_network(entry)
+        if network is not None:
+            if parsed_target is not None and parsed_target in network:
+                return True
+            continue
+        if parsed_target is None and hostname_match(target, entry):
+            return True
+    return False
+
+
+def network_in_scope(network: str, entries: Sequence[str]) -> bool:
+    """Return whether a whole network is authorized by the scope ``entries``.
+
+    A network is authorized only when every address it contains is covered:
+    the entry must be a CIDR that is equal to or a supernet of ``network``.
+    Bare IPs and hostnames never authorize a network, so a sweep such as
+    ``10.0.0.0/16`` cannot slip past a scope that names a single host.
+
+    Args:
+        network: The candidate network in CIDR notation.
+        entries: Authorized scope entries.
+
+    Returns:
+        ``True`` when at least one scope entry covers the whole network.
+    """
+    parsed = parse_network((network or "").strip())
+    if parsed is None:
+        return False
+    for raw in entries:
+        entry = parse_network((raw or "").strip())
+        if entry is None or entry.version != parsed.version:
+            continue
+        if parsed.subnet_of(entry):
+            return True
+    return False

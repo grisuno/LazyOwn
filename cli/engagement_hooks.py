@@ -40,6 +40,12 @@ from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any
 
+from modules.engagement_state import (
+    KARMA_THRESHOLDS,  # noqa: F401 (re-exported for tips_engine)
+    KARMA_TOP,  # noqa: F401 (re-exported for tips_engine)
+    register_snapshot_provider,
+)
+
 STATE_PATH = Path("sessions/engagement_state.json")
 INDEX_PATH = Path("cli/command_index.json")
 USERS_PATH = Path("users.json")
@@ -55,16 +61,6 @@ _NOTIFICATIONS_RING_SIZE: int = 500
 _VRI_RETRY_LIMIT: int = 4
 
 _COMMAND_NAME_RE = re.compile(r"^do_[a-z][a-z0-9_]*$")
-
-KARMA_THRESHOLDS: tuple[tuple[int, str], ...] = (
-    (1000, "Noob"),
-    (2000, "Rookie"),
-    (3000, "Skidy"),
-    (4000, "Hacker"),
-    (5000, "Pro"),
-    (6000, "Elite"),
-)
-KARMA_TOP: str = "Godlike"
 
 ELO_BASE: int = 5
 ELO_FIRST_TIME_BONUS: int = 25
@@ -724,8 +720,9 @@ def _fire_vri_reward(state: EngagementState, ctx: dict[str, Any]) -> None:
 def get_karma_name(elo: int) -> str:
     """Return karma rank for an ELO score.
 
-    Mirrors the bracket function ``get_karma_name`` in ``lazyc2.py`` so the
-    terminal and the C2 web UI display identical ranks for the same operator.
+    Delegates to :func:`modules.engagement_state.get_karma_name` (the
+    canonical home) so the terminal and the C2 web UI display identical
+    ranks for the same operator.
 
     Args:
         elo: Non-negative integer score.
@@ -733,10 +730,9 @@ def get_karma_name(elo: int) -> str:
     Returns:
         Human-facing karma label (``Noob`` … ``Godlike``).
     """
-    for threshold, label in KARMA_THRESHOLDS:
-        if elo < threshold:
-            return label
-    return KARMA_TOP
+    from modules.engagement_state import get_karma_name as _canonical
+
+    return _canonical(elo)
 
 
 def _award_elo(cmd: str, first_time: bool, new_phase: bool, current_phase: str) -> int:
@@ -1000,6 +996,7 @@ def get_state_snapshot() -> dict[str, Any]:
     global _state
     if _state is None:
         _state = _load_state()
+    register_snapshot_provider(get_state_snapshot)
     return {
         "elo": _state.elo,
         "karma_name": get_karma_name(_state.elo),

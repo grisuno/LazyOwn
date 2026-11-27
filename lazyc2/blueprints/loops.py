@@ -182,6 +182,11 @@ def _default_guard(view, needs_csrf: bool):
 def init_loops_bp(limiter=None, guard=None) -> None:
     """Bind the loop routes with the host application's guard decorators.
 
+    Idempotent: a re-initialisation (a second app in the same process,
+    as the parity tests build) replaces the deferred route bindings
+    instead of stacking duplicates, which Flask rejects as endpoint
+    overwrites at mount time.
+
     Args:
         limiter: The application rate limiter; when provided each route
             is decorated with the same limits the former god object used.
@@ -191,6 +196,8 @@ def init_loops_bp(limiter=None, guard=None) -> None:
             not inject one.
     """
     from flask import current_app
+
+    loops_bp.deferred_functions.clear()
 
     if guard is None:
         guard = _default_guard

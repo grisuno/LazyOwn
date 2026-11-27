@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import os
 import re
+import warnings
 from typing import Any
 
 from core.errors import SecurityViolation
@@ -197,8 +198,8 @@ def is_safe_yaml_name(name: str) -> bool:
 def safe_join_under(base_dir: str, user_path: str) -> str:
     """Join and resolve ``user_path`` under ``base_dir`` (symlink-safe).
 
-    Delegates to :func:`realpath_within_base` so ``..`` segments and
-    symlink escapes are rejected with the recognised containment guard.
+    Deprecated alias for :func:`safe_path_join`; kept for the existing
+    callers until the next breaking release.
 
     Args:
         base_dir: Allowed root directory.
@@ -211,9 +212,38 @@ def safe_join_under(base_dir: str, user_path: str) -> str:
         SecurityViolation: If the resolved path escapes ``base_dir``.
         ValueError: If ``user_path`` is empty.
     """
+    warnings.warn(
+        "safe_join_under is deprecated; use safe_path_join",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     if not user_path or not user_path.strip():
         raise ValueError("user_path must not be empty")
     return realpath_within_base(base_dir, user_path)
+
+
+def _open_flags(mode: str) -> int:
+    """Map an open mode string to the low-level ``os.open`` flags.
+
+    Args:
+        mode: Python open mode (``r``, ``w``, ``a`` with optional ``+``/``b``).
+
+    Returns:
+        Flags honouring read/write intent: ``+`` modes get ``O_RDWR``
+        (``O_WRONLY`` would fail the read half with EBADF and ``O_TRUNC``
+        would destroy existing content before the caller reads it).
+    """
+    flags = os.O_RDONLY
+    if "w" in mode or "a" in mode or "+" in mode:
+        flags = os.O_WRONLY
+        if "+" in mode:
+            flags = os.O_RDWR
+        else:
+            flags |= os.O_TRUNC
+        flags |= os.O_CREAT
+        if "a" in mode:
+            flags |= os.O_APPEND
+    return flags
 
 
 def safe_open_under(base_dir: str, user_path: str, mode: str = "r", **kwargs: Any) -> Any:
@@ -227,14 +257,8 @@ def safe_open_under(base_dir: str, user_path: str, mode: str = "r", **kwargs: An
     Returns:
         Open file handle. Caller must close it.
     """
-    resolved = safe_join_under(base_dir, user_path)
-    flags = os.O_RDONLY | os.O_NOFOLLOW
-    if "w" in mode or "a" in mode or "+" in mode:
-        flags = os.O_WRONLY | os.O_CREAT | os.O_NOFOLLOW
-        if "a" in mode:
-            flags |= os.O_APPEND
-        else:
-            flags |= os.O_TRUNC
+    resolved = safe_path_join(base_dir, user_path)
+    flags = _open_flags(mode) | os.O_NOFOLLOW
     fd = os.open(resolved, flags, SECRET_FILE_MODE)
     try:
         os.chmod(resolved, SECRET_FILE_MODE)

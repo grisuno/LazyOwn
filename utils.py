@@ -132,28 +132,7 @@ from core.process import (  # noqa: F401
     run_command,
 )
 from core.validators import check_lhost, check_lport, check_port, check_rhost  # noqa: F401
-from modules.advisory_feeds import (  # noqa: F401 (advisory feeds re-exported)
-    display_news,
-    exploitalert,
-    find_ea,
-    find_ps,
-    find_ss,
-    nvddb,
-    packetstormsecurity,
-    scrape_news,
-)
 from modules.lazyencoder_decoder import encode  # noqa: F401
-from modules.llm_yaml_repair import (  # noqa: F401 (LLM playbook pipeline re-exported)
-    aggressive_yaml_fix,
-    create_synthetic_yaml,
-    fix_common_yaml_issues,
-    load_knowledge_base,
-    manual_yaml_extraction,
-    parse_yaml_response,
-    preprocess_llm_response,
-    query_ollama,
-    save_playbook,
-)
 
 # Optional heavy dependencies are bound lazily (see core/dependencies.py) and re-exported to lazyown.py via star import.
 AES = optional_attr("Crypto.Cipher", "AES")
@@ -345,6 +324,8 @@ _SUDO_STATE: dict = {"checked": False, "ok": False}
 def redact_secrets(text):
     """Mask API keys and credentials embedded in a command line.
 
+    Delegates to :func:`core.text.redact_secrets` (canonical home).
+
     Args:
         text: Command line or log message that may embed secrets.
 
@@ -352,15 +333,9 @@ def redact_secrets(text):
         The text with recognized secret values replaced by ``***`` so
         neither the operator console nor the event log stores them.
     """
-    value = str(text or "")
-    if not value:
-        return value
-    redacted = value
-    for pattern in _SECRET_PATTERNS[:3]:
-        redacted = pattern.sub("***", redacted)
-    redacted = _SECRET_PATTERNS[3].sub(lambda m: f"{m.group(1)}{m.group(2)}***", redacted)
-    redacted = _CREDENTIAL_BLOB_RE.sub(lambda m: f"{m.group(1)}:***[redacted {len(m.group(2))} chars]", redacted)
-    return redacted
+    from core.text import redact_secrets as _canonical
+
+    return _canonical(text)
 
 
 def lazyown_set_config(key: str, value, config_obj=None):

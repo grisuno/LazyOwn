@@ -1031,7 +1031,7 @@ def _award_gym_elo(username: str, elo_bonus: int) -> None:
         return
 
     try:
-        from cli.engagement_hooks import get_karma_name
+        from modules.engagement_state import get_karma_name
 
         state_path = SESSIONS_DIR / "engagement_state.json"
         if state_path.exists():

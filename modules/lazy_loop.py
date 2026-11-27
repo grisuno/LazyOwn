@@ -2546,7 +2546,7 @@ def scope_allows_network(task_id: str, store, network: str) -> tuple[bool, str]:
             allowed, reason = scope_allows_target(task_id, store, str(parsed.network_address))
             if allowed:
                 return True, ""
-        from cli.scope_guard import network_in_scope
+        from core.host_policy import network_in_scope
 
         entries = [str(item.get("value", "")) for item in scope]
         if network_in_scope(text, entries):

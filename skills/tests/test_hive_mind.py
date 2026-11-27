@@ -157,7 +157,6 @@ class TestHiveMemory:
 
     def test_recall_deduplication(self):
         """The same content stored twice appears only once in unified recall."""
-        from unittest.mock import MagicMock
 
         from hive_mind import HebbStore, HiveMemory, LongtermStore
 

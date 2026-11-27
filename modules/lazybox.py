@@ -87,9 +87,9 @@ def _scenario_rows() -> list[dict[str, Any]]:
 def _operator_state() -> dict[str, Any]:
     """Return the CLI operator gamification state (fail-soft)."""
     try:
-        from cli.engagement_hooks import get_state_snapshot
+        from modules.engagement_state import state_snapshot
 
-        return dict(get_state_snapshot() or {})
+        return dict(state_snapshot() or {})
     except Exception:
         return {}
 

@@ -168,7 +168,7 @@ SQLMAP_LONG_FLAGS = frozenset(
     }
 )
 
-_TOOL_LONG_FLAGS: dict[str, frozenset[str]] = {
+TOOL_LONG_FLAGS: dict[str, frozenset[str]] = {
     "nmap": NMAP_LONG_FLAGS,
     "sqlmap": SQLMAP_LONG_FLAGS,
 }
@@ -176,5 +176,5 @@ _TOOL_LONG_FLAGS: dict[str, frozenset[str]] = {
 __all__ = [
     "NMAP_LONG_FLAGS",
     "SQLMAP_LONG_FLAGS",
-    "_TOOL_LONG_FLAGS",
+    "TOOL_LONG_FLAGS",
 ]

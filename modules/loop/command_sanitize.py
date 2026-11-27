@@ -13,171 +13,12 @@ import os
 import re
 import shlex
 
-NMAP_LONG_FLAGS = frozenset(
-    {
-        "--top-ports",
-        "--min-rate",
-        "--max-rate",
-        "--script",
-        "--script-args",
-        "--version-all",
-        "--version-light",
-        "--version-intensity",
-        "--open",
-        "--reason",
-        "--stats-every",
-        "--max-retries",
-        "--host-timeout",
-        "--scan-delay",
-        "--max-scan-delay",
-        "--source-port",
-        "--dns-servers",
-        "--exclude-ports",
-        "--exclude",
-        "--excludefile",
-        "--defeat-rst-ratelimit",
-        "--max-os-tries",
-        "--osscan-guess",
-        "--osscan-limit",
-        "--traceroute",
-        "--packet-trace",
-        "--privileged",
-        "--unprivileged",
-        "--no-stylesheet",
-        "--stylesheet",
-        "--system-dns",
-        "--data-length",
-        "--data-string",
-        "--data",
-        "--ttl",
-        "--spoof-mac",
-        "--badsum",
-        "--send-eth",
-        "--send-ip",
-        "--noninteractive",
-        "--append-output",
-        "--resume",
-        "--iflist",
-        "--proxies",
-        "--mtu",
-        "--min-parallelism",
-        "--max-parallelism",
-        "--min-hostgroup",
-        "--max-hostgroup",
-        "--min-rtt-timeout",
-        "--max-rtt-timeout",
-        "--initial-rtt-timeout",
-    }
-)
+from modules.loop.flags_catalog import TOOL_LONG_FLAGS
 
+NMAP_LONG_FLAGS = TOOL_LONG_FLAGS["nmap"]
+SQLMAP_LONG_FLAGS = TOOL_LONG_FLAGS["sqlmap"]
 
-SQLMAP_LONG_FLAGS = frozenset(
-    {
-        "--url",
-        "--data",
-        "--cookie",
-        "--headers",
-        "--header",
-        "--user-agent",
-        "--random-agent",
-        "--referer",
-        "--host",
-        "--method",
-        "--proxy",
-        "--proxy-cred",
-        "--tor",
-        "--tor-type",
-        "--check-tor",
-        "--delay",
-        "--timeout",
-        "--retries",
-        "--randomize",
-        "--safe-url",
-        "--safe-freq",
-        "--skip-urlencode",
-        "--csrf-token",
-        "--csrf-url",
-        "--force-ssl",
-        "--batch",
-        "--level",
-        "--risk",
-        "--technique",
-        "--dbms",
-        "--os",
-        "--prefix",
-        "--suffix",
-        "--tamper",
-        "--threads",
-        "--string",
-        "--not-string",
-        "--regexp",
-        "--code",
-        "--text-only",
-        "--titles",
-        "--dbs",
-        "--tables",
-        "--columns",
-        "--schema",
-        "--count",
-        "--dump",
-        "--dump-all",
-        "--search",
-        "--current-user",
-        "--current-db",
-        "--hostname",
-        "--is-dba",
-        "--users",
-        "--passwords",
-        "--privileges",
-        "--roles",
-        "--db",
-        "--tbl",
-        "--col",
-        "--exclude",
-        "--where",
-        "--start",
-        "--stop",
-        "--first",
-        "--last",
-        "--sql-query",
-        "--sql-shell",
-        "--os-shell",
-        "--os-cmd",
-        "--os-pwn",
-        "--file-read",
-        "--file-write",
-        "--file-dest",
-        "--reg-read",
-        "--reg-add",
-        "--reg-del",
-        "--wizard",
-        "--flush-session",
-        "--fresh-queries",
-        "--forms",
-        "--crawl",
-        "--crawl-exclude",
-        "--data-string",
-        "--param-del",
-        "--skip",
-        "--skip-static",
-        "--param-exclude",
-        "--dbms-cred",
-        "--identify-waf",
-        "--skip-waf",
-        "--mobile",
-        "--chunked",
-        "--hex",
-        "--output-dir",
-        "--answers",
-        "--keep-alive",
-        "--verbose",
-    }
-)
-
-_TOOL_LONG_FLAGS: dict[str, frozenset[str]] = {
-    "nmap": NMAP_LONG_FLAGS,
-    "sqlmap": SQLMAP_LONG_FLAGS,
-}
+_TOOL_LONG_FLAGS: dict[str, frozenset[str]] = TOOL_LONG_FLAGS
 
 
 def plausible_command(command: str) -> bool:
@@ -482,14 +323,15 @@ def repair_worker_command(command: str, target: str) -> tuple[str, str]:
         kept.append(token)
     if not any(_host_from_token(token) == target for token in kept[1:]):
         kept.append(target)
-    return " ".join(kept), reason
+    return shlex.join(kept), reason
 
 
 def _host_from_token(token: str) -> str:
     """Extract the host part of a command token, or empty when none.
 
-    Handles bare IPv4 addresses, bare hostnames and URLs (``http://h:p/x``)
-    so the worker sanitizer can retarget foreign hosts to the intent target.
+    Handles bare IPv4 addresses, bare hostnames, URLs (``http://h:p/x``)
+    and ``user@host`` credentials (``ssh admin@srv``) so the worker
+    sanitizer can retarget foreign hosts to the intent target.
     """
     value = (token or "").strip().strip("'\"")
     if not value or value.startswith("-"):
@@ -502,7 +344,8 @@ def _host_from_token(token: str) -> str:
         except Exception:
             return ""
     candidate = value.split("/", 1)[0]
-    bare = candidate.split(":", 1)[0] if ":" in candidate else candidate
+    bare = candidate.rsplit("@", 1)[-1]
+    bare = bare.split(":", 1)[0] if ":" in bare else bare
     try:
         import ipaddress
 

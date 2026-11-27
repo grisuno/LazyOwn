@@ -28,6 +28,7 @@ from cli.palette_command import PaletteRenderConfig as _PaletteRenderConfig
 from cli.palette_command import render as _render_palette
 from core.config import save_payload as _save_payload
 from core.process import ensure_tmux_session as _ensure_tmux_session
+from modules.advisory_feeds import display_news, scrape_news
 from utils import (
     BANNER,
     BG_BLACK,
@@ -41,12 +42,10 @@ from utils import (
     WHITE,
     YELLOW,
     copy2clip,
-    display_news,
     load_payload,
     print_error,
     print_msg,
     print_warn,
-    scrape_news,
 )
 
 _PALETTE_RENDER_CONFIG = _PaletteRenderConfig()

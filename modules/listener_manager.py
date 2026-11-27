@@ -25,7 +25,7 @@ import time
 from dataclasses import dataclass, field
 from typing import Any
 
-from utils import print_error, print_msg, print_warn
+from core.console import print_error, print_msg, print_warn
 
 _LOOPBACK_BIND_ADDRESS = "127.0.0.1"
 _WILDCARD_BIND_LITERALS = frozenset({"", "0.0.0.0", "::"})

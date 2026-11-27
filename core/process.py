@@ -220,12 +220,41 @@ def run_command(command: str, timeout: float | None = None) -> str:
         exit_code = process.returncode
         output += "".join(stderr_chunks)
         _print_run_command_status(command, time.monotonic() - start_time, exit_code)
-        _purple_sync_capture(command, exit_code)
+        _notify_command_observers(command, exit_code)
     return output
 
 
-def _purple_sync_capture(command: str, exit_code: int | None) -> None:
-    """Forward executed commands to the purple-sync SIEM spool.
+_COMMAND_OBSERVERS: list[Callable[[str, int | None], None]] = []
+
+
+def register_command_observer(observer: Callable[[str, int | None], None]) -> Callable[[], None]:
+    """Subscribe a sink to every executed command (command, exit_code).
+
+    Lets upper layers (SIEM telemetry, audit) observe execution without
+    the bottom layer importing them — the composition root registers
+    its hooks at boot.
+
+    Args:
+        observer: Callable invoked as ``observer(command, exit_code)``
+            after every command; exceptions from observers are logged
+            and swallowed (telemetry must not break execution).
+
+    Returns:
+        An unsubscribe callable.
+    """
+
+    def _unsubscribe() -> None:
+        try:
+            _COMMAND_OBSERVERS.remove(observer)
+        except ValueError:
+            pass
+
+    _COMMAND_OBSERVERS.append(observer)
+    return _unsubscribe
+
+
+def _notify_command_observers(command: str, exit_code: int | None) -> None:
+    """Fan a finished command out to the registered observers.
 
     Never raises: telemetry must not break command execution.
 
@@ -233,12 +262,11 @@ def _purple_sync_capture(command: str, exit_code: int | None) -> None:
         command: Command line that ran.
         exit_code: Exit status of the process.
     """
-    try:
-        from modules import purple_sync
-
-        purple_sync.hook_command(command, exit_code)
-    except Exception as exc:
-        logging.getLogger(__name__).debug("purple-sync hook skipped: %s", exc)
+    for observer in list(_COMMAND_OBSERVERS):
+        try:
+            observer(command, exit_code)
+        except Exception as exc:
+            logging.getLogger(__name__).debug("command observer skipped: %s", exc)
 
 
 def ensure_tmux_session(session_name: str) -> None:

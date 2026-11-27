@@ -46,7 +46,7 @@ def _mask(text: str) -> str:
     routing records and training rows never persist live passwords or keys.
     """
     try:
-        from utils import redact_secrets as _redact
+        from core.text import redact_secrets as _redact
 
         masked = _redact(text)
     except Exception:

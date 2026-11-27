@@ -22,18 +22,13 @@ from pathlib import Path
 from typing import Any
 
 from core.config import load_payload
+from core.console import print_error, print_msg, print_warn
+from core.network import is_port_in_use
+from core.process import check_go_tool_installed, is_binary_present
+from core.prompt import copy2clip
 from core.validators import check_lhost, check_lport
 from modules.metrics import REGISTRY
-from utils import (
-    check_go_tool_installed,
-    copy2clip,
-    is_binary_present,
-    is_exist,
-    is_port_in_use,
-    print_error,
-    print_msg,
-    print_warn,
-)
+from utils import is_exist
 
 _GO_CANDIDATE_PATHS = (
     str(Path.home() / "go" / "bin" / "go"),

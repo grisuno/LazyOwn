@@ -271,10 +271,8 @@ def target_in_deny(target: str, entries: Sequence[str]) -> bool:
 def network_in_scope(network: str, entries: Sequence[str]) -> bool:
     """Return whether a whole network is authorized by the scope *entries*.
 
-    A network is authorized only when every address it contains is covered:
-    the entry must be a CIDR that is equal to or a supernet of *network*.
-    Bare IPs and hostnames never authorize a network, so a sweep such as
-    ``10.0.0.0/16`` cannot slip past a scope that names a single host.
+    Deprecated alias delegating to :func:`core.host_policy.network_in_scope`
+    (the canonical home shared with the loop's scope gates).
 
     Args:
         network: The candidate network in CIDR notation.
@@ -283,16 +281,9 @@ def network_in_scope(network: str, entries: Sequence[str]) -> bool:
     Returns:
         ``True`` when at least one scope entry covers the whole network.
     """
-    parsed = _parse_network((network or "").strip())
-    if parsed is None:
-        return False
-    for raw in entries:
-        entry = _parse_network(raw.strip())
-        if entry is None or entry.version != parsed.version:
-            continue
-        if parsed.subnet_of(entry):
-            return True
-    return False
+    from core.host_policy import network_in_scope as _canonical
+
+    return _canonical(network, entries)
 
 
 def network_denied(network: str, entries: Sequence[str]) -> bool:

@@ -144,6 +144,22 @@ from utils import (  # noqa: E402
 utils.initialize_startup()
 
 
+def _register_command_observers() -> None:
+    """Register the composition-root command observers (SIEM telemetry).
+
+    The bottom layer only exposes the observer hook; this is the single
+    place the framework binds its sinks to command execution.
+    """
+    from core.process import register_command_observer
+
+    try:
+        from modules import purple_sync
+
+        register_command_observer(purple_sync.hook_command)
+    except Exception as exc:
+        print_warn(f"purple-sync observer not registered: {exc}")
+
+
 HEADLESS = utils.HEADLESS  # noqa: F811
 NOBANNER = utils.NOBANNER  # noqa: F811
 NOLOGS = utils.NOLOGS  # noqa: F811
@@ -370,6 +386,7 @@ class LazyOwnShell(
             _register_command_sets(self)
         except Exception as exc:
             print_warn(f"failed to register CommandSets: {exc}")
+        _register_command_observers()
         self.ip2asn = IP2ASN()
         self.plugins_dir = "plugins"
         self.lazyaddons_dir = "lazyaddons"

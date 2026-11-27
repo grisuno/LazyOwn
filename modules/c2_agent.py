@@ -669,12 +669,6 @@ def deploy(
         "launch_output": (launched or "")[:300],
     }
 
-    sys.path.insert(0, str(_BASE_DIR))
-    from lazyc2.security.services import AESKeyManager
-
-    manager = AESKeyManager(_SESSIONS_DIR / "key.aes")
-    return manager.get_or_generate().hex()
-
 
 def read_records(client_id: str, limit: int = 20) -> list[dict[str, Any]]:
     """Read the latest beacon records for a client (newest last)."""

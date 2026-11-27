@@ -2430,6 +2430,12 @@ verbs:
     risk: safe
     description: Display C and ASM code side by side in a curses-based interface.
     source: cli
+  c2token:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Exchange C2 credentials for the backend session token.
+    source: cli
   cacti_exploit:
     enabled: false
     phase: exploit
@@ -4883,6 +4889,12 @@ verbs:
     risk: safe
     description: Search the dork grammar for one target.
     source: cli
+  lazyhebb:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Zero-inference synaptic memory (SQLite FTS5 + hebbian edges).
+    source: cli
   lazyintel:
     enabled: false
     phase: misc
@@ -5741,6 +5753,12 @@ verbs:
     phase: uncategorized
     risk: safe
     description: Interactive end-to-end phishing campaign wizard.
+    source: cli
+  phisher:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: Launch a phishing campaign against a target domain.
     source: cli
   ping:
     enabled: false

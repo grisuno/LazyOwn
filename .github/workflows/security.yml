@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   bandit:
-    name: bandit
+    name: bandit (baseline ratchet)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -23,9 +23,30 @@ jobs:
           cache: 'pip'
       - name: Install bandit
         run: pip install --upgrade pip && pip install -r requirements-dev.txt
-      - name: Run bandit
-        run: bandit -c pyproject.toml -r skills modules -ll
-        continue-on-error: true
+      - name: Enforce bandit against triaged baseline
+        run: |
+          bandit -c pyproject.toml -r cli core modules skills utils.py lazyown.py lazyc2.py \
+            -ll -b scripts/baselines/bandit_baseline.json
+
+  bandit-widened:
+    name: bandit (full tree, informational)
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      - name: Install bandit
+        run: pip install --upgrade pip && pip install -r requirements-dev.txt
+      - name: Run bandit over the full tree
+        run: bandit -c pyproject.toml -r . -ll -f json -o bandit-report.json || true
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bandit-full-report
+          path: bandit-report.json
+          if-no-files-found: ignore
 
   detect-secrets:
     name: detect-secrets

@@ -282,11 +282,24 @@ class TestConfigConstantsConsolidation:
 
     def test_llm_factory_defines_constants(self):
         """BDD: Given modules/llm_factory.py, When I check for DEFAULT constants,
-        Then DEFAULT_GROQ_MODEL and DEFAULT_OLLAMA_HOST must be defined."""
+        Then DEFAULT_GROQ_MODEL and DEFAULT_OLLAMA_HOST must be resolvable
+        (defined or re-exported from the canonical core payload schema)."""
         factory_path = Path(__file__).parent.parent / "modules" / "llm_factory.py"
         source = factory_path.read_text(encoding="utf-8")
-        assert 'DEFAULT_GROQ_MODEL = "openai/gpt-oss-120b"' in source
-        assert 'DEFAULT_OLLAMA_HOST = "http://localhost:11434"' in source
+        schema_path = Path(__file__).parent.parent / "core" / "payload_schema.py"
+        schema_source = schema_path.read_text(encoding="utf-8")
+        assert (
+            'DEFAULT_GROQ_MODEL = "openai/gpt-oss-120b"' in schema_source
+            or 'DEFAULT_GROQ_MODEL = "openai/gpt-oss-120b"' in source
+        )
+        assert (
+            'DEFAULT_OLLAMA_HOST = "http://localhost:11434"' in schema_source
+            or 'DEFAULT_OLLAMA_HOST = "http://localhost:11434"' in source
+        )
+        from modules.llm_factory import DEFAULT_GROQ_MODEL, DEFAULT_OLLAMA_HOST
+
+        assert DEFAULT_GROQ_MODEL == "openai/gpt-oss-120b"
+        assert DEFAULT_OLLAMA_HOST == "http://localhost:11434"
 
     def test_ai_fallback_imports_from_llm_factory(self):
         """BDD: Given modules/ai_fallback.py, When I check its imports,

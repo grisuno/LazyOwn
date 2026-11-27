@@ -6,7 +6,9 @@ REPO = Path(__file__).resolve().parent.parent
 
 
 def test_demo_gifs_exist_and_nonempty():
-    for name in (
+    """Demo gifs are untracked (af7f3439 keeps the repo cloneable); the
+    gate only fires while the assets are present locally."""
+    names = (
         "golden-path.gif",
         "c2-collab.gif",
         "mcp-ai.gif",
@@ -14,10 +16,15 @@ def test_demo_gifs_exist_and_nonempty():
         "issue-c2.gif",
         "first-steps.gif",
         "recon-loop.gif",
-    ):
-        p = REPO / "assets" / "demo" / name
-        assert p.exists(), f"missing {p}"
-        assert p.stat().st_size > 10_000, f"{p} too small"
+    )
+    present = [REPO / "assets" / "demo" / name for name in names]
+    if not any(p.exists() for p in present):
+        import pytest
+
+        pytest.skip("demo gifs deliberately untracked from VCS (af7f3439)")
+    for p in present:
+        if p.exists():
+            assert p.stat().st_size > 10_000, f"{p} too small"
 
 
 def test_demo_gif_commands_exist_in_source():

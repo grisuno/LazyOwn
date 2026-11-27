@@ -52,6 +52,9 @@ def app():
     previous = os.environ.get(sentinel_key)
     os.environ[sentinel_key] = "parity-test-secret-key"
     try:
+        from lazyc2.blueprints import reset_blueprint_registrations
+
+        reset_blueprint_registrations()
         created = create_app()
     finally:
         if previous is None:

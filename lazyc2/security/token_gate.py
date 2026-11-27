@@ -32,6 +32,8 @@ log = logging.getLogger(__name__)
 
 TOKEN_TTL_SECONDS = 12 * 60 * 60
 TOKEN_LENGTH_BYTES = 32
+TICKET_TTL_SECONDS = 60
+MAX_OUTSTANDING_TICKETS = 100
 AUTH_COOKIE = "lazyown_c2_session"
 AUTH_ALT_HEADER = "X-LazyOwn-Token"
 AUTH_HEADER = "Authorization"
@@ -52,18 +54,39 @@ def _token_bytes(length: int = TOKEN_LENGTH_BYTES) -> str:
 
 
 @dataclass
-class SessionTokenGate:
-    """Single shared bearer token with TTL, compared in constant time.
+class _IssuedToken:
+    """One operator's live token.
 
     Attributes:
-        token: The active hex token, or ``None`` when the gate is off.
-        ttl_seconds: Lifetime of the token.
+        token: Hex token value.
+        issued_at: Monotonic clock value at issue time.
+    """
+
+    token: str
+    issued_at: float = field(default_factory=time.monotonic)
+
+
+@dataclass
+class SessionTokenGate:
+    """Single shared bearer token plus per-operator tokens and tickets.
+
+    The primary token rotates at boot; operator tokens let each operator
+    hold an independent credential that revokes individually, and SSE
+    tickets are one-time short-lived values for clients that cannot set
+    headers. All comparisons are constant time.
+
+    Attributes:
+        token: The active primary hex token, or ``None`` when off.
+        ttl_seconds: Lifetime of the primary token.
         issued_at: Monotonic clock value at issue time.
     """
 
     token: str | None = None
     ttl_seconds: int = TOKEN_TTL_SECONDS
     issued_at: float = field(default_factory=time.monotonic)
+    ticket_ttl_seconds: int = TICKET_TTL_SECONDS
+    _operator_tokens: dict[str, _IssuedToken] = field(default_factory=dict)
+    _tickets: dict[str, float] = field(default_factory=dict)
 
     @property
     def enabled(self) -> bool:
@@ -88,26 +111,116 @@ class SessionTokenGate:
     def check(self, presented: str | None) -> bool:
         """Compare a presented token in constant time.
 
+        Accepts the primary token, any live operator token, or an unused
+        ticket within its TTL (which is then consumed).
+
         Args:
             presented: Token supplied by the caller, or ``None``.
 
         Returns:
-            True when it matches the active token and is not expired.
+            True when it matches an accepted token and is not expired.
         """
-        if not self.enabled or self.expired:
-            return False
         if not presented:
             return False
-        return hmac.compare_digest(presented, self.token or "")
+        if not self.enabled or self.expired:
+            return False
+        if hmac.compare_digest(presented, self.token or ""):
+            return True
+        if self._check_operator_token(presented):
+            return True
+        return self._consume_ticket(presented)
+
+    def _check_operator_token(self, presented: str) -> bool:
+        """Return True when ``presented`` matches a live operator token.
+
+        Args:
+            presented: Candidate token value.
+
+        Returns:
+            True when an operator token matches and is within its TTL.
+        """
+        now = time.monotonic()
+        for issued in self._operator_tokens.values():
+            if (now - issued.issued_at) < self.ttl_seconds and hmac.compare_digest(presented, issued.token):
+                return True
+        return False
+
+    def issue_for_operator(self, operator: str) -> str:
+        """Mint an independent token for one operator.
+
+        Args:
+            operator: Stable operator name owning the token.
+
+        Returns:
+            The new hex token.
+
+        Raises:
+            ValueError: When the operator name is blank.
+        """
+        name = str(operator or "").strip()
+        if not name:
+            raise ValueError("operator name is required")
+        issued = _IssuedToken(token=_token_bytes())
+        self._operator_tokens[name] = issued
+        return issued.token
+
+    def revoke_operator(self, operator: str) -> int:
+        """Revoke one operator's token.
+
+        Args:
+            operator: Operator name to revoke.
+
+        Returns:
+            1 when a token was removed, 0 when the name had none.
+        """
+        return 1 if self._operator_tokens.pop(str(operator or "").strip(), None) is not None else 0
+
+    def issue_ticket(self) -> str:
+        """Mint a one-time short-lived ticket (SSE handshake).
+
+        Returns:
+            The new hex ticket.
+        """
+        if len(self._tickets) >= MAX_OUTSTANDING_TICKETS:
+            oldest = min(self._tickets, key=self._tickets.get, default=None)
+            if oldest is not None:
+                self._tickets.pop(oldest, None)
+        ticket = _token_bytes()
+        self._tickets[ticket] = time.monotonic()
+        return ticket
+
+    def _consume_ticket(self, presented: str) -> bool:
+        """Redeem a ticket exactly once within its TTL.
+
+        Args:
+            presented: Candidate ticket value.
+
+        Returns:
+            True when the ticket was live and is now consumed.
+        """
+        now = time.monotonic()
+        for ticket, issued_at in list(self._tickets.items()):
+            if (now - issued_at) >= self.ticket_ttl_seconds:
+                self._tickets.pop(ticket, None)
+                continue
+            if hmac.compare_digest(presented, ticket):
+                self._tickets.pop(ticket, None)
+                return True
+        return False
 
     def rotate(self) -> str:
         """Mint a fresh token and reset the TTL clock.
+
+        A rotation is a global logout: operator tokens and outstanding
+        tickets are cleared with the primary token.
 
         Returns:
             The new hex token.
         """
         self.token = _token_bytes()
         self.issued_at = time.monotonic()
+        self._operator_tokens.clear()
+        self._tickets.clear()
         return self.token
 
     def expires_at_epoch(self) -> float:
@@ -120,15 +233,22 @@ class SessionTokenGate:
 
         return _time.time() + max(self.ttl_seconds - (time.monotonic() - self.issued_at), 0)
 
-    def issue_session_cookie_kwargs(self, secure: bool = False) -> dict[str, Any]:
+    def issue_session_cookie_kwargs(self, secure: bool | None = None) -> dict[str, Any]:
         """Keyword arguments for ``set_cookie`` installing the session.
 
         Args:
-            secure: Force the ``Secure`` attribute (HTTPS-only deployments).
+            secure: Force the ``Secure`` attribute; ``None`` auto-detects
+                from the current request's scheme (HTTPS deployments get
+                ``Secure`` without configuration).
 
         Returns:
             Cookie kwargs mirroring the estorides session policy.
         """
+        if secure is None:
+            try:
+                secure = request.is_secure
+            except RuntimeError:
+                secure = False
         return {
             "max_age": self.ttl_seconds,
             "httponly": True,

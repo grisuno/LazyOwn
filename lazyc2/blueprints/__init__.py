@@ -42,6 +42,18 @@ _BLUEPRINTS = (
 )
 
 
+def reset_blueprint_registrations() -> None:
+    """Allow re-mounting the blueprint singletons on a fresh app.
+
+    Flask blueprint objects refuse a second ``register_blueprint`` after
+    their first mount. One app per process is the production shape, but
+    the parity tests build a factory app in a process where the monolith
+    already mounted the same singletons; tests call this to start clean.
+    """
+    for blueprint in (*_BLUEPRINTS, listeners_bp):
+        blueprint._got_registered_once = False
+
+
 def register_blueprints(
     app: Flask,
     *,

@@ -23,6 +23,7 @@ Usage:
 from __future__ import annotations
 
 import json
+import logging
 import subprocess
 import threading
 import time
@@ -33,6 +34,8 @@ from typing import Any
 BASE_DIR = Path(__file__).resolve().parent.parent
 SESSIONS_DIR = BASE_DIR / "sessions"
 PAYLOAD_PATH = BASE_DIR / "payload.json"
+
+log = logging.getLogger(__name__)
 
 DOMINANCE_PHASES = [
     "domain_recon",
@@ -863,8 +866,8 @@ class DomainDominance:
             from core.hardening import seal_secret as _seal_secret
 
             return _seal_secret(text)
-        except Exception:
-            pass
+        except Exception as exc:
+            log.warning("loot secret could not be sealed (%s); storing owner-only plaintext", type(exc).__name__)
         return text
 
     @staticmethod

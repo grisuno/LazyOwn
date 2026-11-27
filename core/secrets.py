@@ -151,16 +151,20 @@ def seal_secret(plaintext: str, *, sessions_dir: str | Path = "sessions") -> str
     """Seal a secret with Fernet (AES-128-CBC + HMAC) for storage.
 
     The key comes from the shared ``key.aes`` resolver so sealed values
-    round-trip across restarts without new configuration. Failures fall
-    back to plaintext so loot/operator flows never break; callers keep
-    owner-only file modes regardless.
+    round-trip across restarts without new configuration. Sealing never
+    degrades to plaintext: a missing key or backend raises, so a caller
+    that cannot protect a secret knows instead of writing it bare.
 
     Args:
         plaintext: Secret to protect.
         sessions_dir: Key directory override (tests).
 
     Returns:
-        ``enc:v2:`` sealed value, or plaintext when sealing is unavailable.
+        ``enc:v2:`` sealed value.
+
+    Raises:
+        SecurityViolation: If the key or the cryptography backend is
+            unavailable — plaintext is never stored as a fallback.
     """
     text = str(plaintext or "")
     if not text or text.startswith(SEALED_SECRET_PREFIX):
@@ -174,8 +178,8 @@ def seal_secret(plaintext: str, *, sessions_dir: str | Path = "sessions") -> str
         token = Fernet(_b64.urlsafe_b64encode(raw)).encrypt(text.encode("utf-8"))
         return SEALED_SECRET_PREFIX + token.decode("ascii")
     except Exception as exc:
-        log.warning("secret sealing unavailable, storing with file modes only: %s", type(exc).__name__)
-        return text
+        log.error("secret sealing failed; refusing to store plaintext: %s", type(exc).__name__)
+        raise SecurityViolation(f"secret sealing unavailable: {type(exc).__name__}") from exc
 
 
 def unseal_secret(stored: str, *, sessions_dir: str | Path = "sessions") -> str:

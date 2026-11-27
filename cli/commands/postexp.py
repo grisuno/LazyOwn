@@ -25,6 +25,13 @@ import requests
 import utils as _lazy_utils
 from cli.commands._base import LazyOwnCommandSet
 from modules.categories import post_exploitation_category
+from modules.llm_yaml_repair import (
+    create_synthetic_yaml,
+    manual_yaml_extraction,
+    parse_yaml_response,
+    preprocess_llm_response,
+    save_playbook,
+)
 from utils import (
     GREEN,
     RESET,
@@ -33,7 +40,6 @@ from utils import (
     check_lhost,
     clean_html,
     copy2clip,
-    create_synthetic_yaml,
     dropFile,
     extract,
     generate_index,
@@ -42,16 +48,12 @@ from utils import (
     get_users_dic,
     is_binary_present,
     load_adversary,
-    manual_yaml_extraction,
     parse_nmap_csv,
-    parse_yaml_response,
-    preprocess_llm_response,
     print_error,
     print_msg,
     print_warn,
     replace_placeholders,
     salida_strace,
-    save_playbook,
     shellcode_to_sylk,
     teclado_usuario,
     timedelta,

@@ -14,8 +14,6 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-import pytest
-
 REPO_ROOT = Path(__file__).resolve().parent.parent
 BASELINE_PATH = REPO_ROOT / "tests" / "utils_symbol_baseline.json"
 
@@ -47,11 +45,30 @@ def test_utils_baseline_has_no_stale_symbols() -> None:
     assert not stale, f"stale baseline symbols (rebase baseline down): {stale}"
 
 
-@pytest.mark.parametrize(
-    "forbidden_prefix",
-    ["advisory_", "llm_yaml_"],
+FORBIDDEN_PIPELINE_SYMBOLS = (
+    "aggressive_yaml_fix",
+    "create_synthetic_yaml",
+    "display_news",
+    "exploitalert",
+    "find_ea",
+    "find_ps",
+    "find_ss",
+    "fix_common_yaml_issues",
+    "load_knowledge_base",
+    "manual_yaml_extraction",
+    "nvddb",
+    "packetstormsecurity",
+    "parse_yaml_response",
+    "preprocess_llm_response",
+    "query_ollama",
+    "save_playbook",
+    "scrape_news",
 )
-def test_pipeline_symbols_not_reexported(forbidden_prefix: str) -> None:
+
+
+def test_pipeline_symbols_not_reexported() -> None:
     """LLM pipeline and advisory-feed symbols must live in their modules."""
-    violations = sorted(n for n in _live_surface() if n.startswith(forbidden_prefix))
-    assert not violations, f"{forbidden_prefix}* symbols must be imported from their modules, not utils"
+    violations = sorted(n for n in _live_surface() if n in FORBIDDEN_PIPELINE_SYMBOLS)
+    assert not violations, (
+        "advisory/LLM-pipeline symbols must be imported from their modules, not utils:\n" + "\n".join(violations)
+    )

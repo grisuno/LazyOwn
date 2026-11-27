@@ -72,8 +72,19 @@ class TestDeadForkRemoved:
             "clean_output",
             "is_exist",
             "get_domain",
-            "parse_yaml_response",
             "get_credentials",
             "return_creds",
         ):
             assert callable(getattr(utils, name)), name
+
+    def test_live_llm_repair_implementations_intact(self) -> None:
+        """The LLM YAML pipeline lives in ``modules.llm_yaml_repair`` (not the barrel)."""
+        from modules import llm_yaml_repair
+
+        for name in (
+            "parse_yaml_response",
+            "aggressive_yaml_fix",
+            "create_synthetic_yaml",
+            "save_playbook",
+        ):
+            assert callable(getattr(llm_yaml_repair, name)), name

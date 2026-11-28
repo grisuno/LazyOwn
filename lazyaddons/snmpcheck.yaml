@@ -1,0 +1,21 @@
+name: snmpcheck
+description: "snmp-check enumeration of the bound rhost with default community\nstrings.\n\nOperator flow:\
+  \ assign rhost <ip>; then run `snmpcheck`.\n\nExamples:\n  snmpcheck\n\nRequirements: snmp-check in\
+  \ PATH (sudo apt install snmp-check -y).\n"
+author: LazyOwn RedTeam
+version: '1.0'
+enabled: true
+update: false
+os: any
+trigger:
+- snmp
+params:
+- name: rhost
+  type: string
+  required: false
+  description: Victim host with SNMP exposed.
+tool:
+  name: snmp-check
+  execute_command: snmp-check {rhost}
+category: 02. Scanning & Enumeration
+module_type: scanner

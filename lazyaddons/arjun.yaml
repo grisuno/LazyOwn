@@ -1,0 +1,32 @@
+name: arjun
+description: "arjun HTTP parameter discovery against the assigned URL, saving the\ntext report to sessions/.\
+  \ The canonical run is the headless fast\nmode (20 threads); extra knobs travel as runtime args.\n\n\
+  Operator flow: assign url http://target/; then run `arjun`.\nPositional/flag runtime args map to {arg1}\
+  \ (HTTP method), {arg2}\n(targets file), {arg3} (custom wordlist).\n\nExamples:\n  arjun\n  arjun --arg1\
+  \ POST\n\nRequirements: arjun in PATH (pip3 install arjun).\n"
+author: LazyOwn RedTeam
+version: '1.0'
+enabled: true
+update: false
+os: any
+trigger:
+- http
+params:
+- name: url
+  type: string
+  required: false
+  description: Target URL to fuzz for parameters.
+- name: rhost
+  type: string
+  required: false
+  description: Victim host used for the report filename.
+- name: domain
+  type: string
+  required: false
+  description: Victim domain used for the report filename.
+tool:
+  name: arjun
+  execute_command: arjun -u {url} -oT sessions/{rhost}_arjun_{domain}.txt -t 20 -m {arg1} -i {arg2} -w
+    {arg3}
+category: 02. Scanning & Enumeration
+module_type: scanner

@@ -20,6 +20,7 @@ from lazyc2.blueprints.api import api_bp
 from lazyc2.blueprints.api_v1 import api_v1_bp
 from lazyc2.blueprints.auth import auth_bp
 from lazyc2.blueprints.campaign import campaign_bp
+from lazyc2.blueprints.compliance import compliance_bp
 from lazyc2.blueprints.gym import gym_bp
 from lazyc2.blueprints.lazybox import lazybox_bp
 from lazyc2.blueprints.loops import init_loops_bp, loops_bp
@@ -38,6 +39,7 @@ _BLUEPRINTS = (
     gym_bp,
     lazybox_bp,
     campaign_bp,
+    compliance_bp,
     loops_bp,
 )
 
@@ -94,6 +96,7 @@ __all__ = [
     "api_v1_bp",
     "auth_bp",
     "campaign_bp",
+    "compliance_bp",
     "gym_bp",
     "init_loops_bp",
     "lazybox_bp",

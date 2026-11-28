@@ -1,0 +1,37 @@
+name: techchain_127_0_0_1_t1078_001_t1078_003_t1078_004_t1133
+description: Technique chain for 127.0.0.1 (T1078.001, T1078.003, T1078.004, T1133)
+  (generated)
+enabled: true
+platforms:
+- linux
+- windows
+steps:
+- id: scope
+  phase: exploit
+  description: Bind the target this technique chain was generated for.
+  run: assign target 127.0.0.1
+- id: tech_t1078_001
+  phase: exploit
+  description: Emulate T1078.001 via Atomic Red Team.
+  run: atomic_tests T1078.001 --non-interactive
+  timeout: 900
+  continue_on_error: true
+- id: tech_t1078_003
+  phase: exploit
+  description: Emulate T1078.003 via Atomic Red Team.
+  run: atomic_tests T1078.003 --non-interactive
+  timeout: 900
+  continue_on_error: true
+- id: tech_t1078_004
+  phase: exploit
+  description: Emulate T1078.004 via Atomic Red Team.
+  run: atomic_tests T1078.004 --non-interactive
+  timeout: 900
+  continue_on_error: true
+- id: tech_t1133
+  phase: exploit
+  description: Emulate T1133 via Atomic Red Team.
+  run: atomic_tests T1133 --non-interactive
+  timeout: 900
+  continue_on_error: true
+total_timeout: 4500

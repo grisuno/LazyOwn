@@ -828,11 +828,15 @@ class AddonValidator:
                 )
             )
         param_names = {param.name for param in self.draft.params}
+        from core.addon_args import is_arg_name
+
         for raw_token in self.config.placeholder_pattern.findall(text):
             token = raw_token.strip()
             if not token or "{" in token or "}" in token:
                 continue
             if token in param_names or token in self.config.live_placeholders():
+                continue
+            if is_arg_name(token):
                 continue
             issues.append(
                 ValidationIssue(

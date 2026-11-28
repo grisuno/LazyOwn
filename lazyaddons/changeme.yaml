@@ -1,0 +1,21 @@
+name: changeme
+description: "changeme default-credential scan against the bound rhost, saving the\noutput to sessions/.\n\
+  \nOperator flow: assign rhost <ip>; then run `changeme`.\n\nExamples:\n  changeme\n\nRequirements: changeme\
+  \ in PATH (sudo apt install changeme -y).\n"
+author: LazyOwn RedTeam
+version: '1.0'
+enabled: true
+update: false
+os: any
+trigger:
+- http
+params:
+- name: rhost
+  type: string
+  required: false
+  description: Victim host to test default credentials on.
+tool:
+  name: changeme
+  execute_command: changeme -a -o sessions/{rhost}_changeme_output --oa -t 20 {rhost}
+category: 02. Scanning & Enumeration
+module_type: scanner

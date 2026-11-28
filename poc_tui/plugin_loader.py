@@ -5,7 +5,6 @@ from __future__ import annotations
 import json
 import os
 import re
-import shlex
 import subprocess
 from collections.abc import Callable
 from dataclasses import dataclass, field
@@ -41,22 +40,15 @@ class PluginSpec:
 def _replace_placeholders(command: str, params: dict[str, Any]) -> str:
     """Replace {key} tokens with shell-safe values from params.
 
-    Every substituted value is wrapped in :func:`shlex.quote` because
-    the resulting string runs under ``shell=True`` and values arrive
-    from scan data and operator config. Safe tokens (IPs, hostnames)
-    pass through unquoted; metacharacters are neutralized inside
-    single quotes. Multi-word values become one shell word — per-run
-    flags travel as free args, appended verbatim after the template.
+    Delegates to :func:`core.addon_args.render_command` — the single
+    rendering contract shared by every ``execute_command`` consumer.
+    Substituted values are ``shlex.quote``-ed for the ``shell=True``
+    execution below; unresolved classic placeholders stay verbatim.
     """
 
-    def _subst(match: re.Match) -> str:
-        token = match.group(0)
-        key = match.group(1).strip()
-        if key not in params:
-            return token
-        return shlex.quote(str(params[key]))
+    from core.addon_args import render_command
 
-    return re.sub(r"\{([^}]+)\}", _subst, command)
+    return render_command(command, params or {})
 
 
 def _validate_clone_url(url: str) -> str:

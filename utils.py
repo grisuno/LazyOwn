@@ -1564,9 +1564,27 @@ def inject_payloads(urls, payload_url, request_timeout=15):
 
 def prompt(label, default=None):
     """
-    Return the prompt in the function do_xss
+    Prompt the operator once, honouring headless execution.
+
+    Interactive sessions receive ``label`` on stdin. Non-interactive
+    sessions (piped input, autonomous loops) never block: ``default`` is
+    returned immediately.
+
+    Args:
+        label (str): Prompt text shown to the interactive operator.
+        default: Value returned when headless or on an empty answer.
+
+    Returns:
+        The operator's stripped answer, or ``default``.
     """
-    value = input(f"    {GREEN}{label}: ").strip()
+    import sys as _sys
+
+    if not _sys.stdin.isatty():
+        return default
+    try:
+        value = input(f"    {GREEN}{label}: ").strip()
+    except (EOFError, KeyboardInterrupt):
+        return default
     return value if value else default
 
 
@@ -2480,10 +2498,12 @@ def replace_command_placeholders(command, params):
     """
     Replace placeholders in a command string with values from a params dictionary.
 
-    Supports both single-brace ``{key}`` and double-brace ``{{key}}`` placeholder
-    syntax, with optional whitespace inside the braces (``{ key }``). Addons are
-    documented to emit ``{{key}}`` (see ``modules/yaml_generator.py``). Unknown
-    keys are left intact so an unresolved placeholder is easy to spot.
+    Thin delegate to :func:`core.addon_args.render_command` — the single
+    rendering contract shared by every ``execute_command`` consumer.
+    Supports both single-brace ``{key}`` and double-brace ``{{key}}``
+    placeholder syntax, with optional whitespace inside the braces.
+    Unknown keys are left intact so an unresolved placeholder is easy to
+    spot; a token holding an unresolved runtime ``{argN}`` is dropped.
 
     Args:
         command (str): The command string containing placeholders.
@@ -2492,14 +2512,9 @@ def replace_command_placeholders(command, params):
     Returns:
         str: The command string with placeholders replaced by their corresponding values.
     """
-    import re
+    from core.addon_args import render_command
 
-    def replace_match(match):
-        token = match.group(0)
-        key = token.strip("{}").strip()
-        return str(params.get(key, token))
-
-    return re.sub(r"(\{\{[^{}]*?\}\}|\{[^{}]*?\})", replace_match, command)
+    return render_command(command, params or {})
 
 
 def parse_nmap_csv(csv_path):

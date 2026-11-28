@@ -59,6 +59,30 @@ class MiscMigratedCommandSet(LazyOwnCommandSet):
     category = "12. Miscellaneous"
 
     @cmd2.with_category("12. Miscellaneous")
+    def do_lazygui(self, line):
+        """Launch the LazyOwn operator console (PySide6 desktop GUI).
+
+        Usage: lazygui
+
+        Detaches the Qt console as a background process so the shell stays
+        usable. Fails softly with an install hint when PySide6 is missing.
+        """
+        try:
+            import PySide6  # noqa: F401
+        except ImportError:
+            print_error("PySide6 is not installed. Install it with: pip install PySide6")
+            return
+
+        subprocess.Popen(
+            [sys.executable, "-m", "lazygui"],
+            stdin=subprocess.DEVNULL,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            start_new_session=True,
+        )
+        print_msg("LazyGui operator console launching (background process).")
+
+    @cmd2.with_category("12. Miscellaneous")
     def do_notify(self, arg):
         """Command to trigger a toastr-like notification.
         Usage: notify <type> <message>

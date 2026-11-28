@@ -25,6 +25,17 @@ def _lazy_patched(tmp_path, monkeypatch):
     monkeypatch.setattr(rg, "GYM_LEADERBOARD", tmp_path / "gym" / "leaderboard.json")
     monkeypatch.setattr(rg, "GYM_CHALLENGES", tmp_path / "gym" / "challenges.json")
     monkeypatch.setattr("cli.engagement_hooks._load_state", lambda: _FakeState(), raising=False)
+    from cli.engagement_hooks import get_karma_name
+
+    _fake = _FakeState()
+    monkeypatch.setattr(
+        "modules.lazybox._operator_state",
+        lambda: {
+            "elo": _fake.elo,
+            "karma_name": get_karma_name(_fake.elo),
+            "badges": list(_fake.badges),
+        },
+    )
     return tmp_path
 
 

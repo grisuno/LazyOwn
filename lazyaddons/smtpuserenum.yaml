@@ -1,0 +1,26 @@
+name: smtpuserenum
+description: "smtp-user-enum VRFY sweep against the bound rhost using the assigned\nusername wordlist.\n\
+  \nOperator flow: assign rhost <ip>; assign usrwordlist <path>; then run\n`smtpuserenum`.\n\nExamples:\n\
+  \  smtpuserenum\n\nRequirements: smtp-user-enum in PATH (sudo apt install smtp-user-enum\n-y) and root\
+  \ privileges.\n"
+author: LazyOwn RedTeam
+version: '1.0'
+enabled: true
+update: false
+os: any
+trigger:
+- smtp
+params:
+- name: rhost
+  type: string
+  required: false
+  description: Victim host with SMTP exposed.
+- name: usrwordlist
+  type: string
+  required: false
+  description: Username wordlist path.
+tool:
+  name: smtp-user-enum
+  execute_command: sudo smtp-user-enum -M VRFY -U {usrwordlist} -t {rhost}
+category: 02. Scanning & Enumeration
+module_type: scanner

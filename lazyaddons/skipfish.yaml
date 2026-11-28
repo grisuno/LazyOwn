@@ -1,0 +1,27 @@
+name: skipfish
+description: "skipfish recursive web crawl and active security scan against the\nbound rhost, saving the\
+  \ report under sessions/{rhost}/skipfish/.\n\nOperator flow: assign rhost <ip>; then run `skipfish`.\n\
+  \nExamples:\n  skipfish\n\nRequirements: skipfish in PATH (sudo apt install skipfish -y) and the\ncomplete.wl\
+  \ dictionary shipped with it.\n"
+author: LazyOwn RedTeam
+version: '1.0'
+enabled: true
+update: false
+os: any
+trigger:
+- http
+params:
+- name: rhost
+  type: string
+  required: false
+  description: Victim host to crawl. Max 200 chars, never empty.
+- name: rport
+  type: integer
+  required: false
+  description: Web service port (default 80).
+tool:
+  name: skipfish
+  execute_command: skipfish -o sessions/{rhost}/skipfish/ -S /usr/share/skipfish/dictionaries/complete.wl
+    http://{rhost}:{rport}
+category: 02. Scanning & Enumeration
+module_type: scanner

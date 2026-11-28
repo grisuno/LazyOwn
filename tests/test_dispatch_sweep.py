@@ -27,7 +27,21 @@ BASELINE_PATH = REPO_ROOT / "tests" / "dispatch_sweep_baseline.json"
 
 SEGMENT_SIZE = 150
 STRIDE = 5
-_TOTAL_COMMANDS = 889
+
+
+def _count_indexed_commands() -> int:
+    result = subprocess.run(
+        [sys.executable, str(SWEEP), "--list-names"],
+        capture_output=True,
+        text=True,
+        cwd=REPO_ROOT,
+        timeout=120,
+    )
+    assert result.returncode == 0, result.stderr[-300:]
+    return len(json.loads(result.stdout))
+
+
+_TOTAL_COMMANDS = _count_indexed_commands()
 _SEGMENTS = [i for i in range(0, _TOTAL_COMMANDS, SEGMENT_SIZE)]
 
 
@@ -43,13 +57,14 @@ def _run_segment(start: int) -> dict:
             str(SEGMENT_SIZE),
             "--stride",
             str(STRIDE),
+            "--isolated",
             "--report",
             str(report_path),
         ],
         capture_output=True,
         text=True,
         cwd=REPO_ROOT,
-        timeout=420,
+        timeout=900,
     )
     assert report_path.exists(), f"segment {start} produced no report: {result.stdout[-300:]} {result.stderr[-300:]}"
     return json.loads(report_path.read_text(encoding="utf-8"))

@@ -124,6 +124,36 @@ AUTO_VERBS: tuple[AutoVerb, ...] = (
         description="full autonomous exploitation chain (recon, scan, exploit)",
     ),
     AutoVerb(
+        verb="adcs_request",
+        phases=("cred", "lateral"),
+        keywords=(
+            "adcs",
+            "certificate",
+            "esc1",
+            "esc8",
+            "certipy",
+            "shadow credential",
+            "golden certificate",
+        ),
+        description="abuse vulnerable AD CS templates (ESC1 SAN impersonation / ESC8 NTLM relay)",
+        os="windows",
+    ),
+    AutoVerb(
+        verb="auto_nuclei",
+        phases=("recon", "exploit"),
+        keywords=(
+            "nuclei",
+            "vulnerability scan",
+            "vuln scan",
+            "template scan",
+            "cve scan",
+            "confirm cve",
+            "verify vulnerability",
+            "check cve",
+        ),
+        description="context-ranked Nuclei sweep over observed services and CVEs",
+    ),
+    AutoVerb(
         verb="autopivot",
         phases=("lateral",),
         keywords=("pivot", "tunnel", "socks", "internal network", "lateral"),
@@ -355,6 +385,7 @@ def verb_enabled(name: str) -> bool:
 
 REQUIRED_BINARIES: dict[str, tuple[str, ...]] = {
     "automsf": ("msfconsole",),
+    "auto_nuclei": ("nuclei",),
 }
 
 ALTERNATIVE_BINARIES: dict[str, tuple[str, ...]] = {

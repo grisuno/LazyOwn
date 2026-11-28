@@ -18,8 +18,6 @@ params:
   description: Target domain for sub-domain and OSINT enumeration.
 tool:
   name: Amass
-  execute_command: 'amass enum -passive -d {domain}
-
-    '
+  execute_command: amass enum -passive -d {domain} -o sessions/amass_{domain}_results.txt
 category: 01. Reconnaissance
 module_type: scanner

@@ -1,0 +1,21 @@
+name: davtest
+description: "davtest WebDAV server probe against the assigned URL: uploads test\nfiles and reports executable\
+  \ extensions.\n\nOperator flow: assign url http://target/webdav/; then run `davtest`.\n\nExamples:\n\
+  \  davtest\n\nRequirements: davtest in PATH (sudo apt install davtest -y).\n"
+author: LazyOwn RedTeam
+version: '1.0'
+enabled: true
+update: false
+os: any
+trigger:
+- http
+params:
+- name: url
+  type: string
+  required: false
+  description: WebDAV enabled URL. Max 200 chars, never empty.
+tool:
+  name: davtest
+  execute_command: davtest --url {url}
+category: 02. Scanning & Enumeration
+module_type: scanner

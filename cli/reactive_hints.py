@@ -91,6 +91,9 @@ _KILL_CHAIN_NEXT: dict[str, list[str]] = {
     "gpo_abuse": ["dacl_abuse", "delegation_enum", "forensic_clean"],
     "kerberoast": ["hashcat", "kerberos_ticket", "secretsdump"],
     "adcs_check": ["kerberos_ticket", "certipy_ad", "delegation_attack"],
+    "adcs_request": ["adcs_check", "kerberos_ticket", "delegation_attack"],
+    "kerberos_build": ["kerberos_ticket", "kerberoast"],
+    "reflective_dll": ["dotnet_payload", "staged_delivery", "evasive_payload"],
     "entra_attack": ["cross_cloud", "saas_enum", "opsec_score"],
     "aws_privesc": ["cross_cloud", "entra_attack", "opsec_score"],
     "gcp_privesc": ["cross_cloud", "aws_privesc", "entra_attack"],
@@ -159,6 +162,7 @@ _PHASE_PRIORITY: dict[str, list[str]] = {
         "crystal_ball",
         "kerberos_ticket",
         "adcs_check",
+        "adcs_request",
     ],
     "lateral": [
         "crackmapexec",

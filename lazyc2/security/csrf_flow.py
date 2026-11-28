@@ -30,7 +30,7 @@ from collections.abc import Callable
 from functools import wraps
 from typing import Any
 
-from flask import Flask, Request, g, jsonify, request, session
+from flask import Flask, Request, current_app, g, jsonify, request, session
 from flask_login import current_user
 
 from lazyc2.security.csrf import CSRFPolicy
@@ -112,6 +112,34 @@ def make_csrf_protect(
         return wrapper
 
     return csrf_protect
+
+
+def csrf_guard(view):
+    """Enforce the app-wide CSRF policy on one blueprint view.
+
+    The shared policy instance is stashed in ``app.config`` by the main
+    application module; when it is absent the view runs unwrapped so a
+    misconfigured boot degrades instead of erroring.
+
+    Args:
+        view: The Flask view to wrap.
+
+    Returns:
+        The wrapped view.
+    """
+
+    @wraps(view)
+    def wrapper(*args, **kwargs):
+        policy = current_app.config.get("LAZYOWN_CSRF_POLICY")
+        enabled_fn = current_app.config.get("LAZYOWN_CSRF_ENABLED_FN")
+        if policy is None or enabled_fn is None or not enabled_fn():
+            return view(*args, **kwargs)
+        session_id = request_session_id(policy, request, session)
+        if not policy.check_request(session_id, request):
+            return jsonify({"error": "csrf token missing or invalid"}), 403
+        return view(*args, **kwargs)
+
+    return wrapper
 
 
 def register_csrf_flow(

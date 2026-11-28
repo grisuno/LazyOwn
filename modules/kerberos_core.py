@@ -23,6 +23,11 @@ try:
     from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
     from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 
+    try:
+        from cryptography.hazmat.decrepit.ciphers.algorithms import ARC4
+    except ImportError:
+        ARC4 = None
+
     HAS_CRYPTO = True
 except ImportError:
     HAS_CRYPTO = False
@@ -668,14 +673,18 @@ class KerberosCore:
         from cryptography.hazmat.primitives.ciphers import Cipher, algorithms
 
         k1 = hashlib.new("md5", key + struct.pack("<I", usage)[:4]).digest()
-        cipher = Cipher(algorithms.ARC4(k1), mode=None)
+        arc4 = ARC4 if ARC4 is not None else algorithms.ARC4
+        cipher = Cipher(arc4(k1), mode=None)
         encryptor = cipher.encryptor()
         return encryptor.update(data)
 
     @staticmethod
     def _rc4_decrypt(key: bytes, data: bytes, usage: int) -> bytes:
+        from cryptography.hazmat.primitives.ciphers import Cipher, algorithms
+
         k1 = hashlib.new("md5", key + struct.pack("<I", usage)[:4]).digest()
-        cipher = Cipher(algorithms.ARC4(k1), mode=None)
+        arc4 = ARC4 if ARC4 is not None else algorithms.ARC4
+        cipher = Cipher(arc4(k1), mode=None)
         decryptor = cipher.decryptor()
         return decryptor.update(data)
 

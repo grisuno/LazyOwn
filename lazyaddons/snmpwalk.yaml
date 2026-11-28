@@ -1,0 +1,22 @@
+name: snmpwalk
+description: "snmpwalk of the bound rhost using the public v2c community.\n\nOperator flow: assign rhost\
+  \ <ip>; then run `snmpwalk`.\nFree args let the operator change community or version.\n\nExamples:\n\
+  \  snmpwalk\n  snmpwalk -- -v 2c -c private\n\nRequirements: snmpwalk in PATH (sudo apt install snmp\
+  \ -y).\n"
+author: LazyOwn RedTeam
+version: '1.0'
+enabled: true
+update: false
+os: any
+trigger:
+- snmp
+params:
+- name: rhost
+  type: string
+  required: false
+  description: Victim host with SNMP exposed.
+tool:
+  name: snmpwalk
+  execute_command: snmpwalk -v 2c -c public {rhost}
+category: 02. Scanning & Enumeration
+module_type: scanner

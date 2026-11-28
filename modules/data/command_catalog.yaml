@@ -1,0 +1,3243 @@
+version: '1.0'
+entries:
+- command: lazynmap
+  phase: recon
+  mitre_tactic: T1046
+  description: Full TCP/UDP nmap scan with service version detection
+  priority: 1
+  tags:
+  - network
+- command: batchnmap
+  phase: recon
+  mitre_tactic: T1046
+  description: Batch nmap scan covering common ports quickly
+  priority: 2
+  tags:
+  - network
+- command: recon
+  phase: recon
+  mitre_tactic: T1595
+  description: Full passive + active recon runner (built-in LazyOwn module)
+  priority: 1
+  tags:
+  - network
+  - osint
+- command: serveralive2
+  phase: recon
+  mitre_tactic: T1018
+  description: ICMP-based host discovery across subnet
+  priority: 3
+  tags:
+  - network
+- command: arpscan
+  phase: recon
+  mitre_tactic: T1018
+  description: ARP scan for live hosts on local network
+  priority: 3
+  tags:
+  - network
+- command: ping
+  phase: recon
+  mitre_tactic: T1018
+  description: ICMP ping to check host reachability
+  priority: 5
+  arg_template: '{target}'
+- command: ports
+  phase: recon
+  mitre_tactic: T1046
+  description: Quick port check using built-in port scanner
+  priority: 4
+  arg_template: '{target}'
+- command: trace
+  phase: recon
+  mitre_tactic: T1040
+  description: Traceroute for network path mapping
+  priority: 6
+  arg_template: '{target}'
+- command: dig
+  phase: recon
+  mitre_tactic: T1590
+  description: DNS query for A/MX/NS/TXT records
+  priority: 4
+  tags:
+  - dns
+- command: dnsenum
+  phase: recon
+  mitre_tactic: T1590
+  description: DNS enumeration and subdomain brute-force
+  priority: 2
+  arg_template: '{domain}'
+  tags:
+  - dns
+- command: dnsmap
+  phase: recon
+  mitre_tactic: T1590
+  description: DNS map — subdomain enumeration via dictionary
+  priority: 3
+  arg_template: '{domain}'
+  tags:
+  - dns
+- command: dnstool_py
+  phase: recon
+  mitre_tactic: T1590
+  description: Python DNS tool for advanced record querying
+  priority: 5
+  tags:
+  - dns
+- command: dnschef
+  phase: recon
+  mitre_tactic: T1557
+  description: DNS server for spoofing/MITM analysis
+  priority: 7
+  tags:
+  - dns
+  - mitm
+- command: finalrecon
+  phase: recon
+  mitre_tactic: T1595
+  services:
+  - http
+  - https
+  description: 'Passive web OSINT: WHOIS, headers, SSL, links'
+  priority: 3
+  tags:
+  - web
+  - osint
+- command: whatweb
+  phase: recon
+  mitre_tactic: T1518
+  services:
+  - http
+  - https
+  description: Web technology fingerprinting
+  priority: 3
+  arg_template: '{url}'
+  tags:
+  - web
+- command: sslscan
+  phase: recon
+  mitre_tactic: T1590
+  services:
+  - https
+  - '443'
+  description: SSL/TLS cipher and certificate analysis
+  priority: 4
+  arg_template: '{target}'
+  tags:
+  - ssl
+- command: openssl_sclient
+  phase: recon
+  mitre_tactic: T1590
+  services:
+  - https
+  - '443'
+  - tls
+  description: Manual SSL inspection with openssl s_client
+  priority: 6
+  arg_template: '{target}'
+  tags:
+  - ssl
+- command: ipinfo
+  phase: recon
+  mitre_tactic: T1590
+  description: IP geolocation and ASN lookup via ipinfo.io
+  priority: 6
+  arg_template: '{target}'
+  tags:
+  - osint
+- command: sherlock
+  phase: recon
+  mitre_tactic: T1593
+  description: Username OSINT across social networks
+  priority: 7
+  tags:
+  - osint
+  - social
+- command: waybackmachine
+  phase: recon
+  mitre_tactic: T1593
+  services:
+  - http
+  - https
+  description: Historical URL harvesting from Wayback Machine
+  priority: 5
+  arg_template: '{domain}'
+  tags:
+  - web
+  - osint
+- command: gospider
+  phase: recon
+  mitre_tactic: T1595
+  services:
+  - http
+  - https
+  description: Web spider for endpoint and link discovery
+  priority: 4
+  arg_template: -s {url}
+  tags:
+  - web
+- command: httprobe
+  phase: recon
+  mitre_tactic: T1595
+  description: Probe list of domains for live HTTP/HTTPS
+  priority: 5
+  tags:
+  - web
+- command: metabigor
+  phase: recon
+  mitre_tactic: T1596
+  description: 'OSINT tool: ASN, IP ranges, certs'
+  priority: 6
+  tags:
+  - osint
+- command: cve
+  phase: recon
+  mitre_tactic: T1588
+  description: Search CVE via CIRCL API for target service versions
+  priority: 5
+  arg_template: '{target}'
+  tags:
+  - vuln
+- command: graudit
+  phase: recon
+  mitre_tactic: T1587
+  description: Static code analysis for hardcoded secrets/vulns
+  priority: 7
+  tags:
+  - code
+- command: trufflehog
+  phase: recon
+  mitre_tactic: T1552
+  description: Secret/credential hunting in git history
+  priority: 6
+  tags:
+  - osint
+  - secrets
+- command: tcpdump_capture
+  phase: recon
+  mitre_tactic: T1040
+  description: Packet capture on local interface
+  priority: 6
+  tags:
+  - network
+  - passive
+- command: tcpdump_icmp
+  phase: recon
+  mitre_tactic: T1040
+  description: Capture ICMP traffic for host discovery
+  priority: 7
+  tags:
+  - network
+  - passive
+- command: tshark_analyze
+  phase: recon
+  mitre_tactic: T1040
+  description: Network traffic analysis with tshark
+  priority: 7
+  tags:
+  - network
+  - passive
+- command: binarycheck
+  phase: recon
+  mitre_tactic: T1518
+  description: Check SUID/SGID binaries on target system
+  priority: 4
+  os_target: linux
+  tags:
+  - privesc-recon
+- command: getcap
+  phase: recon
+  mitre_tactic: T1518
+  description: Enumerate Linux capabilities on binaries
+  priority: 4
+  os_target: linux
+  tags:
+  - privesc-recon
+- command: apache_users
+  phase: recon
+  mitre_tactic: T1592
+  services:
+  - http
+  - https
+  description: Enumerate Apache mod_userdir usernames
+  priority: 6
+  tags:
+  - web
+- command: windapsearchscrapeusers
+  phase: recon
+  mitre_tactic: T1087
+  services:
+  - ldap
+  - '389'
+  description: Scrape users via LDAP windapsearch with no creds
+  priority: 3
+  tags:
+  - ad
+  - ldap
+- command: launchpad
+  phase: recon
+  mitre_tactic: T1593
+  description: Search Launchpad for user accounts
+  priority: 8
+  tags:
+  - osint
+- command: proxy
+  phase: recon
+  mitre_tactic: T1090
+  description: Configure HTTP proxy for traffic inspection
+  priority: 8
+  tags:
+  - network
+- command: gobuster
+  phase: enum
+  mitre_tactic: T1083
+  services:
+  - http
+  - https
+  description: Directory and vhost brute-force
+  priority: 1
+  requires_port: true
+  arg_template: dir -u http://{target}:{port}
+  tags:
+  - web
+- command: feroxbuster
+  phase: enum
+  mitre_tactic: T1083
+  services:
+  - http
+  - https
+  description: Recursive directory brute-force (fast, recursive)
+  priority: 1
+  requires_port: true
+  arg_template: -u http://{target}:{port}
+  tags:
+  - web
+- command: dirsearch
+  phase: enum
+  mitre_tactic: T1083
+  services:
+  - http
+  - https
+  description: Web path enumeration with extensions
+  priority: 2
+  arg_template: -u http://{target}
+  tags:
+  - web
+- command: wfuzz
+  phase: enum
+  mitre_tactic: T1083
+  services:
+  - http
+  - https
+  description: Multi-purpose web fuzzer (params, paths, headers)
+  priority: 3
+  tags:
+  - web
+- command: nikto
+  phase: enum
+  mitre_tactic: T1595
+  services:
+  - http
+  - https
+  description: Web server vulnerability scanner
+  priority: 2
+  arg_template: -h {target}
+  tags:
+  - web
+- command: nuclei
+  phase: enum
+  mitre_tactic: T1595
+  services:
+  - http
+  - https
+  description: Template-based vulnerability scanner (thousands of templates)
+  priority: 1
+  arg_template: -u {url}
+  tags:
+  - web
+  - vuln
+- command: wpscan
+  phase: enum
+  mitre_tactic: T1595
+  services:
+  - http
+  - https
+  description: WordPress vulnerability scanner
+  priority: 2
+  arg_template: --url {url}
+  tags:
+  - web
+  - cms
+- command: skipfish
+  phase: enum
+  mitre_tactic: T1595
+  services:
+  - http
+  - https
+  description: Skipfish active web application scan
+  priority: 5
+  arg_template: -o /tmp/skipfish {url}
+  tags:
+  - web
+- command: arjun
+  phase: enum
+  mitre_tactic: T1592
+  services:
+  - http
+  - https
+  description: HTTP parameter discovery tool
+  priority: 4
+  arg_template: -u {url}
+  tags:
+  - web
+- command: parth
+  phase: enum
+  mitre_tactic: T1592
+  services:
+  - http
+  - https
+  description: Gather known parameters from open-source datasets
+  priority: 5
+  tags:
+  - web
+- command: parsero
+  phase: enum
+  mitre_tactic: T1592
+  services:
+  - http
+  - https
+  description: robots.txt analysis for disallowed paths
+  priority: 6
+  tags:
+  - web
+- command: loxs
+  phase: enum
+  mitre_tactic: T1059
+  services:
+  - http
+  - https
+  description: XSS/SQLI/LFI/SSTI multi-scanner
+  priority: 3
+  tags:
+  - web
+  - vuln
+- command: blazy
+  phase: enum
+  mitre_tactic: T1110
+  services:
+  - http
+  - https
+  description: Multi-protocol brute-forcer (HTTP basic/form/proxy)
+  priority: 4
+  requires_port: true
+  tags:
+  - web
+  - bruteforce
+- command: changeme
+  phase: enum
+  mitre_tactic: T1078
+  description: Default credential scanner across many services
+  priority: 2
+  tags:
+  - creds
+  - default
+- command: davtest
+  phase: enum
+  mitre_tactic: T1105
+  services:
+  - http
+  - https
+  - webdav
+  description: WebDAV server test — upload, execute methods
+  priority: 3
+  arg_template: -url {url}
+  tags:
+  - web
+  - webdav
+- command: fuzz
+  phase: enum
+  mitre_tactic: T1592
+  services:
+  - http
+  - https
+  description: Generic fuzzer for web parameters/headers
+  priority: 4
+  tags:
+  - web
+- command: openredirex
+  phase: enum
+  mitre_tactic: T1598
+  services:
+  - http
+  - https
+  description: Open redirect vulnerability scanner
+  priority: 6
+  tags:
+  - web
+- command: lazynmap
+  phase: enum
+  mitre_tactic: T1046
+  description: Full nmap scan (also used for detailed enum after initial recon)
+  priority: 1
+  arg_template: '{target}'
+  tags:
+  - network
+- command: nmapscript
+  phase: enum
+  mitre_tactic: T1046
+  services:
+  - http
+  - https
+  - smb
+  - ftp
+  - ssh
+  - mssql
+  description: NSE script scan for service-specific vulnerabilities
+  requires_port: true
+  priority: 2
+  arg_template: '{port}'
+  tags:
+  - network
+  - vuln
+- command: osmedeus
+  phase: enum
+  mitre_tactic: T1595
+  description: Full automated recon workflow (passive + active)
+  priority: 4
+  tags:
+  - automation
+  - osint
+- command: bbot
+  phase: enum
+  mitre_tactic: T1595
+  description: Recursive OSINT and attack surface scanning
+  priority: 3
+  tags:
+  - osint
+  - automation
+- command: amass
+  phase: enum
+  mitre_tactic: T1590
+  description: ASN/subdomain enumeration and graph mapping
+  priority: 2
+  arg_template: enum -d {domain}
+  tags:
+  - osint
+  - dns
+- command: allin
+  phase: enum
+  mitre_tactic: T1595
+  description: All-in-one scanner launcher (nmap+gobuster+nikto)
+  priority: 3
+  tags:
+  - automation
+- command: magicrecon
+  phase: enum
+  mitre_tactic: T1595
+  description: Automated recon wrapper for bug bounty-style scanning
+  priority: 5
+  tags:
+  - automation
+- command: dmitry
+  phase: enum
+  mitre_tactic: T1590
+  description: Deepmagic Information Gathering Tool
+  priority: 6
+  arg_template: '{target}'
+  tags:
+  - osint
+- command: enum4linux
+  phase: enum
+  mitre_tactic: T1087
+  services:
+  - smb
+  - netbios
+  - '445'
+  - '139'
+  description: Linux/Samba/Windows SMB enumeration
+  priority: 1
+  arg_template: '{target}'
+  tags:
+  - smb
+  - ad
+- command: enum4linux_ng
+  phase: enum
+  mitre_tactic: T1087
+  services:
+  - smb
+  - netbios
+  - '445'
+  description: Next-gen enum4linux with LDAP/RPC/SMB/Kerberos
+  priority: 1
+  arg_template: '{target}'
+  tags:
+  - smb
+  - ad
+- command: smbclient
+  phase: enum
+  mitre_tactic: T1083
+  services:
+  - smb
+  - '445'
+  description: SMB client for share listing and file access
+  priority: 2
+  arg_template: -L //{target}
+  tags:
+  - smb
+- command: smbclient_py
+  phase: enum
+  mitre_tactic: T1083
+  services:
+  - smb
+  - '445'
+  description: Impacket smbclient.py for SMB share enumeration
+  priority: 2
+  requires_creds: true
+  tags:
+  - smb
+  - impacket
+- command: smbclient_impacket
+  phase: enum
+  mitre_tactic: T1083
+  services:
+  - smb
+  - '445'
+  description: Impacket SMB client with advanced options
+  priority: 3
+  tags:
+  - smb
+  - impacket
+- command: smbmap
+  phase: enum
+  mitre_tactic: T1083
+  services:
+  - smb
+  - '445'
+  description: SMB share mapper with read/write access check
+  priority: 1
+  arg_template: -H {target}
+  tags:
+  - smb
+- command: smbattack
+  phase: enum
+  mitre_tactic: T1021
+  services:
+  - smb
+  - '445'
+  description: SMB attack suite (relay, poisoning, auth)
+  priority: 4
+  tags:
+  - smb
+  - exploit
+- command: nbtscan
+  phase: enum
+  mitre_tactic: T1018
+  services:
+  - netbios
+  - '137'
+  - '139'
+  description: NetBIOS name and MAC scanner
+  priority: 4
+  arg_template: '{target}'
+  tags:
+  - smb
+- command: netexec
+  phase: enum
+  mitre_tactic: T1087
+  services:
+  - smb
+  - winrm
+  - ldap
+  description: NetExec (nxc) - modern CrackMapExec successor
+  priority: 1
+  arg_template: smb {target}
+  tags:
+  - smb
+  - ad
+  - win
+- command: cme
+  phase: enum
+  mitre_tactic: T1087
+  services:
+  - smb
+  - winrm
+  description: CrackMapExec SMB/WinRM/LDAP enumeration
+  priority: 1
+  arg_template: smb {target}
+  tags:
+  - smb
+  - ad
+- command: rpcclient
+  phase: enum
+  mitre_tactic: T1087
+  services:
+  - smb
+  - rpc
+  - '445'
+  description: Windows RPC client for user/group/share enum
+  priority: 2
+  arg_template: '{target}'
+  tags:
+  - smb
+  - rpc
+- command: rpcdump
+  phase: enum
+  mitre_tactic: T1135
+  services:
+  - rpc
+  - '135'
+  description: Dump RPC endpoints via Impacket rpcdump.py
+  priority: 3
+  arg_template: '{target}'
+  tags:
+  - rpc
+  - impacket
+- command: rpcmap_py
+  phase: enum
+  mitre_tactic: T1135
+  services:
+  - rpc
+  - '135'
+  description: Map RPC UUIDs with impacket rpcmap.py
+  priority: 4
+  tags:
+  - rpc
+  - impacket
+- command: samrdump
+  phase: enum
+  mitre_tactic: T1087
+  services:
+  - smb
+  - '445'
+  description: Impacket samrdump — enumerate SAM database remotely
+  priority: 3
+  tags:
+  - smb
+  - impacket
+  - creds
+- command: netview
+  phase: enum
+  mitre_tactic: T1018
+  services:
+  - smb
+  - '445'
+  description: Enumerate logged-on users via NetView/impacket
+  priority: 5
+  tags:
+  - smb
+  - ad
+- command: ldapsearch
+  phase: enum
+  mitre_tactic: T1087
+  services:
+  - ldap
+  - '389'
+  - '636'
+  description: LDAP directory search for users/groups/OUs
+  priority: 1
+  arg_template: '{target}'
+  tags:
+  - ldap
+  - ad
+- command: ldapdomaindump
+  phase: enum
+  mitre_tactic: T1087
+  services:
+  - ldap
+  - '389'
+  description: Full LDAP domain dump to HTML/JSON/CSV
+  requires_creds: true
+  priority: 1
+  arg_template: '{domain}'
+  tags:
+  - ldap
+  - ad
+- command: bloodhound
+  phase: enum
+  mitre_tactic: T1087
+  services:
+  - ldap
+  - kerberos
+  - '389'
+  description: BloodHound data collection for AD attack path analysis
+  requires_creds: true
+  priority: 1
+  tags:
+  - ad
+  - bloodhound
+- command: ad_ldap_enum
+  phase: enum
+  mitre_tactic: T1087
+  services:
+  - ldap
+  - '389'
+  description: AD LDAP enumeration — users, computers, groups
+  priority: 2
+  tags:
+  - ldap
+  - ad
+- command: windapsearch
+  phase: enum
+  mitre_tactic: T1087
+  services:
+  - ldap
+  - '389'
+  description: LDAP windapsearch for users/computers/privileged groups
+  priority: 2
+  arg_template: -d {domain} --dc {target}
+  tags:
+  - ldap
+  - ad
+- command: lookupsid
+  phase: enum
+  mitre_tactic: T1087
+  services:
+  - smb
+  - '445'
+  description: Impacket lookupsid — brute-force SIDs to enumerate users
+  priority: 3
+  arg_template: '{target}'
+  tags:
+  - smb
+  - ad
+  - impacket
+- command: lookupsid_py
+  phase: enum
+  mitre_tactic: T1087
+  services:
+  - smb
+  - '445'
+  description: Python lookupsid for anonymous SID brute-force
+  priority: 3
+  tags:
+  - smb
+  - ad
+  - impacket
+- command: pre2k
+  phase: enum
+  mitre_tactic: T1087
+  services:
+  - kerberos
+  - '88'
+  description: Enumerate pre-Win2000 compatible accounts (AS-REP roastable)
+  priority: 3
+  tags:
+  - ad
+  - kerberos
+- command: hound
+  phase: enum
+  mitre_tactic: T1087
+  services:
+  - ldap
+  - '389'
+  description: BloodHound-CE data ingestor
+  priority: 2
+  tags:
+  - ad
+  - bloodhound
+- command: kerbrute
+  phase: enum
+  mitre_tactic: T1110
+  services:
+  - kerberos
+  - '88'
+  description: Kerberos user enumeration and password spray
+  priority: 1
+  arg_template: userenum --dc {target} -d {domain}
+  tags:
+  - kerberos
+  - ad
+- command: pykerbrute
+  phase: enum
+  mitre_tactic: T1110
+  services:
+  - kerberos
+  - '88'
+  description: Python Kerbrute for AS-REQ user enumeration
+  priority: 2
+  tags:
+  - kerberos
+  - ad
+- command: getnpusers
+  phase: enum
+  mitre_tactic: T1558
+  services:
+  - kerberos
+  - '88'
+  description: Impacket GetNPUsers — AS-REP roasting (no creds needed)
+  priority: 1
+  arg_template: '{domain}/'
+  tags:
+  - kerberos
+  - ad
+  - impacket
+- command: snmpwalk
+  phase: enum
+  mitre_tactic: T1602
+  services:
+  - snmp
+  - '161'
+  description: SNMP walk for service enumeration and config leakage
+  priority: 1
+  arg_template: '{target}'
+  tags:
+  - snmp
+- command: snmpcheck
+  phase: enum
+  mitre_tactic: T1602
+  services:
+  - snmp
+  - '161'
+  description: SNMP check for users, shares, processes, software
+  priority: 2
+  arg_template: '{target}'
+  tags:
+  - snmp
+- command: smtpuserenum
+  phase: enum
+  mitre_tactic: T1087
+  services:
+  - smtp
+  - '25'
+  description: SMTP VRFY/RCPT user enumeration
+  priority: 2
+  arg_template: -t {target}
+  tags:
+  - smtp
+- command: swaks
+  phase: enum
+  mitre_tactic: T1566
+  services:
+  - smtp
+  - '25'
+  description: Swiss Army Knife for SMTP testing
+  priority: 3
+  arg_template: --server {target}
+  tags:
+  - smtp
+- command: finger_user_enum
+  phase: enum
+  mitre_tactic: T1087
+  services:
+  - finger
+  - '79'
+  description: Finger protocol user enumeration
+  priority: 5
+  tags:
+  - legacy
+- command: mqtt_check_py
+  phase: enum
+  mitre_tactic: T1040
+  services:
+  - mqtt
+  - '1883'
+  description: MQTT broker check for anonymous access
+  priority: 5
+  tags:
+  - iot
+- command: certipy
+  phase: enum
+  mitre_tactic: T1649
+  services:
+  - ldap
+  - kerberos
+  - '389'
+  description: AD certificate services enumeration and exploitation
+  priority: 1
+  arg_template: find -u {user}@{domain} -p {password} -dc-ip {target}
+  tags:
+  - adcs
+  - ad
+  - kerberos
+- command: certipy_ad
+  phase: enum
+  mitre_tactic: T1649
+  services:
+  - ldap
+  - kerberos
+  description: CertiPy AD CS attack and abuse automation
+  priority: 1
+  requires_creds: true
+  arg_template: find -u {user}@{domain} -p {password}
+  tags:
+  - adcs
+  - ad
+- command: breacher
+  phase: enum
+  mitre_tactic: T1552
+  services:
+  - http
+  - https
+  description: Admin panel and login page finder
+  priority: 4
+  tags:
+  - web
+- command: odat
+  phase: enum
+  mitre_tactic: T1078
+  services:
+  - oracle
+  - '1521'
+  description: Oracle Database Attack Tool
+  priority: 2
+  tags:
+  - oracle
+  - database
+- command: lynis
+  phase: enum
+  mitre_tactic: T1518
+  description: System security auditing (local Linux)
+  priority: 3
+  os_target: linux
+  tags:
+  - privesc-recon
+- command: sawks
+  phase: enum
+  mitre_tactic: T1046
+  description: Service-aware well-known service scanner
+  priority: 4
+  tags:
+  - network
+- command: vscan
+  phase: enum
+  mitre_tactic: T1046
+  description: Vulnerability scanner wrapper for common services
+  priority: 4
+  tags:
+  - vuln
+- command: portdiscover
+  phase: enum
+  mitre_tactic: T1046
+  description: Light port discovery on target subnet
+  priority: 4
+  arg_template: '{target}'
+  tags:
+  - network
+- command: portservicediscover
+  phase: enum
+  mitre_tactic: T1046
+  description: Map open ports to known service banners
+  priority: 5
+  tags:
+  - network
+- command: rdp_check_py
+  phase: enum
+  mitre_tactic: T1046
+  services:
+  - rdp
+  - '3389'
+  description: Check RDP availability and version via impacket
+  priority: 3
+  arg_template: '{target}'
+  tags:
+  - rdp
+  - windows
+- command: net_rpc_addmem
+  phase: enum
+  mitre_tactic: T1087
+  services:
+  - smb
+  - '445'
+  description: Add member to domain group via net rpc
+  priority: 6
+  requires_creds: true
+  tags:
+  - ad
+  - smb
+- command: sessionssh
+  phase: enum
+  mitre_tactic: T1021
+  services:
+  - ssh
+  - '22'
+  description: SSH session enumeration and command runner
+  priority: 3
+  requires_creds: true
+  tags:
+  - ssh
+- command: evil_ssdp
+  phase: enum
+  mitre_tactic: T1557
+  description: SSDP/UPnP poisoning for NTLM credential capture
+  priority: 5
+  tags:
+  - mitm
+  - ntlm
+- command: sqlmap
+  phase: exploit
+  mitre_tactic: T1190
+  services:
+  - http
+  - https
+  description: SQL injection detection and exploitation
+  priority: 1
+  arg_template: -u {url}
+  tags:
+  - web
+  - sqli
+- command: exploitgym
+  phase: exploit
+  mitre_tactic: T1210
+  description: ExploitGym real-world vulnerability-to-exploit benchmark tasks
+  priority: 4
+  tags:
+  - benchmark
+  - cve
+  - exploit-dev
+- command: sqli
+  phase: exploit
+  mitre_tactic: T1190
+  services:
+  - http
+  - https
+  description: Manual SQL injection helper/payload generator
+  priority: 2
+  tags:
+  - web
+  - sqli
+- command: sqli_mssql_test
+  phase: exploit
+  mitre_tactic: T1190
+  services:
+  - mssql
+  - '1433'
+  - http
+  description: MSSQL-specific SQL injection test suite
+  priority: 2
+  tags:
+  - mssql
+  - sqli
+- command: sqsh
+  phase: exploit
+  mitre_tactic: T1078
+  services:
+  - mssql
+  - '1433'
+  description: Sybase/MSSQL command-line client
+  priority: 3
+  requires_creds: true
+  tags:
+  - mssql
+- command: commix
+  phase: exploit
+  mitre_tactic: T1059
+  services:
+  - http
+  - https
+  description: Command injection detection and exploitation
+  priority: 1
+  arg_template: --url {url}
+  tags:
+  - web
+  - cmdi
+- command: xss
+  phase: exploit
+  mitre_tactic: T1059
+  services:
+  - http
+  - https
+  description: XSS payload injection and capture
+  priority: 3
+  tags:
+  - web
+  - xss
+- command: xsstrike
+  phase: exploit
+  mitre_tactic: T1059
+  services:
+  - http
+  - https
+  description: Advanced XSS scanner and exploitation
+  priority: 2
+  arg_template: -u {url}
+  tags:
+  - web
+  - xss
+- command: lfi
+  phase: exploit
+  mitre_tactic: T1083
+  services:
+  - http
+  - https
+  description: Local File Inclusion exploitation
+  priority: 2
+  tags:
+  - web
+  - lfi
+- command: upload_bypass
+  phase: exploit
+  mitre_tactic: T1105
+  services:
+  - http
+  - https
+  description: File upload restriction bypass techniques
+  priority: 3
+  tags:
+  - web
+- command: filtering
+  phase: exploit
+  mitre_tactic: T1059
+  services:
+  - http
+  - https
+  description: WAF bypass and input filter circumvention
+  priority: 4
+  tags:
+  - web
+  - bypass
+- command: unicode_WAFbypass
+  phase: exploit
+  mitre_tactic: T1059
+  services:
+  - http
+  - https
+  description: Unicode normalization WAF bypass
+  priority: 4
+  tags:
+  - web
+  - bypass
+- command: utf
+  phase: exploit
+  mitre_tactic: T1059
+  services:
+  - http
+  - https
+  description: UTF-8 encoding bypass for web filters
+  priority: 5
+  tags:
+  - web
+  - bypass
+- command: padbuster
+  phase: exploit
+  mitre_tactic: T1552
+  services:
+  - http
+  - https
+  description: Padding oracle attack against CBC-mode encryption
+  priority: 3
+  tags:
+  - web
+  - crypto
+- command: pyoracle2
+  phase: exploit
+  mitre_tactic: T1552
+  services:
+  - http
+  - https
+  description: Python padding oracle attack tool
+  priority: 3
+  tags:
+  - web
+  - crypto
+- command: jwt_tool
+  phase: exploit
+  mitre_tactic: T1552
+  services:
+  - http
+  - https
+  description: 'JWT attack toolkit: none-alg, brute, injection'
+  priority: 2
+  tags:
+  - web
+  - jwt
+- command: shellshock
+  phase: exploit
+  mitre_tactic: T1190
+  services:
+  - http
+  - https
+  - cgi
+  description: Shellshock (CVE-2014-6271) exploitation
+  priority: 2
+  arg_template: -u {url}
+  tags:
+  - cgi
+  - rce
+- command: download_exploit
+  phase: exploit
+  mitre_tactic: T1190
+  description: Download and stage exploits from ExploitDB
+  priority: 4
+  tags:
+  - exploit
+- command: ms08_067_netapi
+  phase: exploit
+  mitre_tactic: T1203
+  services:
+  - smb
+  - '445'
+  - '139'
+  description: MS08-067 NetAPI exploit (EternalBlue predecessor)
+  priority: 3
+  os_target: windows
+  tags:
+  - smb
+  - exploit
+- command: eternal
+  phase: exploit
+  mitre_tactic: T1203
+  services:
+  - smb
+  - '445'
+  description: EternalBlue MS17-010 exploitation
+  priority: 2
+  os_target: windows
+  tags:
+  - smb
+  - exploit
+- command: iis_webdav_upload_asp
+  phase: exploit
+  mitre_tactic: T1190
+  services:
+  - http
+  - webdav
+  description: IIS WebDAV ASP upload and execution
+  priority: 3
+  os_target: windows
+  tags:
+  - iis
+  - webdav
+  - rce
+- command: rejetto_hfs_exec
+  phase: exploit
+  mitre_tactic: T1190
+  services:
+  - http
+  description: Rejetto HFS 2.3 remote code execution
+  priority: 3
+  tags:
+  - hfs
+  - rce
+- command: cacti_exploit
+  phase: exploit
+  mitre_tactic: T1190
+  services:
+  - http
+  - https
+  description: Cacti network monitor exploitation
+  priority: 4
+  tags:
+  - web
+  - rce
+- command: printerbug_py
+  phase: exploit
+  mitre_tactic: T1187
+  services:
+  - smb
+  - '445'
+  description: PrinterBug — force NTLM authentication via spooler
+  priority: 3
+  os_target: windows
+  tags:
+  - smb
+  - ntlm
+  - coerce
+- command: gettgtpkinit_py
+  phase: exploit
+  mitre_tactic: T1558
+  services:
+  - kerberos
+  - '88'
+  description: Get TGT via PKINIT (certificate-based Kerberos auth)
+  priority: 2
+  os_target: windows
+  tags:
+  - kerberos
+  - adcs
+- command: gets4uticket_py
+  phase: exploit
+  mitre_tactic: T1558
+  services:
+  - kerberos
+  - '88'
+  description: S4U2Self/S4U2Proxy ticket request (constrained delegation)
+  priority: 3
+  os_target: windows
+  tags:
+  - kerberos
+  - delegation
+- command: aclpwn_py
+  phase: exploit
+  mitre_tactic: T1098
+  services:
+  - ldap
+  - '389'
+  description: ACL-based privilege escalation in Active Directory
+  priority: 2
+  os_target: windows
+  arg_template: -f {user} -ft user -t {domain} -d {domain}
+  tags:
+  - ad
+  - acl
+- command: addspn_py
+  phase: exploit
+  mitre_tactic: T1098
+  services:
+  - ldap
+  - '389'
+  description: Add SPN to AD account for Kerberoasting setup
+  priority: 3
+  os_target: windows
+  tags:
+  - ad
+  - kerberos
+- command: owneredit
+  phase: exploit
+  mitre_tactic: T1098
+  services:
+  - ldap
+  - '389'
+  description: Edit AD object ownership for privilege escalation
+  priority: 3
+  requires_creds: true
+  tags:
+  - ad
+  - acl
+- command: dacledit
+  phase: exploit
+  mitre_tactic: T1098
+  services:
+  - ldap
+  - '389'
+  description: Edit DACL permissions on AD objects
+  priority: 3
+  requires_creds: true
+  tags:
+  - ad
+  - acl
+- command: autoblody
+  phase: exploit
+  mitre_tactic: T1098
+  services:
+  - ldap
+  - '445'
+  description: Automated AD privilege escalation (bloodyAD wrapper)
+  priority: 2
+  requires_creds: true
+  tags:
+  - ad
+  - acl
+- command: krbrelayx_py
+  phase: exploit
+  mitre_tactic: T1558
+  services:
+  - kerberos
+  - '88'
+  description: Kerberos relaying and unconstrained delegation attack
+  priority: 2
+  os_target: windows
+  tags:
+  - kerberos
+  - relay
+- command: ticketer
+  phase: exploit
+  mitre_tactic: T1558
+  services:
+  - kerberos
+  - '88'
+  description: Impacket ticketer — forge Silver/Golden tickets
+  priority: 2
+  requires_creds: true
+  tags:
+  - kerberos
+  - impacket
+- command: pywhisker
+  phase: exploit
+  mitre_tactic: T1649
+  services:
+  - ldap
+  - '389'
+  description: Shadow Credentials attack via msDS-KeyCredentialLink
+  priority: 2
+  tags:
+  - adcs
+  - ad
+- command: kusa
+  phase: exploit
+  mitre_tactic: T1059
+  description: KUSA — kernel userland shellcode agent
+  priority: 5
+  os_target: linux
+  tags:
+  - shellcode
+- command: sireprat
+  phase: exploit
+  mitre_tactic: T1059
+  services:
+  - http
+  - https
+  description: SirepRAT Windows IoT Core RCE exploit
+  priority: 5
+  tags:
+  - iot
+  - rce
+- command: lol
+  phase: exploit
+  mitre_tactic: T1218
+  description: Living-off-the-land binary execution helper
+  priority: 4
+  os_target: windows
+  tags:
+  - lolbas
+- command: psexec
+  phase: exploit
+  mitre_tactic: T1569
+  services:
+  - smb
+  - '445'
+  description: Sysinternals PsExec for remote command execution
+  priority: 1
+  requires_creds: true
+  os_target: windows
+  arg_template: \\{target} -u {user} -p {password} cmd
+  tags:
+  - smb
+  - exec
+- command: psexec_py
+  phase: exploit
+  mitre_tactic: T1569
+  services:
+  - smb
+  - '445'
+  description: Impacket psexec.py — SMB service-based RCE
+  priority: 1
+  requires_creds: true
+  os_target: windows
+  arg_template: '{domain}/{user}:{password}@{target}'
+  tags:
+  - smb
+  - exec
+  - impacket
+- command: sshexploit
+  phase: exploit
+  mitre_tactic: T1190
+  services:
+  - ssh
+  - '22'
+  description: SSH vulnerability exploitation (known CVEs)
+  priority: 4
+  tags:
+  - ssh
+- command: downloader
+  phase: exploit
+  mitre_tactic: T1105
+  description: Download and execute remote payload via HTTP
+  priority: 5
+  arg_template: '{url}'
+- command: rev
+  phase: exploit
+  mitre_tactic: T1059
+  description: One-liner reverse shell generator and clipboard copy
+  priority: 3
+  arg_template: '{lhost} {lport}'
+- command: lazypwn
+  phase: exploit
+  mitre_tactic: T1203
+  description: LazyOwn automated exploitation framework launcher
+  priority: 2
+  arg_template: '{target}'
+- command: pyautomate
+  phase: exploit
+  mitre_tactic: T1059
+  services:
+  - http
+  - https
+  description: Automated exploitation workflow
+  priority: 4
+- command: powerserver
+  phase: exploit
+  mitre_tactic: T1105
+  services:
+  - http
+  - https
+  description: PowerShell web delivery server
+  priority: 4
+  os_target: windows
+  tags:
+  - powershell
+- command: www
+  phase: exploit
+  mitre_tactic: T1105
+  description: Quick HTTP server for payload delivery
+  priority: 3
+  arg_template: '{lport}'
+- command: cp
+  phase: exploit
+  mitre_tactic: T1105
+  description: Copy file to web delivery directory
+  priority: 5
+- command: ss
+  phase: exploit
+  mitre_tactic: T1003
+  description: Shadow file/SAM secrets extraction helper
+  priority: 5
+  os_target: linux
+- command: digdug
+  phase: exploit
+  mitre_tactic: T1071
+  description: DNS tunneling exploitation framework
+  priority: 6
+  tags:
+  - dns
+  - tunnel
+- command: template_helper_serializer
+  phase: exploit
+  mitre_tactic: T1059
+  services:
+  - http
+  - https
+  description: SSTI and deserialization template payload helper
+  priority: 3
+  tags:
+  - web
+  - ssti
+- command: ntpdate
+  phase: exploit
+  mitre_tactic: T1562
+  description: Sync time with target DC for Kerberos attacks
+  priority: 3
+  arg_template: '{target}'
+  tags:
+  - kerberos
+- command: seo
+  phase: exploit
+  mitre_tactic: T1190
+  services:
+  - http
+  - https
+  description: SEO injection exploitation helper
+  priority: 7
+- command: sharpshooter
+  phase: exploit
+  mitre_tactic: T1587
+  description: SharpShooter payload generator (.NET-based)
+  priority: 5
+  os_target: windows
+  tags:
+  - payload
+  - bypass
+- command: greatSCT
+  phase: exploit
+  mitre_tactic: T1587
+  description: GreatSCT payload bypass tool (MSF + AV evasion)
+  priority: 5
+  os_target: windows
+  tags:
+  - payload
+  - av_bypass
+- command: excelntdonut
+  phase: exploit
+  mitre_tactic: T1587
+  description: Donut shellcode in Excel macro payload
+  priority: 5
+  os_target: windows
+  tags:
+  - payload
+  - office
+- command: winbase64payload
+  phase: exploit
+  mitre_tactic: T1027
+  description: Windows base64-encoded powershell payload generator
+  priority: 4
+  os_target: windows
+  tags:
+  - powershell
+  - payload
+- command: wrapper
+  phase: exploit
+  mitre_tactic: T1059
+  description: Payload wrapper for bypass techniques
+  priority: 5
+- command: shellfire
+  phase: exploit
+  mitre_tactic: T1059
+  description: Shellfire exploit integration helper
+  priority: 6
+- command: img2cookie
+  phase: exploit
+  mitre_tactic: T1185
+  services:
+  - http
+  - https
+  description: Cookie stealing via image tag injection
+  priority: 5
+  tags:
+  - web
+  - xss
+- command: createcookie
+  phase: exploit
+  mitre_tactic: T1539
+  description: Create forged session cookies
+  priority: 5
+  tags:
+  - web
+- command: createdll
+  phase: exploit
+  mitre_tactic: T1574
+  description: Create malicious DLL for hijacking
+  priority: 4
+  os_target: windows
+  tags:
+  - dll
+  - hijack
+- command: ssh_cmd
+  phase: postexp
+  mitre_tactic: T1021
+  services:
+  - ssh
+  - '22'
+  description: Remote command execution over SSH
+  priority: 1
+  requires_creds: true
+  arg_template: -h {target} -p {port}
+  tags:
+  - ssh
+- command: lazywebshell
+  phase: postexp
+  mitre_tactic: T1505
+  services:
+  - http
+  - https
+  description: Web shell deployment and interactive control
+  priority: 1
+  tags:
+  - webshell
+- command: issue_command_to_c2
+  phase: postexp
+  mitre_tactic: T1105
+  description: Issue command to connected C2 implant
+  priority: 1
+- command: mimikatzpy
+  phase: postexp
+  mitre_tactic: T1003
+  services:
+  - smb
+  - '445'
+  description: Impacket mimikatz.py for in-memory credential extraction
+  priority: 1
+  requires_creds: true
+  os_target: windows
+  arg_template: '{domain}/{user}:{password}@{target}'
+  tags:
+  - creds
+  - windows
+- command: rubeus
+  phase: postexp
+  mitre_tactic: T1558
+  description: Rubeus Kerberos attack toolkit (TGT, TGS, roasting)
+  priority: 1
+  os_target: windows
+  tags:
+  - kerberos
+- command: scavenger
+  phase: postexp
+  mitre_tactic: T1083
+  description: Post-exploitation file and credential scavenger
+  priority: 2
+  tags:
+  - enum
+  - creds
+- command: find
+  phase: postexp
+  mitre_tactic: T1083
+  description: Find SUID/world-writable files, cron jobs, secrets
+  priority: 2
+  os_target: linux
+  tags:
+  - privesc-recon
+- command: cports
+  phase: postexp
+  mitre_tactic: T1049
+  description: Connected ports enumeration on compromised host
+  priority: 3
+- command: msfshellcoder
+  phase: postexp
+  mitre_tactic: T1587
+  description: MSFvenom shellcode generator in C format
+  priority: 3
+  arg_template: '{lhost} {lport}'
+- command: shellcode
+  phase: postexp
+  mitre_tactic: T1055
+  description: Shellcode injection helper
+  priority: 3
+  tags:
+  - shellcode
+- command: shellcode2elf
+  phase: postexp
+  mitre_tactic: T1587
+  description: Convert shellcode to ELF binary
+  priority: 4
+  os_target: linux
+  tags:
+  - shellcode
+- command: shellcode2sylk
+  phase: postexp
+  mitre_tactic: T1587
+  description: Embed shellcode in Excel SYLK file
+  priority: 5
+  os_target: windows
+  tags:
+  - shellcode
+  - office
+- command: shellcode_search
+  phase: postexp
+  mitre_tactic: T1588
+  description: Search for usable shellcode patterns
+  priority: 5
+- command: hex2shellcode
+  phase: postexp
+  mitre_tactic: T1027
+  description: Convert hex string to shellcode bytes
+  priority: 5
+- command: bin2shellcode
+  phase: postexp
+  mitre_tactic: T1027
+  description: Extract shellcode from compiled binary
+  priority: 5
+- command: aes_pe
+  phase: postexp
+  mitre_tactic: T1027
+  description: AES-encrypt PE payload for AV bypass
+  priority: 3
+  os_target: windows
+  tags:
+  - av_bypass
+  - payload
+- command: createpayload
+  phase: postexp
+  mitre_tactic: T1587
+  description: Create MSFvenom reverse shell payload
+  priority: 2
+  arg_template: '{lhost} {lport}'
+  tags:
+  - payload
+- command: ofuscate_string
+  phase: postexp
+  mitre_tactic: T1027
+  description: Obfuscate strings for AV/EDR bypass
+  priority: 4
+  tags:
+  - bypass
+- command: ofuscatesh
+  phase: postexp
+  mitre_tactic: T1027
+  description: Obfuscate shell script content
+  priority: 4
+  os_target: linux
+  tags:
+  - bypass
+- command: ofuscatorps1
+  phase: postexp
+  mitre_tactic: T1027
+  description: Obfuscate PowerShell script
+  priority: 4
+  os_target: windows
+  tags:
+  - powershell
+  - bypass
+- command: powershell_cmd_stager
+  phase: postexp
+  mitre_tactic: T1059
+  description: PowerShell stager for multi-stage payload delivery
+  priority: 3
+  os_target: windows
+  tags:
+  - powershell
+  - stager
+- command: disableav
+  phase: postexp
+  mitre_tactic: T1562
+  description: Disable AV/defender on compromised Windows host
+  priority: 4
+  os_target: windows
+  tags:
+  - defense_evasion
+- command: follina
+  phase: postexp
+  mitre_tactic: T1203
+  services:
+  - http
+  - https
+  description: Follina (CVE-2022-30190) MSDT exploitation
+  priority: 3
+  os_target: windows
+  tags:
+  - office
+  - rce
+- command: adversary_yaml
+  phase: postexp
+  mitre_tactic: T1059
+  description: Execute adversary playbook from YAML steps
+  priority: 2
+- command: adversary
+  phase: postexp
+  mitre_tactic: T1059
+  description: Execute interactive adversary simulation
+  priority: 2
+- command: atomic_lazyown
+  phase: postexp
+  mitre_tactic: T1059
+  description: Run Atomic Red Team test via LazyOwn
+  priority: 3
+  tags:
+  - atomic
+  - simulation
+- command: ai_playbook
+  phase: postexp
+  mitre_tactic: T1059
+  description: AI-generated offensive playbook from scan results
+  priority: 4
+  tags:
+  - ai
+- command: scp
+  phase: postexp
+  mitre_tactic: T1105
+  services:
+  - ssh
+  - '22'
+  description: Secure copy file to/from compromised host
+  priority: 3
+  requires_creds: true
+  tags:
+  - ssh
+- command: extract_yaml
+  phase: postexp
+  mitre_tactic: T1083
+  description: Extract YAML-encoded data from adversary configs
+  priority: 6
+- command: exe2bin
+  phase: postexp
+  mitre_tactic: T1027
+  description: Convert EXE to binary shellcode for injection
+  priority: 5
+  os_target: windows
+- command: exe2donutbin
+  phase: postexp
+  mitre_tactic: T1027
+  description: Convert EXE to Donut position-independent shellcode
+  priority: 4
+  os_target: windows
+  tags:
+  - donut
+  - shellcode
+- command: pezorsh
+  phase: postexp
+  mitre_tactic: T1027
+  description: PEzor shellcode + PE loader for AV bypass
+  priority: 4
+  os_target: windows
+  tags:
+  - pe
+  - bypass
+- command: path2hex
+  phase: postexp
+  mitre_tactic: T1027
+  description: Convert path string to hex for evasion
+  priority: 6
+- command: d3monizedshell
+  phase: postexp
+  mitre_tactic: T1505
+  description: Deploy d3monized interactive web shell
+  priority: 3
+  tags:
+  - webshell
+- command: apt_proxy
+  phase: postexp
+  mitre_tactic: T1090
+  description: Configure APT to use attacker proxy on Linux target
+  priority: 6
+  os_target: linux
+- command: pip_proxy
+  phase: postexp
+  mitre_tactic: T1090
+  description: Route Python pip through attacker proxy
+  priority: 6
+  os_target: linux
+- command: service_ssh
+  phase: postexp
+  mitre_tactic: T1021
+  description: Start/manage SSH service on compromised host
+  priority: 5
+  os_target: linux
+  tags:
+  - ssh
+  - persistence
+- command: py3ttyup
+  phase: postexp
+  mitre_tactic: T1059
+  description: Upgrade shell to full interactive PTY (Python3)
+  priority: 2
+  os_target: linux
+  tags:
+  - pty
+- command: sessionsshstrace
+  phase: postexp
+  mitre_tactic: T1056
+  description: SSH session tracing with strace for credential capture
+  priority: 5
+  os_target: linux
+  tags:
+  - capture
+- command: create_synthetic
+  phase: postexp
+  mitre_tactic: T1087
+  description: Create synthetic training data from session output
+  priority: 7
+  tags:
+  - ml
+- command: backdoor_factory
+  phase: persist
+  mitre_tactic: T1543
+  description: Patch PE binaries with backdoor payload
+  priority: 2
+  os_target: windows
+  tags:
+  - backdoor
+  - pe
+- command: createwebshell
+  phase: persist
+  mitre_tactic: T1505
+  services:
+  - http
+  - https
+  description: Deploy web shell (PHP/ASPX/JSP) to web root
+  priority: 1
+  tags:
+  - webshell
+- command: weevely
+  phase: persist
+  mitre_tactic: T1505
+  services:
+  - http
+  - https
+  description: Weevely steganographic PHP web shell
+  priority: 2
+  tags:
+  - webshell
+  - php
+- command: weevelygen
+  phase: persist
+  mitre_tactic: T1505
+  description: Generate weevely web shell payload
+  priority: 3
+  tags:
+  - webshell
+  - php
+- command: generate_revshell
+  phase: persist
+  mitre_tactic: T1059
+  description: Generate reverse shell one-liner or payload
+  priority: 2
+  arg_template: '{lhost} {lport}'
+- command: createrevshell
+  phase: persist
+  mitre_tactic: T1059
+  description: Create staged reverse shell script
+  priority: 3
+  arg_template: '{lhost} {lport}'
+- command: createwinrevshell
+  phase: persist
+  mitre_tactic: T1059
+  description: Create Windows reverse shell (.bat/.ps1)
+  priority: 3
+  os_target: windows
+  arg_template: '{lhost} {lport}'
+- command: conptyshell
+  phase: persist
+  mitre_tactic: T1059
+  description: ConPtyShell — fully interactive Windows reverse shell
+  priority: 2
+  os_target: windows
+  arg_template: '{lhost} {lport}'
+- command: listener_py
+  phase: persist
+  mitre_tactic: T1095
+  description: Python reverse shell listener
+  priority: 2
+  arg_template: '{lport}'
+- command: listener_go
+  phase: persist
+  mitre_tactic: T1095
+  description: Go-based reverse shell listener
+  priority: 3
+  arg_template: '{lport}'
+- command: pwncat
+  phase: persist
+  mitre_tactic: T1095
+  description: pwncat — advanced reverse shell handler with persistence
+  priority: 1
+  arg_template: -l {lport}
+  tags:
+  - pwncat
+- command: pwncatcs
+  phase: persist
+  mitre_tactic: T1095
+  description: pwncat-cs C&C server mode
+  priority: 1
+  tags:
+  - pwncat
+- command: rdp
+  phase: persist
+  mitre_tactic: T1021
+  services:
+  - rdp
+  - '3389'
+  description: Enable/connect RDP on Windows target
+  priority: 3
+  requires_creds: true
+  os_target: windows
+- command: ssh
+  phase: persist
+  mitre_tactic: T1021
+  services:
+  - ssh
+  - '22'
+  description: SSH connection with key or password
+  priority: 2
+  requires_creds: true
+  arg_template: '{user}@{target}'
+- command: toctoc
+  phase: persist
+  mitre_tactic: T1205
+  description: Port knocking implementation for covert persistence
+  priority: 5
+  tags:
+  - stealth
+- command: knokknok
+  phase: persist
+  mitre_tactic: T1205
+  description: Port knocking sequence sender
+  priority: 5
+  tags:
+  - stealth
+- command: darkarmour
+  phase: persist
+  mitre_tactic: T1027
+  description: DarkArmour PE packer/crypter for AV bypass
+  priority: 4
+  os_target: windows
+  tags:
+  - av_bypass
+- command: scarecrow
+  phase: persist
+  mitre_tactic: T1027
+  description: ScareCrow — EDR bypass payload generation
+  priority: 3
+  os_target: windows
+  tags:
+  - edr_bypass
+- command: veil
+  phase: persist
+  mitre_tactic: T1027
+  description: Veil-Evasion AV bypass framework
+  priority: 4
+  os_target: windows
+  tags:
+  - av_bypass
+- command: ivy
+  phase: persist
+  mitre_tactic: T1027
+  description: Ivy payload bypass framework (Go-based)
+  priority: 4
+  os_target: windows
+  tags:
+  - av_bypass
+- command: revwin
+  phase: persist
+  mitre_tactic: T1059
+  description: Windows reverse shell generator (multiple methods)
+  priority: 3
+  os_target: windows
+- command: ftp
+  phase: persist
+  mitre_tactic: T1021
+  services:
+  - ftp
+  - '21'
+  description: FTP client for file transfer on compromised host
+  priority: 5
+  tags:
+  - ftp
+- command: asprevbase64
+  phase: persist
+  mitre_tactic: T1027
+  description: Base64-encoded ASP reverse shell for IIS
+  priority: 4
+  os_target: windows
+  tags:
+  - asp
+  - iis
+- command: msfpc
+  phase: persist
+  mitre_tactic: T1587
+  description: MSFvenom payload creator — automated multi-platform
+  priority: 2
+  arg_template: '{lhost} {lport}'
+- command: grisun0
+  phase: persist
+  mitre_tactic: T1136
+  description: Create backdoor admin user (Linux)
+  priority: 2
+  os_target: linux
+  tags:
+  - user_creation
+- command: grisun0w
+  phase: persist
+  mitre_tactic: T1136
+  description: Create backdoor admin user (Windows)
+  priority: 2
+  os_target: windows
+  tags:
+  - user_creation
+- command: paranoid_meterpreter
+  phase: persist
+  mitre_tactic: T1573
+  description: Encrypted meterpreter reverse HTTPS with certificate pinning
+  priority: 3
+  tags:
+  - meterpreter
+- command: setoolKits
+  phase: persist
+  mitre_tactic: T1566
+  description: Social Engineering Toolkit launcher
+  priority: 6
+  tags:
+  - phishing
+- command: dr0p1t
+  phase: persist
+  mitre_tactic: T1587
+  description: dr0p1t payload dropper framework
+  priority: 5
+  os_target: windows
+  tags:
+  - dropper
+- command: service
+  phase: persist
+  mitre_tactic: T1543
+  description: Install backdoor as system service
+  priority: 4
+  tags:
+  - service
+- command: responder
+  phase: privesc
+  mitre_tactic: T1557
+  description: Responder — LLMNR/NBT-NS/MDNS poisoning for hash capture
+  priority: 1
+  tags:
+  - mitm
+  - ntlm
+  - hash_capture
+- command: smbserver
+  phase: privesc
+  mitre_tactic: T1557
+  description: Impacket SMB server for NTLM relay/capture
+  priority: 1
+  arg_template: TMP {target}
+  tags:
+  - smb
+  - ntlm
+  - relay
+- command: hydra
+  phase: cred
+  mitre_tactic: T1110
+  services:
+  - ssh
+  - ftp
+  - http
+  - smb
+  - rdp
+  - winrm
+  description: Multi-protocol online brute-force
+  priority: 1
+  requires_port: true
+  arg_template: -l {user} -P {wordlist} {target} ssh
+  tags:
+  - bruteforce
+- command: medusa
+  phase: cred
+  mitre_tactic: T1110
+  services:
+  - ssh
+  - ftp
+  - smb
+  description: Parallel brute-force tool
+  priority: 2
+  requires_port: true
+  tags:
+  - bruteforce
+- command: hashcat
+  phase: cred
+  mitre_tactic: T1110
+  description: GPU-accelerated hash cracking
+  priority: 1
+  tags:
+  - hash
+  - offline
+- command: john2hash
+  phase: cred
+  mitre_tactic: T1110
+  description: John the Ripper hash cracking
+  priority: 2
+  tags:
+  - hash
+  - offline
+- command: john2keepas
+  phase: cred
+  mitre_tactic: T1555
+  description: Crack KeePass database with John
+  priority: 3
+  tags:
+  - keepass
+  - hash
+- command: john2zip
+  phase: cred
+  mitre_tactic: T1110
+  description: Crack ZIP archive password with John
+  priority: 3
+  tags:
+  - zip
+  - hash
+- command: keepass
+  phase: cred
+  mitre_tactic: T1555
+  description: KeePass database attack and extraction
+  priority: 2
+  tags:
+  - keepass
+- command: smalldic
+  phase: cred
+  mitre_tactic: T1110
+  description: Small dictionary brute-force helper
+  priority: 4
+  tags:
+  - bruteforce
+- command: cubespraying
+  phase: cred
+  mitre_tactic: T1110
+  description: Password spraying with cube-style word lists
+  priority: 3
+  tags:
+  - spray
+- command: passwordspray
+  phase: cred
+  mitre_tactic: T1110
+  services:
+  - smb
+  - ldap
+  - kerberos
+  description: Active Directory password spraying
+  priority: 1
+  arg_template: -d {domain} -u {user} -p {password}
+  tags:
+  - spray
+  - ad
+- command: spraykatz
+  phase: cred
+  mitre_tactic: T1110
+  services:
+  - smb
+  - '445'
+  description: Credential spraying + mimikatz remotely
+  priority: 2
+  requires_creds: true
+  tags:
+  - spray
+  - ad
+- command: adsso_spray
+  phase: cred
+  mitre_tactic: T1110
+  services:
+  - http
+  - https
+  description: Azure AD SSO password spraying
+  priority: 3
+  tags:
+  - azure
+  - spray
+- command: cewl
+  phase: cred
+  mitre_tactic: T1589
+  services:
+  - http
+  - https
+  description: Custom wordlist generator from website content
+  priority: 3
+  arg_template: '{url}'
+  tags:
+  - wordlist
+- command: crunch
+  phase: cred
+  mitre_tactic: T1110
+  description: Wordlist generator with patterns and charsets
+  priority: 4
+  tags:
+  - wordlist
+- command: generatedic
+  phase: cred
+  mitre_tactic: T1589
+  description: Generate targeted dictionary from target info
+  priority: 4
+  tags:
+  - wordlist
+- command: username_anarchy
+  phase: cred
+  mitre_tactic: T1589
+  description: Generate username permutations from full names
+  priority: 3
+  tags:
+  - wordlist
+  - users
+- command: createcredentials
+  phase: cred
+  mitre_tactic: T1078
+  description: Create credentials.txt for session tracking
+  priority: 5
+  arg_template: '{user} {password}'
+- command: createhash
+  phase: cred
+  mitre_tactic: T1110
+  description: Generate various hash types for testing
+  priority: 6
+- command: searchhash
+  phase: cred
+  mitre_tactic: T1110
+  description: Search cracking databases for known hash
+  priority: 3
+  tags:
+  - hash
+- command: crack_cisco_7_password
+  phase: cred
+  mitre_tactic: T1552
+  description: Decrypt Cisco type-7 passwords
+  priority: 5
+  tags:
+  - cisco
+- command: passtightvnc
+  phase: cred
+  mitre_tactic: T1552
+  description: Decrypt TightVNC stored passwords
+  priority: 4
+  tags:
+  - vnc
+- command: sshkey
+  phase: cred
+  mitre_tactic: T1552
+  description: SSH private key extraction and usage
+  priority: 2
+  tags:
+  - ssh
+- command: rocky
+  phase: cred
+  mitre_tactic: T1110
+  description: RockYou-style attack via cached wordlists
+  priority: 3
+  tags:
+  - wordlist
+- command: sudo
+  phase: cred
+  mitre_tactic: T1078
+  description: Enumerate sudo privileges on local system
+  priority: 2
+  os_target: linux
+  tags:
+  - privesc
+- command: cred
+  phase: cred
+  mitre_tactic: T1078
+  description: Display stored credentials from session
+  priority: 3
+- command: creds_py
+  phase: cred
+  mitre_tactic: T1552
+  description: Python credential parser for common formats
+  priority: 4
+- command: dacledit
+  phase: cred
+  mitre_tactic: T1098
+  description: Edit DACL to gain write access for credential reset
+  priority: 3
+  requires_creds: true
+  tags:
+  - ad
+- command: refill_password
+  phase: cred
+  mitre_tactic: T1552
+  description: Extract passwords from browser/app configs
+  priority: 4
+  tags:
+  - browser
+- command: transform
+  phase: cred
+  mitre_tactic: T1027
+  description: Transform credential format (hash->NTLM, etc.)
+  priority: 5
+- command: addusers
+  phase: cred
+  mitre_tactic: T1136
+  description: Bulk user creation for testing/attack scenarios
+  priority: 7
+- command: createusers_and_hashs
+  phase: cred
+  mitre_tactic: T1136
+  description: Create user list with corresponding hashes
+  priority: 7
+- command: createmail
+  phase: cred
+  mitre_tactic: T1566
+  description: Generate phishing email payload
+  priority: 6
+  tags:
+  - phishing
+- command: evilwinrm
+  phase: lateral
+  mitre_tactic: T1021
+  services:
+  - winrm
+  - '5985'
+  - '5986'
+  description: WinRM evil-winrm interactive shell
+  priority: 1
+  requires_creds: true
+  os_target: windows
+  arg_template: -i {target} -u {user} -p {password}
+  tags:
+  - winrm
+- command: wmiexec
+  phase: lateral
+  mitre_tactic: T1047
+  services:
+  - smb
+  - '445'
+  - '135'
+  description: WMI-based remote command execution
+  priority: 1
+  requires_creds: true
+  os_target: windows
+  arg_template: '{domain}/{user}:{password}@{target}'
+  tags:
+  - wmi
+  - impacket
+- command: wmiexecpro
+  phase: lateral
+  mitre_tactic: T1047
+  services:
+  - smb
+  - '445'
+  description: WmiExec-Pro for WMI operations without disk writes
+  priority: 2
+  requires_creds: true
+  os_target: windows
+  tags:
+  - wmi
+- command: dcomexec
+  phase: lateral
+  mitre_tactic: T1021
+  services:
+  - smb
+  - '445'
+  - '135'
+  description: Impacket dcomexec — DCOM-based lateral movement
+  priority: 3
+  requires_creds: true
+  os_target: windows
+  arg_template: '{domain}/{user}:{password}@{target}'
+  tags:
+  - dcom
+  - impacket
+- command: lateral_mov_lin
+  phase: lateral
+  mitre_tactic: T1021
+  services:
+  - ssh
+  - '22'
+  description: SSH-based lateral movement — installs LazyOwn on pivot
+  priority: 1
+  requires_creds: true
+  os_target: linux
+  tags:
+  - ssh
+- command: bloodyAD
+  phase: lateral
+  mitre_tactic: T1098
+  services:
+  - ldap
+  - '389'
+  description: BloodyAD privilege escalation via LDAP
+  priority: 2
+  requires_creds: true
+  tags:
+  - ad
+  - acl
+- command: chisel
+  phase: lateral
+  mitre_tactic: T1090
+  description: TCP/UDP tunneling via chisel reverse proxy
+  priority: 1
+  arg_template: server -p {lport} --reverse
+  tags:
+  - tunnel
+  - proxy
+- command: ligolo
+  phase: lateral
+  mitre_tactic: T1090
+  description: Ligolo-ng reverse tunneling agent
+  priority: 1
+  tags:
+  - tunnel
+  - proxy
+- command: socat
+  phase: lateral
+  mitre_tactic: T1090
+  description: Socat relay for port forwarding and pivoting
+  priority: 2
+  arg_template: TCP-L:{lport},fork TCP:{target}:{port}
+  tags:
+  - tunnel
+  - forward
+- command: regeorg
+  phase: lateral
+  mitre_tactic: T1090
+  services:
+  - http
+  - https
+  description: ReGeorg SOCKS proxy via web shell tunnel
+  priority: 3
+  tags:
+  - tunnel
+  - proxy
+- command: shadowsocks
+  phase: lateral
+  mitre_tactic: T1090
+  description: SOCKS5 encrypted tunnel via shadowsocks
+  priority: 3
+  tags:
+  - tunnel
+  - proxy
+- command: ngrok
+  phase: lateral
+  mitre_tactic: T1572
+  description: Ngrok tunnel for C2 callback over internet
+  priority: 4
+  tags:
+  - tunnel
+  - c2
+- command: set_proxychains
+  phase: lateral
+  mitre_tactic: T1090
+  description: Configure proxychains for pivot routing
+  priority: 2
+  tags:
+  - proxy
+- command: tord
+  phase: lateral
+  mitre_tactic: T1090
+  description: Route traffic through Tor for anonymisation
+  priority: 5
+  tags:
+  - tor
+  - anon
+- command: gospherus
+  phase: lateral
+  mitre_tactic: T1090
+  description: Gopherus SSRF payload generator for pivoting
+  services:
+  - http
+  - https
+  priority: 4
+  tags:
+  - ssrf
+  - pivot
+- command: mssqlcli
+  phase: lateral
+  mitre_tactic: T1021
+  services:
+  - mssql
+  - '1433'
+  description: MSSQL client for lateral movement via xp_cmdshell
+  priority: 2
+  requires_creds: true
+  tags:
+  - mssql
+- command: getTGT
+  phase: lateral
+  mitre_tactic: T1558
+  services:
+  - kerberos
+  - '88'
+  description: Impacket getTGT — request Kerberos TGT
+  priority: 2
+  requires_creds: true
+  arg_template: '{domain}/{user}:{password}'
+  tags:
+  - kerberos
+  - impacket
+- command: targetedKerberoas
+  phase: lateral
+  mitre_tactic: T1558
+  services:
+  - kerberos
+  - '88'
+  description: Targeted Kerberoasting of specific service accounts
+  priority: 1
+  requires_creds: true
+  arg_template: -u {user}@{domain} -p {password} -dc {target}
+  tags:
+  - kerberos
+  - roasting
+- command: stormbreaker
+  phase: lateral
+  mitre_tactic: T1021
+  services:
+  - http
+  - https
+  description: Stormbreaker — access camera/mic via HTTPS link
+  priority: 6
+  tags:
+  - social
+- command: nc
+  phase: lateral
+  mitre_tactic: T1095
+  description: Netcat for port forwarding and pivot channels
+  priority: 3
+  arg_template: -lvnp {lport}
+  tags:
+  - netcat
+- command: id_rsa
+  phase: lateral
+  mitre_tactic: T1552
+  services:
+  - ssh
+  - '22'
+  description: Extract and use discovered SSH private key
+  priority: 2
+  tags:
+  - ssh
+  - key
+- command: penelope
+  phase: lateral
+  mitre_tactic: T1095
+  description: Penelope shell handler with auto-upgrade
+  priority: 2
+  arg_template: '{lport}'
+  tags:
+  - shell
+- command: rnc
+  phase: lateral
+  mitre_tactic: T1095
+  description: Reverse netcat shell handler
+  priority: 4
+  arg_template: '{lport}'
+- command: wifipass
+  phase: lateral
+  mitre_tactic: T1555
+  description: Extract saved WiFi passwords from host
+  priority: 5
+  os_target: windows
+  tags:
+  - wifi
+- command: upload_c2
+  phase: lateral
+  mitre_tactic: T1105
+  description: Upload file to target via C2 channel
+  priority: 3
+- command: addcli
+  phase: lateral
+  mitre_tactic: T1136
+  description: Add CLI tool or implant to compromised host
+  priority: 5
+- command: sshd
+  phase: lateral
+  mitre_tactic: T1021
+  description: Start SSHD on compromised host for persistent access
+  priority: 4
+  os_target: linux
+  tags:
+  - ssh
+- command: vpn
+  phase: lateral
+  mitre_tactic: T1090
+  description: Configure VPN tunnel for pivoting
+  priority: 5
+  tags:
+  - tunnel
+- command: secretsdump
+  phase: exfil
+  mitre_tactic: T1003
+  services:
+  - smb
+  - '445'
+  description: Impacket secretsdump — dump SAM/LSA/NTDS secrets
+  priority: 1
+  requires_creds: true
+  arg_template: '{domain}/{user}:{password}@{target}'
+  tags:
+  - creds
+  - windows
+  - impacket
+- command: evilwinrm
+  phase: exfil
+  mitre_tactic: T1021
+  services:
+  - winrm
+  - '5985'
+  description: EvilWinRM for file download/upload and credential access
+  priority: 1
+  requires_creds: true
+  tags:
+  - winrm
+- command: mimikatzpy
+  phase: exfil
+  mitre_tactic: T1003
+  services:
+  - smb
+  - '445'
+  description: Remote mimikatz via impacket for LSASS dump
+  priority: 1
+  requires_creds: true
+  tags:
+  - creds
+  - windows
+- command: getnthash_py
+  phase: exfil
+  mitre_tactic: T1003
+  services:
+  - smb
+  - '445'
+  description: Impacket getNTHash — extract NTLM hash via RPC
+  priority: 2
+  requires_creds: true
+  tags:
+  - creds
+  - impacket
+- command: getuserspns
+  phase: exfil
+  mitre_tactic: T1558
+  services:
+  - kerberos
+  - '88'
+  description: Impacket GetUserSPNs — Kerberoast service account hashes
+  priority: 1
+  requires_creds: true
+  arg_template: '{domain}/{user}:{password} -dc-ip {target} -request'
+  tags:
+  - kerberos
+  - roasting
+- command: getadusers
+  phase: exfil
+  mitre_tactic: T1087
+  services:
+  - ldap
+  - '445'
+  description: Impacket GetADUsers — enumerate domain users
+  priority: 2
+  requires_creds: true
+  tags:
+  - ad
+  - impacket
+- command: dploot
+  phase: exfil
+  mitre_tactic: T1555
+  services:
+  - smb
+  - '445'
+  description: DPAPI secret looting from Windows target
+  priority: 2
+  requires_creds: true
+  arg_template: all -d {domain} -u {user} -p {password} -dc-ip {target}
+  tags:
+  - dpapi
+  - windows
+- command: reg_py
+  phase: exfil
+  mitre_tactic: T1012
+  services:
+  - smb
+  - '445'
+  description: Impacket reg.py — read SAM/SYSTEM/SECURITY registry hives
+  priority: 2
+  requires_creds: true
+  tags:
+  - registry
+  - impacket
+- command: samdump2
+  phase: exfil
+  mitre_tactic: T1003
+  description: Extract password hashes from SAM and SYSTEM files
+  priority: 2
+  os_target: linux
+  tags:
+  - hash
+- command: adgetpass
+  phase: exfil
+  mitre_tactic: T1555
+  services:
+  - ldap
+  - '389'
+  description: Active Directory credential extraction
+  priority: 2
+  requires_creds: true
+  tags:
+  - ad
+- command: gmsadumper
+  phase: exfil
+  mitre_tactic: T1555
+  services:
+  - ldap
+  - '389'
+  description: Dump gMSA (Group Managed Service Account) passwords
+  priority: 2
+  requires_creds: true
+  tags:
+  - ad
+  - gmsa
+- command: gitdumper
+  phase: exfil
+  mitre_tactic: T1213
+  services:
+  - http
+  - https
+  description: Dump exposed .git repository contents
+  priority: 2
+  arg_template: '{url}/.git/'
+  tags:
+  - web
+  - git
+- command: rsync
+  phase: exfil
+  mitre_tactic: T1105
+  description: Rsync file exfiltration from compromised host
+  priority: 3
+  requires_creds: true
+  tags:
+  - file_transfer
+- command: download_c2
+  phase: exfil
+  mitre_tactic: T1105
+  description: Download file from C2 server to attacker
+  priority: 3
+- command: evidence
+  phase: exfil
+  mitre_tactic: T1005
+  description: Collect and package evidence from target system
+  priority: 4
+- command: decrypt
+  phase: exfil
+  mitre_tactic: T1027
+  description: Decrypt captured encrypted files
+  priority: 5
+- command: encrypt
+  phase: exfil
+  mitre_tactic: T1022
+  description: Encrypt exfiltrated data for transport
+  priority: 5
+- command: upload_gofile
+  phase: exfil
+  mitre_tactic: T1537
+  description: Upload exfiltrated data to gofile.io (anonymous)
+  priority: 5
+  tags:
+  - upload
+- command: unzip
+  phase: exfil
+  mitre_tactic: T1083
+  description: Extract password-protected archives from target
+  priority: 5
+- command: msfrpc
+  phase: c2
+  mitre_tactic: T1095
+  description: Metasploit RPC daemon for remote API control
+  priority: 1
+  tags:
+  - msf
+- command: automsf
+  phase: c2
+  mitre_tactic: T1095
+  description: Automated Metasploit exploitation and listener setup
+  priority: 2
+  arg_template: '{target}'
+  tags:
+  - msf
+- command: c2
+  phase: c2
+  mitre_tactic: T1095
+  description: LazyOwn C2 console — manage active sessions
+  priority: 1
+- command: empire
+  phase: c2
+  mitre_tactic: T1071
+  description: PowerShell Empire C2 framework launcher
+  priority: 3
+  os_target: windows
+  tags:
+  - empire
+  - powershell
+- command: emp3r0r
+  phase: c2
+  mitre_tactic: T1095
+  description: Emp3r0r Linux/Windows C2 framework
+  priority: 3
+  tags:
+  - c2_framework
+- command: sliver_server
+  phase: c2
+  mitre_tactic: T1095
+  description: Sliver C2 server — mTLS/WireGuard/HTTP listeners
+  priority: 2
+  tags:
+  - sliver
+- command: caldera
+  phase: c2
+  mitre_tactic: T1059
+  description: MITRE Caldera adversary emulation platform
+  priority: 3
+  tags:
+  - caldera
+  - simulation
+- command: atomic_agent
+  phase: c2
+  mitre_tactic: T1059
+  description: Atomic Red Team agent for technique execution
+  priority: 3
+  tags:
+  - atomic
+- command: atomic_gen
+  phase: c2
+  mitre_tactic: T1059
+  description: Generate Atomic Red Team test commands
+  priority: 4
+  tags:
+  - atomic
+- command: atomic_tests
+  phase: c2
+  mitre_tactic: T1059
+  description: List and run Atomic Red Team tests
+  priority: 4
+  tags:
+  - atomic
+- command: generate_playbook
+  phase: c2
+  mitre_tactic: T1059
+  description: Generate AI attack playbook from current session state
+  priority: 3
+- command: attack_plan
+  phase: c2
+  mitre_tactic: T1059
+  description: Generate structured attack plan for target
+  priority: 3
+  arg_template: '{target}'
+- command: my_playbook
+  phase: c2
+  mitre_tactic: T1059
+  description: Show or execute saved custom playbook
+  priority: 4
+- command: mitre_test
+  phase: c2
+  mitre_tactic: T1059
+  description: Run LazyOwn MITRE ATT&CK simulation tests
+  priority: 4
+  tags:
+  - mitre
+  - simulation
+- command: process_scans
+  phase: report
+  mitre_tactic: T0000
+  description: Process CSV scan results into Shodan-like JSON DB
+  priority: 1
+- command: vulns
+  phase: report
+  mitre_tactic: T0000
+  description: Show all discovered vulnerabilities from session
+  priority: 2
+- command: groq
+  phase: report
+  mitre_tactic: T0000
+  description: Query Groq LLM for attack guidance or summary
+  priority: 3
+- command: gpt
+  phase: report
+  mitre_tactic: T0000
+  description: Query GPT for contextual attack recommendations
+  priority: 4
+- command: ai_playbook
+  phase: report
+  mitre_tactic: T0000
+  description: AI-generated offensive playbook from nmap/session data
+  priority: 2
+- command: eyewitness
+  phase: report
+  mitre_tactic: T1125
+  services:
+  - http
+  - https
+  description: Screenshot web services for visual triage
+  priority: 3
+  arg_template: --web
+- command: eyewitness_py
+  phase: report
+  mitre_tactic: T1125
+  services:
+  - http
+  - https
+  description: Python EyeWitness web screenshot tool
+  priority: 3
+- command: gowitness
+  phase: report
+  mitre_tactic: T1125
+  services:
+  - http
+  - https
+  description: Go-based web screenshot tool with report
+  priority: 3
+  arg_template: scan {url}
+- command: extract_ports
+  phase: report
+  mitre_tactic: T1046
+  description: Extract open ports from nmap/masscan output
+  priority: 4
+- command: create_session_json
+  phase: report
+  mitre_tactic: T0000
+  description: Create structured JSON from current session findings
+  priority: 2
+- command: createjsonmachine
+  phase: report
+  mitre_tactic: T0000
+  description: Create JSON host machine descriptor from session
+  priority: 3
+- command: name_the_hash
+  phase: report
+  mitre_tactic: T0000
+  description: Identify hash type from captured hash string
+  priority: 4
+- command: pth_net
+  phase: report
+  mitre_tactic: T0000
+  description: Pass-the-hash via smbclient for network enumeration
+  priority: 3
+- command: banners
+  phase: report
+  mitre_tactic: T0000
+  description: Collect and display service banners from session
+  priority: 5
+- command: get_avaible_actions
+  phase: report
+  mitre_tactic: T0000
+  description: List all available LazyOwn actions for current state
+  priority: 5
+- command: exploit_recommend
+  phase: exploit
+  mitre_tactic: T1203
+  description: AI exploit recommendation engine — matches services to CVEs
+  priority: 1
+  tags:
+  - ai
+  - exploit
+  - cve
+- command: pivot_status
+  phase: lateral
+  mitre_tactic: T1090
+  description: View active pivot routes and proxychains config
+  priority: 2
+  tags:
+  - pivot
+  - proxy
+- command: dashboard
+  phase: report
+  mitre_tactic: T0000
+  description: Live network map dashboard with phase progress
+  priority: 3
+  tags:
+  - dashboard
+  - visualization
+- command: cloud_enum
+  phase: recon
+  mitre_tactic: T1591
+  description: Cloud provider metadata, storage, and IAM enumeration
+  priority: 3
+  tags:
+  - cloud
+  - osint
+  - metadata
+- command: adcs_check
+  phase: exploit
+  mitre_tactic: T1488
+  description: Active Directory Certificate Services ESC1-ESC8 vulnerability check
+  priority: 2
+  requires_creds: true
+  tags:
+  - ad
+  - certificates
+  - esc
+- command: dominion
+  phase: lateral
+  mitre_tactic: T1558
+  description: Automated Active Directory domain takeover (recon -> DCSync -> persistence)
+  priority: 1
+  requires_creds: true
+  tags:
+  - ad
+  - domain
+  - kerberos
+- command: hunt
+  phase: exploit
+  mitre_tactic: T1213
+  description: Autonomous exploitation chain against target (profile -> rank -> execute)
+  priority: 2
+  arg_template: '{target}'
+  tags:
+  - autonomous
+  - exploit
+- command: phisher
+  phase: recon
+  mitre_tactic: T1566
+  description: Phishing campaign launcher with template selection and credential harvesting
+  priority: 3
+  arg_template: '{domain} {template}'
+  tags:
+  - phishing
+  - initial_access
+- command: lazyreport
+  phase: report
+  mitre_tactic: T0000
+  description: Professional red team report generator (HTML/PDF/MD/JSON)
+  priority: 2
+  tags:
+  - reporting
+  - client
+- command: evasive
+  phase: exploit
+  mitre_tactic: T1027
+  description: Detection-evading payload generator (PS/JS/VBA/shellcode/LOLBAS/polymorphic)
+  priority: 2
+  tags:
+  - evasion
+  - obfuscation
+  - payload
+- command: chain
+  phase: exploit
+  mitre_tactic: T1203
+  description: 'Autonomous exploitation chain: recon -> vuln -> exploit -> post-exploit'
+  priority: 2
+  arg_template: '{target}'
+  tags:
+  - autonomous
+  - exploit
+- command: beaconcfg
+  phase: c2
+  mitre_tactic: T1095
+  description: C2 beacon profile generator with traffic morphing and domain fronting
+  priority: 3
+  tags:
+  - c2
+  - beacon
+  - traffic_morphing
+- command: yara_scan
+  phase: postexp
+  mitre_tactic: T1027
+  description: YARA rule scanner for malware/IOC detection on compromised hosts
+  priority: 4
+  tags:
+  - yara
+  - forensics
+  - ioc

@@ -32,6 +32,7 @@ from datetime import datetime
 from pathlib import Path, PurePosixPath
 from typing import Any
 
+from core.paths import realpath_contained, realpath_within_base
 from modules.world_model import read_state_dict
 from skills.lazyown_mcp_helpers import DEFAULT_FRESHNESS_THRESHOLD_SECONDS, is_likely_credential
 
@@ -84,8 +85,109 @@ _HOST_IN_PATH_RE = re.compile(r"(?<![\d.])(\d{1,3}(?:\.\d{1,3}){3})(?![\d.])")
 _SAFE_REL_SEGMENT_RE = re.compile(r"^[A-Za-z0-9._\-+=@:,()\[\] ]+$")
 
 _SEARCH_PATTERN_CHARS_RE = re.compile(r"^[\w\s.^$*+?{}\[\]()|\\/@#%&=!:,~\"'<>_-]*$", re.ASCII)
-_SEARCH_NESTED_QUANTIFIER_RE = re.compile(r"\((?:[^()\\]|\\.)*(?:[+*]|\{\d+,\})\)(?:[*+]|\{\d+,\})")
 _SEARCH_BOUNDED_REPEAT_RE = re.compile(r"\{(\d+)(?:,(\d*))?\}")
+
+
+def _skip_character_class(pattern: str, index: int) -> int:
+    """Return the index just past the character class starting at *index*."""
+    cursor = index + 1
+    if cursor < len(pattern) and pattern[cursor] in "^]":
+        cursor += 1
+    while cursor < len(pattern):
+        char = pattern[cursor]
+        if char == "\\":
+            cursor += 2
+            continue
+        if char == "]":
+            return cursor + 1
+        cursor += 1
+    return cursor
+
+
+def _quantifier_at(pattern: str, index: int) -> str:
+    """Classify the quantifier at *index* as ``unbounded``, ``bounded`` or ``""``."""
+    if index >= len(pattern):
+        return ""
+    char = pattern[index]
+    if char in "*+":
+        return "unbounded"
+    if char == "?":
+        return "bounded"
+    if char != "{":
+        return ""
+    end = pattern.find("}", index + 1)
+    if end == -1:
+        return ""
+    body = pattern[index + 1 : end]
+    if "," in body:
+        low, high = body.split(",", 1)
+        if low.isdigit() and (high == "" or high.isdigit()):
+            return "unbounded" if high == "" else "bounded"
+        return ""
+    return "bounded" if body.isdigit() else ""
+
+
+def _skip_quantifier(pattern: str, index: int) -> int:
+    """Return the index just past the quantifier at *index*."""
+    if index >= len(pattern):
+        return index
+    if pattern[index] in "*+?":
+        return index + 1
+    if pattern[index] == "{":
+        end = pattern.find("}", index + 1)
+        return end + 1 if end != -1 else index + 1
+    return index + 1
+
+
+def _has_nested_unbounded_quantifier(pattern: str) -> bool:
+    """Detect nested unbounded quantifiers with a single linear scan.
+
+    A group that already contains an unbounded quantifier and is itself
+    followed by one is the classic catastrophic-backtracking shape.
+    Character classes, escapes and bounded repeats are skipped without
+    regex evaluation.
+
+    Args:
+        pattern: Candidate regular expression.
+
+    Returns:
+        True when a nested unbounded quantifier is present.
+    """
+    stack: list[bool] = []
+    index = 0
+    while index < len(pattern):
+        char = pattern[index]
+        if char == "\\":
+            index += 2
+            continue
+        if char == "[":
+            index = _skip_character_class(pattern, index)
+            continue
+        if char == "(":
+            stack.append(False)
+            index += 1
+            continue
+        if char == ")":
+            contains_unbounded = stack.pop() if stack else False
+            index += 1
+            quantifier = _quantifier_at(pattern, index)
+            if quantifier == "unbounded":
+                if contains_unbounded:
+                    return True
+                if stack:
+                    stack[-1] = True
+                index = _skip_quantifier(pattern, index)
+                continue
+            if quantifier == "bounded":
+                index = _skip_quantifier(pattern, index)
+            continue
+        quantifier = _quantifier_at(pattern, index)
+        if quantifier == "unbounded" and stack:
+            stack[-1] = True
+            index = _skip_quantifier(pattern, index)
+            continue
+        index += 1
+    return False
 
 
 def _validate_relative_segments(clean: str, original: str) -> None:
@@ -120,7 +222,7 @@ def _validate_search_pattern(pattern: str) -> str | None:
         return "pattern contains null byte"
     if not _SEARCH_PATTERN_CHARS_RE.fullmatch(pattern):
         return "pattern contains disallowed characters"
-    if _SEARCH_NESTED_QUANTIFIER_RE.search(pattern):
+    if _has_nested_unbounded_quantifier(pattern):
         return "pattern contains nested unbounded quantifier"
     for repeat in _SEARCH_BOUNDED_REPEAT_RE.finditer(pattern):
         low = int(repeat.group(1))
@@ -206,10 +308,10 @@ class SessionIndex:
         if PurePosixPath(clean).is_absolute() or clean.startswith("~"):
             raise PermissionError(f"path outside sessions root: {rel}")
         _validate_relative_segments(clean, str(rel))
-        candidate = (self.root / clean).resolve()
-        if not candidate.is_relative_to(self.root.resolve()):
-            raise PermissionError(f"path outside sessions root: {rel}")
-        return candidate
+        try:
+            return Path(realpath_within_base(str(self.root), clean))
+        except PermissionError as exc:
+            raise PermissionError(f"path outside sessions root: {rel}") from exc
 
     def artifacts(self, *, refresh: bool = False) -> tuple[Artifact, ...]:
         """Walk and classify every artefact, cached briefly.
@@ -273,7 +375,7 @@ class SessionIndex:
             "size": 0,
         }
         try:
-            path = self.resolve_safe(rel)
+            path = Path(realpath_contained(str(self.resolve_safe(rel)), str(self.root)))
         except (PermissionError, ValueError) as exc:
             info["error"] = str(exc)
             return info
@@ -341,7 +443,7 @@ class SessionIndex:
             }
         flags = re.IGNORECASE if case_insensitive else 0
         try:
-            rx = re.compile(pattern, flags)
+            rx = re.compile(pattern, flags)  # lgtm[py/regex-injection] validated above
         except re.error as exc:
             return {
                 "pattern": pattern,

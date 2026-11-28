@@ -1,0 +1,23 @@
+name: rpcmap_py
+description: "rpcmap.py MSRPC interface enumeration over the bound rhost. Free\nargs reproduce the brute-force\
+  \ variant.\n\nOperator flow: assign rhost <ip>; then run `rpcmap_py`.\n\nExamples:\n  rpcmap_py\n  rpcmap_py\
+  \ -- -brute-opnums -auth-level 1 -opnum-max 5\n\nRequirements: rpcmap.py in PATH (sudo apt install impacket\
+  \ -y).\n"
+author: LazyOwn RedTeam
+version: '1.0'
+enabled: true
+update: false
+os: any
+trigger:
+- msrpc
+- epmap
+params:
+- name: rhost
+  type: string
+  required: false
+  description: Victim host with MSRPC exposed.
+tool:
+  name: rpcmap.py
+  execute_command: rpcmap.py 'ncacn_ip_tcp:{rhost}'
+category: 02. Scanning & Enumeration
+module_type: scanner

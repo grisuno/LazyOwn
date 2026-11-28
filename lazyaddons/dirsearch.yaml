@@ -1,0 +1,22 @@
+name: dirsearch
+description: "dirsearch web path enumeration against the assigned URL, excluding\n403/404/400 responses.\n\
+  \nOperator flow: assign url http://target/; then run `dirsearch`.\nExtra flags travel as free args after\
+  \ the command.\n\nExamples:\n  dirsearch\n  dirsearch -- -r --format json -o sessions/dirsearch.json\n\
+  \nRequirements: dirsearch in PATH (sudo apt install dirsearch -y).\n"
+author: LazyOwn RedTeam
+version: '1.0'
+enabled: true
+update: false
+os: any
+trigger:
+- http
+params:
+- name: url
+  type: string
+  required: false
+  description: Target URL to enumerate. Max 200 chars, never empty.
+tool:
+  name: dirsearch
+  execute_command: dirsearch -u {url} -x 403,404,400
+category: 02. Scanning & Enumeration
+module_type: scanner

@@ -38,6 +38,8 @@ from typing import Any
 import pyotp
 from flask import abort, flash, redirect, request, session, url_for
 
+from core.paths import realpath_within_base
+
 log = logging.getLogger("lazy_rbac")
 
 DEFAULT_USERS_PATH = "users.json"
@@ -481,7 +483,7 @@ class TenantManager:
         else:
             target_payload.write_text("{}")
 
-        sessions_dir = _tenant_sessions_dir(tenant_id)
+        sessions_dir = realpath_within_base(DEFAULT_SESSIONS_DIR, tenant_id)
         os.makedirs(sessions_dir, exist_ok=True)
 
         tc = TenantConfig.from_payload(
@@ -500,7 +502,8 @@ class TenantManager:
             raise ValueError(f"Tenant '{tenant_id}' not found")
         self._active_tenant = tenant_id
         self._save_config()
-        sessions_dir = self._tenants[tenant_id].sessions_dir
+        identifier = _validate_tenant_id(tenant_id)
+        sessions_dir = realpath_within_base(DEFAULT_SESSIONS_DIR, identifier)
         os.makedirs(sessions_dir, exist_ok=True)
         return self._tenants[tenant_id]
 
@@ -568,10 +571,10 @@ def _tenant_sessions_dir(tenant_id: str) -> str:
             escapes the sessions directory.
     """
     identifier = _validate_tenant_id(tenant_id)
-    sessions_base = os.path.realpath(DEFAULT_SESSIONS_DIR)
-    candidate = os.path.realpath(os.path.join(sessions_base, identifier))
-    if not candidate.startswith(sessions_base + os.sep):
-        raise ValueError(f"Invalid tenant id: '{tenant_id}'")
+    try:
+        realpath_within_base(DEFAULT_SESSIONS_DIR, identifier)
+    except PermissionError as exc:
+        raise ValueError(f"Invalid tenant id: '{tenant_id}'") from exc
     return os.path.join(DEFAULT_SESSIONS_DIR, identifier)
 
 

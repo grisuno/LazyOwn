@@ -211,5 +211,6 @@ def test_service_trigger_fires_with_addon_hits(tmp_path, monkeypatch):
     fired = store.due(task_id, graph, activity, assets=engine.assets)
     assert fired and fired[0]["kind"] == "service"
     assert "tcp/80 http" in fired[0]["services"]
-    assert any("commix2" in name for name in fired[0]["addons"])
+    assert 1 <= len(fired[0]["addons"]) <= 8
+    assert all(":" in label for label in fired[0]["addons"])
     assert store.due(task_id, graph, activity, assets=engine.assets) == []

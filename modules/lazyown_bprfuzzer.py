@@ -26,6 +26,7 @@ import subprocess
 import sys
 import tempfile
 import threading
+from urllib.parse import urlsplit, urlunsplit
 
 import requests
 
@@ -59,6 +60,27 @@ def _load_security_config():
 
 _SECURITY_CONFIG = _load_security_config()
 _HEADER_SANITIZER = HeaderValueSanitizer(_SECURITY_CONFIG)
+
+_METADATA_HOSTS = frozenset(
+    {
+        "169.254.169.254",
+        "169.254.170.2",
+        "100.100.100.200",
+        "fd00:ec2::254",
+        "metadata",
+        "metadata.google.internal",
+        "metadata.azure.com",
+        "instance-data",
+    }
+)
+_LOOPBACK_HOSTS = frozenset({"localhost", "127.0.0.1", "::1"})
+_PROXY_ALLOWED_HOSTS: set[str] = set()
+_PROXY_ALLOW_LOOPBACK = os.environ.get("LAZY_BPRFUZZER_ALLOW_LOOPBACK", "").strip().lower() in {
+    "1",
+    "true",
+    "yes",
+    "on",
+}
 
 # Forzar UTF-8 encoding
 os.environ["PYTHONIOENCODING"] = "utf-8"
@@ -103,6 +125,98 @@ def load_data_from_file(file_path):
     return data
 
 
+def _normalise_proxy_host(value):
+    """Return a lowercase host without scheme, port or IPv6 brackets."""
+    text = str(value or "").strip().lower()
+    if not text:
+        return ""
+    if "://" in text:
+        try:
+            text = urlsplit(text).hostname or ""
+        except ValueError:
+            return ""
+    return text.strip("[]")
+
+
+def _payload_proxy_hosts():
+    """Return proxy allowlist candidates from payload.json."""
+    try:
+        with open(_PAYLOAD_PATH, "r") as fh:
+            payload = json.load(fh)
+    except (OSError, ValueError):
+        return []
+    values = [payload.get("rhost"), payload.get("domain"), payload.get("url")]
+    extra = payload.get("bprfuzzer_allowed_hosts") or []
+    if isinstance(extra, str):
+        extra = [part.strip() for part in extra.split(",")]
+    values.extend(extra if isinstance(extra, (list, tuple, set)) else [])
+    return [str(value) for value in values if value]
+
+
+def configure_proxy_allowlist(hosts, *, reset=False):
+    """Seed the proxy host allowlist from trusted operator configuration.
+
+    Args:
+        hosts: Hostnames or URLs explicitly authorised for proxying.
+        reset: When True, replace the current allowlist instead of extending it.
+    """
+    if reset:
+        _PROXY_ALLOWED_HOSTS.clear()
+    for host in hosts or ():
+        normalized = _normalise_proxy_host(host)
+        if normalized:
+            _PROXY_ALLOWED_HOSTS.add(normalized)
+
+
+def _is_loopback_host(host):
+    return host in _LOOPBACK_HOSTS or host.startswith("127.")
+
+
+def _allowed_proxy_host(host):
+    """Return the canonical allowlist entry for *host*, or an empty string."""
+    normalized = _normalise_proxy_host(host)
+    if not normalized or normalized in _METADATA_HOSTS:
+        return ""
+    if _is_loopback_host(normalized):
+        if _PROXY_ALLOW_LOOPBACK or normalized in _PROXY_ALLOWED_HOSTS:
+            return normalized
+        return ""
+    return normalized if normalized in _PROXY_ALLOWED_HOSTS else ""
+
+
+def _validated_proxy_target(url):
+    """Return a reconstructed URL for an authorised proxy target.
+
+    The host is replaced by the exact allowlist entry so the outbound
+    request never carries an unvalidated hostname.
+
+    Args:
+        url: Absolute URL received from the proxy client.
+
+    Returns:
+        Safe absolute URL, or an empty string when the target is not allowed.
+    """
+    try:
+        parts = urlsplit(url)
+    except ValueError:
+        return ""
+    if parts.scheme not in {"http", "https"}:
+        return ""
+    host = _allowed_proxy_host(parts.hostname or "")
+    if not host:
+        return ""
+    try:
+        port = parts.port
+    except ValueError:
+        return ""
+    if port is not None and not 1 <= port <= 65535:
+        return ""
+    netloc = f"[{host}]" if ":" in host else host
+    if port is not None:
+        netloc = f"{netloc}:{port}"
+    return urlunsplit((parts.scheme, netloc, parts.path or "/", parts.query, ""))
+
+
 def signal_handler(sig, frame):
     global should_exit
     print("\n [<-] Saliendo...")
@@ -119,8 +233,17 @@ class ProxyHandler(BaseHTTPRequestHandler):
     def do_POST(self):
         self._handle_request("POST")
 
+    def _request_url(self):
+        if "://" in self.path:
+            return self.path
+        host = self.headers.get("Host", "")
+        return f"http://{host}{self.path}" if host else ""
+
     def _handle_request(self, method):
-        url = self.path
+        url = _validated_proxy_target(self._request_url())
+        if not url:
+            self.send_error(403, "Proxy target not allowed")
+            return
         headers = dict(self.headers)
         content_length = int(self.headers.get("Content-Length", 0))
         body = self.rfile.read(content_length) if content_length else None
@@ -164,10 +287,19 @@ class ProxyHandler(BaseHTTPRequestHandler):
             self.send_error(500, "Proxy Error")
 
 
-def run_proxy(port):
-    server_address = ("", port)
+def run_proxy(port, allowed_hosts=None):
+    """Serve the intercepting proxy on loopback.
+
+    Args:
+        port: TCP port to bind.
+        allowed_hosts: Hosts to authorise before serving. When omitted the
+            allowlist configured by :func:`configure_proxy_allowlist` is used.
+    """
+    if allowed_hosts:
+        configure_proxy_allowlist(allowed_hosts)
+    server_address = ("127.0.0.1", port)
     httpd = HTTPServer(server_address, ProxyHandler)
-    print(f"[P] Proxy ejecutándose en el puerto {port}")
+    print(f"[P] Proxy ejecutándose en 127.0.0.1:{port}")
     httpd.serve_forever()
 
 
@@ -318,6 +450,7 @@ def parse_arguments():
 
 def main():
     args = parse_arguments()
+    configure_proxy_allowlist([args.url, *_payload_proxy_hosts()], reset=True)
 
     # Cargar headers y datos desde archivos JSON si se proporcionan
     headers = load_headers_from_file(args.headers_file) if args.headers_file else json.loads(args.headers)

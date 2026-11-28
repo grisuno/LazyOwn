@@ -1,0 +1,20 @@
+name: lynis
+description: "Lynis security audit of the bound rhost through the bundled\nmodules/lazylynis.sh wrapper.\n\
+  \nOperator flow: assign rhost <ip>; then run `lynis`.\n\nExamples:\n  lynis\n\nRequirements: modules/lazylynis.sh\
+  \ present and root privileges.\n"
+author: LazyOwn RedTeam
+version: '1.0'
+enabled: true
+update: false
+os: linux
+trigger: []
+params:
+- name: rhost
+  type: string
+  required: false
+  description: Victim host to audit. Max 200 chars, never empty.
+tool:
+  name: lynis
+  execute_command: sudo modules/lazylynis.sh {rhost}
+category: 02. Scanning & Enumeration
+module_type: scanner

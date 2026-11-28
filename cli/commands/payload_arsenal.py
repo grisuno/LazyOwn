@@ -111,6 +111,75 @@ class PayloadArsenalCommandSet(LazyOwnCommandSet):
             source = result.get("source", "")
             self._cmd.poutput(f"\n    [Source Preview]:\n{source[:500]}...")
 
+    def do_reflective_dll(self, line: str) -> None:
+        """Analyze a PE/DLL for reflective loading and generate loader stubs.
+
+        Usage: reflective_dll <pe_file> [--pid <process_id>] [--technique <name>]
+
+        Parses the PE headers, imports and relocations without LoadLibrary,
+        prints the reflective injection plan and writes the generated C and
+        PowerShell loader stubs to ``sessions/``.
+
+        Techniques: createremotethread, ntcreatethreadex, queueuserapc,
+        setwindowshookex, threadhijack.
+
+        Examples:
+            reflective_dll implant.dll
+            reflective_dll implant.dll --pid 1337 --technique ntcreatethreadex
+        """
+        import shlex as _shlex
+
+        from modules.reflective_dll import ReflectiveLoader, ReflectiveLoaderConfig
+
+        tokens = _shlex.split(line)
+        if not tokens:
+            self._cmd.perror("Usage: reflective_dll <pe_file> [--pid <pid>] [--technique <name>]")
+            return
+
+        pe_path = Path(tokens[0])
+        if not pe_path.is_file():
+            self._cmd.perror(f"File not found: {pe_path}")
+            return
+
+        config_kwargs: dict = {}
+        i = 1
+        while i < len(tokens):
+            if tokens[i] == "--pid" and i + 1 < len(tokens):
+                config_kwargs["target_process_id"] = int(tokens[i + 1])
+                i += 2
+            elif tokens[i] == "--technique" and i + 1 < len(tokens):
+                config_kwargs["injection_technique"] = tokens[i + 1]
+                i += 2
+            else:
+                i += 1
+
+        loader = ReflectiveLoader(pe_path.read_bytes(), ReflectiveLoaderConfig(**config_kwargs))
+
+        self._cmd.poutput("\n[ Reflective PE Analysis ]")
+        self._cmd.poutput(f"    File      : {pe_path}")
+        self._cmd.poutput(f"    SHA-256   : {loader.sha256}")
+        self._cmd.poutput(f"    Arch      : {loader.architecture}")
+        self._cmd.poutput(f"    Imports   : {', '.join(loader.required_imports) or '(none)'}")
+
+        plan = loader.plan_injection()
+        self._cmd.poutput("\n[ Injection Plan ]")
+        self._cmd.poutput(f"    Technique : {plan['technique']}")
+        self._cmd.poutput(f"    Target PID: {plan['target_pid']}")
+        self._cmd.poutput(f"    Entry RVA : 0x{plan['entry_rva']:x}")
+        self._cmd.poutput(f"    Image Base: 0x{plan['image_base']:x}")
+        for step in plan.get("steps", []):
+            self._cmd.poutput(f"      - {step}")
+
+        sessions_dir = Path("sessions")
+        sessions_dir.mkdir(parents=True, exist_ok=True)
+        c_stub = sessions_dir / f"reflective_{pe_path.stem}_loader.c"
+        ps_stub = sessions_dir / f"reflective_{pe_path.stem}_loader.ps1"
+        c_stub.write_text(loader.generate_c_stub(), encoding="utf-8")
+        ps_stub.write_text(loader.generate_powershell_stub(), encoding="utf-8")
+        self._cmd.poutput("\n[ Artifacts ]")
+        self._cmd.poutput(f"    {c_stub}")
+        self._cmd.poutput(f"    {ps_stub}")
+
     def do_arsenal_show(self, line: str) -> None:
         """Show payload arsenal items.
 

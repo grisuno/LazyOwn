@@ -320,59 +320,6 @@ class HashCracker:
                     grouped.setdefault(ident.hash_type, []).append(ident)
         return grouped
 
-    def crack_hash(
-        self,
-        hash_value: str,
-        hash_type: str | None = None,
-        wordlist: str | None = None,
-    ) -> CrackResult:
-        """Attempt to crack a single hash.
-
-        Args:
-            hash_value: The hash string to crack.
-            hash_type: Known hash type (auto-detected if None).
-            wordlist: Override wordlist path.
-
-        Returns:
-            CrackResult with cracked password if successful.
-        """
-        if hash_type is None:
-            ident = self.identify(hash_value)
-            if ident is None:
-                return CrackResult(
-                    hash_value=hash_value,
-                    password="",
-                    hash_type="unknown",
-                    format="unknown",
-                )
-            hash_type = ident.hash_type
-            fmt_info = HASH_PATTERNS.get(hash_type, {})
-        else:
-            fmt_info = HASH_PATTERNS.get(hash_type, {})
-
-        wl = wordlist or self._resolve_wordlist()
-        if wl is None:
-            return CrackResult(
-                hash_value=hash_value,
-                password="",
-                hash_type=hash_type or "unknown",
-                format=fmt_info.get("format", "unknown"),
-                cracked=False,
-            )
-
-        if self._use_hashcat and self._hashcat_bin and fmt_info.get("hashcat_mode"):
-            return self._crack_hashcat(hash_value, hash_type, fmt_info, wl)
-
-        if self._john_bin:
-            return self._crack_john(hash_value, hash_type, fmt_info, wl)
-
-        return CrackResult(
-            hash_value=hash_value,
-            password="",
-            hash_type=hash_type,
-            format=fmt_info.get("format", "unknown"),
-            cracked=False,
-        )
 
     def crack_file(
         self,
@@ -507,51 +454,6 @@ class HashCracker:
             log.info("World model: cracked %s password imported (source %s)", username or "userless", host)
         return imported
 
-    def _crack_hashcat(
-        self,
-        hash_value: str,
-        hash_type: str,
-        fmt_info: dict,
-        wordlist: str,
-    ) -> CrackResult:
-        import tempfile
-
-        tmp = tempfile.NamedTemporaryFile(mode="w", suffix=".hash", delete=False)
-        try:
-            tmp.write(hash_value + "\n")
-            tmp.close()
-            cmd = [
-                self._hashcat_bin,
-                "-m",
-                str(fmt_info["hashcat_mode"]),
-                "-a",
-                "0",
-                tmp.name,
-                wordlist,
-                "--potfile-disable",
-                "--quiet",
-                "-O",
-            ]
-            proc = subprocess.run(cmd, capture_output=True, text=True, timeout=self._timeout)
-            password = self._parse_hashcat_output(proc.stdout, proc.stderr, hash_value)
-            return CrackResult(
-                hash_value=hash_value,
-                password=password,
-                hash_type=hash_type,
-                format=fmt_info["format"],
-                cracked=bool(password),
-                cracker="hashcat",
-            )
-        except subprocess.TimeoutExpired:
-            return CrackResult(hash_value=hash_value, password="", hash_type=hash_type, format=fmt_info["format"])
-        except Exception as exc:
-            log.debug("hashcat error: %s", exc)
-            return CrackResult(hash_value=hash_value, password="", hash_type=hash_type, format=fmt_info["format"])
-        finally:
-            try:
-                Path(tmp.name).unlink()
-            except OSError:
-                pass
 
     def _crack_batch_hashcat(
         self,
@@ -623,54 +525,6 @@ class HashCracker:
             except OSError:
                 pass
 
-    def _crack_john(
-        self,
-        hash_value: str,
-        hash_type: str,
-        fmt_info: dict,
-        wordlist: str,
-    ) -> CrackResult:
-        import tempfile
-
-        tmp = tempfile.NamedTemporaryFile(mode="w", suffix=".hash", delete=False)
-        try:
-            tmp.write(hash_value + "\n")
-            tmp.close()
-            cmd = [
-                self._john_bin,
-                f"--format={fmt_info['john_format']}",
-                f"--wordlist={wordlist}",
-                f"--rules={self._rules}",
-                f"--max-run-time={self._timeout}",
-                tmp.name,
-            ]
-            proc = subprocess.run(cmd, capture_output=True, text=True, timeout=self._timeout + 30)
-            show_cmd = [
-                self._john_bin,
-                f"--format={fmt_info['john_format']}",
-                "--show",
-                tmp.name,
-            ]
-            show = subprocess.run(show_cmd, capture_output=True, text=True, timeout=30)
-            password = self._parse_john_show(show.stdout, hash_value)
-            return CrackResult(
-                hash_value=hash_value,
-                password=password,
-                hash_type=hash_type,
-                format=fmt_info["format"],
-                cracked=bool(password),
-                cracker="john",
-            )
-        except subprocess.TimeoutExpired:
-            return CrackResult(hash_value=hash_value, password="", hash_type=hash_type, format=fmt_info["format"])
-        except Exception as exc:
-            log.debug("john error: %s", exc)
-            return CrackResult(hash_value=hash_value, password="", hash_type=hash_type, format=fmt_info["format"])
-        finally:
-            try:
-                Path(tmp.name).unlink()
-            except OSError:
-                pass
 
     def _crack_batch_john(
         self,

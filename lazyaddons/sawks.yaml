@@ -1,0 +1,34 @@
+name: sawks
+description: "swaks SMTP probe that sends a phishing-simulation test mail with the\nassigned phishing\
+  \ profile.\n\nOperator flow: assign domain, email_from, email_to and lhost; then\nrun `sawks`.\n\nExamples:\n\
+  \  sawks\n\nRequirements: cloned on first run from\nhttps://github.com/jetmore/swaks.git into external/.exploit/swaks.\n"
+author: LazyOwn RedTeam
+version: '1.0'
+enabled: true
+update: false
+os: any
+trigger: []
+params:
+- name: email_to
+  type: string
+  required: false
+  description: Recipient of the test mail.
+- name: email_from
+  type: string
+  required: false
+  description: Sender of the test mail.
+- name: domain
+  type: string
+  required: false
+  description: SMTP server to probe.
+- name: lhost
+  type: string
+  required: false
+  description: Attacker host embedded in the mail body.
+tool:
+  name: swaks
+  repo_url: https://github.com/jetmore/swaks.git
+  install_path: external/.exploit/swaks
+  execute_command: ./swaks --to {email_to} --from {email_from} --server {domain} --body "http://{lhost}/"
+category: 02. Scanning & Enumeration
+module_type: scanner

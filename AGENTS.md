@@ -241,6 +241,13 @@ single contract.
 
 | Concern | Single home | Delegating surfaces |
 |---------|-------------|---------------------|
+| Addon runtime args + command render | `core/addon_args.py` (`extract_cli_args`, `render_command`) | `utils.replace_command_placeholders`, `cli/command_registration.py` `wrapper_yaml`, `cli/commands/lazyops.py` `lazy_addon run`, `poc_tui/plugin_loader.py` `_replace_placeholders` |
+| Headless-safe operator prompt | `cli/commands/_base.py` `LazyOwnCommandSet.ask` (+ TTY-safe `utils.prompt`) | every migrated `do_*` (scan.py converted 142 raw `input()` → `self.ask`); non-TTY returns the default, never blocks the loop |
+| Command catalogue data | `modules/data/command_catalog.yaml` (360 curated rows) | `CommandCatalog._populate` loader; selectors/dispatcher unchanged |
+| Loop task/operator stores | `modules/loop/stores.py` (`TaskStore`, `TodoStore`, `TaskTemplate`, `TaskCategory`, `CompanyScope`, `ToolCatalog`, `InterceptQueue`, `Notifier`, `LazyTask`) | re-exported from `modules.lazy_loop` (test seams `STORE_DIR`/`_store_path` patches resolve at call time through the shims) |
+| C2 decoy mode | `lazyc2/extensions/decoy.py` `decoy_response` | monolith `decoy()` delegates; blueprint routes call it directly |
+| Compliance surfaces | `lazyc2/blueprints/compliance.py` | monolith `/compliance*` routes removed; registered in `register_blueprints` |
+| Raw subprocess ratchet | `tests/test_subprocess_ratchet.py` (AST count ≤ 360 ceiling) | new execution must route through `core.safe_exec` / `core.safe_subprocess`; lowering the ceiling is the only allowed change |
 | Loop CLI entry | `modules.lazy_runner.run_loop_command` | `lazy_loop`, `auto_loop`, MCP `lazyown_auto_loop` (all parse once, gate once: budget-confirm, preflight, bootstrap, audit) |
 | Loop defaults/caps | `modules/loop_limits.py` | `lazy_runner`, `loop_manager`, MCP `loop_smoke` |
 | Engine direct-call defaults | `ENGINE_DEFAULT_*` in `lazy_loop` | `LazyLoopEngine.run/orchestrate/run_round/limits` |

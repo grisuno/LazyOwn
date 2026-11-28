@@ -138,6 +138,15 @@ class LocalTemplateIndex(TemplateSelector):
 
     # -- Public helpers --------------------------------------------------------
 
+    def all_templates(self) -> list[NucleiTemplate]:
+        """Return every indexed template (a copy of the internal list).
+
+        Returns:
+            Templates parsed from the local template directory.
+        """
+        self._ensure_built()
+        return list(self._index)
+
     def build(self) -> None:
         """Force a (re)build of the template index."""
         self._index = []

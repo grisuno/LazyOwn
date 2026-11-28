@@ -1,6 +1,5 @@
 import base64
 import csv
-import dataclasses
 import errno
 import glob
 import hashlib
@@ -179,7 +178,6 @@ try:
     from modules.lazy_rbac import (
         MFA_ISSUER,
         ROLE_DEFAULT,
-        Permission,
         RBACStore,
         RBACUser,
         Role,
@@ -190,7 +188,6 @@ try:
         get_tenant_manager,
         get_user_role,  # noqa: F401
         require_mfa,  # noqa: F401
-        require_permission,
         require_role,
         set_rbac_store,
         set_tenant_manager,
@@ -1960,54 +1957,18 @@ def handle_client(client_socket, remote_host, remote_port):
 
 
 def decoy():
-    """Serve a decoy page to non-operator IPs when decoy mode is enabled.
+    """Serve the canonical decoy response (single contract).
 
-    Mode precedence (see :func:`modules.orchestrator_config.decoy_config`):
-    module fallback ``page`` < YAML profile ``decoy.mode`` < payload
-    ``orchestrator.decoy.mode`` < legacy payload ``c2_decoy_mode``.
+    Delegates to :func:`lazyc2.extensions.decoy.decoy_response`, the one
+    home for mode precedence and the operator allowlist.
 
-    - ``"off"``: disabled; every request proceeds to normal handling.
-    - ``"page"``: requests from IPs outside the operator allowlist
-      receive a fake decoy page. This preserves the legacy honeypot look.
-    - ``"deny"``: requests from non-operator IPs receive HTTP 403 instead
-      of a misleading page. Use this when the decoy is not wanted.
-
-    The operator allowlist is ``lhost``, ``127.0.0.1`` and the entries of
-    the resolved ``operator_allowlist``.
+    Returns:
+        ``None`` when the request may proceed, otherwise the decoy
+        response (page) or a 403 abort (deny mode).
     """
-    try:
-        from modules.orchestrator_config import decoy_config
+    from lazyc2.extensions.decoy import decoy_response
 
-        resolved = decoy_config()
-    except Exception:
-        resolved = {
-            "mode": str(getattr(config, "c2_decoy_mode", "page") or "page"),
-            "operator_allowlist": str(getattr(config, "c2_operator_ip_allowlist", "127.0.0.1") or "127.0.0.1"),
-        }
-    mode = str(resolved.get("mode", "page") or "page").strip().lower()
-    if mode == "off":
-        return None
-    client_ip = request.remote_addr
-    allowed_ips = {str(lhost), "127.0.0.1"}
-    allowed_ips.update(
-        ip.strip()
-        for ip in str(resolved.get("operator_allowlist", "127.0.0.1") or "127.0.0.1")
-        .replace("{lhost}", str(getattr(config, "lhost", "127.0.0.1")))
-        .split(",")
-        if ip.strip()
-    )
-    if client_ip not in allowed_ips:
-        logging.warning(
-            "[decoy] Request from non-operator IP %s served decoy (%s mode)",
-            client_ip,
-            mode,
-        )
-        if mode == "deny":
-            abort(403, description="Access denied")
-        return render_template("decoy.html")
-    return None
-
-
+    return decoy_response()
 def _current_aes_key():
     """Return the on-disk AES key, reloading it when it changed.
 
@@ -6220,139 +6181,6 @@ def lazybot():
 
     response = process_prompt_local(prompt, False, "web")
     return response
-
-
-@app.route("/compliance", methods=["GET"])
-@login_required
-@require_permission(Permission.AUDIT_VIEW.value)
-def compliance_dashboard():
-    response = decoy()
-    if response:
-        return response
-    try:
-        from modules.compliance import ComplianceEngine, ComplianceFinding  # noqa: F401
-
-        engine = ComplianceEngine("sessions")
-        report = engine.generate_compliance_report(include_evidence_chain=True)
-        return render_template(
-            "compliance.html",
-            report=report,
-            current_user=current_user,
-        )
-    except ImportError:
-        flash("Compliance module not available.", "error")
-        return redirect(url_for("report"))
-
-
-@app.route("/compliance/report", methods=["GET"])
-@login_required
-@require_permission(Permission.REPORT_GENERATE.value)
-def compliance_report():
-    response = decoy()
-    if response:
-        return response
-    try:
-        from modules.compliance import ComplianceEngine, ComplianceFinding, export_pdf  # noqa: F401
-
-        engine = ComplianceEngine("sessions")
-        report = engine.generate_compliance_report(
-            include_evidence_chain=True,
-            include_siem_formats=True,
-        )
-        ts = datetime.now().strftime("%Y%m%d_%H%M%S")
-        md_path = f"sessions/compliance_report_{ts}.md"
-        md_content = engine._format_compliance_report_md(report)
-        Path(md_path).write_text(md_content, encoding="utf-8")
-
-        pdf_path = engine.export_pdf(report, f"sessions/compliance_report_{ts}.pdf")
-        flash(f"Compliance report generated: {md_path}" + (f", {pdf_path}" if pdf_path else ""), "success")
-    except ImportError:
-        flash("Compliance module not available.", "error")
-    except Exception as e:
-        logger.warning("compliance report failed: %s", type(e).__name__)
-        flash("Error generating compliance report.", "error")
-    return redirect(url_for("compliance_dashboard"))
-
-
-@app.route("/compliance/evidence/add", methods=["POST"])
-@login_required
-@require_permission(Permission.CMD_RUN.value)
-def compliance_add_evidence():
-    try:
-        from modules.compliance import ComplianceEngine
-
-        engine = ComplianceEngine("sessions")
-        filepath = request.form.get("filepath", "").strip()
-        operator = current_user.username
-        description = request.form.get("description", "").strip()
-        if not filepath:
-            return jsonify({"error": "File not found"}), 400
-        from core.hardening import realpath_contained
-
-        try:
-            safe_path = realpath_contained(filepath, "sessions")
-        except (PermissionError, ValueError):
-            return jsonify({"error": "Invalid path"}), 400
-        if not os.path.exists(safe_path):
-            return jsonify({"error": "File not found"}), 400
-        entry = engine.add_evidence(safe_path, operator, description)
-        return jsonify(
-            {
-                "status": "added",
-                "sha256": entry.sha256,
-                "filename": entry.filename,
-            }
-        )
-    except ImportError:
-        return jsonify({"error": "Compliance module not available"}), 500
-    except Exception:
-        app.logger.error("Evidence add failed", exc_info=True)
-        return jsonify({"error": "Internal error"}), 500
-
-
-@app.route("/compliance/evidence/verify", methods=["GET"])
-@login_required
-@require_permission(Permission.AUDIT_VIEW.value)
-def compliance_verify_evidence():
-    try:
-        from modules.compliance import ComplianceEngine
-
-        engine = ComplianceEngine("sessions")
-        valid, issues = engine.verify_evidence_chain()
-        return jsonify({"valid": valid, "issues": issues})
-    except ImportError:
-        return jsonify({"error": "Compliance module not available"}), 500
-
-
-@app.route("/compliance/export/<format>", methods=["GET"])
-@login_required
-@require_permission(Permission.REPORT_GENERATE.value)
-def compliance_export(format):
-    try:
-        from modules.compliance import (  # noqa: F401
-            ComplianceEngine,
-            ComplianceFinding,
-            export_to_cef,
-            export_to_elastic_ndjson,
-        )
-
-        engine = ComplianceEngine("sessions")
-        findings = engine._load_findings()
-        finding_dicts = [dataclasses.asdict(f) for f in findings]
-        ts = datetime.now().strftime("%Y%m%d_%H%M%S")
-
-        if format == "elastic":
-            path = f"sessions/siem_export_bulk_{ts}.ndjson"
-            export_to_elastic_ndjson(finding_dicts, path)
-            return send_file(path, as_attachment=True, download_name=f"lazyown_findings_{ts}.ndjson")
-        elif format == "cef":
-            path = f"sessions/siem_export_cef_{ts}.log"
-            export_to_cef(finding_dicts, path)
-            return send_file(path, as_attachment=True, download_name=f"lazyown_findings_{ts}.cef")
-        else:
-            return jsonify({"error": f"Unknown format: {format}. Use 'elastic' or 'cef'"}), 400
-    except ImportError:
-        return jsonify({"error": "Compliance module not available"}), 500
 
 
 @app.route("/lazyreport", methods=["POST"])

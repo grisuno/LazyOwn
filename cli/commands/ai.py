@@ -181,7 +181,7 @@ class AiCommandSet(LazyOwnCommandSet):
         prompt = self.prompt if not line else line.strip()
         try:
             backend = get_llm_backend(backend=BACKEND_GROQ)
-        except LLMBackendUnavailableError as exc:
+        except (LLMBackendUnavailableError, ImportError) as exc:
             print_error(
                 f"groq backend unavailable: {exc}. Get a free key at {GROQ_CONSOLE_URL} then: assign api_key <key>"
             )

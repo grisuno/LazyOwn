@@ -1,0 +1,20 @@
+name: hound
+description: "hound lightweight OSINT geolocation tracer: resolves the target to\nexact GPS coordinates\
+  \ from public traces.\n\nOperator flow: run `hound` and follow the tool menu.\n\nExamples:\n  hound\n\
+  \nRequirements: cloned on first run from\nhttps://github.com/techchipnet/hound.git into external/.exploit/hound\n\
+  (git and php required).\n"
+author: LazyOwn RedTeam
+version: '1.0'
+enabled: true
+update: false
+os: linux
+trigger: []
+params: []
+tool:
+  name: hound
+  repo_url: https://github.com/techchipnet/hound.git
+  install_path: external/.exploit/hound
+  install_command: chmod +x hound.sh
+  execute_command: ./hound.sh
+category: 02. Scanning & Enumeration
+module_type: scanner

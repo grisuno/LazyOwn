@@ -8,34 +8,14 @@ this blueprint adds no new auth surface.
 
 from __future__ import annotations
 
-from functools import wraps
-
-from flask import Blueprint, current_app, jsonify, render_template, request, session
+from flask import Blueprint, jsonify, render_template, request
 
 from lazyc2.blueprints.session_auth import require_operator_session
+from lazyc2.security.csrf_flow import csrf_guard
 
 lazybox_bp = Blueprint("lazybox", __name__)
 
 require_operator_session(lazybox_bp)
-
-
-def _csrf_guard(view):
-    """Enforce the app-wide CSRF policy on one blueprint view."""
-
-    @wraps(view)
-    def wrapper(*args, **kwargs):
-        policy = current_app.config.get("LAZYOWN_CSRF_POLICY")
-        enabled_fn = current_app.config.get("LAZYOWN_CSRF_ENABLED_FN")
-        if policy is None or enabled_fn is None or not enabled_fn():
-            return view(*args, **kwargs)
-        from lazyc2.security.csrf_flow import request_session_id
-
-        session_id = request_session_id(policy, request, session)
-        if not policy.check_request(session_id, request):
-            return jsonify({"error": "csrf token missing or invalid"}), 403
-        return view(*args, **kwargs)
-
-    return wrapper
 
 
 @lazybox_bp.route("/lazybox", methods=["GET"])
@@ -73,7 +53,7 @@ def api_lazybox_scoreboard():
 
 
 @lazybox_bp.route("/api/lazybox/challenge/start", methods=["POST"])
-@_csrf_guard
+@csrf_guard
 def api_lazybox_start():
     """Launch one gym challenge.
 
@@ -93,7 +73,7 @@ def api_lazybox_start():
 
 
 @lazybox_bp.route("/api/lazybox/challenge/submit", methods=["POST"])
-@_csrf_guard
+@csrf_guard
 def api_lazybox_submit():
     """Submit one completed challenge for scoring.
 
@@ -115,7 +95,7 @@ def api_lazybox_submit():
 
 
 @lazybox_bp.route("/api/lazybox/challenge/stop", methods=["POST"])
-@_csrf_guard
+@csrf_guard
 def api_lazybox_stop():
     """Stop gym runs. Body: ``{"selector": "challenge_id|run_id|gym_name"}``."""
     from modules.lazybox import stop_challenges

@@ -1,0 +1,20 @@
+name: dmitry
+description: "dmitry deepwhois recon against the assigned domain: whois, Netcraft,\nsubdomains, emails\
+  \ and a TCP port scan, saved to sessions/.\n\nOperator flow: assign domain example.com; then run `dmitry`.\n\
+  \nExamples:\n  dmitry\n\nRequirements: dmitry in PATH (sudo apt install dmitry -y).\n"
+author: LazyOwn RedTeam
+version: '1.0'
+enabled: true
+update: false
+os: any
+trigger: []
+params:
+- name: domain
+  type: string
+  required: false
+  description: Target domain for the whois sweep.
+tool:
+  name: dmitry
+  execute_command: dmitry -winseo sessions/dmitry_{domain}.txt {domain}
+category: 02. Scanning & Enumeration
+module_type: scanner

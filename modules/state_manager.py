@@ -673,44 +673,6 @@ class StateManager:
                 return _load_json(self._world_model_path)
             return self._sync_world_model_cache()
 
-    def load_world_model(self) -> Any:
-        """Return a WorldModel instance populated from DB state."""
-        try:
-            from world_model import WorldModel
-
-            wm = WorldModel(self._sessions_dir)
-            db_hosts = self.db.host_list(self.workspace_id)
-            for h in db_hosts:
-                wm.add_host(h["address"])
-                if h.get("os"):
-                    wm.add_note(h["address"], f"OS: {h['os']}")
-                services = self.db.service_list(h["id"])
-                for s in services:
-                    wm.add_service(
-                        h["address"],
-                        s["port"],
-                        s.get("name", ""),
-                        s.get("version", ""),
-                        s.get("protocol", "tcp"),
-                    )
-                creds = self._cred_list_for_host(h["id"])
-                for c in creds:
-                    wm.add_credential(
-                        f"{c.get('username', '')}:{c.get('password', '')}",
-                        host=h["address"],
-                        service=c.get("realm", ""),
-                    )
-                vulns = self._vuln_list_for_host(h["id"])
-                for v in vulns:
-                    wm.add_vulnerability(
-                        v.get("name", ""),
-                        host=h["address"],
-                        cve=v.get("refs", ""),
-                        severity=v.get("severity", "unknown"),
-                    )
-            return wm
-        except ImportError:
-            return None
 
     # ── Session Snapshot ───────────────────────────────────────────────────────
 

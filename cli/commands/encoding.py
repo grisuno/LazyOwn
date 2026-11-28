@@ -8,6 +8,7 @@ by ``cli.registry``.
 from __future__ import annotations
 
 import base64
+import os
 
 import cmd2
 
@@ -526,6 +527,10 @@ class EncodingCommandSet(LazyOwnCommandSet):
         file_request = f"sessions/{line}"
 
         self.cmd(f"nano {file_request}")
+
+        if not os.path.isfile(file_request):
+            print_error(f"File not found: {file_request}")
+            return
 
         with open(file_request) as file:
             hex_data = file.read()

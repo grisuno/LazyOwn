@@ -258,6 +258,49 @@ def _sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+def _collect_yaml_addons() -> list[Command]:
+    """Collect enabled lazyaddon YAML files as operator-visible commands.
+
+    Every ``lazyaddons/*.yaml`` with ``enabled: true`` registers a first-class
+    ``do_<name>`` command at shell boot (:meth:`register_yaml_plugin`), so the
+    catalogue must include them or the palette loses those commands.
+
+    Returns:
+        One Command per enabled addon; malformed files are skipped.
+    """
+    import yaml
+
+    addons_dir = REPO_ROOT / "lazyaddons"
+    if not addons_dir.is_dir():
+        return []
+    entries: list[Command] = []
+    for path in sorted(addons_dir.glob("*.yaml")):
+        try:
+            data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+        except Exception:
+            continue
+        if not data.get("enabled", False):
+            continue
+        name = str(data.get("name", "") or "").strip()
+        if not name:
+            continue
+        category = str(data.get("category", "") or "").strip()
+        phase = CATEGORY_TO_PHASE.get(category, UNCATEGORIZED_PHASE)
+        description = str(data.get("description", "") or "").strip()
+        entries.append(
+            Command(
+                name=name,
+                line=1,
+                summary=description.replace("\n", " ")[:SUMMARY_MAX_CHARS],
+                category=category or "14. Yaml Addon.",
+                phase=phase,
+                source_file=f"lazyaddons/{name}.yaml",
+                class_name="YamlAddon",
+            )
+        )
+    return entries
+
+
 def build_index() -> IndexBuildResult:
     """Build the in-memory index from ``lazyown.py`` + ``cli/commands/``."""
     sources: list[Path] = [LAZYOWN_PATH]
@@ -273,6 +316,7 @@ def build_index() -> IndexBuildResult:
     for path in sources:
         commands.extend(_collect_commands_from_file(path))
         sha_map[str(path.relative_to(REPO_ROOT))] = _sha256(path)
+    commands.extend(_collect_yaml_addons())
     commands.sort(key=lambda c: (c.source_file, c.line))
     duplicates = _detect_duplicates(commands)
     _annotate_communities(commands, GRAPH_JSON_PATH)

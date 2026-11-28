@@ -2209,20 +2209,15 @@ class LazyCommandSet(LazyOwnCommandSet):
             subs = dict(params)
             subs.setdefault("target", target)
             subs.setdefault("rhost", target)
-            command = template
-            for key in (
-                "target",
-                "rhost",
-                "lhost",
-                "lport",
-                "rport",
-                "domain",
-                "usrwordlist",
-                "dnswordlist",
-                "dirworlist",
-                "api_key",
-            ):
-                command = command.replace("{" + key + "}", str(subs.get(key, "")))
+            from core.addon_args import extract_cli_args, render_command
+
+            rest_tokens, cli_args = extract_cli_args(args[2:])
+            positional = [a for a in rest_tokens if not a.startswith("--")]
+            if not flag_target and positional:
+                target = positional[0]
+                subs.setdefault("target", target)
+                subs.setdefault("rhost", target)
+            command = render_command(template, subs, cli_args)
             if ("{target}" in template or "{rhost}" in template) and not (target or "").strip():
                 print_error(f"Addon '{name}' needs a target: pass --target or assign rhost.")
                 return

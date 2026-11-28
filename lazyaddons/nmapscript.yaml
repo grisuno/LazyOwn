@@ -1,0 +1,21 @@
+name: nmapscript
+description: "Targeted nmap NSE sweep: runs one script against one port on the\nbound rhost and saves\
+  \ the report to sessions/.\n\nOperator flow: assign rhost <ip>; then run `nmapscript <script> <port>`.\n\
+  Positional runtime args map to {arg1} (script) and {arg2} (port).\n\nExamples:\n  nmapscript http-enum\
+  \ 80\n  nmapscript smb-vuln* 445\n\nRequirements: nmap in PATH.\n"
+author: LazyOwn RedTeam
+version: '1.0'
+enabled: true
+update: false
+os: any
+trigger: []
+params:
+- name: rhost
+  type: string
+  required: false
+  description: Victim host to scan. Max 200 chars, never empty.
+tool:
+  name: nmap
+  execute_command: nmap -sCV --script {arg1} -p{arg2} {rhost} -oN sessions/{arg1}_{rhost}
+category: 02. Scanning & Enumeration
+module_type: scanner

@@ -1,0 +1,25 @@
+name: blazy
+description: "Blazy login bruteforcer: multi-vulnerability web brute force driven\nfrom its own console\
+  \ against the assigned URL.\n\nOperator flow: assign url http://target/; then run `blazy`.\n\nExamples:\n\
+  \  blazy\n\nRequirements: cloned on first run from\nhttps://github.com/s0md3v/Blazy.git into external/.exploit/blazy\n\
+  (pip3 install -r requirements.txt runs once on the fresh clone).\n"
+author: LazyOwn RedTeam
+version: '1.0'
+enabled: true
+update: false
+os: linux
+trigger:
+- http
+params:
+- name: url
+  type: string
+  required: false
+  description: Target URL for the bruteforce run.
+tool:
+  name: Blazy
+  repo_url: https://github.com/s0md3v/Blazy.git
+  install_path: external/.exploit/blazy
+  install_command: pip3 install -r requirements.txt
+  execute_command: python3 main.py -i {url}
+category: 02. Scanning & Enumeration
+module_type: scanner

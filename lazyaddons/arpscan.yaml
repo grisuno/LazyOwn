@@ -1,0 +1,20 @@
+name: arpscan
+description: "arp-scan of the local network segment through the assigned device.\n\nOperator flow: assign\
+  \ device <network_device>; then run `arpscan`.\n\nExamples:\n  arpscan\n\nRequirements: arp-scan in\
+  \ PATH (sudo apt install arp-scan -y) and\nroot privileges for raw socket access.\n"
+author: LazyOwn RedTeam
+version: '1.0'
+enabled: true
+update: false
+os: network
+trigger: []
+params:
+- name: device
+  type: string
+  required: false
+  description: Network interface used for the ARP sweep.
+tool:
+  name: arp-scan
+  execute_command: sudo arp-scan -I {device} --localnet
+category: 02. Scanning & Enumeration
+module_type: scanner

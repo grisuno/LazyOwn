@@ -25,6 +25,7 @@ import glob
 import json
 import os
 import re
+import shlex
 from collections.abc import Callable
 from typing import Any
 
@@ -390,7 +391,11 @@ class CommandRegistrationMixin:
 
         def wrapper_yaml(arg):
             try:
-                args = arg.split()
+                from core.addon_args import extract_cli_args, render_command
+
+                tokens = shlex.split(arg)
+                rest, cli_args = extract_cli_args(tokens)
+                args = rest
                 param_values = {}
 
                 for param in params:
@@ -438,7 +443,11 @@ class CommandRegistrationMixin:
                                 install_hint = f"see `help {name}` for the install line"
                             print_warn(f"'{binary}' not found in PATH.")
                             print_warn(f"Install: {install_hint[:120]}")
-                        command_replaced = replace_command_placeholders(execute_command, self.params).strip()
+                        command_replaced = render_command(
+                            execute_command,
+                            {**self.params, **param_values},
+                            cli_args,
+                        ).strip()
                         if install_path:
                             if args:
                                 final_command = f"cd {install_path} && {command_replaced} {' '.join(args)}"
